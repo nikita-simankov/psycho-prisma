@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id
+
+  role        String
+  rank        String
+  name        String
+  surname     String
+  lastName    String
+  password    String
+  division    String
+  firstTimer  Boolean   @default(true)
+  phoneNumber String    @unique
+  sessions    Session[]
+  imageURL    String    @default("")
+
+  group       String @default("Общая группа")
+  servingKind String @default("Срочная служба")
+  dateOfBirth String @default("")
+  cityOfBirth String @default("")
+  homeAddress String @default("")
+
+  city String @default("")
+  region String @default("")
+  street String @default("")
+  building String @default("")
+  appartment String @default("")
+
+  recruitedBy String @default("")
+  servingPeriod String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UserCategory UserCategory[]
+}
+
+model UserCategory {
+  id   String @id @default(uuid())
+  name String
+
+  members User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+  userId String
+}
+
+model Form {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String @default("")
+
+  group String @default("")
+  questions String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FormSubmission {
+  id String @id @default(uuid())
+
+  userId     String
+  formId     String
+  submission String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Test {
+  id String @id @default(uuid())
+
+  name        String @unique
+  description String @default("")
+  instruction String @default("")
+
+  scales    String
+  strategy  String
+  questions String
+
+  stanTable    String
+  tGradeTable  String
+  summaryTable String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TestSubmission {
+  id String @id @default(uuid())
+
+  userId     String
+  testId     String
+  summary    String
+  submission String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TestQueue {
+  id String @id @default(uuid())
+  name String @unique
+  testIDs String
+}
