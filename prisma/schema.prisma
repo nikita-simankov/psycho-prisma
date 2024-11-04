@@ -11,46 +11,35 @@ model User {
   id String @id
 
   role        String
-  rank        String
   name        String
   surname     String
   lastName    String
   password    String
-  division    String
   firstTimer  Boolean   @default(true)
   phoneNumber String    @unique
   sessions    Session[]
   imageURL    String    @default("")
 
-  group       String @default("Общая группа")
-  servingKind String @default("Срочная служба")
-  dateOfBirth String @default("")
-  cityOfBirth String @default("")
-  homeAddress String @default("")
+  group String @default("Общая группа")
 
-  city String @default("")
-  region String @default("")
-  street String @default("")
-  building String @default("")
+  rank                   String
+  division               String
+  dateOfBirth            String @default("")
+  recruitedBy            String @default("")
+  servingKind            String @default("Срочная служба")
+  servingPeriod          String @default("1 период (1-6 месяцев)")
+  recruitmentDate        String @default("")
+  recoveryQuestionAnswer String @default("Фамилия")
+
+  city       String @default("")
+  region     String @default("")
+  address    String @default("")
+  building   String @default("")
   appartment String @default("")
 
-  recruitedBy String @default("")
-  servingPeriod String @default("")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  UserCategory UserCategory[]
-}
-
-model UserCategory {
-  id   String @id @default(uuid())
-  name String
-
-  members User[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  summaries UserSummary[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model Session {
@@ -61,13 +50,24 @@ model Session {
   userId String
 }
 
+model Category {
+  id    String @id @default(uuid())
+  name  String
+  forms Form[]
+  tests Test[]
+}
+
 model Form {
   id          String @id @default(uuid())
   name        String @unique
   description String @default("")
 
-  group String @default("")
+  ttc       Int     @default(5)
+  group     String  @default("")
   questions String
+  adminOnly Boolean @default(false)
+
+  categories Category[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,6 +87,7 @@ model FormSubmission {
 model Test {
   id String @id @default(uuid())
 
+  ttc         Int    @default(5)
   name        String @unique
   description String @default("")
   instruction String @default("")
@@ -98,6 +99,8 @@ model Test {
   stanTable    String
   tGradeTable  String
   summaryTable String
+
+  categories Category[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -115,8 +118,12 @@ model TestSubmission {
   updatedAt DateTime @updatedAt
 }
 
-model TestQueue {
-  id String @id @default(uuid())
-  name String @unique
-  testIDs String
+model UserSummary {
+  id              String   @id @default(uuid())
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String?  @unique
+  verdict         String
+  additionalNotes String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

@@ -12,7 +12,7 @@ export default async function Page() {
         Список доступных анкет
       </h1>
       <Separator />
-      <div className="p-12 grid grid-cols-4 grid-rows-4 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <CreateFormDialog />
         {forms.map((form) => (
           <FormCard form={form} />

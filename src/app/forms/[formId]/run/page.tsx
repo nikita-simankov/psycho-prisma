@@ -1,5 +1,5 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
-import { FormRunner } from "./components/form-runner";
+import { FormRunner } from "../components/form-runner";
 
 type PathParams = {
   params: {

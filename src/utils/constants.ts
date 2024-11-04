@@ -6,6 +6,7 @@ export type FormData = {
   name: string;
   questions: FormQuestion[];
   description: string;
+  adminOnly: boolean;
 };
 
 export type FormQuestion = {

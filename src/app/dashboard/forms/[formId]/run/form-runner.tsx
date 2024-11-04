@@ -33,7 +33,7 @@ export const FormRunner: React.FC<Properties> = ({ form }) => {
     mutationFn: () => uploadFormSubmission(form.id, questionResponses),
 
     onSuccess: () => {
-      router.push("/dashboard/forms/" + form.id + "/results");
+      router.push("/dashboard/forms/");
     },
   });
 
@@ -44,7 +44,9 @@ export const FormRunner: React.FC<Properties> = ({ form }) => {
         questions[questionIndex].type === "Text" ? (
           <Card>
             <CardHeader>
-              <CardTitle>{questions[questionIndex].text}</CardTitle>
+              <CardTitle>
+                {questions[questionIndex].id}. {questions[questionIndex].text}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Input
@@ -78,9 +80,11 @@ export const FormRunner: React.FC<Properties> = ({ form }) => {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle>{questions[questionIndex].text}</CardTitle>
+              <CardTitle>
+                {questions[questionIndex].id}. {questions[questionIndex].text}
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-2">
               {questions[questionIndex].choices.map((choice) => {
                 return (
                   <div
@@ -115,8 +119,7 @@ export const FormRunner: React.FC<Properties> = ({ form }) => {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          Вы успешно заполнили "{form.name}". Нажмите "Завершить", чтобы
-          вернуться на страницу тестов
+          Вы успешно заполнили "{form.name}". Спасибо за проделанную работу!
         </p>
       </CardContent>
       <CardFooter>

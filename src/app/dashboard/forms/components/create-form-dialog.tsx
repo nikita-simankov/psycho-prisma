@@ -21,6 +21,7 @@ import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { uploadFormData } from "@/actions/form/upload-form-data-action";
+import { Switch } from "@/components/ui/switch";
 
 export const CreateFormDialog: React.FC = () => {
   const router = useRouter();
@@ -28,12 +29,13 @@ export const CreateFormDialog: React.FC = () => {
     name: "",
     questions: [],
     description: "",
+    adminOnly: false,
   });
 
   const uploadFormMutation = useMutation({
     mutationFn: () => uploadFormData(formData),
 
-    onSuccess: () => router.refresh,
+    onSuccess: () => router.refresh(),
   });
 
   const fileUploadHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +85,24 @@ export const CreateFormDialog: React.FC = () => {
               setFormData({
                 ...formData,
                 description: event.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="flex flex-row items-center justify-between p-4 border rounded-md">
+          <div className="flex flex-col">
+            <h2 className="text-sm font-bold">Для администраторов</h2>
+            <span className="text-sm font-medium text-muted-foreground">
+              Данная анкета будет доступна для заполнения только администраторам
+            </span>
+          </div>
+          <Switch
+            checked={formData.adminOnly}
+            onCheckedChange={(checked) =>
+              setFormData({
+                ...formData,
+                adminOnly: checked,
               })
             }
           />

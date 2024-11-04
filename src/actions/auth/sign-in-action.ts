@@ -4,13 +4,13 @@ import { prisma } from "@/utils/database";
 import { lucia } from "@/utils/authentication";
 import {
   SignInFormData,
-  signInFormSchema,
-} from "@/app/auth/sign-in/schema/sign-in-form-schema";
+  signInSchema,
+} from "@/app/auth/sign-in/schema/sign-in.schema";
 import { compare } from "bcryptjs";
 import { cookies } from "next/headers";
 
 export async function signIn(data: SignInFormData) {
-  const { phoneNumber, password } = await signInFormSchema.parseAsync(data);
+  const { phoneNumber, password } = await signInSchema.parseAsync(data);
 
   const existingUser = await prisma.user.findFirst({
     where: {

@@ -8,6 +8,7 @@ export async function uploadFormData(formData: FormData) {
     data: {
       name: formData.name,
       description: formData.description,
+      adminOnly: formData.adminOnly,
       questions: JSON.stringify(formData.questions),
     },
   });

@@ -1,7 +1,7 @@
 import { findAllTestSubmissions } from "@/actions/test-submission/find-all-test-submissions-action";
 import { findTestById } from "@/actions/test/find-test-by-id-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,8 +31,9 @@ export const DashboardRecentSubmissions: React.FC = async () => {
             <div className="w-full px-4 py-2 hover:bg-accent text-sm font-semibold tracking-wide flex flex-row items-center justify-between">
               <div className="flex flex-row items-center gap-6">
                 <Avatar>
+                  <AvatarImage src={user?.imageURL} />
                   <AvatarFallback>
-                    {user?.lastName.at(0)! + user?.name.at(0)!}
+                    {user?.name[0]! + user?.surname[0]!}
                   </AvatarFallback>
                 </Avatar>
                 <span>

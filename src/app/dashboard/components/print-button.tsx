@@ -6,12 +6,12 @@ import { Printer } from "lucide-react";
 export default function PrintButton() {
   return (
     <Button
-      size="icon"
       variant="outline"
       className="print:hidden"
       onClick={() => window.print()}
     >
-      <Printer className="w-4 h-4" />
+      <Printer className="w-4 h-4 mr-2" />
+      Печать
     </Button>
   );
 }

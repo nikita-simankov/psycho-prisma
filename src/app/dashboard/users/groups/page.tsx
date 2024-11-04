@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   return (
     <div className="p-12 gap-4 grid grid-cols-4">
       {keys.map((key) => (
-        <Card>
+        <Card className="flex flex-col justify-between">
           <CardHeader>
             <CardTitle>{key}</CardTitle>
           </CardHeader>

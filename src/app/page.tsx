@@ -1,40 +1,19 @@
+"use client";
+
 import { TimeMetricsChart } from "@/components/landing/time-metrics-chart";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, PhoneIcon, Pyramid } from "lucide-react";
-import Link from "next/link";
+import Logo from "@/components/ui/logo";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { EnvelopeClosedIcon, EnvelopeOpenIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
   return (
     <div>
-      <header className="sticky top-0 w-full h-16 flex flex-row items-center justify-between px-10 border-b bg-white">
-        <nav className="flex flex-row items-center">
-          <Pyramid className="w-[1.8rem] h-[1.8rem] mr-2" />
-          <Link href="/">
-            <Button variant="link">Главная</Button>
-          </Link>
-          <Link href="http://localhost:3000/#key-features">
-            <Button variant="link">Ключевые особенности</Button>
-          </Link>
-          <Link href="http://localhost:3000/#testimonials">
-            <Button variant="link">Отзывы военнослужащих</Button>
-          </Link>
-        </nav>
-        <div className="flex flex-row items-center gap-4">
-          <Link href="/auth/sign-in">
-            <Button variant="outline">Войти</Button>
-          </Link>
-          <Link href="/auth/sign-up">
-            <Button className="flex flex-row items-center gap-2">
-              Регистрация
-            </Button>
-          </Link>
-        </div>
-      </header>
-
+      <LandingHeader />
       <main className="flex flex-col">
         <section className="py-40 w-full flex flex-row gap-6 items-center justify-around">
           <div className="flex flex-col gap-6">
@@ -281,6 +260,51 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        <section id="key-features" className="w-full py-6 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
+                  Шаблоны для создание анкет и методик
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Всё включено
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Вместе c приложением, мы предоставляем вам 2 шаблона для
+                  создания анкет и тестовых методик. На основе этих шаблонов,
+                  были добавлены все анкеты и тестовые методики в Призму
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto max-w-5xl items-center gap-6 py-12 lg:gap-12">
+              <div className="flex flex-col justify-center space-y-4">
+                <Image
+                  src="/template-1.png"
+                  alt="template-1"
+                  className="w-full"
+                  width={1000}
+                  height={600}
+                />
+                <Image
+                  src="/template-2.png"
+                  alt="template-2"
+                  className="w-full"
+                  width={1000}
+                  height={600}
+                />
+                <Image
+                  src="/template-3.png"
+                  alt="template-3"
+                  className="w-full"
+                  width={1000}
+                  height={600}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer className="bg-muted py-8 text-muted-foreground">
@@ -305,7 +329,7 @@ export default function LandingPage() {
                 <div>
                   <span className="font-medium">Номер телефона:</span>{" "}
                   <a href="#" className="hover:underline">
-                    +375 (29) 877-35-97 - Псиохолог в/ч 25849 лейтенант А.Н.
+                    +375 (29) 877-35-97 - Психолог в/ч 25849 лейтенант А.Н.
                     Некрашевич
                   </a>
                   <br />
@@ -336,3 +360,32 @@ export default function LandingPage() {
     </div>
   );
 }
+
+const LandingHeader = () => {
+  const router = useRouter();
+
+  return (
+    <header className="h-16 w-full border-b backdrop-blur-xl flex items-center">
+      <div className="max-w-[1400px] w-full mx-auto flex items-center justify-between">
+        <div className="flex flex-row items-center gap-2">
+          <Logo withText />
+          <span className="text-xs font-bold text-muted-foreground">
+            v0.9.7-beta
+          </span>
+        </div>
+        <div className="flex flex-row items-center gap-4">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => router.push("/auth/sign-in")}
+          >
+            Вход
+          </Button>
+          <Button size="sm" onClick={() => router.push("/auth/sign-up")}>
+            Регистрация
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+};

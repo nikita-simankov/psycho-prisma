@@ -1,7 +1,8 @@
 import { findAllUsers } from "@/actions/user/find-all-users-action";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import UserAvatar from "@/components/ui/user-avatar";
 import Link from "next/link";
 
 type PathParams = {
@@ -26,11 +27,7 @@ export default async function GroupsPage({ params }: PathParams) {
           {filteredUsers.map((user) => (
             <div className="px-4 w-full h-16 hover:bg-accent transition-colors flex flex-row items-center justify-between">
               <div className="flex flex-row items-center gap-2">
-                <Avatar>
-                  <AvatarFallback>
-                    {user.lastName[0] + user.name[0]}
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar user={user} />
                 <span className="text-sm font-medium tracking-wider">
                   {user.lastName} {user.name} {user.surname}
                 </span>

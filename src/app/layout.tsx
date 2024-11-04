@@ -1,11 +1,8 @@
+import { ReactQueryProvider, ThemeProvider } from "@/components/provider";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ReactQueryProvider, ThemeProvider } from "@/components/provider";
-import { Pyramid } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ReactQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="light">

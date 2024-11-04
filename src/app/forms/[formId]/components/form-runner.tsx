@@ -44,7 +44,9 @@ export const FormRunner: React.FC<Properties> = ({ form }) => {
         questions[questionIndex].type === "Text" ? (
           <Card className="max-w-7xl w-full">
             <CardHeader>
-              <CardTitle>{questions[questionIndex].text}</CardTitle>
+              <CardTitle>
+                Вопрос {questionIndex + 1}. {questions[questionIndex].text}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Input

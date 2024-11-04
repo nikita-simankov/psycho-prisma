@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import UserAvatar from "@/components/ui/user-avatar";
 import { User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
@@ -22,22 +23,7 @@ export const usersTableColumns: ColumnDef<User>[] = [
   {
     header: " ",
     cell: ({ row }) => {
-      return (
-        <Avatar>
-          {row.original.lastName === "Зотов" && (
-            <AvatarImage src="/zotov.jpg" />
-          )}
-          {row.original.lastName === "Захаров" && (
-            <AvatarImage src="/sankevich.jpg" />
-          )}
-          {row.original.lastName === "Коноплицкий" && (
-            <AvatarImage src="/artur.jpg" />
-          )}
-          <AvatarFallback>
-            {row.original.lastName[0] + row.original.name[0]}
-          </AvatarFallback>
-        </Avatar>
-      );
+      return <UserAvatar user={row.original!} />;
     },
   },
   {
@@ -87,7 +73,7 @@ export const usersTableColumns: ColumnDef<User>[] = [
         <Link href={"/dashboard/summary/" + row.original.id}>
           <Button
             size="sm"
-            variant="default"
+            variant="outline"
             className="flex flex-row items-center gap-2"
           >
             Характеристика

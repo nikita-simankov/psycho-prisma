@@ -3,5 +3,9 @@
 import { prisma } from "@/utils/database";
 
 export async function findAllTests() {
-  return await prisma.test.findMany();
+  return await prisma.test.findMany({
+    include: {
+      categories: true,
+    },
+  });
 }

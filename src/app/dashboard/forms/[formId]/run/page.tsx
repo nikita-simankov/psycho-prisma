@@ -10,5 +10,9 @@ type PathParams = {
 export default async function RunForm({ params }: PathParams) {
   const form = await findFormById(params.formId);
 
-  return <FormRunner form={form!} />;
+  return (
+    <div className="p-10">
+      <FormRunner form={form!} />
+    </div>
+  );
 }

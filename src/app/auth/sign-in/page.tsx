@@ -1,32 +1,22 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import Link from "next/link"
-import { SignInForm } from "./components/sign-in-form"
+import Image from "next/image"
+import SignInForm from "./components/sign-in-form"
 
 export default function SignInPage() {
   return (
-    <Card className="w-full max-w-xl">
-      <CardHeader>
-        <CardTitle>Вход</CardTitle>
-        <CardDescription>
-          Введите свой номер телефона и пароль, чтобы войти в аккаунт
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <main className="flex flex-row">
+      <div className="bg-white w-1/2 h-dvh flex flex-col gap-6 items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <h2 className="text-3xl font-bold">Добро пожаловать!</h2>
+          <p className="text-sm text-muted-foreground max-w-md text-center">
+            Введите номер телефона и пароль, которые вы указывали при
+            регистрации, чтобы войти в аккаунт
+          </p>
+        </div>
         <SignInForm />
-      </CardContent>
-      <CardFooter className="flex flex-row items-center justify-center w-full gap-2 text-sm">
-        <span>Нету аккаунта?</span>
-        <Link href="/auth/sign-up" className="underline">
-          Регистрация
-        </Link>
-      </CardFooter>
-    </Card>
+      </div>
+      <div className="bg-accent w-1/2 h-dvh flex flex-col items-center justify-center">
+        <Image src="/chevron.png" alt="chevron" width={320} height={320} />
+      </div>
+    </main>
   )
 }

@@ -3,9 +3,7 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
 import { DataTable } from "@/components/data-table";
 import { FormQuestion, FormQuestionResponse } from "@/utils/constants";
-import { FormSubmission } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
 
 type Properties = {
   formId: string;

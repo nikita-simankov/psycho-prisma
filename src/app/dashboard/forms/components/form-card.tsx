@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,20 +16,39 @@ type Properties = {
 };
 
 export const FormCard: React.FC<Properties> = ({ form }) => {
-  const questions = JSON.parse(form.questions) as FormQuestion[];
-
   return (
-    <Card className="flex flex-col justify-between">
+    <Card className="flex flex-col justify-between h-64">
       <CardHeader>
-        <CardTitle>{form.name}</CardTitle>
-        <CardDescription>
-          Количество вопросов - {questions.length} шт.
-        </CardDescription>
+        <CardTitle className="text-lg">
+          {form.adminOnly && (
+            <>
+              <Badge variant="outline" className="mr-2">
+                Для администраторов
+              </Badge>
+            </>
+          )}
+          {form.name}
+        </CardTitle>
+        <CardDescription></CardDescription>
       </CardHeader>
-      <CardFooter className="grid grid-cols-1">
-        <Link href={"/dashboard/forms/" + form.id + "/results"}>
-          <Button className="w-full">Смотреть результаты</Button>
-        </Link>
+      <CardFooter className="grid grid-cols-2 gap-2">
+        {form.adminOnly ? (
+          <>
+            <Link href={"/dashboard/forms/" + form.id + "/run"}>
+              <Button className="w-full">Запустить</Button>
+            </Link>
+            <Link href={"/dashboard/forms/" + form.id + "/results"}>
+              <Button className="w-full">Смотреть результаты</Button>
+            </Link>
+          </>
+        ) : (
+          <Link
+            href={"/dashboard/forms/" + form.id + "/results"}
+            className="col-span-2"
+          >
+            <Button className="w-full">Смотреть результаты</Button>
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );

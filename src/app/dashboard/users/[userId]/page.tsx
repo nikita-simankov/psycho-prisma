@@ -1,4 +1,5 @@
 import { findUserById } from "@/actions/user/find-user-by-id-action";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,11 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import UserAvatar from "@/components/ui/user-avatar";
 import { prisma } from "@/utils/database";
 import Link from "next/link";
+import EditUserDialog from "./components/edit-user-dialog";
 
 type PathParams = {
   params: {
@@ -40,12 +40,7 @@ export default async function UserProfilePage({ params }: PathParams) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-4">
-            <Avatar className="w-16 h-16">
-              <AvatarImage src={user?.imageURL!} />
-              <AvatarFallback>
-                {user!.name[0] + user!.surname[0]}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar user={user!} className="w-16 h-16" />
             <div className="flex flex-col">
               <CardTitle className="text-lg">
                 {user?.lastName} {user?.name} {user?.surname}
@@ -55,10 +50,7 @@ export default async function UserProfilePage({ params }: PathParams) {
               </CardDescription>
             </div>
           </div>
-          <Button>
-            <Edit className="w-5 h-5 mr-2" />
-            Редактировать
-          </Button>
+          <EditUserDialog user={user!} />
         </CardHeader>
 
         <CardContent className="flex flex-col gap-6">
@@ -69,11 +61,9 @@ export default async function UserProfilePage({ params }: PathParams) {
 
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col gap-2 text-muted-foreground text-sm font-medium">
-                <span>Дата рождения</span>
                 <span>Номер мобильного телефона</span>
               </div>
               <div className="flex flex-col gap-2 text-sm font-medium text-right">
-                <span>{user?.dateOfBirth}</span>
                 <span>{user?.phoneNumber}</span>
               </div>
             </div>
@@ -118,7 +108,7 @@ export default async function UserProfilePage({ params }: PathParams) {
               <div className="flex flex-col gap-2 text-sm font-medium text-right">
                 <span>{user?.region}</span>
                 <span>{user?.city}</span>
-                <span>{user?.street}</span>
+                <span>{user?.address}</span>
                 <span>{user?.building}</span>
                 <span>{user?.appartment}</span>
               </div>
@@ -146,6 +136,9 @@ export default async function UserProfilePage({ params }: PathParams) {
                     <h1 className="text-black dark:text-white font-bold text-md tracking-wide">
                       {form?.name}
                     </h1>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {submission.createdAt.toLocaleString()}
+                    </span>
                   </span>
                 </div>
                 <Button size="sm" variant="outline">
@@ -185,6 +178,9 @@ export default async function UserProfilePage({ params }: PathParams) {
                     <h1 className="text-black dark:text-white font-bold text-md tracking-wide">
                       {test?.name}
                     </h1>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {submission.createdAt.toLocaleString()}
+                    </span>
                   </span>
                 </div>
                 <Button size="sm" variant="outline">

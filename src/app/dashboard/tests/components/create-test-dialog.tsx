@@ -93,10 +93,10 @@ export const CreateTestDialog: React.FC = () => {
         </DialogHeader>
 
         <div className="flex flex-col gap-2">
-          <Label>Название анкеты</Label>
+          <Label>Название методики</Label>
           <Input
             value={testData.name}
-            placeholder="Введите название анкеты"
+            placeholder="Введите название методики"
             onChange={(event) =>
               setTestData({
                 ...testData,
@@ -107,11 +107,11 @@ export const CreateTestDialog: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label>Описание анкеты</Label>
+          <Label>Описание методики</Label>
           <Textarea
             rows={3}
             value={testData.description}
-            placeholder="Введите краткое описание анкеты"
+            placeholder="Введите краткое описание методики"
             onChange={(event) =>
               setTestData({
                 ...testData,
