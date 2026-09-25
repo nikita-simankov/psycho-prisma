@@ -17,12 +17,21 @@ export function NewOrganizationForm() {
   const [name, setName] = useState("");
 
   const mutation = useMutation({
-    mutationFn: () => createOrganization(name),
-    onSuccess: () => {
-      router.push("/dashboard");
+    mutationFn: async () => {
+      const result = await createOrganization(name);
+
+      if ("error" in result) {
+        throw new Error(t("nameTaken"));
+      }
+
+      return result.slug;
+    },
+    onSuccess: (slug) => {
+      router.push(`/${slug}`);
       router.refresh();
     },
-    onError: () => toast({ title: common("error"), description: t("error"), variant: "destructive" }),
+    onError: (error) =>
+      toast({ title: common("error"), description: error.message || t("error"), variant: "destructive" }),
   });
 
   return (

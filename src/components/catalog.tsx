@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/empty-state";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/utils/utils";
 import { ChevronRight, Clock, FlaskConical, HelpCircle, NotepadText } from "lucide-react";
@@ -27,7 +28,11 @@ export function Catalog({ items, hrefPrefix, kind }: { items: CatalogItem[]; hre
   const Icon = kind === "form" ? NotepadText : FlaskConical;
 
   if (items.length === 0) {
-    return <Card className="p-10 text-center text-muted-foreground">{t("empty")}</Card>;
+    return (
+      <Card>
+        <EmptyState icon={Icon} title={t("empty")} />
+      </Card>
+    );
   }
 
   const chip = (id: string | undefined, label: string) => (

@@ -4,9 +4,9 @@ import { lucia } from "./authentication";
 import { ORGANIZATION_COOKIE } from "./constants";
 import { cookies } from "next/headers";
 
-// Makes an organization the one the dashboard shows for this browser.
-export function rememberOrganization(organizationId: string) {
-  cookies().set(ORGANIZATION_COOKIE, organizationId, {
+// Remembers the organization this browser last worked in, for pages outside /[org].
+export function rememberOrganization(slug: string) {
+  cookies().set(ORGANIZATION_COOKIE, slug, {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",

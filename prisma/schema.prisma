@@ -33,7 +33,9 @@ model User {
 model Organization {
   id   String @id @default(uuid())
   name String
-  slug String @unique
+  // The name lowercased with spaces collapsed, so names are unique regardless of case.
+  nameKey String @unique
+  slug    String @unique
 
   // Whether respondents may see their own results (shown from phase 8 on).
   respondentFeedback Boolean @default(false)

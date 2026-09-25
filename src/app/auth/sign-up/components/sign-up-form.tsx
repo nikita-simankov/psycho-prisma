@@ -30,9 +30,11 @@ export default function SignUpForm() {
       if ("error" in result) {
         throw new Error(t(`errors.${result.error}`));
       }
+
+      return result.redirectTo;
     },
-    onSuccess: () => {
-      router.push("/dashboard");
+    onSuccess: (redirectTo) => {
+      router.push(redirectTo);
       router.refresh();
     },
     onError: (error) => toast({ title: t("errorTitle"), description: error.message, variant: "destructive" }),

@@ -24,7 +24,8 @@ import {
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Search } from "lucide-react";
+import { Search, SearchX } from "lucide-react";
+import { EmptyState } from "./empty-state";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -117,11 +118,12 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center text-muted-foreground"
-                >
-                  {t("empty")}
+                <TableCell colSpan={columns.length} className="p-0">
+                  {columnFilters.length > 0 ? (
+                    <EmptyState icon={SearchX} title={t("noMatches")} />
+                  ) : (
+                    <EmptyState title={t("empty")} />
+                  )}
                 </TableCell>
               </TableRow>
             )}

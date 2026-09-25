@@ -112,6 +112,7 @@ export async function acceptInvitation(
         consentedAt,
       },
       update: {},
+      include: { organization: { select: { slug: true } } },
     });
   });
 
@@ -119,7 +120,7 @@ export async function acceptInvitation(
     await startSession(userId);
   }
 
-  rememberOrganization(invitation.organizationId);
+  rememberOrganization(membership.organization.slug);
 
   return { redirectTo: homePath(membership) };
 }

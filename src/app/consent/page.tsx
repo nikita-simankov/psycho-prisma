@@ -17,7 +17,7 @@ export default async function ConsentPage() {
   const staff = can(membership.role, "viewDashboard");
 
   if (membership.consentedAt || staff) {
-    redirect(staff ? "/dashboard" : "/forms");
+    redirect(staff ? `/${organization.slug}` : "/forms");
   }
 
   const t = await getTranslations("consent");
