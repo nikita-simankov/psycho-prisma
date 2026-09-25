@@ -38,7 +38,7 @@ npx prisma migrate deploy
 
 Interface text lives in `messages/en.json` and `messages/ru.json` (next-intl, no locale in the URL). The locale comes from the `NEXT_LOCALE` cookie set by the language switcher, then the browser's `Accept-Language`, then English. Keep both files with the same keys.
 
-The bundled test and questionnaire content stays in Russian: translating validated instruments needs validated translations, not ad-hoc ones. Spreadsheet import templates also keep their Russian column headers.
+Bundled tests, questionnaires and categories are written in Russian and carry an English overlay in `prisma/seed-data/translations/en/<kind>/<id>.json`, loaded by the seed into each row's `translations` column. The overlay replaces names, instructions, questions, answer options, scale names and result summaries by id, so scoring is unaffected and missing entries fall back to Russian (see `src/utils/content-translation.ts`). The English wording is a working translation, not a validated or licensed edition of each instrument. "Pattern Finding" keeps its Russian words because the task depends on their spelling. Spreadsheet import templates keep their Russian column headers.
 
 Tests and forms retired in the move away from military use are kept in `prisma/seed-data/retired/`. The seed does not load them.
 

@@ -1,0 +1,728 @@
+{
+ "name": "Addiction Proneness Inventory (Lozovaya)",
+ "description": "The questionnaire has 70 questions that look at a person's proneness to 13 kinds of dependence. The results are indicative: they show a general tendency towards a particular dependence and are not grounds for any diagnosis.",
+ "instruction": "You will see 70 statements. Read each one carefully and, without thinking too long, choose one of the answers.",
+ "questions": {
+  "1": {
+   "text": "From time to time I really want a drink to relax.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "2": {
+   "text": "In my free time I mostly watch TV.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "3": {
+   "text": "I think loneliness is the worst thing in life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "4": {
+   "text": "I'm a thrill-seeker and I like gambling.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "5": {
+   "text": "Sex is the greatest pleasure in life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "6": {
+   "text": "I quite often eat for pleasure rather than hunger.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "7": {
+   "text": "I observe religious rituals.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "8": {
+   "text": "I think about work all the time and how to do it better.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "9": {
+   "text": "I take medicines quite often.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "10": {
+   "text": "I spend a lot of time at the computer.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "11": {
+   "text": "I can't imagine life without cigarettes.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "12": {
+   "text": "I take an active interest in health matters.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "13": {
+   "text": "I have tried drugs.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "14": {
+   "text": "I find it hard to fight my habits.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "15": {
+   "text": "Sometimes I don't remember what happened while I was drunk.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "16": {
+   "text": "I can spend a long time flicking through TV channels looking for something interesting.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "17": {
+   "text": "The main thing is for the person I love to always be by my side.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "18": {
+   "text": "From time to time I play slot machines.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "19": {
+   "text": "I only stop thinking about sex when I'm asleep.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "20": {
+   "text": "I think about food all the time and imagine different treats.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "21": {
+   "text": "I'm a fairly active member of a religious community.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "22": {
+   "text": "I don't know how to rest; I feel bad at weekends.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "23": {
+   "text": "Medicines are the easiest way to feel better.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "24": {
+   "text": "The computer is a real chance to live life to the full.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "25": {
+   "text": "I always have cigarettes with me.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "26": {
+   "text": "I spare no effort, money or time on staying healthy.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "27": {
+   "text": "Trying a drug is an interesting life lesson.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "28": {
+   "text": "I think everyone is dependent on something.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "29": {
+   "text": "Sometimes I drink a little too much.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "30": {
+   "text": "The TV is on for most of the time I'm at home.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "31": {
+   "text": "When I'm not with the person I love, I think about them all the time.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "32": {
+   "text": "Gambling gives the most intense thrills in life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "33": {
+   "text": "I'm ready for casual relationships, because going without sex is extremely hard for me.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "34": {
+   "text": "If a dish is very tasty, I can't resist a second helping.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "35": {
+   "text": "I think religion is the only thing that can save the world.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "36": {
+   "text": "My family often complains that I'm always working.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "37": {
+   "text": "There are lots of medicines and similar products in my home.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "38": {
+   "text": "Sometimes, sitting at the computer, I forget to eat or to do things.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "39": {
+   "text": "A cigarette is the easiest way to relax.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "40": {
+   "text": "I read medical magazines and newspapers and watch programmes about health.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "41": {
+   "text": "Drugs give the strongest sensations possible.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "42": {
+   "text": "Habit is second nature, and it's silly to get rid of it.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "43": {
+   "text": "In our lives, alcohol is the main way to relax and lift your mood.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "44": {
+   "text": "If the TV broke, I wouldn't know how to entertain myself in the evening.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "45": {
+   "text": "Being left by the person you love is the greatest misfortune that can happen.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "46": {
+   "text": "I understand gamblers who can win a fortune one night and lose twice as much the next.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "47": {
+   "text": "The worst thing would be a physical injury that caused sexual dysfunction.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "48": {
+   "text": "When I go shopping, I can't resist buying something tasty.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "49": {
+   "text": "The most important thing in life is a full religious life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "50": {
+   "text": "A person's worth is measured by how much they give to their work.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "51": {
+   "text": "I take medicines quite often.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "52": {
+   "text": "\"Virtual reality\" is more interesting than ordinary life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "53": {
+   "text": "I smoke every day.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "54": {
+   "text": "I try to follow the rules of a healthy lifestyle without fail.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "55": {
+   "text": "Sometimes I use substances that are considered drugs.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "56": {
+   "text": "People are weak, and we should be tolerant of their bad habits.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "57": {
+   "text": "I like having a drink and having fun in cheerful company.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "58": {
+   "text": "These days you can learn almost anything from TV.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "59": {
+   "text": "To love and be loved is the main thing in life.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "60": {
+   "text": "Gambling is a real chance to hit the jackpot and win a lot of money.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "61": {
+   "text": "Sex is the best way to spend time.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "62": {
+   "text": "I love cooking and do it as often as I can.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "63": {
+   "text": "I often go to places of worship.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "64": {
+   "text": "I think people should work conscientiously, because money is not the main thing.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "65": {
+   "text": "When I'm nervous, I prefer to take a sedative.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "66": {
+   "text": "If I could, I would spend all my time on the computer.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "67": {
+   "text": "I'm a long-time smoker.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "68": {
+   "text": "I worry about my family's health and try to get them to live healthily.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "69": {
+   "text": "Nothing compares to drugs for intensity of sensation.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  },
+  "70": {
+   "text": "It's silly to try to show willpower by giving up life's various pleasures.",
+   "choices": {
+    "1": "No",
+    "2": "Rather no",
+    "3": "Neither yes nor no",
+    "4": "Rather yes",
+    "5": "Yes"
+   }
+  }
+ },
+ "scales": {
+  "1": "Alcohol dependence",
+  "2": "TV dependence",
+  "3": "Love dependence",
+  "4": "Gambling dependence",
+  "5": "Sexual dependence",
+  "6": "Food dependence",
+  "7": "Religious dependence",
+  "8": "Work dependence",
+  "9": "Medication dependence",
+  "10": "Computer dependence",
+  "11": "Tobacco dependence",
+  "12": "Healthy lifestyle dependence",
+  "13": "Drug dependence",
+  "14": "Overall proneness to dependence"
+ },
+ "summaries": {
+  "Низкая степень склонности к зависимости": "Low proneness to dependence",
+  "Средняя степень склонности к зависимости": "Moderate proneness to dependence",
+  "Высокая степень склонности к зависимости": "High proneness to dependence"
+ }
+}

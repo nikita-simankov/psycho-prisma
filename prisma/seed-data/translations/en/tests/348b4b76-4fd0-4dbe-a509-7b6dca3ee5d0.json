@@ -1,0 +1,552 @@
+{
+ "name": "Short Multiphasic Personality Inventory (Mini-Mult)",
+ "description": "Mini-Mult is a shortened version of the MMPI with 71 questions and 11 scales, 3 of which are validity scales. The first three measure the person's sincerity, how reliable the results are and the correction introduced by excessive caution. The other 8 are clinical scales that assess personality traits. There is no time limit.",
+ "instruction": "Below are statements about your health and your character. Read each one and decide whether it is true or false for you. Don't spend time thinking it over: the most natural answer is the one that comes to mind first. If a statement is true for you, press \"Yes\". If it is not true for you, press \"No\".",
+ "questions": {
+  "1": {
+   "text": "You have a good appetite.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "In the morning you usually feel you have slept well and are rested.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "There is a lot of interest in your everyday life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "You work under a lot of strain.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "At times such bad thoughts come into your head that it's better not to talk about them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "You very rarely have constipation.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "Sometimes you have badly wanted to leave home for good.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "At times you have fits of uncontrollable laughing or crying.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "At times you are bothered by nausea and the urge to vomit.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "You feel that nobody understands you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "Sometimes you feel like swearing.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "You have nightmares every week.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "You find it harder to concentrate than most people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "Strange things have happened (or are happening) to you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "You would have achieved much more in life if people weren't against you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "As a child you went through a period of stealing.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "There have been days, weeks or even months when you couldn't do anything because it was hard to make yourself get into work.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "Your sleep is broken and restless.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "When you are among people, you hear strange things.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "Most people who know you don't think you are unpleasant.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "You have often had to obey someone who knew less than you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "Most people are more satisfied with their lives than you are.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "A great many people exaggerate their misfortunes to get sympathy and help.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "Sometimes you get angry.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "You definitely lack self-confidence.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "You often have muscle twitches.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "You often feel as if you have done something wrong or bad.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "You are usually satisfied with your lot.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "Some people like giving orders so much that you want to do the opposite, even though you know they are right.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "You think something is being plotted against you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "Most people are capable of getting ahead by not entirely honest means.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "Your stomach often bothers you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "You often can't understand why you were in a bad mood and irritable the day before.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "At times your thoughts have raced so fast that you couldn't put them into words.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "You think your family life is no worse than that of most people you know.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "At times you are sure you are useless.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "In recent years you have mostly felt well.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "You have had periods when you did something and afterwards couldn't remember what it was.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "You think you were often punished undeservedly.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "You have never felt better than you do now.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "You don't care what others think of you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "Your memory is fine.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "You find it hard to keep up a conversation with someone you have just met.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "Most of the time you feel generally weak.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "You rarely have headaches.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "Sometimes you have found it hard to keep your balance when walking.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "You don't like everyone you know.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "48": {
+   "text": "There are people who try to steal your ideas and thoughts.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "49": {
+   "text": "You think you have done things that can't be forgiven.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "You think you are too shy.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "51": {
+   "text": "You are almost always worried about something.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "52": {
+   "text": "Your parents often disapproved of the company you kept.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "53": {
+   "text": "Sometimes you gossip a little.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "54": {
+   "text": "At times you feel that making decisions is unusually easy for you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "55": {
+   "text": "You have strong palpitations and often feel short of breath.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "56": {
+   "text": "You are quick-tempered but quick to calm down.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "57": {
+   "text": "You have periods of such restlessness that it's hard to sit still.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "58": {
+   "text": "Your parents and other family members often find fault with you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "59": {
+   "text": "No one is particularly interested in what happens to you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "60": {
+   "text": "You don't condemn someone who is happy to take advantage of another person's mistakes.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "61": {
+   "text": "Sometimes you are full of energy.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "62": {
+   "text": "Your eyesight has got worse recently.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "63": {
+   "text": "You often have ringing or noise in your ears.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "64": {
+   "text": "There have been times in your life (perhaps only once) when you felt you were being hypnotized.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "65": {
+   "text": "You have periods when you are unusually cheerful for no particular reason.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "66": {
+   "text": "Even in company you usually feel lonely.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "67": {
+   "text": "You think almost anyone would lie to avoid trouble.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "68": {
+   "text": "You feel things more keenly than most people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "69": {
+   "text": "At times your mind works more slowly than usual.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "70": {
+   "text": "You are often disappointed in people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "71": {
+   "text": "You drink too much alcohol.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Lie scale (L)",
+  "2": "Validity scale (F)",
+  "3": "Correction scale (K)",
+  "4": "Hypochondria (Hs)",
+  "5": "Depression (D)",
+  "6": "Hysteria (Hy)",
+  "7": "Psychopathy (Pd)",
+  "8": "Paranoia (Pa)",
+  "9": "Psychasthenia (Pt)",
+  "10": "Schizoid (Sc)",
+  "11": "Hypomania (Ma)"
+ },
+ "summaries": {
+  "Лица чрезмерно открытые, не скрывающие своих затруднений, слабостей и психопатологических расстройств. Хорошо сознает свои затруднения, склонен скорее преувеличивать, чем недооценивать степень межличностных конфликтов, тяжесть отмечающихся симптомов, степень личностной неадекватности. Склонность критически относиться к себе и окружающим - приводит к скептицизму. Неудовлетворенность и склонность преувеличивать существенность конфликтов делает испытуемого легко уязвимым и порождает неловкость в межличностных отношениях.": "People who are overly open and don't hide their difficulties, weaknesses or psychological problems. They are well aware of their difficulties and tend to exaggerate rather than underestimate interpersonal conflicts, the severity of their symptoms and their own inadequacy. A tendency to be critical of themselves and others leads to scepticism. Dissatisfaction and a tendency to exaggerate conflicts make the person easily hurt and cause awkwardness in relationships.",
+  "Показатели по шкале лжи в норме": "Lie scale within the normal range",
+  "Тенденция испытуемого представить себя в более выгодном свете, продемонстрировав строгое соблюдение социальных норм. Это стремление может быть обусловлено некоторыми причинами:\nс ограниченностью кругозора испытуемого или\nситуацией, или\nвызвано наличием патологии, или\nв тех случаях, когда индивидуум следует установленному стандарту поведения, соблюдая порой незначительные и не имеющие существенной ценности правила;\nпринадлежность к определенной профессиональной группе, от которой из-за ее специфики, требуется чрезвычайно высокий стандарт поведения и пунктуальное следование конвенциональным нормам (юристы, педагоги).\nУ лиц с высоким интеллектом и большим жизненным опытом этот показатель нельзя рассматривать, как стремление выглядеть в благоприятном свете.\nВ случае, если отмечаются также пики на других шкалах, - профиль личности можно проанализировать только в сочетании с известными клиническими данными больного.": "The person tends to present themselves in a better light by showing strict adherence to social norms. This may be because of:\na limited outlook, or\nthe situation, or\npathology, or\na habit of following set standards of behaviour, sometimes observing minor rules of little real value;\nbelonging to a professional group whose work demands an exceptionally high standard of behaviour and strict adherence to conventions (lawyers, teachers).\nFor people with high intelligence and wide life experience, this score should not be read as a wish to look good.\nIf other scales also show peaks, the profile can only be interpreted together with known clinical data.",
+  "Результаты говорят о достоверности.": "The results are reliable.",
+  "Показатели по шкале достоверности в норме": "Validity scale within the normal range",
+  "Высокие показатели по шкале \"F\" возможны в следующих случаях:\nнеконформность личности, связанная с своеобразием восприятия и логики (шизоидный тип личности);\nаутичная личность, испытывающая затруднения в межличностных контактах;\nпсихопатоподобное поведение, склонность к неупорядоченному поведению или выраженное чувство протеста против конвенциональных норм;\nподростки в период формирования личности, когда преобладает потребность в самовыражении неконформным поведением и взглядами;\nвыраженная тревожность и потребность в помощи со стороны окружающих.\nВ каждом конкретном случае к оценке профиля по шкале \"F\" надо подходить индивидуально:\nрезультаты тестирования в целом вызывают сомнения из-за намеренного искажения результатов самим испытуемым;\nследует сочетать показания по шкале \"F\" с клиническим состоянием испытуемого (возможно неадекватное восприятие утверждений).": "High scores on the F scale are possible in the following cases:\nnon-conformity linked to an unusual way of perceiving and reasoning (schizoid personality type);\nan autistic personality with difficulties in interpersonal contact;\npsychopath-like behaviour, a tendency towards disorderly behaviour or a strong protest against conventional norms;\nadolescents whose personality is still forming, when the need to express themselves through non-conformist behaviour and views dominates;\nmarked anxiety and a need for help from others.\nThe F scale should be interpreted case by case:\nthe results as a whole are doubtful because the person has deliberately distorted them;\nthe F score should be considered alongside the person's clinical state (statements may have been misread).",
+  "Производит впечатление человека благоразумного, доброжелательного, общительного, имеющего широкий круг интересов. Большой опыт межличностных контактов и отрицание затруднений обусловливает у него более или менее высокую предприимчивость и умение находить правильную линию поведения. Поскольку такие качества улучшают социальную адаптацию, умеренное повышение профиля по шкале \"K\" может рассматриваться как прогностически благоприятный признак.": "Comes across as sensible, friendly and sociable with a wide range of interests. Extensive experience of interpersonal contact and denial of difficulties give them fairly high enterprise and the ability to find the right course of action. Since these qualities improve social adaptation, a moderately raised K score can be seen as a favourable sign.",
+  "Показатели по шкале коррекции в норме": "Correction scale within the normal range",
+  "Высокий показатель по шкале \"К\" говорит о возможности, что: личность определяет свое поведение в зависимости от социального одобрения и озабочена своим социальным статусом. Склонность отрицать какие-либо затруднения в межличностных отношениях или в контроле собственного поведения, стремление к соблюдению принятых норм поведения и воздерживается от критики окружающих в той мере, в какой поведение окружающих укладывается в рамки принятой нормы. Отмечается отрицательная реакция на поведение тех лиц, которые ведут себя явно отклоняясь от рамок традиций и обычаев. В случае клиники: выраженное беспокойство, неуверенность в себе в сочетании с желанием добиться благожелательного к себе отношения.": "A high K score suggests the person may shape their behaviour around social approval and be concerned with their social status. They tend to deny any difficulties in relationships or in controlling their own behaviour, try to follow accepted norms and refrain from criticizing others as long as others' behaviour stays within accepted norms. They react negatively to people who clearly deviate from traditions and customs. In a clinical context: marked anxiety and low self-confidence combined with a desire to win others' goodwill.",
+  "Испытуемый не озабочен состоянием своего здоровья, более деятелен и энергичен и более успешно разрешает свои трудности, используя более адаптивные формы поведения.": "The person is not preoccupied with their health, is more active and energetic, and resolves difficulties more successfully using more adaptive behaviour.",
+  "Показатели по шкале ипохондрии в норме": "Hypochondria scale within the normal range",
+  "Высокий показатель но шкале \"Hs\" говорит о возможности: Тревога относится субъектом не за счет каких-то внешних социальных причин, а за счет состояния своего физического здоровья. Отмечается эмоциональная значимость для испытуемого его соматических ощущений: общее самочувствие, работоспособность, нарушение соматических функций, болевых ощущений. Динамика развития соматизации тревоги: беспокойство за состояние своего физического здоровья возникает на фоне высокого уровня тревоги вообще. Тревога начинает проецироваться на сердечно-сосудистые нарушения, желудочно-кишечный тракт - таким образом, тревога соматизируется и обретает конкретность, то есть, сменяется страхом. повышенное внимание к себе, обусловливающее перенесение отношения угрозы с межличностных отношений на процессы, происходящие в собственном организме, сочетается с недостаточной способностью контролировать свои эмоции. вершина развития соматизации тревоги - склонность к жалобам, озабоченность своим физическим состоянием, пессимизм и неверие в успех, особенно в отношении медицинской помощи, развивается длительное и тщательное самонаблюдение за своим организмом, что внешне проявляется в несговорчивости, упрямстве, скептицизме.": "A high Hs score suggests that the person attributes their anxiety not to external social causes but to their physical health. Bodily sensations carry great emotional weight: general well-being, capacity for work, disturbed bodily functions, pain. How anxiety becomes somatized: worry about physical health arises against a background of generally high anxiety. The anxiety is projected onto the heart, blood vessels and digestive tract, becoming somatized and concrete, that is, it turns into fear. Heightened attention to oneself, which shifts the sense of threat from relationships to processes in one's own body, is combined with poor control over emotions. At its peak this becomes a tendency to complain, preoccupation with one's physical state, pessimism and lack of faith in success, especially in medical help, and prolonged, meticulous self-monitoring, which shows outwardly as uncooperativeness, stubbornness and scepticism.",
+  "Низкий уровень тревоги, активность, общительность, ощущение своей значимости, силы, энергии и бодрости.": "Low anxiety, activity, sociability and a sense of one's own importance, strength, energy and vitality.",
+  "Показатели по шкале депрессии в норме": "Depression scale within the normal range",
+  "Высокий показатель по шкале \"D\" говорит о том что возможно у испытуемого отмечается больше тревога, чем депрессия. Ощущение неопределенной угрозы, характер и время возникновения которой не поддается предсказанию, диффузными опасениями и тревожными ожиданиями.\nДинамика развития тревоги:\nощущение внутренней напряженности, готовность к возникновению какого-либо неожиданного явления, которое, однако, не оценивается еще как угрожающее. Нарастание чувства внутренней напряженности часто приводит к затруднению в выделении значимых раздражителей, что проявляется в неприятном эмоциональном настроении;\nзатем тревога сменяется страхом - ощущением уже конкретной угрозы, неотвратимости надвигающейся катастрофы.\nОкружающим испытуемый представляется как пессимист, замкнутый, молчаливый, застенчивый, чрезмерно серьезный. Может выглядеть как ушедший в себя и избегающий контактов. Однако, на самом деле, личность испытывает потребность в глубоких и прочных контактах с окружающими. Личность легко идентифицирует себя с отдельными людьми, явлениями, и если это отождествление нарушается, то личность воспринимает это как катастрофу, приводящей ее к снижению настроения. Уже лишь одна угроза разрыва гармоничных отношений может вызвать у таких лиц тревогу. Поэтому их отгороженность - это стремление избежать разочарования. В действительности же эти личности стремятся привлечь и удержать внимание окружающих, дорожат их оценкой, стремятся приобрести и сохранить их. В ситуациях фрустрации для них более характерны интрапунитивные реакции - чувство вины, гнев, направленный на себя, аутоагрессия, вплоть до суицида. На ситуацию дезадаптации реагирует астенией, инертностью, пассивностью, отказом от реализации эгоцентрических установок в сложной конфликтной ситуации.": "A high D score suggests the person may be experiencing anxiety more than depression: a sense of vague threat whose nature and timing can't be predicted, diffuse fears and anxious expectations.\nHow anxiety develops:\na feeling of inner tension and readiness for something unexpected to happen, which is not yet seen as threatening. Growing inner tension often makes it hard to pick out what matters, which shows as an unpleasant mood;\nthen anxiety turns into fear, a sense of a specific threat and of an inevitable approaching disaster.\nTo others the person seems pessimistic, withdrawn, quiet, shy and overly serious, and may appear self-absorbed and avoiding contact. In fact they need deep, lasting relationships. They readily identify with particular people and things, and if that identification breaks down they experience it as a disaster that lowers their mood. The mere threat of losing a harmonious relationship can make them anxious, so their reserve is a way to avoid disappointment. In reality they seek to attract and hold others' attention, value others' opinions and try to win and keep them. When frustrated, they tend to turn inwards: guilt, anger directed at themselves, self-harm, even suicide. They respond to maladjustment with fatigue, inertia, passivity and by abandoning self-centred aims in a difficult conflict.",
+  "Интроверсия, скептицизм, недостаточная способность к спонтанности в социальных контактах.": "Introversion, scepticism and limited spontaneity in social contact.",
+  "Показатели по шкале истерии в норме": "Hysteria scale within the normal range",
+  "Высокий показатель по шкале \"Hy\" говорит о возможности:\nУ испытуемого отмечается способность к вытеснению факторов, вызывающих тревогу; демонстративное подчеркивание соматического неблагополучия с тенденцией отрицать затруднения в социальной адаптации. Высокая способность к вытеснению, позволяющая эффективно устранять тревогу, в то же время затрудняет формирование достаточно устойчивого поведения: постоянно возникают новые роли, задачи и оценки. Люди этого типа не обладают достаточно развитым внутренним миром, их переживания ориентированы на внешнего наблюдателя. Игнорирование отрицательных сигналов извне позволяет сохранять высокую самооценку, переходящей в самолюбование. Такое поведение может привести к бесцеремонности, некритичности в оценке ситуации.\nЛичность стремится быть в центре внимания, ищет признания и поддержки и добивается этого настойчивыми действиями. Склонность к фантазированию, эгоцентризм, незрелость и поверхностность в контактах. Обычно затрудняет деятельность группы, которая должна планомерно и длительное время решать какую-либо проблему. Проявляются чаще декларации, невозможность длительного и упорядоченного усилия по выполнению длительной деятельности. Лучше проявляет себя в ситуациях, где надо быстро менять свою роль, где присутствуют кратковременные контакты, умение приспосабливаться к различным людям. В конфликтах чаще всего используются для самозащиты соматические жалобы, которые носят поверхностный характер.\nВ случае клиники - может наблюдаться полная утрата способности к формированию устойчивых установок и построению поведения на основе предшествующего опыта, живет методом \"проб и ошибок\", исходя из удовлетворения своих сиюминутных желаний. Отмечается слабость задержки своих желаний, в результате возникает бесплановость и хаотичность поведения. Декомпенсация личности возникает в ситуациях повышенных требований и нагрузок, а также нарушения отношений, которые по социальным нормам должны поддерживаться (например, в семье). Возникает грубая конверсионная симптоматика или более тонкая - изменения вегетативной регуляции, которая является \"копией\" ранее виденных или слышанных \"страшных\" заболеваний (например, инфаркта). Основная цель поведения больного - потребность во внимании и поддержке, в любовании своими страданиями и своей волей, стойкостью при этом.": "A high Hy score suggests:\nThe person is able to push away things that cause anxiety and demonstratively emphasizes physical complaints while tending to deny difficulties in social adaptation. This strong capacity for repression removes anxiety effectively but makes it hard to develop stable behaviour: new roles, tasks and judgements keep appearing. People of this type lack a well-developed inner world; their experiences are aimed at an outside observer. Ignoring negative signals from outside keeps their self-esteem high, bordering on self-admiration. This can lead to tactlessness and an uncritical view of situations.\nThe person wants to be the centre of attention, seeks recognition and support and pursues them persistently. A tendency to fantasize, egocentrism, immaturity and superficial relationships. Usually hinders a group that has to work on a problem steadily over a long time. Tends towards declarations rather than sustained, orderly effort on long tasks. Does better in situations that require quickly changing roles, short contacts and adapting to different people. In conflicts, superficial physical complaints are most often used for self-defence.\nIn a clinical context: a complete loss of the ability to form stable attitudes and build behaviour on past experience may be seen; the person lives by trial and error, driven by momentary wishes. Weak restraint of wishes leads to aimless, chaotic behaviour. The personality decompensates under heightened demands and pressure, and when relationships that social norms require to be maintained (for example, in the family) break down. Gross conversion symptoms may appear, or subtler changes in autonomic regulation that 'copy' frightening illnesses seen or heard of before (for example, a heart attack). The main aim of such behaviour is the need for attention and support, and for admiration of one's suffering and fortitude.",
+  "Конвенциональная личность, высокий уровень идентификации со своим социальным статусом, тенденция к сохранению постоянных интересов, установок, целей.": "A conventional personality, strongly identified with their social status, tending to keep stable interests, attitudes and goals.",
+  "Показатели по шкале психопатии в норме": "Psychopathy scale within the normal range",
+  "Высокая оценка по шкале \"Pd\" говорит о возможности:\nПсихопатоподобное поведение, склонность к асоциальным поступкам. При благоприятных условиях в промежутках между декомпенсациями психопатические черты могут не обнаруживаться. Характеризуется пренебрежением к принятым общественным нормам, моральным и этическим ценностям, установившимся правилам поведения и обычаям. В зависимости от уровня активности это пренебрежение проявляется в гневных и агрессивных реакциях или выражается более или менее пассивно. Протест против принятых норм может ограничиваться семьей и ближайшим окружением, но может приобретать генерализированный характер. Поведение плохо предсказуемо, неумение планировать будущие поступки и пренебрежение последствиями своих действий. Недостаточная способность извлекать пользу из опыта приводит их к повторным конфликтам с окружающими. Непосредственная реализация возникающих побуждений и недостаточная способность прогнозировать приводить к отсутствию тревоги и страха перед потенциальным наказанием. Ситуации, которые не повлекли за собой тяжелых последствий, также не вызывают тревоги или депрессии.\nТолько реально значимое наказание может провоцировать агрессию или субдепрессию и то только против самого факта наказания, а не ситуации. В межличностных отношениях (даже в интимных) личность отличается поверхностным и нестойким отношением, редко возникает чувство глубокой привязанности. Личность ненадежна в длительном общении, поскольку склонна к дисфориям. В общем - эгоцентризм, импульсивность, эмоциональная незрелость, конфликтность.\nДиагноз: расстройство личностных черт, агрессивный тип, пассивно-агрессивный тип;\nАльтернативный диагноз: эмоционально неустойчивая личность, реакция тревоги, депрессивная реакция у личности с нарушением личностных черт;\nЖалобы, черты личности и симптомы: взрывчатый, эмоционально неустойчивый, плохое финансовое положение, ощущение вины, тяжелое пьянство, незрелость личности, возможны: депрессия, нетрудоспособность;\nВедущие черты: неотзывчивость, незрелость, требовательность, эгоцентричность, импульсивность, ребячество, беззаботность, нетерпеливость, эмоциональная неустойчивость, избалованность матерью. Если супруг относится к нему с снисходительностью, то испытуемый не идет на развод. Однако имеются выраженные конфликты в супружеских отношениях. Плохо приспособлен к сексуальной жизни, склонен к половым извращениям. Становится напряженным, угрюмым и депрессивным из-за низкой переносимости фрустрации. Суицидальные попытки, агрессивные вспышки против супруга и алкоголизм являются наиболее частой причиной помещения в больницу.": "A high Pd score suggests:\nPsychopath-like behaviour and a tendency towards antisocial acts. In favourable conditions, between periods of decompensation, psychopathic traits may not show. Characterized by disregard for accepted social norms, moral and ethical values, established rules of behaviour and customs. Depending on the level of activity, this disregard shows as angry and aggressive reactions or more or less passively. The protest against accepted norms may be limited to the family and immediate circle or may become generalized. Behaviour is hard to predict; the person can't plan future actions and ignores their consequences. A poor ability to learn from experience leads to repeated conflicts with others. Acting on impulses immediately and a poor ability to anticipate lead to an absence of anxiety or fear of possible punishment. Situations that had no serious consequences cause no anxiety or depression either.\nOnly genuinely significant punishment can provoke aggression or low mood, and then only against the fact of punishment, not the situation. In relationships (even intimate ones) the person is superficial and inconstant and rarely feels deep attachment. Unreliable over the long term because of a tendency towards dysphoria. Overall: egocentrism, impulsiveness, emotional immaturity and a tendency towards conflict.\nDiagnosis: personality trait disorder, aggressive type, passive-aggressive type;\nAlternative diagnosis: emotionally unstable personality, anxiety reaction, depressive reaction in a person with a personality trait disorder;\nComplaints, personality traits and symptoms: explosive, emotionally unstable, poor financial situation, feelings of guilt, heavy drinking, immature personality; possibly depression and inability to work;\nLeading traits: unresponsive, immature, demanding, self-centred, impulsive, childish, careless, impatient, emotionally unstable, spoiled by their mother. If their spouse is indulgent, they do not seek divorce, but there are marked marital conflicts. Poorly adjusted to sexual life, with a tendency to sexual deviations. Becomes tense, sullen and depressed because of low frustration tolerance. Suicide attempts, aggressive outbursts against the spouse and alcoholism are the most common reasons for hospitalization.",
+  "Возможны следующие варианты:\n1. испытуемый недоверчив и осторожен, боится неприятных последствий своих действий;\n2. у испытуемого гибкое мышление и он быстро меняет точку зрения.": "Two readings are possible:\n1. the person is distrustful and cautious, afraid of the unpleasant consequences of their actions;\n2. the person thinks flexibly and changes their point of view quickly.",
+  "Показатели по шкале паранойяльности в норме ": "Paranoia scale within the normal range",
+  "В случае высокой оценки по шкале \"Ра\", возможно:\nРигидность, склонность к систематизации накопленного опыта, подозрительность, обидчивость, упорство в достижении цели, педантизм, склонность обвинять других в недружелюбии, враждебность и ригидность аффекта.\nДинамика ригидности аффекта:\nфрустрация и возникающая в связи с ней тревога переживаются как импульс, побуждающий к той или иной форме поведения, позволяющей прямо или косвенно удовлетворить блокированную потребность;\nэтот импульс лежит в основе эмоции, как привод от потребности индивида к соответствующей форме поведения;\nв условиях общества эмоция не всегда реализуется, поэтому угасание ее происходит медленно, а у некоторых личностей значительно медленнее;\nу последних (то есть, ригидных личностей) при одной мысли о фрустрирующей ситуации снова возникает неотреагированная эмоция.\nЧерты личности: сочетание сензитивности и обидчивости с жалобами на недостатки окружающих, их враждебные действия, утверждение моральных устоев, склонность к идеаторной разработке ситуации. Ригидность аффекта обычно связана с эгоистическими побуждениями. Сопровождается интенсивной разработкой концепции, которая призвана объяснить его возникновение и в то же время сохранить приемлимое для индивида представление о собственной личности. Эта вторичная идеаторная разработка создает впечатление независимой позиции, верности своим критериям. Однако в действительности поступки определяются внешним воздействием, так как они являются ответом на действия окружающих, воспринимаемых аффективно, как ущемляющие личность испытуемого. Рассуждения их внутренне логичны. С ригидностью аффекта связано также длительное переживание собственных успехов, причем это переживание включает гордость своей ценностью, повышенное себялюбие и недовольство отсутствием признания со стороны окружающих. Для личности свойственно упрямство, рациональная житейская платформа, выраженное чувство соперничества, прямолинейность.\n": "A high Pa score suggests:\nRigidity, a tendency to systematize accumulated experience, suspiciousness, touchiness, persistence in pursuing goals, pedantry, a tendency to accuse others of unfriendliness, hostility and rigidity of affect.\nHow rigidity of affect develops:\nfrustration and the anxiety it causes are experienced as an impulse towards some form of behaviour that directly or indirectly satisfies the blocked need;\nthis impulse underlies the emotion, as a link between the person's need and the corresponding behaviour;\nin society the emotion is not always acted on, so it fades slowly, and in some people much more slowly;\nin the latter (rigid personalities) the mere thought of the frustrating situation brings back the unexpressed emotion.\nPersonality traits: sensitivity and touchiness combined with complaints about others' shortcomings and hostile actions, assertion of moral principles and a tendency to work situations over in their mind. Rigidity of affect is usually linked to selfish motives. It is accompanied by an elaborate explanation meant to justify the emotion while preserving an acceptable self-image. This secondary reasoning gives the impression of an independent position and loyalty to one's own standards. In reality their actions are driven from outside, as responses to others' actions that they perceive emotionally as belittling them. Their reasoning is internally logical. Rigidity of affect also means dwelling on their own successes for a long time, with pride in their worth, heightened self-love and resentment at a lack of recognition. Typical traits are stubbornness, a rational, practical outlook, a strong competitive streak and bluntness.",
+  "Решительность, гибкость поведения с низким уровнем тревожности, уверенность при принятии решения.": "Decisiveness and flexible behaviour with low anxiety; confident in making decisions.",
+  "Показатели по шкале психастении в норме": "Psychasthenia scale within the normal range",
+  "Высокие результаты по шкале \"Pt\" говорят о возможности:\nКонституациональная предрасположенность к возникновению тревожных реакций, а устранение этой тревоги достигается путем формирования ограниченного поведения. Сензитивность, страх, тревога, немотивированные опасения, неуверенность в себе и в своей компетентности, пониженная самооценка, навязчивость. Тревожно-мнительная личность, низкий порог фрустраций, напряженность, самокритичность, эмпатийность, трудности социального приспособления, застенчивость, боязливость. Низкая способность к вытеснению и повышенное внимание к отрицательным сигналам. Стремление удержать в центре внимания даже несущественные факты, учитывать и предвидеть даже маловероятные возможности. В результате ситуация никогда не представляется достаточно определенной, что еще более усиливает постоянную тревожность. Поэтому неспособность отделять фон от сигнала, увеличение эмоциональной значимости фона приводит к ослаблению концентрации внимания, к сомнениям и колебаниям при необходимости принять решение, тревогу и страхи по поводу возможных последствий своих действий. Поскольку каждый новый сигнал воспринимается как угроза, то личность придерживается уже испытанных приемов деятельности.\nВ своей деятельности руководствуется главным образом не потребностью достичь успеха, а стремлением избежать неуспех и поведение испытуемого определяется страхом перед возможностью повлечь на себя опасность неверным поступком. Этот страх лежит в основе ограничений своего поведения, особенно там, где успех не гарантирован. В тех же областях, где приходится действовать, испытуемый стремится контролировать успешность своей деятельности с помощью разработки высокого внутреннего стандарта, с которым сопоставляется действие и результат. Такие лица описываются окружающими как добросовестные, тщательно выполняющие свои обязанности, сдержанные во внешних проявлениях и нерешительные.\nКлиника: склонность к навязчивому беспокойству, напряженность, нерешительность, пониженная помехоустойчивость по отношению к стрессу, стрессорами являются ситуации, где происходит быстрая смена факторов, неупорядоченные и не поддающиеся планированию ситуации; декомпенсация личности сопровождается навязчивыми страхами и ритуалами.": "A high Pt score suggests:\nA constitutional predisposition to anxious reactions, with the anxiety kept down by restricting one's behaviour. Sensitivity, fear, anxiety, unfounded worries, lack of confidence in oneself and one's competence, low self-esteem and obsessiveness. An anxious, suspicious personality with a low frustration threshold, tension, self-criticism, empathy, difficulties with social adjustment, shyness and fearfulness. A low capacity for repression and heightened attention to negative signals. A drive to keep even trivial facts in view and to anticipate even unlikely possibilities, so that a situation never seems clear enough, which further increases constant anxiety. The inability to separate background from signal, with the background taking on emotional weight, weakens concentration and leads to doubt and hesitation when a decision is needed, and to anxiety and fear about the consequences of one's actions. Since every new signal is perceived as a threat, the person sticks to tried and tested ways of working.\nIn their work they are driven mainly not by a need to succeed but by a wish to avoid failure, and their behaviour is shaped by fear of bringing danger on themselves through a wrong move. This fear limits their behaviour, especially where success is not guaranteed. Where they do have to act, they try to control the quality of their work by setting a high internal standard against which actions and results are measured. Others describe them as conscientious, thorough in their duties, reserved and indecisive.\nIn a clinical context: a tendency towards obsessive worry, tension and indecision, and low resistance to stress. Stressful situations are those where factors change quickly and that are disorderly and can't be planned. Decompensation is accompanied by obsessive fears and rituals.",
+  "Отсутствие шизоидных черт характера (эмоциональной холодности и отчужденности).": "No schizoid character traits (emotional coldness and detachment).",
+  "Показатели по шкале шизоидности в норме": "Schizoid scale within the normal range",
+  "Высокие результаты по шкале \"Sc\" говорят о возможности:\nШизоидный тип: формируется в тех случаях, когда даже незначительные фрустрации ведут к возникновению стойких и длительных отрицательных эмоций, а компенсация достигается путем ухода из окружающей среды во внутренний мир. Эмоциональная холодность, своебразие восприятия и суждений, необычность мыслей и поступков, избирательность или поверхностность контактов.\nОриентировка на внутренние критерии, утрата способности к интуитивному пониманию окружающих, к проигрыванию их ролей и в связи с этим нарушение адекватного эмоционального реагирования. Для личности трудно, а порой невозможно взглянуть на себя со стороны и включить себя в окружающий мир. Поведение часто эксцентрично, лишенное эмоциональной окраски или надменное. Хотя отрицательные сигналы и не доходят до личности, но если сигнал дошел, то он неожиданно вызывает большую ранимость. Поскольку в силу неудовлетворенности и ранимости четко сформированное представление о социальной ситуации у этих лиц часто оказывается источником напряженности, длительных и интенсивных отрицательных эмоций, они избегают ясных и четких формулировок и у них отсутствует четкое представление о том, как именно они должны вести себя в той или иной ситуации или чего именно ждут от них окружающие.\nХотя высказывания таких личностей логичны и правильно построены грамматически, у окружающих они могут создать впечатление двусмысленности или недостаточной понятности. Причина может скрываться в том, что личность теряет контроль над понятийностью в результате нарушений социальной коммуникации. Однако личность весьма усиленно проявляет себя в областях знаний, где используется символика (например, математика). Затруднение социализации все больше может усилить ощущение внутренней напряженности, отсюда усиливающиеся затруднения в реальной оценке ситуации и общей картины мира. Поэтому их активная деятельность обычно протекает вне ситуации, поскольку эти лица нередко ощущают свою отчужденность и непонятность, неспособность стать действительным членом группы, к которой они принадлежат формально. Как следствие этого - амбивалентность в отношениях: ожидание внимания со стороны окружающих и боязнь холодности с их стороны. Они проявляют то чрезмерное дружелюбие, то непонятную враждебность, причем чрезмерно интенсивные контакты могут сменяться внезапными разрывами. Недостаточность контактов приводит также к аутистическому фантазированию и формированию аффективно насыщенных идей.": "A high Sc score suggests:\nSchizoid type: develops when even minor frustrations lead to lasting negative emotions, and compensation is achieved by withdrawing from the outside world into the inner world. Emotional coldness, unusual perception and judgements, unusual thoughts and actions, and selective or superficial relationships.\nOrientation towards internal criteria and loss of the ability to understand others intuitively and put oneself in their place, which disrupts appropriate emotional responses. It is hard, sometimes impossible, for the person to see themselves from outside and place themselves in the world around them. Behaviour is often eccentric, emotionally flat or arrogant. Although negative signals don't usually reach them, when one does it can hurt them unexpectedly deeply. Because a clearly defined picture of a social situation often becomes a source of tension and prolonged, intense negative emotions for them, they avoid clear, precise formulations and have no clear idea of how they should behave in a given situation or what others expect of them.\nAlthough what they say is logical and grammatically correct, others may find it ambiguous or hard to understand, perhaps because disrupted social communication weakens their control over meaning. However, they can excel in fields that use symbols (for example, mathematics). Growing difficulty with socialization can increase inner tension, making it ever harder to assess situations and the world realistically. Their activity therefore usually takes place outside the situation, as they often feel alienated and misunderstood and unable to become a real member of a group they formally belong to. The result is ambivalence in relationships: expecting attention from others while fearing their coldness. They alternate between excessive friendliness and puzzling hostility, and overly intense contact can give way to sudden breaks. Lack of contact also leads to autistic fantasizing and emotionally charged ideas.",
+  "Снижение активности и контактов с людьми.": "Reduced activity and contact with people.",
+  "Показатели по шкале гипомании в норме": "Hypomania scale within the normal range",
+  "Повышенное настроение, чрезмерная активность, большое количество и легкость возникновения планов и идей, которые часто не осуществляются в силу повышенной отвлекаемости и переоценки своих возможностей, разнообразии интересов, широким и поверхностным контактам.\nКлиника: дезадаптация поведения, чрезмерно и плохо направленная активность, эмоциональное возбуждение, раздражительность, обидчивость и недостаточная сдержанность. Деятельность в этих случаях может оказаться неэффективной либо в связи с тем, что она не доводится до конца, из-за переключения внимания на другие объекты, либо в связи с тем, что преувеличение своих возможностей позволяет планировать ее заведомо на нереальные сроки.\nДиагноз: маниакально-депрессивная реакция, мания;\nЖалобы, черты личности и симптомы: обстоятельность, плохое финансовое положение, бред величия, враждебность, гиперактивность, доминирование матери, религиозность, болтливость, алкоголизм, снижение трудоспособности;\nВедущие черты: гиперактивность, напыщенность, болтливость, в анамнезе приступы депрессии и мании. Склонность к ретроспективному анализу. Сверхактивный, много проектов, во время психоза речь и мышление становятся странными. Когда сердится, то может вспыхнуть и нагрубить. В фазах ремиссии отмечается приспособление к жизни.": "Elevated mood, excessive activity, many ideas and plans that come easily but are often not carried out because of distractibility and overestimating one's abilities, varied interests and broad but superficial contacts.\nIn a clinical context: maladaptive behaviour, excessive and poorly directed activity, emotional excitement, irritability, touchiness and poor self-restraint. Activity may be ineffective either because it is not finished as attention switches elsewhere, or because an inflated view of one's abilities leads to plans with unrealistic deadlines.\nDiagnosis: manic-depressive reaction, mania;\nComplaints, personality traits and symptoms: overly detailed, poor financial situation, delusions of grandeur, hostility, hyperactivity, a dominant mother, religiosity, talkativeness, alcoholism, reduced capacity for work;\nLeading traits: hyperactive, pompous, talkative, with a history of depressive and manic episodes. A tendency to look back and analyse. Overactive, with many projects; during psychosis, speech and thinking become strange. When angry, may flare up and be rude. In remission, adapts to life."
+ }
+}

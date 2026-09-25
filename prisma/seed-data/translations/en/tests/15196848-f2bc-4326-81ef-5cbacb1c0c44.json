@@ -1,0 +1,145 @@
+{
+ "name": "Hospital Anxiety and Depression Scale (HADS)",
+ "description": "Each statement has four possible answers. Choose the one that matches how you feel; points are then totalled for each part.",
+ "instruction": "Read each statement carefully and choose the answer that best describes how you have felt over the past week. Don't think too long about any statement: your first reaction is usually the most accurate.",
+ "questions": {
+  "1": {
+   "text": "I feel tense or wound up",
+   "choices": {
+    "1": "All the time",
+    "2": "Often",
+    "3": "From time to time, occasionally",
+    "4": "Not at all"
+   }
+  },
+  "2": {
+   "text": "I feel frightened, as if something awful is about to happen",
+   "choices": {
+    "1": "Definitely, and the fear is very strong",
+    "2": "Yes, but the fear is not very strong",
+    "3": "Sometimes, but it doesn't worry me",
+    "4": "Not at all"
+   }
+  },
+  "3": {
+   "text": "Worrying thoughts go through my mind",
+   "choices": {
+    "1": "Constantly",
+    "2": "Most of the time",
+    "3": "From time to time, but not too often",
+    "4": "Only occasionally"
+   }
+  },
+  "4": {
+   "text": "I can sit at ease and feel relaxed",
+   "choices": {
+    "1": "Definitely",
+    "2": "Usually",
+    "3": "Only rarely",
+    "4": "Not at all"
+   }
+  },
+  "5": {
+   "text": "I feel inner tension or trembling",
+   "choices": {
+    "1": "Not at all",
+    "2": "Sometimes",
+    "3": "Often",
+    "4": "Very often"
+   }
+  },
+  "6": {
+   "text": "I feel restless, as if I have to be on the move",
+   "choices": {
+    "1": "Definitely",
+    "2": "Probably",
+    "3": "Only to some extent",
+    "4": "Not at all"
+   }
+  },
+  "7": {
+   "text": "I get sudden feelings of panic",
+   "choices": {
+    "1": "Very often",
+    "2": "Quite often",
+    "3": "Not very often",
+    "4": "Never"
+   }
+  },
+  "8": {
+   "text": "I still enjoy the things I used to enjoy",
+   "choices": {
+    "1": "Definitely",
+    "2": "Probably",
+    "3": "Only to a very small extent",
+    "4": "Not at all"
+   }
+  },
+  "9": {
+   "text": "I can laugh and see the funny side of things",
+   "choices": {
+    "1": "Definitely",
+    "2": "Probably",
+    "3": "Only to a very small extent",
+    "4": "Not at all"
+   }
+  },
+  "10": {
+   "text": "I feel cheerful",
+   "choices": {
+    "1": "Not at all",
+    "2": "Very rarely",
+    "3": "Sometimes",
+    "4": "Nearly all the time"
+   }
+  },
+  "11": {
+   "text": "I feel as if I am slowed down",
+   "choices": {
+    "1": "Nearly all the time",
+    "2": "Often",
+    "3": "Sometimes",
+    "4": "Not at all"
+   }
+  },
+  "12": {
+   "text": "I have lost interest in my appearance",
+   "choices": {
+    "1": "Definitely",
+    "2": "I don't give it as much time as I should",
+    "3": "Perhaps I give it a little less time than before",
+    "4": "I take care of myself just as before"
+   }
+  },
+  "13": {
+   "text": "I believe my activities and interests can bring me satisfaction",
+   "choices": {
+    "1": "Just as much as usual",
+    "2": "Yes, but not as much as before",
+    "3": "Much less than usual",
+    "4": "Not at all"
+   }
+  },
+  "14": {
+   "text": "I can enjoy a good book, radio or TV programme",
+   "choices": {
+    "1": "Often",
+    "2": "Sometimes",
+    "3": "Rarely",
+    "4": "Very rarely"
+   }
+  }
+ },
+ "scales": {
+  "1": "Anxiety scale",
+  "2": "Depression scale"
+ },
+ "summaries": {
+  "Отсутствуют достоверно выраженные симптомы тревоги": "No significant symptoms of anxiety",
+  "Субклинически выраженная тревога": "Subclinical anxiety",
+  "Клинически выраженная тревога": "Clinical anxiety",
+  "Отсутствуют достоверно выраженные симптомы депрессии": "No significant symptoms of depression",
+  "Субклинически выраженная депрессия": "Subclinical depression",
+  "Клинически выраженная депрессия": "Clinical depression"
+ }
+}

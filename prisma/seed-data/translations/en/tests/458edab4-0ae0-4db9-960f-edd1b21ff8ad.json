@@ -1,0 +1,700 @@
+{
+ "name": "Aggression Forms and Indicators (Buss–Durkee)",
+ "questions": {
+  "1": {
+   "text": "At times I can't control the urge to harm someone.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "2": {
+   "text": "Sometimes I gossip about people I don't like.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "3": {
+   "text": "I get irritated easily, but I calm down easily too.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "4": {
+   "text": "If I'm not asked nicely, I won't do what I'm asked.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "5": {
+   "text": "I don't always get what I'm entitled to.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "6": {
+   "text": "I know people talk about me behind my back.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "7": {
+   "text": "If I disapprove of what others do, I let them feel it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "8": {
+   "text": "If I happen to deceive someone, I feel remorse.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "9": {
+   "text": "I don't think I could hit anyone.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "10": {
+   "text": "I never get so irritated that I throw things around.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "11": {
+   "text": "I am always tolerant of other people's shortcomings.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "12": {
+   "text": "When I don't like a rule, I feel like breaking it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "13": {
+   "text": "Others almost always know how to take advantage of a favourable situation.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "14": {
+   "text": "I'm wary of people who are friendlier to me than I expect.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "15": {
+   "text": "I often disagree with people.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "16": {
+   "text": "Sometimes thoughts come to mind that I'm ashamed of.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "17": {
+   "text": "If someone hits me, I won't hit back.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "18": {
+   "text": "When irritated, I slam doors.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "19": {
+   "text": "I am more irritable than I seem.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "20": {
+   "text": "If someone acts like they are the boss, I do the opposite of what they want.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "21": {
+   "text": "My lot in life upsets me a little.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "22": {
+   "text": "I think many people don't like me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "23": {
+   "text": "I can't keep from arguing when people disagree with me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "24": {
+   "text": "People who shirk work should feel guilty.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "25": {
+   "text": "Anyone who insults me or my family is asking for a fight.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "26": {
+   "text": "I'm not capable of crude jokes.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "27": {
+   "text": "I'm filled with rage when people make fun of me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "28": {
+   "text": "When people act like they are the boss, I do everything to cut them down to size.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "29": {
+   "text": "Almost every week I see someone I don't like.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "30": {
+   "text": "Quite a lot of people envy me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "31": {
+   "text": "I demand that people respect my rights.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "32": {
+   "text": "It upsets me that I do so little for my parents.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "33": {
+   "text": "People who constantly pester you deserve to be put in their place.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "34": {
+   "text": "Sometimes I'm sullen out of anger.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "35": {
+   "text": "If I'm treated worse than I deserve, I don't get upset.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "36": {
+   "text": "If someone tries to provoke me, I ignore them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "37": {
+   "text": "Although I don't show it, envy sometimes gnaws at me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "38": {
+   "text": "Sometimes I feel that people are laughing at me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "39": {
+   "text": "Even when I'm angry, I don't use strong language.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "40": {
+   "text": "I wish my sins were forgiven.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "41": {
+   "text": "I rarely hit back, even if someone hits me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "42": {
+   "text": "I feel hurt when things don't go my way.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "43": {
+   "text": "Sometimes people irritate me just by being there.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "44": {
+   "text": "There is no one I truly hate.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "45": {
+   "text": "My principle is: \"Never trust strangers.\"",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "46": {
+   "text": "If someone irritates me, I'm ready to tell them exactly what I think of them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "47": {
+   "text": "I do a lot of things I later regret.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "48": {
+   "text": "If I get angry, I could hit someone.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "49": {
+   "text": "I haven't had outbursts of anger since I was ten.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "50": {
+   "text": "I often feel like a powder keg ready to explode.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "51": {
+   "text": "If people knew how I feel, they would think I'm hard to get along with.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "52": {
+   "text": "I always wonder what hidden reasons make people do something nice for me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "53": {
+   "text": "When people shout at me, I shout back.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "54": {
+   "text": "Failures upset me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "55": {
+   "text": "I get into fights no more and no less often than others.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "56": {
+   "text": "I can remember times when I was so angry that I grabbed the nearest thing and broke it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "57": {
+   "text": "Sometimes I feel ready to start a fight.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "58": {
+   "text": "Sometimes I feel that life treats me unfairly.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "59": {
+   "text": "I used to think most people tell the truth, but now I don't believe it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "60": {
+   "text": "I swear only when I'm angry.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "61": {
+   "text": "When I do something wrong, my conscience torments me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "62": {
+   "text": "If I have to use physical force to defend my rights, I use it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "63": {
+   "text": "Sometimes I express my anger by banging on the table.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "64": {
+   "text": "I can be rude to people I don't like.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "65": {
+   "text": "I have no enemies who would want to harm me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "66": {
+   "text": "I can't put someone in their place, even when they deserve it.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "67": {
+   "text": "I often think I'm living my life the wrong way.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "68": {
+   "text": "I know people who could drive me to a fight.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "69": {
+   "text": "I don't get upset over little things.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "70": {
+   "text": "It rarely occurs to me that people are afraid to anger or offend me.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "71": {
+   "text": "I often threaten people without meaning to carry out the threats.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "72": {
+   "text": "Lately I've become a bore.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "73": {
+   "text": "I often raise my voice in an argument.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "74": {
+   "text": "I try to hide my dislike of people.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  },
+  "75": {
+   "text": "I'd rather agree with something than argue.",
+   "choices": {
+    "1": "Yes",
+    "2": "Probably yes",
+    "3": "Probably not",
+    "4": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Physical aggression",
+  "2": "Verbal aggression",
+  "3": "Indirect aggression",
+  "4": "Negativism",
+  "5": "Irritability",
+  "6": "Suspicion",
+  "7": "Resentment",
+  "8": "Guilt",
+  "9": "Aggression index",
+  "10": "Hostility index"
+ },
+ "summaries": {
+  "Показатели по шкале индекса агрессивности ниже нормы": "Aggression index below the normal range",
+  "Показатели по шкале индекса агрессивности в норме": "Aggression index within the normal range",
+  "Показатели по шкале индекса агрессивности выше нормы": "Aggression index above the normal range",
+  "Показатели по шкале индекса враждебности ниже нормы": "Hostility index below the normal range",
+  "Показатели по шкале индекса враждебности в норме": "Hostility index within the normal range",
+  "Показатели по шкале индекса враждебности выше нормы": "Hostility index above the normal range"
+ }
+}

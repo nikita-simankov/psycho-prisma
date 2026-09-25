@@ -1,0 +1,650 @@
+{
+ "name": "Character Accentuation Inventory (Leonhard–Schmieschek)",
+ "description": "The questionnaire has 10 scales and 88 questions about different sides of your personality. Answer \"Yes\" if you agree and \"No\" if you don't. Answer quickly without thinking too long; there are no right or wrong answers.",
+ "instruction": "You will see statements about your character. Answer without thinking too long. There are only two possible answers, \"Yes\" or \"No\"; press the one that fits.",
+ "questions": {
+  "1": {
+   "text": "Are you usually calm and cheerful?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "Do you take offence or get upset easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "Do you cry easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "Do you check your work for mistakes many times?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "As a child, were you as strong as others your age?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "Does your mood often swing from happy to sad and back?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "Do you like being in charge in a game?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "Are there days when you are angry at everything for no reason?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "Are you a serious person?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "Do you always try to carry out every task conscientiously?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "Are you enterprising?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "Do you quickly forget it when you have hurt someone?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Do you consider yourself kind and able to sympathize?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "After posting a letter, do you check with your hand that it hasn't got stuck in the slot?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Do you always try to be counted among the best employees?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "As a small child, were you afraid of thunderstorms or dogs?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "Do people around you think you are too diligent and tidy?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "Does your mood depend on outside circumstances?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "Would you say most of the people you know like you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "Do you ever feel uneasy at heart?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "Are you usually a little sad?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "When grieving, have you ever sobbed?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "Is it hard for you to stay in one place for long?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "Do you stand up for your rights when you are treated unfairly?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "Could you kill a chicken or a sheep?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "Does it bother you when a curtain or tablecloth hangs unevenly?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "As a small child, were you afraid of staying home alone?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "Do you ever feel happy or sad for no reason?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "Are you one of the best employees in your team?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "Do you often have fun and fool around?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "Do you get angry easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "Do you sometimes feel very happy?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "Are you good at entertaining people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "Can you tell someone directly everything you think of them?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "Are you afraid of blood?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "Do you like work with a high degree of personal responsibility?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "Do you stand up for people who have been treated unfairly?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "Do you dislike walking into an empty, dark room?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "Do you prefer slow, precise work to fast, less precise work?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "Do you make friends easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "Did you enjoy performing at school events?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "Have you ever run away from home?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "Have you ever been so upset by a quarrel with classmates or teachers that you couldn't go to school?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "Does life seem hard to you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "Can you laugh at yourself even when things go wrong?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "Do you try to make up after a quarrel even if it wasn't your fault?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "Do you like animals?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "48": {
+   "text": "After leaving home, have you ever had to go back to check that nothing was wrong?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "49": {
+   "text": "Do you sometimes feel that something is bound to happen to you or your family?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "Does your mood depend on the weather?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "51": {
+   "text": "Is it hard for you to speak in front of a large audience?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "52": {
+   "text": "Could you hit someone who insulted you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "53": {
+   "text": "Do you like being around people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "54": {
+   "text": "If something doesn't work out, can you fall into despair?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "55": {
+   "text": "Can you organize work?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "56": {
+   "text": "Do you keep working towards a goal even when you meet obstacles?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "57": {
+   "text": "Have you ever cried while watching a film or reading a sad book?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "58": {
+   "text": "Do you ever find it hard to fall asleep because of worries?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "59": {
+   "text": "At school, did you whisper answers to others or let them copy?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "60": {
+   "text": "Are you afraid to walk alone down a dark street in the evening?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "61": {
+   "text": "Do you make sure everything is in its place?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "62": {
+   "text": "Do you ever go to bed in a good mood and wake up in a bad one?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "63": {
+   "text": "Do you get used to new situations easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "64": {
+   "text": "Do you get headaches?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "65": {
+   "text": "Do you laugh often?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "66": {
+   "text": "If you don't respect someone, can you behave so that they don't notice?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "67": {
+   "text": "Can you get lots of different things done in one day?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "68": {
+   "text": "Are people often unfair to you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "69": {
+   "text": "Do you love nature?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "70": {
+   "text": "When leaving home or going to bed, do you check that the door is locked and the lights are off?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "71": {
+   "text": "Do you consider yourself fearful?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "72": {
+   "text": "Does your mood change after drinking alcohol?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "73": {
+   "text": "At school, did you enjoy the drama club and reciting poems on stage?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "74": {
+   "text": "Do you ever fall into a gloomy mood for no particular reason, when you don't want to talk to anyone?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "75": {
+   "text": "Do you ever think about the future with sadness?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "76": {
+   "text": "Do you have sudden shifts from joy to melancholy?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "77": {
+   "text": "Are you good at entertaining guests?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "78": {
+   "text": "Do you stay angry or hurt for a long time?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "79": {
+   "text": "Are you deeply affected when your friends suffer a loss?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "80": {
+   "text": "Would you rewrite a whole page because of one mistake or smudge?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "81": {
+   "text": "Do you consider yourself distrustful?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "82": {
+   "text": "Do you often have frightening dreams?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "83": {
+   "text": "Have you ever felt the urge to jump out of a window or throw yourself under a car?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "84": {
+   "text": "Do you feel more cheerful when everyone around you is having fun?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "85": {
+   "text": "When you have problems, can you put them out of your mind for a while instead of thinking about them all the time?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "86": {
+   "text": "Do you do things that surprise even yourself?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "87": {
+   "text": "Are you usually a person of few words, quiet?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "88": {
+   "text": "When acting in a play, could you get so into the role that you forget who you are?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Hyperthymic",
+  "2": "Rigid (stuck)",
+  "3": "Emotive",
+  "4": "Pedantic",
+  "5": "Anxious",
+  "6": "Cyclothymic",
+  "7": "Demonstrative",
+  "8": "Excitable",
+  "9": "Dysthymic",
+  "10": "Exalted"
+ },
+ "summaries": {
+  "Отсутствуют признаки акцентуации": "No signs of accentuation",
+  "Имеются признаки акцентуации": "Signs of accentuation present",
+  "Имеется тенденция к акцентуации": "Tendency towards accentuation",
+  "Люди, склонные к повышенному настроению, оптимисты, быстро переключаются с одного дела на другое, не доводят начатого до конца, недисциплинированные, легко попадают под влияние неблагополучных компаний. Подростки склонны к приключениям, романтике. Не терпят власти над собой, но любят, когда их опекают. Тенденция к доминированию, лидированию. Высокие оценки говорят о постоянном повышенном фоне настроения в сочетании с жаждой деятельности, высокой активностью, предприимчивости. В патологии — невроз навязчивых идей": "People with an elevated mood: optimistic, switch quickly from one task to another and often leave things unfinished, undisciplined, easily influenced by the wrong crowd. As teenagers they seek adventure and romance. They dislike being controlled but like being looked after. Tend to dominate and lead. High scores indicate a constantly elevated mood combined with a thirst for activity, high energy and enterprise. In pathology: obsessive neurosis.",
+  "Склонность к «застреванию аффекта» со склонностью к формированию сверхценных идей, к бредовым реакциям. Люди педантичные, злопамятные, долго помнят обиды, сердятся, обижаются. Нередко на этой почве могут появиться навязчивые идеи. Сильно одержимы одной идеей. Слишком устремленные, «упертые» в одно, зашкаленные. В эмоциональном отношении ригидны. Иногда могут давать аффективные вспышки, могут проявлять агрессию. В патологии — паранояльный психопат.": "Tendency for emotions to 'get stuck', with a tendency to form overvalued ideas and delusional reactions. Such people are pedantic and hold grudges: they remember offences for a long time and stay angry and hurt. Obsessive ideas can develop on this basis. Strongly driven by a single idea, overly single-minded and stubborn. Emotionally rigid. Occasional emotional outbursts and aggression are possible. In pathology: paranoid psychopathy.",
+  "Аффектно лабильные (неустойчивые). Люди, у которых быстро и резко меняется настроение по незначительному для окружающих поводу. От настроения зависит все — и работоспособность, и самочувствие и т. д. Тонко организована эмоциональная сфера; способны глубоко чувствовать и переживать. Склонны к добрым отношениям с окружающими. В любви ранимы как никто. Не против того, чтобы их опекали, заботились. Лицам этого типа свойственен большой диапазон эмоциональных состояний, они легко приходят в восторг от радостных событий и в полное отчаяние от печальных.": "Emotionally labile (unstable). Their mood changes quickly and sharply for reasons others find trivial. Everything depends on mood, including capacity for work and well-being. A finely tuned emotional life; able to feel and experience deeply. Inclined to warm relationships with others. Extremely vulnerable in love. Happy to be looked after and cared for. They have a wide emotional range: easily delighted by happy events and plunged into despair by sad ones.",
+  "Преобладание черт ригидности и педантизма. Люди ригидны, им трудно переключаться с одной эмоции на другую. Любят, чтобы все было на своих местах, чтобы люди четко оформляли свои мысли, — крайний педантизм. Периоды злобно-тоскливого настроения, все их раздражает. В патологии — эпилептоидная психопатия. Могут проявлять агрессию (долго помнят и выливают). Высокие оценки говорят о ригидности, инертности психических процессов, о долгом переживании травмирующих событий.": "Rigidity and pedantry predominate. These people are inflexible and find it hard to switch from one emotion to another. They like everything in its place and want others to express their thoughts precisely: extreme pedantry. Periods of irritable, gloomy mood when everything annoys them. In pathology: epileptoid psychopathy. May show aggression (hold on to it for a long time, then let it out). High scores indicate rigid, slow mental processes and prolonged reactions to traumatic events.",
+  "Люди меланхолического склада с очень высоким уровнем конституционной тревожности, не уверены в себе. Недооценивают, преуменьшают свои способности. Застенчивы, пугаются ответственности. Основная черта - склонность к страхам, повышенная робость и пугливость.": "People of a melancholic disposition with a very high level of constitutional anxiety and low self-confidence. They underestimate and play down their abilities. Shy and afraid of responsibility. The main trait is a tendency to fears, heightened timidity and fearfulness.",
+  "Резкие перепады настроения. Хорошее настроение коротко, плохое длительно. При депрессии ведут себя как тревожные, быстро утомляются, снижается творческая активность. Людям с высокими оценками по этой шкале соответствует смена гипертимических и дистимических фаз (при хорошем настроении как гипертивные).": "Sharp mood swings. Good moods are short, bad ones long. When depressed they behave like anxious types, tire quickly and lose creative energy. High scores on this scale correspond to alternating hyperthymic and dysthymic phases (hyperthymic when in a good mood).",
+  "В патологии — психопатия истерического типа. Люди, у которых сильно выражен эгоцентризм, стремление быть постоянно в центре внимания («пусть ненавидят, лишь бы не были равнодушными»). Много таких людей среди артистов. Если нет способностей, чтобы выделиться, они привлекают внимание антисоциальными поступками. Патологическая лживость - чтобы приукрасить свою особу. Склонны носить яркую, экстравагантную одежду - могут быть определены чисто внешне. Высокие оценки по этой шкале говорят о повышенной способности к вытеснению, демонстративности поведения. ": "In pathology: hysterical psychopathy. Marked egocentrism and a desire to always be the centre of attention (\"better hated than ignored\"). Many such people are performers. Without the talent to stand out, they may attract attention through antisocial behaviour. Pathological lying to embellish themselves. Tend to wear bright, extravagant clothes and can often be recognized by appearance alone. High scores indicate a strong capacity for repression and demonstrative behaviour.",
+  "Склонность к повышенной импульсивной реактивности в сфере влечения. Таким людям свойственна повышенная импульсивность, ослабление контроля над влечениями и побуждениями. В патологии — эпилептоидная психопатия.": "Tendency towards heightened impulsive reactions in the sphere of drives. Such people are highly impulsive, with weakened control over drives and urges. In pathology: epileptoid psychopathy.",
+  "Склонность к расстройствам настроения. Противоположность гипертимности. Настроение пониженное, пессимизм, мрачный взгляд на вещи, утомляем. Быстро истощается в контактах и предпочитает одиночество. Характеризуется сниженным настроением, фиксацией на мрачных сторонах жизни, идеомоторной заторможенностью.": "Tendency towards mood disorders; the opposite of hyperthymia. Low mood, pessimism, a gloomy outlook, easily tired. Quickly exhausted by social contact and prefers solitude. Characterized by low mood, dwelling on the dark side of life and slowed thinking and movement.",
+  "Склонность к аффективной экзальтации (близко к демонстративности, но там из-за характера). Здесь идут те же проявления, но на уровне эмоций (все идет от темперамента). Религиозный экстаз. Это чувствительные и впечатлительные люди, отличаются глубиной переживаний в области тонких эмоций в духовной жизни человека.": "Tendency towards emotional exaltation (close to demonstrativeness, but here it stems from temperament rather than character). The same displays, but at the level of emotions. Religious ecstasy. Sensitive and impressionable people who experience subtle, spiritual emotions deeply."
+ }
+}

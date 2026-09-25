@@ -41,8 +41,9 @@ model Session {
 }
 
 model Category {
-  id    String @id @default(uuid())
-  name  String
+  id           String @id @default(uuid())
+  name         String
+  translations String @default("{}") // see src/utils/content-translation.ts
   forms Form[]
   tests Test[]
 }
@@ -56,6 +57,8 @@ model Form {
   group     String  @default("")
   questions String
   adminOnly Boolean @default(false)
+
+  translations String @default("{}") // see src/utils/content-translation.ts
 
   categories Category[]
 
@@ -89,6 +92,8 @@ model Test {
   stanTable    String
   tGradeTable  String
   summaryTable String
+
+  translations String @default("{}") // see src/utils/content-translation.ts
 
   categories Category[]
 

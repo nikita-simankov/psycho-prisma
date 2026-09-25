@@ -1,0 +1,303 @@
+{
+ "name": "Communication and Organizational Tendencies (COT)",
+ "description": "The Communication and Organizational Tendencies (COT) questionnaire measures a person's inclination to communicate with others and to organize them. It was designed for early career guidance.",
+ "instruction": "Answer each question \"yes\" or \"no\". If you find it hard to choose, pick the answer that is closer to the truth.",
+ "questions": {
+  "1": {
+   "text": "Do you like getting to know people and making new acquaintances?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "Do you enjoy volunteering or community work?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "When a friend or colleague offends you, does the hurt stay with you for a long time?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "Do you always find it hard to get your bearings in a critical situation?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Do you have many friends you keep in regular touch with?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "Do you often manage to bring most of your colleagues around to your point of view?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "Is it true that you would rather spend time with books or some other activity than with people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "If obstacles get in the way of your plans, do you give them up easily?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "Do you easily make contact with people much older than you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "Do you like coming up with or organizing games and outings with friends?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "Is it hard for you to join a new group of people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "Do you often put off until later things that should be done today?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Do you find it easy to make contact and talk with strangers?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "Do you try to get your colleagues to act the way you think best?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Does it take you a long time to settle into a new team?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "Is it true that you never get into conflicts with others over broken promises or neglected duties?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "Do you take opportunities to meet and talk with someone new?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "When something important needs to be decided, do you often take the initiative?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "Do the people around you irritate you, so that you want to be alone?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "Is it true that you usually find it hard to get your bearings in unfamiliar surroundings?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "Do you like being around people all the time?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "Do you get irritated when you can't finish something you started?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "Do you find it hard to take the first step to get to know someone new?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "Is it true that frequent socializing with others tires you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "Do you like taking part in group games?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "Do you often take the initiative on matters that affect your colleagues?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "Is it true that you feel unsure of yourself among strangers?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "Is it true that you rarely try to prove you are right?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "Do you think it's easy for you to liven up a group you barely know?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "Do you take part in community activities at school or work?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "Do you try to keep your circle of acquaintances small?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "Is it true that you don't try to defend your opinion or decision if others don't accept it straight away?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "Do you feel at ease when you join an unfamiliar group?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "Are you happy to organize events for your colleagues?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "Is it true that you don't feel confident and calm when you have to speak to a large group?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "Are you often late for meetings or appointments?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "Is it true that you have many friends?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "Do you often find yourself the centre of attention among your colleagues?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "Do you often feel embarrassed or awkward talking to people you barely know?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "Is it true that you don't feel very confident in a large group of colleagues?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Communication tendencies",
+  "2": "Organizational tendencies"
+ },
+ "summaries": {
+  "Низкий уровень проявления коммуникатихвных склонностей": "Low communication tendencies",
+  "Уровень проявления коммуникатихвных склонностей ниже среднего": "Below-average communication tendencies",
+  "Средний уровень проявления коммуникатихвных склонностей": "Average communication tendencies",
+  "Высокий уровень проявления коммуникатихвных склонностей": "High communication tendencies",
+  "Очень высокий уровень проявления коммуникатихвных склонностей": "Very high communication tendencies",
+  "Низкий уровень проявления организаторских склонностей": "Low organizational tendencies",
+  "Уровень проявления организаторских склонностей склонностей ниже среднего": "Below-average organizational tendencies",
+  "Средний уровень проявления организаторских склонностей": "Average organizational tendencies",
+  "Высокий уровень проявления организаторских склонностей": "High organizational tendencies",
+  "Очень высокий уровень проявления организаторских склонностей": "Very high organizational tendencies"
+ }
+}

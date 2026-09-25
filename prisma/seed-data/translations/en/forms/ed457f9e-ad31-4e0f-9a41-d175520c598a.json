@@ -1,0 +1,185 @@
+{
+ "name": "Sentence Completion",
+ "questions": {
+  "1": {
+   "text": "I think my father rarely…"
+  },
+  "2": {
+   "text": "If everyone is against me, then…"
+  },
+  "3": {
+   "text": "I have always wanted…"
+  },
+  "4": {
+   "text": "If I held a management position…"
+  },
+  "5": {
+   "text": "The future seems to me…"
+  },
+  "6": {
+   "text": "My management…"
+  },
+  "7": {
+   "text": "I know it's silly, but I'm afraid of…"
+  },
+  "8": {
+   "text": "I think a true friend…"
+  },
+  "9": {
+   "text": "My appearance…"
+  },
+  "10": {
+   "text": "My ideal woman is…"
+  },
+  "11": {
+   "text": "What I dislike most about work is…"
+  },
+  "12": {
+   "text": "Compared with most other families, my family…"
+  },
+  "13": {
+   "text": "I work best with…"
+  },
+  "14": {
+   "text": "My mother…"
+  },
+  "15": {
+   "text": "I would do anything to forget…"
+  },
+  "16": {
+   "text": "If only my father wanted to…"
+  },
+  "17": {
+   "text": "I think I am capable enough to…"
+  },
+  "18": {
+   "text": "I could be very happy if…"
+  },
+  "19": {
+   "text": "When someone works under me…"
+  },
+  "20": {
+   "text": "I hope for…"
+  },
+  "21": {
+   "text": "At school my teachers…"
+  },
+  "22": {
+   "text": "Most of my friends don't know that I'm afraid of…"
+  },
+  "23": {
+   "text": "I don't like people who…"
+  },
+  "24": {
+   "text": "Once I…"
+  },
+  "25": {
+   "text": "I think most girls…"
+  },
+  "26": {
+   "text": "If my manager…"
+  },
+  "27": {
+   "text": "My family treats me like…"
+  },
+  "28": {
+   "text": "The people I work with…"
+  },
+  "29": {
+   "text": "My mother and I…"
+  },
+  "30": {
+   "text": "My biggest mistake was…"
+  },
+  "31": {
+   "text": "I wish my father…"
+  },
+  "32": {
+   "text": "My greatest weakness is that…"
+  },
+  "33": {
+   "text": "My secret ambition in life…"
+  },
+  "34": {
+   "text": "My subordinates…"
+  },
+  "35": {
+   "text": "The day will come when…"
+  },
+  "36": {
+   "text": "When my manager comes up to me…"
+  },
+  "37": {
+   "text": "I would like to stop being afraid of…"
+  },
+  "38": {
+   "text": "I like people most who…"
+  },
+  "39": {
+   "text": "Unfairness towards me…"
+  },
+  "40": {
+   "text": "I think most women…"
+  },
+  "41": {
+   "text": "About my work I think…"
+  },
+  "42": {
+   "text": "Some of my relatives don't like that I…"
+  },
+  "43": {
+   "text": "I like working with people who"
+  },
+  "44": {
+   "text": "I think most mothers…"
+  },
+  "45": {
+   "text": "When I was younger, I felt guilty if…"
+  },
+  "46": {
+   "text": "I think my father rarely…"
+  },
+  "47": {
+   "text": "When I start to get lucky, I…"
+  },
+  "48": {
+   "text": "What I would like most in life is…"
+  },
+  "49": {
+   "text": "When I give others tasks…"
+  },
+  "50": {
+   "text": "When I retire…"
+  },
+  "51": {
+   "text": "People whose superiority over me I acknowledge…"
+  },
+  "52": {
+   "text": "My fears have more than once made me…"
+  },
+  "53": {
+   "text": "I don't like it when my friends…"
+  },
+  "54": {
+   "text": "I really dislike it when women…"
+  },
+  "55": {
+   "text": "In a team I…"
+  },
+  "56": {
+   "text": "I think that in the organization where I work…"
+  },
+  "57": {
+   "text": "My relatives have always thought that I…"
+  },
+  "58": {
+   "text": "The people who work with me…"
+  },
+  "59": {
+   "text": "I love my mother, but…"
+  },
+  "60": {
+   "text": "The worst thing I have ever done is…"
+  }
+ }
+}

@@ -1,0 +1,1183 @@
+{
+ "name": "Multilevel Personality Questionnaire \"Adaptability\" (MLO-AM)",
+ "description": "The Multilevel Personality Questionnaire \"Adaptability\" (MLO-AM) was developed by A. G. Maklakov and S. V. Chermyanin. It assesses a person's capacity to adapt, taking into account social, psychological and some psychophysiological characteristics that reflect general features of neuropsychological and social development.",
+ "instruction": "You will be asked a series of questions to answer only \"yes\" or \"no\". The questions are about how you feel, how you behave and what your character is like. There are no \"right\" or \"wrong\" answers, so don't think too long or consult anyone: answer according to what best matches your state or your view of yourself.",
+ "questions": {
+  "1": {
+   "text": "I sometimes get angry.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "I usually wake up fresh and rested in the morning.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "I can work about as well now as I always could.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "Fate is definitely unfair to me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "I rarely have constipation.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "At times I have badly wanted to leave home.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "At times I have fits of laughing or crying.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "I feel that nobody understands me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "I think that if someone does me wrong, I should pay them back.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "Sometimes such bad thoughts come into my head that it's better not to tell anyone about them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "I find it hard to concentrate on a task or job.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "I have very strange and unusual experiences.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "I have never been in trouble because of my behaviour.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "As a child I went through a period of petty stealing.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Sometimes I want to break or smash everything around me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "There have been times when I couldn't do anything for days or even weeks because I couldn't make myself get down to work.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "My sleep is broken and restless.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "My family disapproves of the work I have chosen.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "There have been times when I didn't keep my promises.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "I often have headaches.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "Once a week or more often I suddenly feel hot all over for no apparent reason.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "It would be good if almost all laws were abolished.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "My health is about the same as that of most people I know (no worse).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "When I meet acquaintances or old school friends I haven't seen for a long time, I prefer to walk past unless they speak to me first.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "Most people who know me like me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "I am a sociable person.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "Sometimes I insist on my own way so much that people lose patience.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "Most of the time I feel low.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "It's hard for me now to hope that I'll achieve anything in life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "I have little self-confidence.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "Sometimes I don't tell the truth.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "I usually think life is worthwhile.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "I think most people would lie to get ahead at work.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "I'm happy to take part in meetings and other social events.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "I very rarely quarrel with my family.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "Sometimes I feel a strong urge to break the rules of decency or to harm someone.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "My hardest struggle is with myself.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "I very rarely (or almost never) have muscle cramps or twitching.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "I'm fairly indifferent to what happens to me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "Sometimes when I don't feel well, I get irritable.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "Most of the time I feel as if I've done something wrong or even bad.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "Some people like giving orders so much that I feel like doing the opposite, even when I know they are right.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "I often feel obliged to stand up for what I think is right.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "My speech is the same as always (no faster or slower, no hoarseness or slurring).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "I think my family life is as good as that of most people I know.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "It hurts me terribly when I'm criticized or scolded.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "Sometimes I feel that I simply have to hurt myself or someone else.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "48": {
+   "text": "My behaviour is largely shaped by the customs of the people around me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "49": {
+   "text": "As a child I had a group of friends who all stood up for each other.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "Sometimes I'm itching to start a fight with someone.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "51": {
+   "text": "I have talked about things I don't understand.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "52": {
+   "text": "I usually fall asleep calmly, without any troubling thoughts.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "53": {
+   "text": "I have felt well for the last few years.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "54": {
+   "text": "I have never had fits or seizures.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "55": {
+   "text": "My weight is stable at the moment (I'm neither losing nor gaining).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "56": {
+   "text": "I think I was often punished undeservedly.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "57": {
+   "text": "I cry easily.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "58": {
+   "text": "I don't get tired much.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "59": {
+   "text": "I would be fairly calm if someone in my family got into trouble for breaking the law.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "60": {
+   "text": "Something is wrong with my mind.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "61": {
+   "text": "I have to make a great effort to hide my shyness.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "62": {
+   "text": "I very rarely (or almost never) have dizzy spells.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "63": {
+   "text": "Sexual matters worry me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "64": {
+   "text": "I find it hard to keep up a conversation with people I've just met.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "65": {
+   "text": "When I try to do something, I often notice my hands are shaking.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "66": {
+   "text": "My hands are as skilful and nimble as ever.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "67": {
+   "text": "Most of the time I feel generally weak.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "68": {
+   "text": "Sometimes when I'm embarrassed I sweat a lot, and it annoys me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "69": {
+   "text": "I sometimes put off until tomorrow what I should do today.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "70": {
+   "text": "I think I am doomed.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "71": {
+   "text": "There have been times when I found it hard to resist stealing something from someone or somewhere, for example a shop.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "72": {
+   "text": "I have drunk too much alcohol.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "73": {
+   "text": "I often worry about something.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "74": {
+   "text": "I would like to be a member of several clubs or societies.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "75": {
+   "text": "I rarely get out of breath, and I don't have strong palpitations.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "76": {
+   "text": "All my life I have strictly followed principles based on a sense of duty.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "77": {
+   "text": "I have obstructed or opposed people simply on principle, not because the matter was really important.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "78": {
+   "text": "If there's no risk of a fine and no cars nearby, I may cross the street wherever I like rather than where I should.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "79": {
+   "text": "I have always been independent and free from my family's control.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "80": {
+   "text": "I have had periods of such strong anxiety that I couldn't even sit still.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "81": {
+   "text": "My actions have often been misinterpreted.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "82": {
+   "text": "My parents and/or other family members find fault with me more than they should.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "83": {
+   "text": "Someone is controlling my thoughts.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "84": {
+   "text": "People are indifferent to what happens to you.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "85": {
+   "text": "I like being in a group where everyone teases each other.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "86": {
+   "text": "At school I learned more slowly than others.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "87": {
+   "text": "I am quite self-confident.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "88": {
+   "text": "Trusting no one is the safest option.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "89": {
+   "text": "Once a week or more often I get very excited and agitated.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "90": {
+   "text": "When I'm in company, I find it hard to think of something to talk about.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "91": {
+   "text": "I can easily make people afraid of me, and sometimes I do it for fun.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "92": {
+   "text": "When I play a game, I prefer to win.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "93": {
+   "text": "It's silly to condemn someone who cheats a person who lets themselves be cheated.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "94": {
+   "text": "Someone is trying to influence my thoughts.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "95": {
+   "text": "I drink an unusually large amount of water every day.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "96": {
+   "text": "I'm happiest when I'm alone.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "97": {
+   "text": "I'm outraged every time I learn that a criminal has gone unpunished for some reason.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "98": {
+   "text": "Once or more in my life I have felt that someone was using hypnosis to make me do things.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "99": {
+   "text": "I very rarely start a conversation first.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "100": {
+   "text": "I have never been in trouble with the law.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "101": {
+   "text": "I like having important people among my acquaintances; it seems to give me more weight in my own eyes.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "102": {
+   "text": "Sometimes, for no reason, I suddenly have periods of unusual cheerfulness.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "103": {
+   "text": "Life almost always involves stress for me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "104": {
+   "text": "At school I found it very hard to speak in front of the class.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "105": {
+   "text": "People show me as much sympathy and warmth as I deserve.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "106": {
+   "text": "I refuse to play some games because I'm not good at them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "107": {
+   "text": "I think I make friends as easily as others do.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "108": {
+   "text": "I don't like having people around me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "109": {
+   "text": "As a rule, I'm unlucky.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "110": {
+   "text": "I'm easily embarrassed.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "111": {
+   "text": "Some members of my family have done things that frightened me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "112": {
+   "text": "Sometimes I have fits of laughing or crying that I can't control.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "113": {
+   "text": "I find it hard to start a new task or project.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "114": {
+   "text": "If people weren't against me, I would have achieved much more in life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "115": {
+   "text": "I feel that nobody understands me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "116": {
+   "text": "There are people I know whom I don't like.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "117": {
+   "text": "I lose patience with people easily.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "118": {
+   "text": "I often feel anxious in new surroundings.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "119": {
+   "text": "I often wish I were dead.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "120": {
+   "text": "Sometimes I'm so excited that I find it hard to fall asleep.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "121": {
+   "text": "I often cross the street to avoid meeting someone I've spotted.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "122": {
+   "text": "I have given up on something I started because I was afraid I couldn't cope.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "123": {
+   "text": "Almost every day something happens that frightens me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "124": {
+   "text": "Even among people I usually feel lonely.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "125": {
+   "text": "I'm convinced there is only one correct understanding of the meaning of life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "126": {
+   "text": "When visiting, I more often sit to one side or talk to one person than join in the general fun.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "127": {
+   "text": "I'm often told I'm quick-tempered.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "128": {
+   "text": "I sometimes gossip with someone.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "129": {
+   "text": "It often upsets me when I try to warn someone against a mistake and they misunderstand me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "130": {
+   "text": "I often ask people for advice.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "131": {
+   "text": "Often, even when things are going well for me, I feel that nothing matters.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "132": {
+   "text": "It's quite hard to make me lose my temper.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "133": {
+   "text": "When I try to point out people's mistakes or help them, they often misunderstand me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "134": {
+   "text": "I'm usually calm and not easily thrown off balance.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "135": {
+   "text": "I deserve severe punishment for what I have done.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "136": {
+   "text": "I tend to take my disappointments so hard that I can't stop thinking about them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "137": {
+   "text": "At times I feel I'm good for nothing.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "138": {
+   "text": "When discussing some issues, I have agreed with others without really thinking.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "139": {
+   "text": "All kinds of misfortunes worry me a great deal.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "140": {
+   "text": "My beliefs and views are unshakeable.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "141": {
+   "text": "I think it's fine to look for a loophole in the law without breaking it.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "142": {
+   "text": "There are people I dislike so much that deep down I'm glad when they get told off for something.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "143": {
+   "text": "There have been times when I lost sleep because of worry.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "144": {
+   "text": "I go to all sorts of social events because it lets me be among people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "145": {
+   "text": "People can be forgiven for breaking rules they think are unreasonable.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "146": {
+   "text": "I have bad habits so strong that fighting them is simply pointless.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "147": {
+   "text": "I'm happy to meet new people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "148": {
+   "text": "An indecent or even obscene joke sometimes makes me laugh.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "149": {
+   "text": "If things go badly for me, I immediately want to give up.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "150": {
+   "text": "I prefer to act according to my own plans rather than follow other people's instructions.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "151": {
+   "text": "I like people around me to know my point of view.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "152": {
+   "text": "If I think badly of someone or even despise them, I make little effort to hide it from them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "153": {
+   "text": "I am nervous and easily excited.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "154": {
+   "text": "Everything I do turns out badly, not the way it should.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "155": {
+   "text": "The future seems hopeless to me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "156": {
+   "text": "People can quite easily change my mind, even when it seemed unshakeable before.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "157": {
+   "text": "Several times a week I feel that something terrible is going to happen.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "158": {
+   "text": "Most of the time I feel tired.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "159": {
+   "text": "I like going to parties and spending time in company.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "160": {
+   "text": "I try to avoid conflicts and awkward situations.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "161": {
+   "text": "It irritates me a lot that I forget where I put things.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "162": {
+   "text": "I like adventure stories more than love stories.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "163": {
+   "text": "If I want to do something but others think it's not worth doing, I can easily give up the idea.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "164": {
+   "text": "It's silly to condemn people who try to get everything they can out of life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "165": {
+   "text": "I don't care what others think of me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Validity (V)",
+  "2": "Personal adaptive potential (PAP)",
+  "3": "Neuropsychological stability (NPS)",
+  "4": "Communication skills (CS)",
+  "5": "Moral normativity (MN)"
+ },
+ "summaries": {
+  "Группа низкой адаптации. Лица этой группы обладают  признаками явных акцентуаций характера и некоторыми признаками психопатий, а психическое состояние можно охарактеризовать,  как пограничное. Возможны нервно-психические срывы. Лица этой  группы обладают низкой нервно-психической устойчивостью, конфликтны, могут допускать асоциальные поступки. Требуют наблюдения психолога и врача (невропатолога, психиатра).": "Low adaptation group. People in this group show clear character accentuations and some signs of psychopathy; their mental state can be described as borderline. Breakdowns are possible. They have low neuropsychological stability, are prone to conflict and may act antisocially. They need to be monitored by a psychologist and a doctor (neurologist, psychiatrist).",
+  "Группа удовлетворительной адаптации. Большинство лиц этой группы обладают признаками различных акцентуаций, которые в привычных условиях частично компенсированы и могут проявляться при смене деятельности. Поэтому успех адаптации зависит от внешних условий  среды. Эти лица, как правило, обладают невысокой  эмоциональной устойчивостью. Возможны асоциальные срывы, проявление агрессии и конфликтности. Лица этой группы требуют индивидуального подхода, постоянного наблюдения, коррекционных мероприятий.": "Satisfactory adaptation group. Most people in this group show signs of various accentuations that are partly compensated in familiar conditions and may surface when their activity changes, so their success in adapting depends on external conditions. As a rule they have fairly low emotional stability. Antisocial breakdowns, aggression and conflict are possible. They need an individual approach, ongoing monitoring and support.",
+  "Группы высокой и нормальной адаптации. Лица этих    групп достаточно легко адаптируются к новым условиям деятельности, быстро входят в новый коллектив, достаточно легко и адекватно ориентируются в ситуации,  быстро вырабатывают стратегию своего поведения. Как  правило, не конфликтны, обладают высокой эмоциональной устойчивостью.": "High and normal adaptation groups. People in these groups adapt quite easily to new conditions, quickly fit into a new team, get their bearings in a situation easily and appropriately, and quickly work out how to act. As a rule they are not prone to conflict and have high emotional stability.",
+  "Низкий уровень поведенческой регуляции, определенная склонность к нервно-психическим срывам, отсутствие адекватности самооценки и реального восприятия действительности.": "Low behavioural self-regulation, some tendency towards breakdowns, inaccurate self-esteem and an unrealistic perception of reality.",
+  "Средний уровень нервно-психической усточивости": "Average neuropsychological stability",
+  "Высокий уровень нервно-психической устойчивости и по- веденческой регуляции, высокая адекватная самооценка и реальное восприятие действительности.": "High neuropsychological stability and behavioural self-regulation, high and accurate self-esteem and a realistic perception of reality.",
+  "Низкий уровень развития коммуникативных способностей, затруднение в построении контактов с  окружающими, проявление агрессивности, повышенная конфликтность.": "Poorly developed communication skills, difficulty building relationships with others, aggressiveness and a heightened tendency towards conflict.",
+  "Средний уровень развития коммуникативных способностей": "Average communication skills",
+  "Высокий уровень развития коммуникативных способностей, легко устанавливает контакты с коллегами, окружающими, не конфликтен.": "Well-developed communication skills; easily builds relationships with colleagues and others, not prone to conflict.",
+  "Не может адекватно оценить свое место и роль в коллективе, не стремится соблюдать общепринятые нормы поведения.": "Cannot accurately assess their place and role in the team and does not try to follow generally accepted norms of behaviour.",
+  "Показатели по шкале моральной нормативности в норме": "Moral normativity within the normal range",
+  "Реально оценивает свою роль в коллективе, ориентируется на соблюдение общепринятых норм поведения.": "Realistically assesses their role in the team and follows generally accepted norms of behaviour."
+ }
+}

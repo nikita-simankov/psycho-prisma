@@ -1,0 +1,379 @@
+{
+ "name": "State–Trait Anxiety Inventory (Spielberger–Khanin)",
+ "description": "The Spielberger–Khanin method measures anxiety separately as a personality trait and as a state linked to the current situation. It shows how strongly anxiety features in your personality.",
+ "instruction": "Read each statement carefully and choose the answer that best describes how you feel. Don't think too long about the questions; there are no right or wrong answers.",
+ "questions": {
+  "1": {
+   "text": "I feel calm",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "2": {
+   "text": "I feel safe",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "3": {
+   "text": "I am tense",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "4": {
+   "text": "I feel inwardly constrained",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "5": {
+   "text": "I feel at ease",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "6": {
+   "text": "I feel upset",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "7": {
+   "text": "I am worried about possible failures",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "8": {
+   "text": "I feel at peace",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "9": {
+   "text": "I feel anxious",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "10": {
+   "text": "I feel inner satisfaction",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "11": {
+   "text": "I feel self-confident",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "12": {
+   "text": "I feel nervous",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "13": {
+   "text": "I feel restless",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "14": {
+   "text": "I feel wound up",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "15": {
+   "text": "I don't feel constrained or tense",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "16": {
+   "text": "I feel content",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "17": {
+   "text": "I feel preoccupied",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "18": {
+   "text": "I feel over-excited and uneasy",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "19": {
+   "text": "I feel joyful",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "20": {
+   "text": "I feel pleasant",
+   "choices": {
+    "1": "No, not at all",
+    "2": "Somewhat",
+    "3": "Moderately so",
+    "4": "Very much so"
+   }
+  },
+  "21": {
+   "text": "I am often in high spirits",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "22": {
+   "text": "I get irritable",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "23": {
+   "text": "I get upset easily",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "24": {
+   "text": "I wish I could be as lucky as others",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "25": {
+   "text": "I take troubles hard and can't forget them for a long time",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "26": {
+   "text": "I feel a surge of energy and a desire to work",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "27": {
+   "text": "I am calm, cool and collected",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "28": {
+   "text": "Possible difficulties worry me",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "29": {
+   "text": "I worry too much over trifles",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "30": {
+   "text": "I am quite happy",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "31": {
+   "text": "I take everything to heart",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "32": {
+   "text": "I lack self-confidence",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "33": {
+   "text": "I feel defenceless",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "34": {
+   "text": "I try to avoid crises and difficulties",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "35": {
+   "text": "I get the blues",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "36": {
+   "text": "I feel content",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "37": {
+   "text": "All sorts of trifles distract and worry me",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "38": {
+   "text": "Sometimes I feel like a failure",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "39": {
+   "text": "I am a balanced person",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  },
+  "40": {
+   "text": "I get anxious when I think about my affairs and worries",
+   "choices": {
+    "1": "Never",
+    "2": "Almost never",
+    "3": "Often",
+    "4": "Almost always"
+   }
+  }
+ },
+ "scales": {
+  "1": "State anxiety",
+  "2": "Trait anxiety"
+ },
+ "summaries": {
+  "Низкий уровень ситуативной тревожности": "Low state anxiety",
+  "Умеренный уровень ситуативной тревожности": "Moderate state anxiety",
+  "Высокий уровень ситуативной тревожности": "High state anxiety",
+  "Низкий уровень личностной тревожности": "Low trait anxiety",
+  "Умеренный уровень личностной тревожности": "Moderate trait anxiety",
+  "Высокий уровень личностной тревожности": "High trait anxiety"
+ }
+}

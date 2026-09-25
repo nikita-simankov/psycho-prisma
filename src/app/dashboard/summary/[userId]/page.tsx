@@ -11,9 +11,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserAvatar from "@/components/ui/user-avatar";
 import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
+import { localizeResult } from "@/utils/content-translation";
 import { getSubmissionSummary, toScaleRows } from "@/utils/scoring";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import PrintButton from "../../components/print-button";
 import AdditionalNotes from "./additional-notes";
@@ -31,6 +32,7 @@ interface PathParams {
 export default async function UserSummaryPage({ params }: PathParams) {
   const t = await getTranslations("reports");
   const format = await getFormatter();
+  const locale = await getLocale();
   const [user, submissions, tests] = await Promise.all([
     findUserById(params.userId),
     findAllTestSubmissionsByUserId(params.userId),
@@ -56,7 +58,7 @@ export default async function UserSummaryPage({ params }: PathParams) {
         date: format.dateTime(submission.createdAt, { dateStyle: "medium", timeStyle: "short" }),
         questions: JSON.parse(test.questions) as TestQuestion[],
         responses: JSON.parse(submission.submission) as TestQuestionResponse[],
-        rows: toScaleRows(getSubmissionSummary(test, submission)),
+        rows: toScaleRows(localizeResult(getSubmissionSummary(test, submission), test, locale)),
       },
     ];
   });

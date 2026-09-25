@@ -1,0 +1,314 @@
+{
+ "name": "Analogies",
+ "description": "30 tasks that ask you to find logical links between words based on an example. The test assesses verbal (conceptual) reasoning.",
+ "instruction": "Each task shows an example pair of words that are linked in a particular way, for example \"pilot / sky\": a pilot's work is connected with the sky. Below it is another word and four possible answers. Choose the answer that relates to that word in the same way the example words relate to each other. For example, if \"pilot\" relates to \"sky\", then \"sailor\" relates to \"sea\" in the same way. If none of the answers fits, choose \"No correct answer\".",
+ "questions": {
+  "1": {
+   "text": "Example: run / stand. Find the analogy for \"shout\"",
+   "choices": {
+    "1": "Be silent",
+    "2": "Whisper",
+    "3": "Joke",
+    "4": "Call out",
+    "5": "No correct answer"
+   }
+  },
+  "2": {
+   "text": "Example: school / principal. Find the analogy for \"club\"",
+   "choices": {
+    "1": "Participant",
+    "2": "Visitor",
+    "3": "Member",
+    "4": "Chair",
+    "5": "No correct answer"
+   }
+  },
+  "3": {
+   "text": "Example: forest / tree. Find the analogy for \"meadow\"",
+   "choices": {
+    "1": "Bush",
+    "2": "Pasture",
+    "3": "Grass",
+    "4": "Hay"
+   }
+  },
+  "4": {
+   "text": "Example: dark / light. Find the analogy for \"wet\"",
+   "choices": {
+    "1": "Rainy",
+    "2": "Overcast",
+    "3": "Damp",
+    "4": "Dry",
+    "5": "No correct answer"
+   }
+  },
+  "5": {
+   "text": "Example: clock / time. Find the analogy for \"thermometer\"",
+   "choices": {
+    "1": "Mercury",
+    "2": "Temperature",
+    "3": "Warmth",
+    "4": "Instrument",
+    "5": "No correct answer"
+   }
+  },
+  "6": {
+   "text": "Example: search / find. Find the analogy for \"think over\"",
+   "choices": {
+    "1": "Memorize",
+    "2": "Investigate",
+    "3": "Recall",
+    "4": "Figure out",
+    "5": "No correct answer"
+   }
+  },
+  "7": {
+   "text": "Example: circle / sphere. Find the analogy for \"square\"",
+   "choices": {
+    "1": "Prism",
+    "2": "Cube",
+    "3": "Rectangle",
+    "4": "Volume",
+    "5": "No correct answer"
+   }
+  },
+  "8": {
+   "text": "Example: animals / goat. Find the analogy for \"food\"",
+   "choices": {
+    "1": "Foodstuff",
+    "2": "Food",
+    "3": "Bread",
+    "4": "Lunch",
+    "5": "No correct answer"
+   }
+  },
+  "9": {
+   "text": "Example: hunger / thinness. Find the analogy for \"labour\"",
+   "choices": {
+    "1": "Tiredness",
+    "2": "Effort",
+    "3": "Rest",
+    "4": "Lunch",
+    "5": "No correct answer"
+   }
+  },
+  "10": {
+   "text": "Example: action / success. Find the analogy for \"processing\"",
+   "choices": {
+    "1": "Goods",
+    "2": "Value",
+    "3": "Price",
+    "4": "Labour",
+    "5": "No correct answer"
+   }
+  },
+  "11": {
+   "text": "Example: Moon / Earth. Find the analogy for \"Earth\"",
+   "choices": {
+    "1": "Planet",
+    "2": "Star",
+    "3": "Mars",
+    "4": "Sun",
+    "5": "No correct answer"
+   }
+  },
+  "12": {
+   "text": "Example: car / engine. Find the analogy for \"yacht\"",
+   "choices": {
+    "1": "Keel",
+    "2": "Hull",
+    "3": "Mast",
+    "4": "Sail",
+    "5": "No correct answer"
+   }
+  },
+  "13": {
+   "text": "Example: novel / prologue. Find the analogy for \"opera\"",
+   "choices": {
+    "1": "Aria",
+    "2": "Overture",
+    "3": "Poster",
+    "4": "Libretto",
+    "5": "No correct answer"
+   }
+  },
+  "14": {
+   "text": "Example: spruce / tree. Find the analogy for \"table\"",
+   "choices": {
+    "1": "Furniture set",
+    "2": "Tablecloth",
+    "3": "Table",
+    "4": "Furniture",
+    "5": "No correct answer"
+   }
+  },
+  "15": {
+   "text": "Example: year / spring. Find the analogy for \"life\"",
+   "choices": {
+    "1": "Old age",
+    "2": "Youth",
+    "3": "Joy",
+    "4": "Young adulthood",
+    "5": "No correct answer"
+   }
+  },
+  "16": {
+   "text": "Example: tongue / bitter. Find the analogy for \"eye\"",
+   "choices": {
+    "1": "Sharp-sighted",
+    "2": "Bright",
+    "3": "Sight",
+    "4": "Glasses",
+    "5": "No correct answer"
+   }
+  },
+  "17": {
+   "text": "Example: mountain / pass. Find the analogy for \"river\"",
+   "choices": {
+    "1": "Boat",
+    "2": "Bank",
+    "3": "Bridge",
+    "4": "Ford",
+    "5": "No correct answer"
+   }
+  },
+  "18": {
+   "text": "Example: skin / touch. Find the analogy for \"eye\"",
+   "choices": {
+    "1": "Lighting",
+    "2": "Hearing",
+    "3": "Sight",
+    "4": "Glasses",
+    "5": "No correct answer"
+   }
+  },
+  "19": {
+   "text": "Example: lift / edge. Find the analogy for \"staircase\"",
+   "choices": {
+    "1": "Floor",
+    "2": "Flight",
+    "3": "Handrail",
+    "4": "Steps",
+    "5": "No correct answer"
+   }
+  },
+  "20": {
+   "text": "Example: deception / resentment. Find the analogy for \"joke\"",
+   "choices": {
+    "1": "Construction",
+    "2": "Surprise",
+    "3": "Anecdote",
+    "4": "Hearing",
+    "5": "No correct answer"
+   }
+  },
+  "21": {
+   "text": "Example: spruce / oak. Find the analogy for \"table\"",
+   "choices": {
+    "1": "Furniture",
+    "2": "Wardrobe",
+    "3": "Furniture set",
+    "4": "Vase",
+    "5": "No correct answer"
+   }
+  },
+  "22": {
+   "text": "Find the analogy for \"life\"",
+   "choices": {
+    "1": "Joy",
+    "2": "Study",
+    "3": "Youth",
+    "4": "Love",
+    "5": "No correct answer"
+   }
+  },
+  "23": {
+   "text": "Example: novel / chapter. Find the analogy for \"flat\"",
+   "choices": {
+    "1": "Kitchen",
+    "2": "Room",
+    "3": "Door",
+    "4": "House",
+    "5": "No correct answer"
+   }
+  },
+  "24": {
+   "text": "Example: hunger / skinny. Find the analogy for \"labour\"",
+   "choices": {
+    "1": "Kind",
+    "2": "Food",
+    "3": "Tired",
+    "4": "Work",
+    "5": "No correct answer"
+   }
+  },
+  "25": {
+   "text": "Example: Wednesday / Friday. Find the analogy for \"Sunday\"",
+   "choices": {
+    "1": "Thursday",
+    "2": "Saturday",
+    "3": "Tuesday",
+    "4": "Monday",
+    "5": "No correct answer"
+   }
+  },
+  "26": {
+   "text": "Example: day / night. Find the analogy for \"winter\"",
+   "choices": {
+    "1": "Frost",
+    "2": "January",
+    "3": "Snow",
+    "4": "Summer",
+    "5": "No correct answer"
+   }
+  },
+  "27": {
+   "text": "Example: sphere / circle. Find the analogy for \"cube\"",
+   "choices": {
+    "1": "Solid",
+    "2": "Shape",
+    "3": "Cone",
+    "4": "Square",
+    "5": "No correct answer"
+   }
+  },
+  "28": {
+   "text": "Example: fire / arson. Find the analogy for \"arrest\"",
+   "choices": {
+    "1": "Trial",
+    "2": "Theft",
+    "3": "Cell",
+    "4": "Lawyer",
+    "5": "No correct answer"
+   }
+  },
+  "29": {
+   "text": "Example: goat / animal. Find the analogy for \"bread\"",
+   "choices": {
+    "1": "Lunch",
+    "2": "Food",
+    "3": "Loaf",
+    "4": "Plate",
+    "5": "No correct answer"
+   }
+  },
+  "30": {
+   "text": "Example: face / mirror. Find the analogy for \"voice\"",
+   "choices": {
+    "1": "Microphone",
+    "2": "Announcer",
+    "3": "Recording",
+    "4": "Echo",
+    "5": "No correct answer"
+   }
+  }
+ },
+ "scales": {
+  "1": "Cognitive ability"
+ },
+ "summaries": {
+  "Низкий уровень познавательных способностей": "Low cognitive ability",
+  "Средний уровень познавательных способностей": "Average cognitive ability",
+  "Высокий уровень познавательных способностей": "High cognitive ability"
+ }
+}
