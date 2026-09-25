@@ -32,16 +32,7 @@ export const TestRunner: React.FC<Properties> = ({ test, questions }) => {
   const { mutate: uploadSubmission } = useMutation({
     mutationFn: () => uploadTestSubmission(test.id, questionResponses),
 
-    onSuccess: (test) => {
-      fetch(
-        "http://localhost:3000/dashboard/tests/" +
-          test.testId +
-          "/results/" +
-          test.id,
-        {
-          method: "GET",
-        }
-      );
+    onSuccess: () => {
       router.push("/tests");
     },
   });

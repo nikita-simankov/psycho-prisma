@@ -1,11 +1,14 @@
 import React from "react";
 import { DashboardNavbar } from "./components/dashboard-navbar";
+import { ensureAdmin } from "@/utils/authentication";
 
 type Properties = {
   children: React.ReactNode;
 };
 
-const DashboardLayout: React.FC<Properties> = ({ children }) => {
+const DashboardLayout = async ({ children }: Properties) => {
+  await ensureAdmin();
+
   return (
     <div className="flex flex-col">
       <DashboardNavbar />

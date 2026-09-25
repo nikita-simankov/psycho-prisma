@@ -3,29 +3,54 @@
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { prisma } from "@/utils/database";
+import { consumeRateLimit } from "@/utils/rate-limit";
+import {
+  credentialsSchema,
+  generalInfoSchema,
+  livingAddressInfoSchema,
+  militaryInfoSchema,
+} from "@/app/auth/sign-up/schema/sign-up.schema";
+import { headers } from "next/headers";
 
-export async function signUp(data: any) {
-  console.log(data.phoneNumber);
-  const userExists = await prisma.user.findFirst({
-    where: {
-      phoneNumber: data.phoneNumber,
-    },
-  });
-  console.log(userExists);
+// Whitelists every field a new account may set. Role is always "user".
+const signUpSchema = generalInfoSchema
+  .merge(militaryInfoSchema)
+  .merge(livingAddressInfoSchema)
+  .merge(credentialsSchema)
+  .strip();
 
-  if (userExists !== null) {
-    throw new Error("Пользователь с таким номером телефона уже существует");
+export async function signUp(data: unknown): Promise<{ ok: true } | { error: string }> {
+  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+
+  if (!consumeRateLimit(`sign-up:ip:${ip}`, 10, 60 * 60_000)) {
+    return { error: "Слишком много попыток регистрации. Попробуйте позже" };
   }
 
-  const { password, ...credentials } = data;
-  const hashedPassword = await hash(password, 10);
+  const parsed = signUpSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return { error: "Проверьте правильность заполнения полей" };
+  }
+
+  const { password, ...profile } = parsed.data;
+
+  const userExists = await prisma.user.findUnique({
+    where: { phoneNumber: profile.phoneNumber },
+    select: { id: true },
+  });
+
+  if (userExists) {
+    return { error: "Пользователь с таким номером телефона уже существует" };
+  }
 
   await prisma.user.create({
     data: {
-      id: randomUUID().toString(),
+      ...profile,
+      id: randomUUID(),
       role: "user",
-      password: hashedPassword,
-      ...credentials,
+      password: await hash(password, 10),
     },
   });
+
+  return { ok: true };
 }

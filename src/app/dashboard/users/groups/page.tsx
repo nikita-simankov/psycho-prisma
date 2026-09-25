@@ -7,12 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import Link from "next/link";
 
 export default async function DashboardPage() {
   const users = await findAllUsers();
-  const groups: Map<string, User[]> = new Map();
+  const groups: Map<string, PublicUser[]> = new Map();
 
   users.forEach((user) => {
     if (groups.get(user.group) !== undefined) {

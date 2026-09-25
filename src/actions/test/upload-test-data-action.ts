@@ -1,9 +1,12 @@
 "use server";
 
+import { requireAdmin } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { TestData } from "@/utils/constants";
 
 export async function uploadTestData(data: TestData) {
+  await requireAdmin();
+
   return await prisma.test.create({
     data: {
       name: data.name,

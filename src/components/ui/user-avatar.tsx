@@ -1,11 +1,11 @@
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 
 export default function UserAvatar({
   user,
   className,
 }: {
-  user: User;
+  user: PublicUser;
   className?: string;
 }) {
   return (

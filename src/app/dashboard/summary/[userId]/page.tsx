@@ -1,3 +1,4 @@
+import { getSubmissionSummary } from "@/utils/scoring";
 import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-all-test-submissions-by-user-id-action";
 import { findTestById } from "@/actions/test/find-test-by-id-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
@@ -35,7 +36,7 @@ export default async function UserSummaryPage({ params }: PathParams) {
     switch (test?.strategy) {
       case "grade":
         const gradeTestSummary = (
-          JSON.parse(submission.summary) as ReturnType<
+          getSubmissionSummary(test, submission) as ReturnType<
             typeof GradeStrategy.getSummary
           >
         ).filter((summary) => summary !== null && summary !== undefined);
@@ -58,7 +59,7 @@ export default async function UserSummaryPage({ params }: PathParams) {
         };
       case "t-grade":
         const tGradeTestSummary = (
-          JSON.parse(submission.summary) as ReturnType<
+          getSubmissionSummary(test, submission) as ReturnType<
             typeof TGradeStrategy.getSummary
           >
         ).filter((summary) => summary !== null && summary !== undefined);
@@ -80,7 +81,7 @@ export default async function UserSummaryPage({ params }: PathParams) {
         };
       case "standard-ten":
         const stanTestSummary = (
-          JSON.parse(submission.summary) as ReturnType<
+          getSubmissionSummary(test, submission) as ReturnType<
             typeof StanStrategy.getSummary
           >
         ).filter((summary) => summary !== null && summary !== undefined);

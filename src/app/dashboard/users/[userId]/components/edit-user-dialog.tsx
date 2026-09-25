@@ -6,14 +6,14 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import { useMutation } from "@tanstack/react-query";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Properties {
-  user: User
+  user: PublicUser
 }
 
 export default function EditUserDialog({ user }: Properties) {

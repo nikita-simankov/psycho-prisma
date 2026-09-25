@@ -12,14 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import UserAvatar from "@/components/ui/user-avatar";
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpRight, Smile } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export const usersTableColumns: ColumnDef<User>[] = [
+export const usersTableColumns: ColumnDef<PublicUser>[] = [
   {
     header: " ",
     cell: ({ row }) => {
@@ -86,7 +86,7 @@ export const usersTableColumns: ColumnDef<User>[] = [
 ];
 
 interface Properties {
-  users: User[];
+  users: PublicUser[];
 }
 
 export const UsersSummaryTable: React.FC<Properties> = ({ users }) => {

@@ -388,7 +388,13 @@ function CredentialsInfoForm() {
   });
 
   const signUpMutation = useMutation({
-    mutationFn: (formValues: any) => signUp(formValues),
+    mutationFn: async (formValues: unknown) => {
+      const result = await signUp(formValues);
+
+      if ("error" in result) {
+        throw new Error(result.error);
+      }
+    },
 
     onSuccess: () => {
       toast({
