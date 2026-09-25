@@ -27,6 +27,7 @@ import { notFound } from "next/navigation";
 import EditUserDialog from "./components/edit-user-dialog";
 import { FlagSelect, MembershipDialog, RemoveMemberButton } from "../components/member-controls";
 import { organizationBase } from "@/utils/organization-path";
+import { personSchedule } from "@/utils/rounds";
 
 type PathParams = {
   params: {
@@ -57,6 +58,9 @@ export default async function UserProfilePage({ params }: PathParams) {
     notFound();
   }
 
+  const schedule = await personSchedule(organization.id, user.id, user.teamId);
+  const rounds = await getTranslations("rounds");
+
   const formNames = new Map(forms.map((form) => [form.id, form.name]));
   const testNames = new Map(tests.map((test) => [test.id, test.name]));
 
@@ -82,6 +86,10 @@ export default async function UserProfilePage({ params }: PathParams) {
     {
       label: t("fields.joinedAt"),
       value: format.dateTime(user.joinedAt, { dateStyle: "medium" }),
+    },
+    {
+      label: t("nextDue"),
+      value: schedule.nextDue ? format.dateTime(schedule.nextDue, { dateStyle: "medium" }) : "",
     },
   ];
 
@@ -170,6 +178,28 @@ export default async function UserProfilePage({ params }: PathParams) {
           </CardContent>
         </Card>
         <div className="flex min-w-0 flex-col gap-6">
+          {schedule.open.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">{t("openRounds")}</CardTitle>
+              </CardHeader>
+              <CardContent className="px-2 sm:px-4">
+                <LinkList
+                  empty={t("nothingYet")}
+                  items={schedule.open.map((entry) => ({
+                    id: entry.id,
+                    href: can(membership.role, "manageRounds") ? `${base}/rounds/${entry.round.id}` : "#",
+                    title: entry.round.name,
+                    subtitle: `${rounds("partDone", { done: entry.done, total: entry.total })}${
+                      entry.round.dueAt
+                        ? ` · ${rounds("dueOn", { date: format.dateTime(entry.round.dueAt, { dateStyle: "medium" }) })}`
+                        : ""
+                    }`,
+                  }))}
+                />
+              </CardContent>
+            </Card>
+          )}
           {history(t("testsTaken"), testHistory, <FlaskConical className="h-4 w-4" />)}
           {history(t("formsTaken"), formHistory, <NotepadText className="h-4 w-4" />)}
         </div>

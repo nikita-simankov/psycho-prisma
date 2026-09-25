@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { COOKIE_NAME, ORGANIZATION_COOKIE, ORGANIZATION_HEADER, RESERVED_SLUGS } from "@/utils/constants";
 
-const PUBLIC_PATHS = ["/", "/privacy"];
-const PUBLIC_PREFIXES = ["/auth/", "/invite/"];
+const PUBLIC_PATHS = ["/", "/privacy", "/link-expired"];
+// /r/<token> is a round's sign-in link.
+const PUBLIC_PREFIXES = ["/auth/", "/invite/", "/r/"];
 
 // Fast path only: sends visitors without a session cookie to sign-in, and tells
 // the server which organization a /[org] URL belongs to. Real session and role

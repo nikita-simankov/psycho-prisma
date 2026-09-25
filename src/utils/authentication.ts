@@ -109,7 +109,7 @@ export const getContext = cache(async (): Promise<Context | NoOrganization | nul
 // Where a person lands after signing in.
 export function homePath(membership: { role: string; organization: { slug: string } } | null) {
   if (!membership) return "/organizations/new";
-  return can(membership.role, "viewDashboard") ? `/${membership.organization.slug}` : "/forms";
+  return can(membership.role, "viewDashboard") ? `/${membership.organization.slug}` : "/assessments";
 }
 
 // For server actions: throws when there is no signed-in user.

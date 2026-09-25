@@ -29,7 +29,7 @@ export function IntroCard({
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 py-6 sm:py-10">
       <Link href={backHref} className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ChevronLeft className="h-4 w-4" />
-        {t(backHref.startsWith("/forms") ? "forms" : "tests")}
+        {t("home")}
       </Link>
       <div className="flex flex-col gap-3">
         <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{name}</h1>

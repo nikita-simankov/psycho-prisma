@@ -30,7 +30,7 @@ export function PageHeader({ title, description, actions, back, className, crumb
           </Link>
         )}
         <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
-        {description && <p className="text-muted-foreground">{description}</p>}
+        {description && <div className="text-muted-foreground">{description}</div>}
       </div>
       {actions && <div className="print:hidden flex flex-wrap items-center gap-2">{actions}</div>}
     </div>

@@ -253,7 +253,7 @@ export function OrganizationList({ organizations }: { organizations: Organizatio
               <Badge variant="secondary">{roles(organization.role as "member")}</Badge>
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link href={can(organization.role, "viewDashboard") ? `/${organization.slug}` : "/forms"}>
+              <Link href={can(organization.role, "viewDashboard") ? `/${organization.slug}` : "/assessments"}>
                 {common("open")}
               </Link>
             </Button>

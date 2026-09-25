@@ -14,9 +14,10 @@ import { TestQuestionCard } from "./test-question";
 type Properties = {
   test: Test;
   questions: TestQuestion[];
+  assignmentId?: string;
 };
 
-export function TestRunner({ test, questions }: Properties) {
+export function TestRunner({ test, questions, assignmentId }: Properties) {
   const t = useTranslations("runner");
   const common = useTranslations("common");
   const router = useRouter();
@@ -26,8 +27,8 @@ export function TestRunner({ test, questions }: Properties) {
   const question = questions[responses.length];
 
   const submission = useMutation({
-    mutationFn: () => uploadTestSubmission(test.id, responses),
-    onSuccess: () => router.push("/tests?done=1"),
+    mutationFn: () => uploadTestSubmission(test.id, responses, assignmentId),
+    onSuccess: () => router.push("/assessments?done=1"),
     onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });
 

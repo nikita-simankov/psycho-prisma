@@ -16,10 +16,11 @@ import { useMemo, useState } from "react";
 type Properties = {
   form: Form;
   doneHref: string;
+  assignmentId?: string;
 };
 
 // Walks through a questionnaire one question at a time, then saves the answers.
-export function FormRunner({ form, doneHref }: Properties) {
+export function FormRunner({ form, doneHref, assignmentId }: Properties) {
   const t = useTranslations("runner");
   const common = useTranslations("common");
   const router = useRouter();
@@ -31,7 +32,7 @@ export function FormRunner({ form, doneHref }: Properties) {
   const question = questions[questionIndex];
 
   const submission = useMutation({
-    mutationFn: () => uploadFormSubmission(form.id, responses),
+    mutationFn: () => uploadFormSubmission(form.id, responses, assignmentId),
     onSuccess: () => router.push(doneHref),
     onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });

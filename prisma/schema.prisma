@@ -21,8 +21,11 @@ model User {
   imageURL    String    @default("")
   dateOfBirth String    @default("")
   firstTimer  Boolean   @default(true)
+  // Language for emails sent without a request (reminders, scheduled rounds); "" means the default.
+  locale      String    @default("")
 
   memberships    Membership[]
+  assignments    Assignment[]
   passwordResets PasswordReset[]
   summaries      UserSummary[]
   createdAt      DateTime        @default(now())
@@ -31,8 +34,8 @@ model User {
 
 // A company or team using Prisma. Everything people submit belongs to one.
 model Organization {
-  id   String @id @default(uuid())
-  name String
+  id      String @id @default(uuid())
+  name    String
   // The name lowercased with spaces collapsed, so names are unique regardless of case.
   nameKey String @unique
   slug    String @unique
@@ -45,8 +48,10 @@ model Organization {
   memberships Membership[]
   invitations Invitation[]
   teams       Team[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  rounds      Round[]
+  schedules   RoundSchedule[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 // A person's place in an organization. Role keys are in src/utils/roles.ts.
@@ -155,6 +160,8 @@ model FormSubmission {
   userId         String
   formId         String
   submission     String
+  // The round assignment this answers, if it was sent as part of one.
+  assignmentId   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -182,6 +189,8 @@ model Test {
   organizationId String?
   // Clinical and wellbeing screens: only psychologists see them and their results.
   sensitive      Boolean @default(false)
+  // Days before the same person may take this test again in a round (ability tests).
+  retestDays     Int     @default(0)
 
   categories Category[]
 
@@ -197,6 +206,8 @@ model TestSubmission {
   testId         String
   summary        String
   submission     String
+  // The round assignment this answers, if it was sent as part of one.
+  assignmentId   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -213,4 +224,68 @@ model UserSummary {
   updatedAt       DateTime @updatedAt
 
   @@unique([userId, organizationId])
+}
+
+// A set of instruments sent to people with a purpose and a due date.
+model Round {
+  id             String         @id @default(uuid())
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  name           String
+  // hiring, development or wellbeing (src/utils/rounds.ts)
+  purpose        String
+  message        String         @default("")
+  // JSON: [{ "kind": "test" | "form", "id": "..." }]
+  items          String
+  dueAt          DateTime?
+  closedAt       DateTime?
+  schedule       RoundSchedule? @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  scheduleId     String?
+  // Which repetition of its schedule this is, from 1.
+  cycle          Int            @default(1)
+  createdById    String
+  assignments    Assignment[]
+  createdAt      DateTime       @default(now())
+}
+
+// One person's part in a round.
+model Assignment {
+  id             String    @id @default(uuid())
+  round          Round     @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  roundId        String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  // JSON: the round's items this person takes (some can be skipped for retest intervals).
+  items          String
+  // SHA-256 of the sign-in link's token; the link signs the person in and opens the round.
+  tokenHash      String?   @unique
+  tokenExpiresAt DateTime?
+  invitedAt      DateTime?
+  remindedAt     DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@unique([roundId, userId])
+}
+
+// Opens a new round every few months for fixed people or for a team as it changes.
+model RoundSchedule {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  name           String
+  purpose        String
+  message        String       @default("")
+  items          String
+  intervalMonths Int
+  // Days each cycle stays open before it is due.
+  dueDays        Int          @default(14)
+  // JSON: team ids whose members at each cycle are included, plus user ids picked by hand.
+  teamIds        String       @default("[]")
+  userIds        String       @default("[]")
+  nextRunAt      DateTime
+  active         Boolean      @default(true)
+  createdById    String
+  rounds         Round[]
+  createdAt      DateTime     @default(now())
 }

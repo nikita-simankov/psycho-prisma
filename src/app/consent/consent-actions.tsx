@@ -15,7 +15,7 @@ export function ConsentActions() {
   const mutation = useMutation({
     mutationFn: () => acceptConsent(),
     onSuccess: () => {
-      router.replace("/forms");
+      router.replace("/assessments");
       router.refresh();
     },
     onError: () => toast({ title: t("error"), variant: "destructive" }),
