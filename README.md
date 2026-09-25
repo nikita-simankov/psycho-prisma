@@ -40,6 +40,8 @@ Interface text lives in `messages/en.json` and `messages/ru.json` (next-intl, no
 
 The bundled test and questionnaire content stays in Russian: translating validated instruments needs validated translations, not ad-hoc ones. Spreadsheet import templates also keep their Russian column headers.
 
+Tests and forms retired in the move away from military use are kept in `prisma/seed-data/retired/`. The seed does not load them.
+
 ## Groups
 
 People are sorted into groups stored as keys (`general`, `monitoring`, `risk`, `suicide-risk`, `substance-risk`), defined in `src/utils/groups.ts`. Labels come from the `groups` messages.
