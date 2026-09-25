@@ -1,6 +1,7 @@
 import { findTestById } from "@/actions/test/find-test-by-id-action";
-import { TestRunner } from "../components/test-runner";
 import { TestQuestion } from "@/utils/constants";
+import { notFound } from "next/navigation";
+import { TestRunner } from "../components/test-runner";
 
 type PathParams = {
   params: {
@@ -10,11 +11,16 @@ type PathParams = {
 
 export default async function Page({ params }: PathParams) {
   const test = await findTestById(params.testId);
-  const questions = JSON.parse(test?.questions!) as TestQuestion[];
+
+  if (!test) {
+    notFound();
+  }
+
+  const questions = JSON.parse(test.questions) as TestQuestion[];
 
   return (
-    <div className="p-12 h-full flex flex-col items-center justify-center">
-      <TestRunner test={test!} questions={questions} />
+    <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
+      <TestRunner test={test} questions={questions} />
     </div>
   );
 }

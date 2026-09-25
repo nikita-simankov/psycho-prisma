@@ -1,26 +1,29 @@
-import { User } from "@prisma/client";
+import { formatInitials, type PublicUser } from "@/utils/user";
+import { cn } from "@/utils/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+
+// imageURL holds either a path/URL or a base64-encoded JPEG uploaded by an admin.
+function imageSource(imageURL: string) {
+  if (!imageURL) {
+    return undefined;
+  }
+
+  return /^(https?:|\/|data:)/.test(imageURL)
+    ? imageURL
+    : "data:image/jpeg;base64," + imageURL;
+}
 
 export default function UserAvatar({
   user,
   className,
 }: {
-  user: User;
+  user: Pick<PublicUser, "imageURL" | "name" | "lastName">;
   className?: string;
 }) {
   return (
     <Avatar className={className}>
-      <AvatarImage
-        src={
-          user.imageURL.endsWith(".jpg")
-            ? user.imageURL
-            : "data:image/jpeg;base64," + user.imageURL
-        }
-        className={className}
-      />
-      <AvatarFallback className={className}>
-        {user.name[0] + user.surname[0]}
-      </AvatarFallback>
+      <AvatarImage src={imageSource(user.imageURL)} className={className} />
+      <AvatarFallback className={cn("bg-accent text-xs font-semibold text-accent-foreground", className)}>{formatInitials(user)}</AvatarFallback>
     </Avatar>
   );
 }

@@ -1,14 +1,6 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
-import { FormRunner } from "./components/form-runner";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { IntroCard } from "@/components/intro-card";
+import { notFound } from "next/navigation";
 
 type PathParams = {
   params: {
@@ -19,17 +11,18 @@ type PathParams = {
 export default async function Page({ params }: PathParams) {
   const form = await findFormById(params.formId);
 
+  if (!form) {
+    notFound();
+  }
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{form?.name}</CardTitle>
-        <CardDescription>{form?.description}</CardDescription>
-      </CardHeader>
-      <CardFooter>
-        <Button>
-          <Link href={"/forms/" + params.formId + "/run"}>Начать</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+    <IntroCard
+      name={form.name}
+      description={form.description}
+      questionCount={JSON.parse(form.questions).length}
+      minutes={form.ttc}
+      backHref="/forms"
+      startHref={`/forms/${form.id}/run`}
+    />
   );
 }

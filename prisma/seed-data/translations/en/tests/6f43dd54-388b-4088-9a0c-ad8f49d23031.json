@@ -1,0 +1,315 @@
+{
+ "name": "Mental Arithmetic",
+ "description": "Do arithmetic (addition, subtraction, multiplication and division) with whole numbers up to 100. Work strictly from left to right in the order the operations are written: the usual rule of multiplying and dividing first does not apply here. Each example has four possible answers; choose the correct one. Calculate in your head without pen or paper, and remember that time is limited (5 minutes).",
+ "instruction": "Do the arithmetic (addition, subtraction, multiplication, division) with whole numbers up to 100, strictly from left to right in the order written. Each example has four possible answers; work it out and choose the correct one. Example 1: 7 minus 2 is 5; times 5 is 25; minus 9 is 16; divided by 8 is 2. Example 2: 8 minus 4 is 4; times 4 is 16; minus 10 is 6; divided by 2 is 3. Example 3: 32 minus 4 is 28; divided by 7 is 4; minus 3 is 1. If the answer you get is not among the options, choose \"No correct answer\".",
+ "questions": {
+  "1": {
+   "text": "\"53 + 47 : 2 - 41 * 3\"",
+   "choices": {
+    "1": "54",
+    "2": "20",
+    "3": "27",
+    "4": "33",
+    "5": "No correct answer"
+   }
+  },
+  "2": {
+   "text": "\"74 - 66 * 4 + 48 : 8\"",
+   "choices": {
+    "1": "12",
+    "2": "10",
+    "3": "14",
+    "4": "28",
+    "5": "No correct answer"
+   }
+  },
+  "3": {
+   "text": "\"94 - 87 * 3 - 15 : 6\"",
+   "choices": {
+    "1": "6",
+    "2": "2",
+    "3": "13",
+    "4": "5",
+    "5": "No correct answer"
+   }
+  },
+  "4": {
+   "text": "\"9 * 5 - 39 * 4 + 76\"",
+   "choices": {
+    "1": "80",
+    "2": "96",
+    "3": "88",
+    "4": "100",
+    "5": "No correct answer"
+   }
+  },
+  "5": {
+   "text": "\"40 : 5 + 79 - 69 : 3\"",
+   "choices": {
+    "1": "7",
+    "2": "6",
+    "3": "3",
+    "4": "9",
+    "5": "No correct answer"
+   }
+  },
+  "6": {
+   "text": "\"85 - 57 : 4 * 5 + 58\"",
+   "choices": {
+    "1": "91",
+    "2": "88",
+    "3": "73",
+    "4": "93",
+    "5": "No correct answer"
+   }
+  },
+  "7": {
+   "text": "\"6 * 5 * 3 - 72 : 2\"",
+   "choices": {
+    "1": "7",
+    "2": "14",
+    "3": "9",
+    "4": "18",
+    "5": "No correct answer"
+   }
+  },
+  "8": {
+   "text": "\"100 - 73 : 3 * 5 + 47\"",
+   "choices": {
+    "1": "92",
+    "2": "84",
+    "3": "77",
+    "4": "82",
+    "5": "No correct answer"
+   }
+  },
+  "9": {
+   "text": "\"93 - 58 : 5 - 3 + 79\"",
+   "choices": {
+    "1": "89",
+    "2": "100",
+    "3": "55",
+    "4": "99",
+    "5": "No correct answer"
+   }
+  },
+  "10": {
+   "text": "\"40 * 2 - 56 : 4 * 3\"",
+   "choices": {
+    "1": "57",
+    "2": "63",
+    "3": "72",
+    "4": "18",
+    "5": "No correct answer"
+   }
+  },
+  "11": {
+   "text": "\"17 + 15  : 4 + 67 + 25\"",
+   "choices": {
+    "1": "100",
+    "2": "94",
+    "3": "99",
+    "4": "102",
+    "5": "No correct answer"
+   }
+  },
+  "12": {
+   "text": "\"7 * 1 + 86 - 79 : 7\"",
+   "choices": {
+    "1": "12",
+    "2": "3",
+    "3": "4",
+    "4": "11",
+    "5": "No correct answer"
+   }
+  },
+  "13": {
+   "text": "\"4 * 8 + 17 : 7 + 83\"",
+   "choices": {
+    "1": "100",
+    "2": "120",
+    "3": "90",
+    "4": "88",
+    "5": "No correct answer"
+   }
+  },
+  "14": {
+   "text": "\"36 : 6 * 8 + 24 : 9\"",
+   "choices": {
+    "1": "5",
+    "2": "9",
+    "3": "3",
+    "4": "8",
+    "5": "No correct answer"
+   }
+  },
+  "15": {
+   "text": "\"17 + 46 : 7 + 40 - 37\"",
+   "choices": {
+    "1": "16",
+    "2": "31",
+    "3": "12",
+    "4": "13",
+    "5": "No correct answer"
+   }
+  },
+  "16": {
+   "text": "\"7 * 8 + 25 : 9 + 91\"",
+   "choices": {
+    "1": "99",
+    "2": "107",
+    "3": "100",
+    "4": "120",
+    "5": "No correct answer"
+   }
+  },
+  "17": {
+   "text": "\"6 * 4 + 48 : 8 * 9\"",
+   "choices": {
+    "1": "81",
+    "2": "91",
+    "3": "63",
+    "4": "54",
+    "5": "No correct answer"
+   }
+  },
+  "18": {
+   "text": "\"9 * 7 - 27 : 6 * 8\"",
+   "choices": {
+    "1": "64",
+    "2": "56",
+    "3": "72",
+    "4": "48",
+    "5": "No correct answer"
+   }
+  },
+  "19": {
+   "text": "\"3 * 9 + 45 : 8 + 71\"",
+   "choices": {
+    "1": "90",
+    "2": "80",
+    "3": "64",
+    "4": "65",
+    "5": "No correct answer"
+   }
+  },
+  "20": {
+   "text": "\"100 - 37 : 9 * 7 + 25\"",
+   "choices": {
+    "1": "76",
+    "2": "88",
+    "3": "54",
+    "4": "72",
+    "5": "No correct answer"
+   }
+  },
+  "21": {
+   "text": "\"43 + 29 : 9 * 6 + 46\"",
+   "choices": {
+    "1": "94",
+    "2": "75",
+    "3": "81",
+    "4": "66",
+    "5": "No correct answer"
+   }
+  },
+  "22": {
+   "text": "\"2 * 7 + 86 : 20 * 9\"",
+   "choices": {
+    "1": "63",
+    "2": "57",
+    "3": "45",
+    "4": "54",
+    "5": "No correct answer"
+   }
+  },
+  "23": {
+   "text": "\"56 : 8 * 10 - 16.6\"",
+   "choices": {
+    "1": "11",
+    "2": "7",
+    "3": "9",
+    "4": "13",
+    "5": "No correct answer"
+   }
+  },
+  "24": {
+   "text": "\"89 - 68 : 7 * 9 + 78\"",
+   "choices": {
+    "1": "107",
+    "2": "105",
+    "3": "98",
+    "4": "102",
+    "5": "No correct answer"
+   }
+  },
+  "25": {
+   "text": "\"4 * 7 + 28:8 * 9\"",
+   "choices": {
+    "1": "54",
+    "2": "36",
+    "3": "18",
+    "4": "63",
+    "5": "No correct answer"
+   }
+  },
+  "26": {
+   "text": "\"72 : 8 * 6 + 27 : 9\"",
+   "choices": {
+    "1": "9",
+    "2": "81",
+    "3": "57",
+    "4": "7",
+    "5": "No correct answer"
+   }
+  },
+  "27": {
+   "text": "\"63 : 9 + 25 : 8 * 20\"",
+   "choices": {
+    "1": "40",
+    "2": "100",
+    "3": "80",
+    "4": "180",
+    "5": "No correct answer"
+   }
+  },
+  "28": {
+   "text": "\"8 * 9 - 16 : 7 * 6\"",
+   "choices": {
+    "1": "36",
+    "2": "48",
+    "3": "60",
+    "4": "42",
+    "5": "No correct answer"
+   }
+  },
+  "29": {
+   "text": "\"100 - 46 : 9 * 7 + 39\"",
+   "choices": {
+    "1": "71",
+    "2": "53",
+    "3": "81",
+    "4": "73",
+    "5": "No correct answer"
+   }
+  },
+  "30": {
+   "text": "\"7 * 9 - 39 : 8 * 30\"",
+   "choices": {
+    "1": "90",
+    "2": "60",
+    "3": "120",
+    "4": "30",
+    "5": "No correct answer"
+   }
+  }
+ },
+ "scales": {
+  "1": "Cognitive ability"
+ },
+ "summaries": {
+  "Низкий уровень познавательных способностей": "Low cognitive ability",
+  "Средний уровень познавательных способностей": "Average cognitive ability",
+  "Высокий уровень познавательных способностей": "High cognitive ability"
+ }
+}

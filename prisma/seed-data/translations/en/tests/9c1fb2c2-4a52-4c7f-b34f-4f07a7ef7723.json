@@ -1,0 +1,347 @@
+{
+ "name": "Self-Assessment of Mental States (Eysenck)",
+ "description": "This self-assessment of mental states is one of the personality questionnaires developed by H. Eysenck (1960s–1980s). Eysenck's questionnaires grew out of his new typological approach to personality, drawing on the theories of C. Jung, R. Woodworth, I. P. Pavlov, E. Kretschmer and other psychologists, psychiatrists and physiologists, as well as his own extensive experimental research. They have fairly high validity and reliability and are widely used in practical assessment.",
+ "instruction": "Read each statement carefully and choose one of three answers: \"Fits me\", \"Fits me, but not much\" or \"Doesn't fit me\".",
+ "questions": {
+  "1": {
+   "text": "I don't feel confident in myself",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "2": {
+   "text": "I often blush over trifles",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "3": {
+   "text": "My sleep is restless",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "4": {
+   "text": "I easily lose heart",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "5": {
+   "text": "I worry about troubles that are still only imagined",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "6": {
+   "text": "Difficulties frighten me",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "7": {
+   "text": "I like dwelling on my shortcomings",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "8": {
+   "text": "I'm easily persuaded",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "9": {
+   "text": "I'm suspicious and anxious",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "10": {
+   "text": "I find waiting hard to bear",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "11": {
+   "text": "Situations that do have a way out often seem hopeless to me",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "12": {
+   "text": "Troubles upset me a lot and I lose heart",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "13": {
+   "text": "When things go badly wrong, I tend to blame myself without good reason",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "14": {
+   "text": "Misfortunes and failures teach me nothing",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "15": {
+   "text": "I often give up the fight, thinking it pointless",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "16": {
+   "text": "I often feel defenceless",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "17": {
+   "text": "Sometimes I feel desperate",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "18": {
+   "text": "I feel at a loss when faced with difficulties",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "19": {
+   "text": "In hard times I sometimes act like a child and want to be pitied",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "20": {
+   "text": "I think the flaws in my character can't be fixed.",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "21": {
+   "text": "I like to have the last word",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "22": {
+   "text": "I often interrupt people when talking",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "23": {
+   "text": "I'm easy to anger",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "24": {
+   "text": "I like to criticize others",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "25": {
+   "text": "I want to be respected as an authority by the people around me",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "26": {
+   "text": "I'm not satisfied with little; I want the most",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "27": {
+   "text": "When I'm angry, I find it hard to control myself",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "28": {
+   "text": "I would rather lead than follow",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "29": {
+   "text": "My gestures are sharp and rather rough",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "30": {
+   "text": "I'm vindictive",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "31": {
+   "text": "I find it hard to change my habits",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "32": {
+   "text": "I don't switch attention easily",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "33": {
+   "text": "I'm very cautious about anything new",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "34": {
+   "text": "It's hard to change my mind",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "35": {
+   "text": "Thoughts I should let go of often stay stuck in my head",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "36": {
+   "text": "I don't get close to people easily",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "37": {
+   "text": "Even small changes to a plan upset me",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "38": {
+   "text": "I'm often stubborn",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "39": {
+   "text": "I'm reluctant to take risks",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  },
+  "40": {
+   "text": "I react strongly to any change in the daily routine I've set",
+   "choices": {
+    "1": "Fits me",
+    "2": "Fits me, but not much",
+    "3": "Doesn't fit me"
+   }
+  }
+ },
+ "scales": {
+  "1": "Anxiety",
+  "2": "Frustration",
+  "3": "Aggressiveness",
+  "4": "Rigidity"
+ },
+ "summaries": {
+  "Тревожность отсутствует": "No anxiety",
+  "Средний уровень тревожности": "Average anxiety",
+  "Высокий уровень тревожности": "High anxiety",
+  "Не имеет высокой самооценки, устойчив к неудачам, не боится трудностей": "Self-esteem is not low; resilient to failure and not afraid of difficulties",
+  "Средний уровень фрустрации": "Average frustration",
+  "Низкая самооценка, избегает трудностей, боится неудач. Высокий уровень фрустрации": "Low self-esteem, avoids difficulties, afraid of failure. High frustration",
+  "Агрессивность отсутствует, спокоен, выдержан": "No aggressiveness; calm and composed",
+  "Средний уровень агрессивности": "Average aggressiveness",
+  "Агрессивен, не выдержан, есть трудности при общении и работе с людьми.": "Aggressive and lacking self-control; has difficulties communicating and working with people.",
+  "Ригидность отсутствует, легкая переключаемость": "No rigidity; switches easily",
+  "Средний уровень ригидности": "Average rigidity",
+  "Сильно выраженная ригидность, неизменность поведения, убеждений, взглядов": "Marked rigidity: behaviour, beliefs and views stay fixed"
+ }
+}

@@ -1,4 +1,11 @@
+import { findAllFormSubmissionsByUserId } from "@/actions/form-submission/find-all-form-submissions-by-user-id-action";
+import { findAllForms } from "@/actions/form/find-all-forms-action";
+import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-all-test-submissions-by-user-id-action";
+import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
+import { GroupBadge } from "@/components/group-badge";
+import { LinkList } from "@/components/link-list";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +15,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import UserAvatar from "@/components/ui/user-avatar";
-import { prisma } from "@/utils/database";
+import { formatFullName, formatWorkInfo } from "@/utils/user";
+import { getFormatter, getTranslations } from "next-intl/server";
+import { FlaskConical, NotepadText } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import EditUserDialog from "./components/edit-user-dialog";
 
 type PathParams = {
@@ -18,188 +28,115 @@ type PathParams = {
   };
 };
 
-export default async function UserProfilePage({ params }: PathParams) {
-  const user = await findUserById(params.userId);
-  const formSubmissions = await prisma.formSubmission.findMany({
-    where: {
-      userId: user!.id,
-    },
-  });
+type HistoryItem = { id: string; name: string; date: Date; href: string };
 
-  const testSubmissions = await prisma.testSubmission.findMany({
-    where: {
-      userId: user!.id,
+export default async function UserProfilePage({ params }: PathParams) {
+  const t = await getTranslations("profile");
+  const people = await getTranslations("people");
+  const format = await getFormatter();
+  const [user, formSubmissions, testSubmissions, forms, tests] = await Promise.all([
+    findUserById(params.userId),
+    findAllFormSubmissionsByUserId(params.userId),
+    findAllTestSubmissionsByUserId(params.userId),
+    findAllForms(),
+    findAllTests(),
+  ]);
+
+  if (!user) {
+    notFound();
+  }
+
+  const formNames = new Map(forms.map((form) => [form.id, form.name]));
+  const testNames = new Map(tests.map((test) => [test.id, test.name]));
+
+  const formHistory: HistoryItem[] = formSubmissions.map((submission) => ({
+    id: submission.id,
+    name: formNames.get(submission.formId) ?? "—",
+    date: submission.createdAt,
+    href: `/dashboard/forms/${submission.formId}/results/${submission.id}`,
+  }));
+  const testHistory: HistoryItem[] = testSubmissions.map((submission) => ({
+    id: submission.id,
+    name: testNames.get(submission.testId) ?? "—",
+    date: submission.createdAt,
+    href: `/dashboard/tests/${submission.testId}/results/${submission.id}`,
+  }));
+
+  const details = [
+    { label: t("fields.phoneNumber"), value: user.phoneNumber },
+    { label: t("fields.dateOfBirth"), value: user.dateOfBirth },
+    { label: t("fields.department"), value: user.department },
+    { label: t("fields.position"), value: user.position },
+    {
+      label: t("fields.registeredAt"),
+      value: format.dateTime(user.createdAt, { dateStyle: "medium" }),
     },
-  });
+  ];
+
+  const history = (title: string, items: HistoryItem[], icon: React.ReactNode) => (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="px-2 sm:px-4">
+        <LinkList
+          empty={t("nothingYet")}
+          items={items.map((item) => ({
+            id: item.id,
+            href: item.href,
+            title: item.name,
+            subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
+            leading: (
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                {icon}
+              </span>
+            ),
+          }))}
+        />
+      </CardContent>
+    </Card>
+  );
 
   return (
-    <div className="w-full h-dvh p-10 flex flex-col gap-4">
-      <h1 className="text-3xl font-bold tracking-normal">
-        Профиль пользователя
-      </h1>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center gap-4">
-            <UserAvatar user={user!} className="w-16 h-16" />
-            <div className="flex flex-col">
-              <CardTitle className="text-lg">
-                {user?.lastName} {user?.name} {user?.surname}
-              </CardTitle>
-              <CardDescription className="text-md">
-                {user?.rank}, {user?.division}
-              </CardDescription>
+    <>
+      <PageHeader
+        title={t("title")}
+        back={{ href: "/dashboard/users", label: people("back") }}
+        actions={
+          <>
+            <Button variant="outline" asChild>
+              <Link href={`/dashboard/summary/${user.id}`}>{t("openReport")}</Link>
+            </Button>
+            <EditUserDialog user={user} />
+          </>
+        }
+      />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+        <Card className="h-fit">
+          <CardHeader className="items-center text-center">
+            <UserAvatar user={user} className="mb-2 h-20 w-20 text-lg" />
+            <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
+            <CardDescription>{formatWorkInfo(user)}</CardDescription>
+            <div className="pt-1">
+              <GroupBadge group={user.group} />
             </div>
-          </div>
-          <EditUserDialog user={user!} />
-        </CardHeader>
-
-        <CardContent className="flex flex-col gap-6">
-          <section className="flex flex-col">
-            <h1 className="text-lg font-bold tracking-wider mb-1">
-              Общая информация
-            </h1>
-
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col gap-2 text-muted-foreground text-sm font-medium">
-                <span>Номер мобильного телефона</span>
-              </div>
-              <div className="flex flex-col gap-2 text-sm font-medium text-right">
-                <span>{user?.phoneNumber}</span>
-              </div>
-            </div>
-          </section>
-
-          <section className="flex flex-col">
-            <h1 className="text-lg font-bold tracking-wider mb-1">
-              Служебная информация
-            </h1>
-
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col gap-2 text-muted-foreground text-sm font-medium">
-                <span>Звание</span>
-                <span>Подразделение</span>
-                <span>Кем призван</span>
-                <span>Вид службы</span>
-                <span>Период службы</span>
-              </div>
-              <div className="flex flex-col gap-2 text-sm font-medium text-right">
-                <span>{user?.rank}</span>
-                <span>{user?.division}</span>
-                <span>{user?.recruitedBy}</span>
-                <span>{user?.servingKind}</span>
-                <span>{user?.servingPeriod}</span>
-              </div>
-            </div>
-          </section>
-
-          <section className="flex flex-col">
-            <h1 className="text-lg font-bold tracking-wider mb-1">
-              Информация о месте жительства
-            </h1>
-
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col gap-2 text-muted-foreground text-sm font-medium">
-                <span>Область</span>
-                <span>Город</span>
-                <span>Улица</span>
-                <span>Номер дома</span>
-                <span>Номер квартиры</span>
-              </div>
-              <div className="flex flex-col gap-2 text-sm font-medium text-right">
-                <span>{user?.region}</span>
-                <span>{user?.city}</span>
-                <span>{user?.address}</span>
-                <span>{user?.building}</span>
-                <span>{user?.appartment}</span>
-              </div>
-            </div>
-          </section>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Пройденные анкеты</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {formSubmissions.map(async (submission) => {
-            const form = await prisma.form.findFirst({
-              where: {
-                id: submission.formId,
-              },
-            });
-
-            return (
-              <div className="w-full h-12 rounded-md hover:bg-accent flex items-center justify-between">
-                <div className="flex flex-row gap-2">
-                  <span className="flex flex-col">
-                    <h1 className="text-black dark:text-white font-bold text-md tracking-wide">
-                      {form?.name}
-                    </h1>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {submission.createdAt.toLocaleString()}
-                    </span>
-                  </span>
+          </CardHeader>
+          <CardContent>
+            <dl className="divide-y rounded-lg border text-sm">
+              {details.map((detail) => (
+                <div key={detail.label} className="flex items-center justify-between gap-4 px-3 py-2.5">
+                  <dt className="text-muted-foreground">{detail.label}</dt>
+                  <dd className="text-right font-medium">{detail.value || "—"}</dd>
                 </div>
-                <Button size="sm" variant="outline">
-                  <Link
-                    href={
-                      "/dashboard/forms/" +
-                      submission.formId +
-                      "/results/" +
-                      submission.id
-                    }
-                  >
-                    Смотреть результат
-                  </Link>
-                </Button>
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Пройденные методики</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {testSubmissions.map(async (submission) => {
-            const test = await prisma.test.findFirst({
-              where: {
-                id: submission.testId,
-              },
-            });
-
-            return (
-              <div className="w-full h-12 rounded-md hover:bg-accent flex items-center justify-between">
-                <div className="flex flex-row gap-2">
-                  <span className="flex flex-col">
-                    <h1 className="text-black dark:text-white font-bold text-md tracking-wide">
-                      {test?.name}
-                    </h1>
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {submission.createdAt.toLocaleString()}
-                    </span>
-                  </span>
-                </div>
-                <Button size="sm" variant="outline">
-                  <Link
-                    href={
-                      "/dashboard/tests/" +
-                      submission.testId +
-                      "/results/" +
-                      submission.id
-                    }
-                  >
-                    Смотреть результат
-                  </Link>
-                </Button>
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card>
-    </div>
+              ))}
+            </dl>
+          </CardContent>
+        </Card>
+        <div className="flex min-w-0 flex-col gap-6">
+          {history(t("testsTaken"), testHistory, <FlaskConical className="h-4 w-4" />)}
+          {history(t("formsTaken"), formHistory, <NotepadText className="h-4 w-4" />)}
+        </div>
+      </div>
+    </>
   );
 }

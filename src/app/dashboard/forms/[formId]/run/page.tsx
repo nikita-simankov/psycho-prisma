@@ -1,5 +1,6 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
-import { FormRunner } from "./form-runner";
+import { FormRunner } from "@/components/form-runner";
+import { notFound } from "next/navigation";
 
 type PathParams = {
   params: {
@@ -10,9 +11,13 @@ type PathParams = {
 export default async function RunForm({ params }: PathParams) {
   const form = await findFormById(params.formId);
 
+  if (!form) {
+    notFound();
+  }
+
   return (
-    <div className="p-10">
-      <FormRunner form={form!} />
+    <div className="py-2">
+      <FormRunner form={form} doneHref="/dashboard/forms" />
     </div>
   );
 }

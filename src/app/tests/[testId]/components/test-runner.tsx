@@ -1,84 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { TestQuestionCard } from "./test-question";
-import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Test } from "@prisma/client";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { uploadTestSubmission } from "@/actions/test-submission/upload-test-submission-action";
+import { DoneStep } from "@/components/runner/done-step";
+import { toast } from "@/hooks/use-toast";
+import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
+import { Test } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { TestQuestionCard } from "./test-question";
 
 type Properties = {
   test: Test;
   questions: TestQuestion[];
 };
 
-export const TestRunner: React.FC<Properties> = ({ test, questions }) => {
+export function TestRunner({ test, questions }: Properties) {
+  const t = useTranslations("runner");
+  const common = useTranslations("common");
   const router = useRouter();
-  const [questionIndex, setQuestionIndex] = useState<number>(0);
-  const [questionResponses, setQuestionResponses] = useState<
-    TestQuestionResponse[]
-  >([]);
+  const [responses, setResponses] = useState<TestQuestionResponse[]>([]);
+  // Answers taken back with Back, so the choice is still selected when the question reappears.
+  const [undone, setUndone] = useState<TestQuestionResponse[]>([]);
+  const question = questions[responses.length];
 
-  const { mutate: uploadSubmission } = useMutation({
-    mutationFn: () => uploadTestSubmission(test.id, questionResponses),
-
-    onSuccess: (test) => {
-      fetch(
-        "http://localhost:3000/dashboard/tests/" +
-          test.testId +
-          "/results/" +
-          test.id,
-        {
-          method: "GET",
-        }
-      );
-      router.push("/tests");
-    },
+  const submission = useMutation({
+    mutationFn: () => uploadTestSubmission(test.id, responses),
+    onSuccess: () => router.push("/tests?done=1"),
+    onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });
 
-  if (questionIndex <= questions.length - 1) {
+  const back = () => {
+    const last = responses[responses.length - 1];
+    setResponses(responses.slice(0, -1));
+    setUndone([last, ...undone]);
+  };
+
+  if (question) {
     return (
       <TestQuestionCard
-        question={questions[questionIndex]}
-        responses={questionResponses}
-        setResponses={setQuestionResponses}
-        questionIndex={questionIndex}
-        setQuestionIndex={setQuestionIndex}
+        key={question.id}
+        question={question}
+        position={responses.length + 1}
+        total={questions.length}
+        initialChoiceId={undone.find((response) => response.questionId === question.id)?.choiceId}
+        onBack={responses.length > 0 ? back : undefined}
+        onAnswer={(choiceId) => {
+          setResponses([...responses, { questionId: question.id, choiceId }]);
+          setUndone(undone.filter((response) => response.questionId !== question.id));
+        }}
       />
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Поздравляем!</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          Вы успешно прошли тест "{test.name}". Нажмите "Завершить", чтобы
-          вернуться на страницу тестов
-        </p>
-      </CardContent>
-      <CardFooter>
-        <Button
-          className="w-full"
-          onClick={() => {
-            uploadSubmission();
-          }}
-        >
-          Завершить
-        </Button>
-      </CardFooter>
-    </Card>
+    <DoneStep
+      text={t("testDoneText", { name: test.name })}
+      pending={submission.isPending}
+      onFinish={() => submission.mutate()}
+      onBack={back}
+    />
   );
-};
+}

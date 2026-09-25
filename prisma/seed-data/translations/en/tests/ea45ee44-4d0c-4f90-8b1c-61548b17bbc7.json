@@ -1,0 +1,479 @@
+{
+ "name": "Drug Use Motives (DUM)",
+ "instruction": "Rate each statement using the answer scale provided.",
+ "questions": {
+  "1": {
+   "text": "People take drugs when they are available and there is money.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "2": {
+   "text": "People try drugs to understand what others feel.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "3": {
+   "text": "Taking drugs is a personal matter; everyone makes their own choice.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "4": {
+   "text": "Drugs give a 'high', mental and physical pleasure.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "5": {
+   "text": "Drugs relieve inner tension, anxiety, fear and worry.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "6": {
+   "text": "Taking drugs gets rid of boredom, emptiness and loneliness.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "7": {
+   "text": "To feel 'normal', you need to take a certain dose of a drug.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "8": {
+   "text": "The best way to stop thinking about drugs is to take them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "9": {
+   "text": "People take drugs out of spite, to annoy those around them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "10": {
+   "text": "People take drugs out of spite, to annoy those around them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "11": {
+   "text": "In a group, people take drugs so as not to spoil relations with friends by refusing.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "12": {
+   "text": "Drugs are no more dangerous than tobacco and alcohol.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "13": {
+   "text": "People take drugs out of curiosity, to test themselves and try new, unknown sensations.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "14": {
+   "text": "Taking drugs is a way to escape reality and the daily grind.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "15": {
+   "text": "Drugs are needed to change your state and sharpen your senses and interest in life.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "16": {
+   "text": "Taking a drug helps you get over withdrawal.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "17": {
+   "text": "People take drugs knowing they are dependent on them.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "18": {
+   "text": "Drug use is caused by losing the meaning of life.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "19": {
+   "text": "Taking drugs when meeting friends gets rid of boredom and idleness.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "20": {
+   "text": "People take drugs so as not to look 'weak'.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "21": {
+   "text": "You can take drugs without becoming dependent.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "22": {
+   "text": "A drug lets a person experience well-being and happiness.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "23": {
+   "text": "Drugs help you forget conflicts with loved ones, unpleasant events, grief and disappointment.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "24": {
+   "text": "The world of dreams and fantasies created by drugs stimulates spiritual life and fills an inner emptiness.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "25": {
+   "text": "Not having a dose causes inner tension, anxiety and apathy.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "26": {
+   "text": "People increase the dose because they can't overcome their craving for the pleasure it gives.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "27": {
+   "text": "People take drugs out of a spirit of defiance towards society, not wanting to be good, proper and like everyone else.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "28": {
+   "text": "Taking drugs makes you stand out from the crowd and look especially 'cool'.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "29": {
+   "text": "People take drugs in company so as not to feel awkward or be the odd one out.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "30": {
+   "text": "Taking drugs is a form of self-expression.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "31": {
+   "text": "Taking drugs makes for a pleasant, fun time and socializing, and helps you relax.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "32": {
+   "text": "Being unable to meet your needs or sort out your personal life forces people to take drugs.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "33": {
+   "text": "A drug adds strength and energy, excites, activates and acts as a stimulant.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "34": {
+   "text": "After taking a drug your mood improves and your capacity for work is restored.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "35": {
+   "text": "Having a dose makes you want to take it immediately.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "36": {
+   "text": "Being misunderstood and not believed in by others forces people to take drugs.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "37": {
+   "text": "Taking drugs is prestigious and earns respect from others.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "38": {
+   "text": "People take drugs under peer pressure or as a result of coercion.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "39": {
+   "text": "Taking drugs is fashionable.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "40": {
+   "text": "The first experience of pleasure from a drug makes people repeat it again and again.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "41": {
+   "text": "Taking drugs eases negative feelings caused by lack of money, relationship problems and so on.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "42": {
+   "text": "Drugs make you feel strong and free.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "43": {
+   "text": "Each new, larger dose brings new, stronger sensations of pleasure.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "44": {
+   "text": "You can feel something like 'love' for a drug: constantly longing for it, missing it and enjoying each encounter.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  },
+  "45": {
+   "text": "Losing sight of the future and of the meaning and value of life forces people to take drugs.",
+   "choices": {
+    "1": "Yes",
+    "2": "Rather yes",
+    "3": "Not sure",
+    "4": "Rather no",
+    "5": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Traditional, socially conditioned, common motives",
+  "2": "Submissive motives",
+  "3": "Pseudo-cultural motives",
+  "4": "Hedonistic motives",
+  "5": "Ataractic (tension-relieving) motives",
+  "6": "Behavioural hyperactivation motives",
+  "7": "Relief of withdrawal",
+  "8": "Psychological dependence motives",
+  "9": "Self-harm motives",
+  "10": "Drug use risk",
+  "11": "Overall motivational tension"
+ },
+ "summaries": {
+  "Отсутствие риска наркотизации": "No risk of drug use",
+  "Низкий риск наркотизации": "Low risk of drug use",
+  "Средний риск наркотизации": "Moderate risk of drug use",
+  "Высокий риск наркотизации": "High risk of drug use",
+  "Наркотическая зависимость": "Drug dependence",
+  "Отсутствует мотивационное напряжение": "No motivational tension",
+  "Присутствует мотивационное напряжение": "Motivational tension present",
+  "Сильное мотивационное напряжение": "Strong motivational tension"
+ }
+}

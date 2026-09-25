@@ -1,3 +1,4 @@
+import { findAllArchiveEntries } from "@/actions/summary/find-archive-entries";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,53 +7,49 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { prisma } from "@/utils/database";
+import { PageHeader } from "@/components/page-header";
+import UserAvatar from "@/components/ui/user-avatar";
+import { formatFullName, formatWorkInfo } from "@/utils/user";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import DeleteEntryButton from "./delete-button";
 
+export async function generateMetadata() {
+  const t = await getTranslations("dashboard.nav");
+  return { title: t("archive") };
+}
+
 export default async function ArchivePage() {
-  const archiveEntries = await prisma.userSummary.findMany({
-    include: {
-      user: true,
-    },
-  });
+  const t = await getTranslations("archive");
+  const entries = await findAllArchiveEntries();
 
   return (
-    <div className="p-12 flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">Архив характеристик военнослужащих</h1>
-      <Separator />
-      {archiveEntries.length > 0 ? (
-        <div className="grid grid-cols-4 gap-4">
-          {archiveEntries.map((entry) => (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {entry.user?.lastName} {entry.user?.name}{" "}
-                  {entry.user?.surname}
-                </CardTitle>
-                <CardDescription>
-                  {entry.user?.rank}, {entry.user?.division}
-                </CardDescription>
+    <>
+      <PageHeader title={t("title")} description={t("description")} />
+      {entries.length === 0 && (
+        <Card className="p-10 text-center text-muted-foreground">{t("empty")}</Card>
+      )}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {entries.map((entry) =>
+          entry.user ? (
+            <Card key={entry.id} className="flex flex-col">
+              <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+                <UserAvatar user={entry.user} className="h-10 w-10" />
+                <div className="min-w-0">
+                  <CardTitle className="truncate text-base">{formatFullName(entry.user)}</CardTitle>
+                  <CardDescription className="truncate">{formatWorkInfo(entry.user)}</CardDescription>
+                </div>
               </CardHeader>
-              <CardFooter className="w-full flex flex-row items-center gap-4">
+              <CardFooter className="mt-auto grid grid-cols-2 gap-2">
                 <DeleteEntryButton summaryId={entry.id} />
-                <Button size="sm" className="w-1/2" asChild>
-                  <Link href={"/dashboard/archive/" + entry.user?.id}>
-                    Заключение
-                  </Link>
+                <Button asChild>
+                  <Link href={`/dashboard/archive/${entry.user.id}`}>{t("open")}</Link>
                 </Button>
               </CardFooter>
             </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center">
-          <h1 className="text-lg font-medium text-muted-foreground">
-            Архив пуст
-          </h1>
-        </div>
-      )}
-    </div>
+          ) : null
+        )}
+      </div>
+    </>
   );
 }

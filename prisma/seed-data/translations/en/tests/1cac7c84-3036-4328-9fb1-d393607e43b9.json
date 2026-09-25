@@ -1,0 +1,207 @@
+{
+ "name": "Beck Depression Inventory (BDI)",
+ "description": "The Beck Depression Inventory (BDI) assesses depressive states. It was developed by the American psychotherapist Aaron Beck from clinical observations that identified a limited set of the most relevant symptoms of depression and the complaints patients raise most often.",
+ "instruction": "You will see groups of statements. In each group, choose the one statement that best describes how you have felt over the past week, including today. Read all the statements in a group carefully before choosing.",
+ "questions": {
+  "1": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't feel upset or sad.",
+    "2": "I feel upset.",
+    "3": "I feel upset all the time and can't switch off from it.",
+    "4": "I'm so upset and unhappy that I can't bear it."
+   }
+  },
+  "2": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I'm not worried about my future.",
+    "2": "I feel uncertain about the future.",
+    "3": "I feel there's nothing waiting for me in the future.",
+    "4": "My future is hopeless and nothing can change for the better."
+   }
+  },
+  "3": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't feel like a failure.",
+    "2": "I feel I've had more failures than other people.",
+    "3": "When I look back on my life, I see a lot of failures.",
+    "4": "I feel that as a person I'm a complete failure."
+   }
+  },
+  "4": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I get as much satisfaction out of life as I used to.",
+    "2": "I don't get as much satisfaction out of life as I used to.",
+    "3": "I no longer get satisfaction from anything.",
+    "4": "I'm completely dissatisfied with life and tired of everything."
+   }
+  },
+  "5": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't feel guilty about anything.",
+    "2": "I feel guilty quite often.",
+    "3": "I feel guilty most of the time.",
+    "4": "I feel guilty all the time."
+   }
+  },
+  "6": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't feel I might be punished for anything.",
+    "2": "I feel I might be punished.",
+    "3": "I expect I might be punished.",
+    "4": "I feel I'm already being punished."
+   }
+  },
+  "7": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I'm not disappointed in myself.",
+    "2": "I'm disappointed in myself.",
+    "3": "I'm disgusted with myself.",
+    "4": "I hate myself."
+   }
+  },
+  "8": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I know I'm no worse than others.",
+    "2": "I criticize myself for my mistakes and weaknesses.",
+    "3": "I blame myself all the time for what I do.",
+    "4": "I blame myself for everything bad that happens."
+   }
+  },
+  "9": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I've never thought of killing myself.",
+    "2": "I have thoughts of killing myself, but I won't act on them.",
+    "3": "I would like to kill myself.",
+    "4": "I would kill myself if I had the chance."
+   }
+  },
+  "10": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't cry any more than usual.",
+    "2": "I cry more often now than I used to.",
+    "3": "I cry all the time now.",
+    "4": "I used to be able to cry, but now I can't, even when I want to."
+   }
+  },
+  "11": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I'm no more irritable now than usual.",
+    "2": "I get irritated more easily than I used to.",
+    "3": "I feel irritated all the time now.",
+    "4": "I've become indifferent to things that used to irritate me."
+   }
+  },
+  "12": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I haven't lost interest in other people.",
+    "2": "I'm less interested in other people than I used to be.",
+    "3": "I've almost lost interest in other people.",
+    "4": "I've completely lost interest in other people."
+   }
+  },
+  "13": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I sometimes put off decisions, just as before.",
+    "2": "I put off decisions more often than I used to.",
+    "3": "I find it harder to make decisions than before.",
+    "4": "I can't make decisions any more."
+   }
+  },
+  "14": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't feel I look any worse than usual.",
+    "2": "I'm worried that I look old and unattractive.",
+    "3": "I know my appearance has changed significantly and made me unattractive.",
+    "4": "I know I look ugly."
+   }
+  },
+  "15": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I can work as well as before.",
+    "2": "I need to make an extra effort to start doing anything.",
+    "3": "I have to force myself to do anything.",
+    "4": "I can't do any work at all."
+   }
+  },
+  "16": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I sleep as well as before.",
+    "2": "I sleep worse now than I used to.",
+    "3": "I wake up 1–2 hours earlier than usual and find it hard to get back to sleep.",
+    "4": "I wake up several hours earlier than usual and can't get back to sleep."
+   }
+  },
+  "17": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't get tired any more than usual.",
+    "2": "I get tired more quickly now than I used to.",
+    "3": "I get tired from almost everything I do.",
+    "4": "I'm too tired to do anything."
+   }
+  },
+  "18": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "My appetite is no worse than usual.",
+    "2": "My appetite is worse than it used to be.",
+    "3": "My appetite is much worse now.",
+    "4": "I have no appetite at all."
+   }
+  },
+  "19": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I haven't lost weight recently, or only a little.",
+    "2": "I've lost more than 2 kg recently.",
+    "3": "I've lost more than 5 kg.",
+    "4": "I've lost more than 7 kg.",
+    "5": "I'm deliberately trying to lose weight and eating less"
+   }
+  },
+  "20": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I don't worry about my health any more than usual.",
+    "2": "I'm worried about physical problems such as aches, upset stomach, constipation and so on.",
+    "3": "I'm very worried about my physical condition and find it hard to think about anything else",
+    "4": "I'm so worried about my physical condition that I can't think about anything else."
+   }
+  },
+  "21": {
+   "text": "Choose a statement",
+   "choices": {
+    "1": "I haven't noticed any change in my interest in intimacy recently.",
+    "2": "I'm less interested in intimacy than I used to be.",
+    "3": "I'm much less interested in sex now than I used to be.",
+    "4": "I've completely lost interest in sex."
+   }
+  }
+ },
+ "scales": {
+  "1": "Depression"
+ },
+ "summaries": {
+  "Отсутствуют депрессивные симптомы": "No depressive symptoms",
+  "Наблюдаются симптомы лёгкой депрессии": "Symptoms of mild depression",
+  "Наблюдаются симптомы умеренной депрессии": "Symptoms of moderate depression",
+  "Наблюдаются симптомы выраженной депрессии": "Symptoms of marked depression",
+  "Наблюдаются симптомы тяжелой депрессии": "Symptoms of severe depression"
+ }
+}

@@ -35,21 +35,27 @@ export class GradeStrategy {
         scale.scale.resultCalculationFormula !== undefined &&
         scale.scale.resultCalculationFormula !== "Нет"
       ) {
-        let formula: string = scale.scale.resultCalculationFormula;
-        let matches: string[] = formula.match(/\$\d+/g)!;
+        // Replace $N with the raw grade of scale N, then evaluate safely.
+        const formula = scale.scale.resultCalculationFormula.replace(
+          /\$(\d+)/g,
+          (_, scaleNumber: string) => {
+            const referenced = scales.find(
+              (s) => s.scale.id === Number(scaleNumber)
+            );
 
-        for (const match of matches!) {
-          const scaleNumber = Number(match.slice(1, match.length));
+            if (!referenced) {
+              throw new Error(
+                `Formula for scale ${scale.scale.id} references missing scale ${scaleNumber}`
+              );
+            }
 
-          formula = formula.replace(
-            match,
-            String(scales.find((s) => s.scale.id === scaleNumber)!.grade)
-          );
-        }
+            return `(${referenced.grade})`;
+          }
+        );
 
         return {
           scale: scale.scale,
-          grade: Number(eval(formula)),
+          grade: Number(new Formula(formula).evaluate({})),
         };
       } else {
         return {

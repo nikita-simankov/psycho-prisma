@@ -2,38 +2,51 @@
 
 import { prisma } from "@/utils/database";
 import { lucia } from "@/utils/authentication";
-import {
-  SignInFormData,
-  signInSchema,
-} from "@/app/auth/sign-in/schema/sign-in.schema";
+import { consumeRateLimit } from "@/utils/rate-limit";
+import { signInSchema } from "@/app/auth/sign-in/schema/sign-in.schema";
 import { compare } from "bcryptjs";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
-export async function signIn(data: SignInFormData) {
-  const { phoneNumber, password } = await signInSchema.parseAsync(data);
+// Compared against when the phone number is unknown, so both paths take the same time.
+const DUMMY_HASH = "$2a$10$tpMTjOqMdk5cAjXejhc8qOlegoxIr8QhGT/VE5n22td9Vv3ZYolbC";
 
-  const existingUser = await prisma.user.findFirst({
-    where: {
-      phoneNumber: phoneNumber,
-    },
-  });
+export async function signIn(
+  data: unknown
+): Promise<{ role: string } | { error: "invalidCredentials" | "rateLimited" }> {
+  const parsed = signInSchema.safeParse(data);
 
-  if (existingUser === null || existingUser.phoneNumber !== phoneNumber) {
-    throw new Error("Пользователя с таким номером телефона не существует");
+  if (!parsed.success) {
+    return { error: "invalidCredentials" };
   }
 
-  if (!(await compare(password, existingUser.password))) {
-    throw new Error("Неверно указан пароль, попробуйте другой");
+  const { phoneNumber, password } = parsed.data;
+  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+
+  if (
+    !consumeRateLimit(`sign-in:phone:${phoneNumber}`, 5, 15 * 60_000) ||
+    !consumeRateLimit(`sign-in:ip:${ip}`, 30, 15 * 60_000)
+  ) {
+    return { error: "rateLimited" };
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { phoneNumber },
+    select: { id: true, role: true, password: true },
+  });
+
+  const passwordMatches = await compare(
+    password,
+    existingUser?.password ?? DUMMY_HASH
+  );
+
+  if (!existingUser || !passwordMatches) {
+    return { error: "invalidCredentials" };
   }
 
   const session = await lucia.createSession(existingUser.id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
 
-  cookies().set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes
-  );
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
-  return existingUser;
+  return { role: existingUser.role };
 }

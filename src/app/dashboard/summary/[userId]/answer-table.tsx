@@ -1,44 +1,42 @@
-import { TestSubmission } from "@prisma/client";
 import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
+import { useTranslations } from "next-intl";
 
 interface Properties {
-  questions: string;
-  testSubmission: TestSubmission;
+  questions: TestQuestion[];
+  responses: TestQuestionResponse[];
 }
 
-export default function AnswerTable({
-  questions,
-  testSubmission,
-}: Readonly<Properties>) {
-  const parsedQuestions = JSON.parse(questions) as TestQuestion[];
-  const questionAnswers = JSON.parse(
-    testSubmission.submission
-  ) as TestQuestionResponse[];
+export default function AnswerTable({ questions, responses }: Readonly<Properties>) {
+  const t = useTranslations("results.table");
+  const choiceByQuestion = new Map(
+    responses.map((response) => [response.questionId, response.choiceId])
+  );
 
   return (
-    <table className="border">
-      <tr>
-        <th className="border">№ п/п</th>
-        <th className="border">Вопрос</th>
-        <th className="border">Ответ</th>
-      </tr>
-      {parsedQuestions.map((question) => {
-        const questionAnswerId = questionAnswers.find(
-          (questionAnswer) => questionAnswer.questionId === question.id
-        )?.choiceId;
-
-        const questionAnswer = parsedQuestions
-          .find((lookupQuestion) => lookupQuestion.id === question.id)
-          ?.choices.find((choice) => choice.id === questionAnswerId);
-
-        return (
-          <tr className="text-center">
-            <td className="border">{question.id}</td>
-            <td className="border">{question.text}</td>
-            <td className="border">{questionAnswer?.text}</td>
+    <div className="overflow-x-auto w-full">
+      <table className="border w-full text-sm">
+        <thead>
+          <tr>
+            <th className="border p-1">{t("number")}</th>
+            <th className="border p-1">{t("question")}</th>
+            <th className="border p-1">{t("answer")}</th>
           </tr>
-        );
-      })}
-    </table>
+        </thead>
+        <tbody>
+          {questions.map((question) => {
+            const choiceId = choiceByQuestion.get(question.id);
+            const answer = question.choices.find((choice) => choice.id === choiceId);
+
+            return (
+              <tr key={question.id}>
+                <td className="border p-1 text-center">{question.id}</td>
+                <td className="border p-1">{question.text}</td>
+                <td className="border p-1">{answer?.text}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }

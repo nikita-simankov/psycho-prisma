@@ -1,0 +1,265 @@
+{
+ "name": "Risk Readiness (Schubert)",
+ "description": "Schubert's risk readiness questionnaire shows how willing you are to take risks and how necessary and sensible those risks are. It can also point to the causes of everyday mistakes and help you adjust your behaviour to achieve more with less effort.",
+ "instruction": "Rate how ready you would be to do each of the things you are asked about.",
+ "questions": {
+  "1": {
+   "text": "Would you break the speed limit to get a seriously ill person to medical help faster?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "2": {
+   "text": "Would you join a long, dangerous expedition for good pay?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "3": {
+   "text": "Would you step into the path of a dangerous burglar who is running away?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "4": {
+   "text": "Could you ride on the step of a freight wagon travelling at over 100 km/h?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "5": {
+   "text": "Can you work normally the day after a sleepless night?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "6": {
+   "text": "Would you be the first to wade across very cold water?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "7": {
+   "text": "Would you lend a friend a large sum of money without being sure they could pay it back?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "8": {
+   "text": "Would you go into a lion's cage with the tamer if they assured you it was safe?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "9": {
+   "text": "Could you climb a tall factory chimney if someone guided you from below?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "10": {
+   "text": "Could you sail a boat without any training?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "11": {
+   "text": "Would you risk grabbing the bridle of a galloping horse?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "12": {
+   "text": "Could you ride a bike after 10 glasses of beer?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "13": {
+   "text": "Could you do a parachute jump?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "14": {
+   "text": "If you had to, could you travel a long distance by train without a ticket?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "15": {
+   "text": "Would you go on a road trip if the driver was an acquaintance who had recently been in a serious crash?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "16": {
+   "text": "Could you jump from a height of 10 metres onto a fire brigade's safety net?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "17": {
+   "text": "To get rid of a long illness that keeps you in bed, would you have a life-threatening operation?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "18": {
+   "text": "Could you jump off the step of a freight wagon moving at 50 km/h?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "19": {
+   "text": "As an exception, would you ride in a lift built for six people together with seven others?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "20": {
+   "text": "For a large cash reward, would you cross a busy intersection blindfolded?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "21": {
+   "text": "Would you take a life-threatening job if it paid well?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "22": {
+   "text": "Could you calculate percentages after 10 shots of vodka?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "23": {
+   "text": "Would you take hold of a high-voltage cable on your manager's instruction if they assured you it was switched off?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "24": {
+   "text": "Could you fly a helicopter after a short briefing?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  },
+  "25": {
+   "text": "Could you make a long train journey with a ticket but no food?",
+   "choices": {
+    "1": "Yes",
+    "2": "More yes than no",
+    "3": "Somewhere in between",
+    "4": "More no than yes",
+    "5": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Risk readiness"
+ },
+ "summaries": {
+  "Испытуемый слишком осторожен и не готов к рискам": "Overly cautious and not ready to take risks",
+  "Испытуемый больше готов к риску, чем нет": "More ready to take risks than not",
+  "Испытуемый не осторожен и полностью готов к рискам": "Not cautious and fully ready to take risks"
+ }
+}

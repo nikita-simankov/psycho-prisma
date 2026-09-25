@@ -1,16 +1,12 @@
+import { findArchiveEntryByUserId } from "@/actions/summary/find-archive-entries";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import UserAvatar from "@/components/ui/user-avatar";
-import { prisma } from "@/utils/database";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatFullName, formatWorkInfo } from "@/utils/user";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -18,55 +14,49 @@ interface Params {
   };
 }
 
-export default async function Page({ params }: Params) {
-  const user = await findUserById(params.id);
-  const archiveEntry = await prisma.userSummary.findFirst({
-    where: {
-      userId: user?.id,
-    },
-  });
+export default async function ArchiveEntryPage({ params }: Params) {
+  const t = await getTranslations("archive");
+  const reports = await getTranslations("reports");
+  const [user, entry] = await Promise.all([
+    findUserById(params.id),
+    findArchiveEntryByUserId(params.id),
+  ]);
+
+  if (!user || !entry) {
+    notFound();
+  }
 
   return (
-    <div className="p-12 max-w-6xl w-full mx-auto flex flex-col gap-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center gap-4">
-            <UserAvatar user={user!} className="w-20 h-20" />
-            <div className="w-full flex flex-col gap-2">
-              <CardTitle>
-                {user?.lastName} {user?.name} {user?.surname}
-              </CardTitle>
-              <CardDescription>
-                {user?.rank}, {user?.division}
-              </CardDescription>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button size="sm" asChild>
-              <Link href={"/dashboard/summary/" + user!.id}>
-                Смотреть характеристику
-              </Link>
+    <>
+      <PageHeader
+        title={formatFullName(user)}
+        description={formatWorkInfo(user)}
+        back={{ href: "/dashboard/archive", label: t("title") }}
+        actions={
+          <>
+            <Button variant="outline" asChild>
+              <Link href={`/dashboard/users/${user.id}`}>{t("viewProfile")}</Link>
             </Button>
-            <Button size="sm" variant="outline" asChild>
-              <Link href={"/dashboard/users/" + user!.id}>
-                Смотреть профиль
-              </Link>
+            <Button asChild>
+              <Link href={`/dashboard/summary/${user.id}`}>{t("viewReport")}</Link>
             </Button>
-          </div>
-        </CardHeader>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Биографические данные военнослужащего</CardTitle>
-        </CardHeader>
-        <CardContent>{archiveEntry?.additionalNotes}</CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Заключение войскового психолога</CardTitle>
-        </CardHeader>
-        <CardContent>{archiveEntry?.verdict}</CardContent>
-      </Card>
-    </div>
+          </>
+        }
+      />
+      <div className="flex flex-col gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{reports("background")}</CardTitle>
+          </CardHeader>
+          <CardContent className="whitespace-pre-line">{entry.additionalNotes || "—"}</CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{reports("conclusion")}</CardTitle>
+          </CardHeader>
+          <CardContent className="whitespace-pre-line">{entry.verdict || "—"}</CardContent>
+        </Card>
+      </div>
+    </>
   );
 }

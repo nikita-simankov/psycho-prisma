@@ -1,48 +1,35 @@
+import { InstrumentCard } from "@/components/instrument-card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { TestQuestion } from "@/utils/constants";
-import { Test } from "@prisma/client";
-import { Calendar, CircleHelp, Clock } from "lucide-react";
+import { Category, Test } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 type Properties = {
-  test: Test;
+  test: Test & { categories?: Category[] };
 };
 
-export const TestCard: React.FC<Properties> = ({ test }) => {
-  const questions = JSON.parse(test.questions) as TestQuestion[];
+export function TestCard({ test }: Properties) {
+  const t = useTranslations("dashboard.tests");
+  const common = useTranslations("common");
+  const respondent = useTranslations("respondent");
+  const questionCount = (JSON.parse(test.questions) as unknown[]).length;
 
   return (
-    <Card className="flex flex-col justify-between">
-      <CardHeader>
-        <CardTitle>{test.name}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-1 text-muted-foreground">
-        <div className="flex flex-row items-center gap-1">
-          <Calendar className="w-[1rem] h-[1rem]" />
-          <span>Создано {test.createdAt.toLocaleString()}</span>
-        </div>
-        <div className="flex flex-row items-center gap-1">
-          <CircleHelp className="w-[1rem] h-[1rem]" />
-          <span>Вопросов: {questions.length} шт.</span>
-        </div>
-        <div className="flex flex-row items-center gap-1">
-          <Clock className="w-[1rem] h-[1rem]" />
-          <span>Время: {Math.round(questions.length * 0.3)} мин.</span>
-        </div>
-      </CardContent>
-      <CardFooter className="grid grid-cols-1">
-        <Link href={"/dashboard/tests/" + test.id}>
-          <Button className="w-full">Запустить</Button>
-        </Link>
-      </CardFooter>
-    </Card>
+    <InstrumentCard
+      kind="test"
+      name={test.name}
+      badges={test.categories?.map((category) => category.name)}
+      meta={[respondent("questionCount", { count: questionCount }), common("minutes", { count: test.ttc })]}
+      actions={
+        <>
+          <Button variant="outline" asChild>
+            <Link href={`/dashboard/tests/${test.id}`}>{common("open")}</Link>
+          </Button>
+          <Button asChild>
+            <Link href={`/dashboard/tests/${test.id}/results`}>{t("results")}</Link>
+          </Button>
+        </>
+      }
+    />
   );
-};
+}

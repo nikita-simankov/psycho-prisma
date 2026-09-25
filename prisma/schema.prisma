@@ -12,7 +12,7 @@ model User {
 
   role        String
   name        String
-  surname     String
+  middleName  String    @default("")
   lastName    String
   password    String
   firstTimer  Boolean   @default(true)
@@ -20,22 +20,14 @@ model User {
   sessions    Session[]
   imageURL    String    @default("")
 
-  group String @default("Общая группа")
+  // One of the keys in src/utils/groups.ts
+  group String @default("general")
 
-  rank                   String
-  division               String
-  dateOfBirth            String @default("")
-  recruitedBy            String @default("")
-  servingKind            String @default("Срочная служба")
-  servingPeriod          String @default("1 период (1-6 месяцев)")
-  recruitmentDate        String @default("")
-  recoveryQuestionAnswer String @default("Фамилия")
-
-  city       String @default("")
-  region     String @default("")
-  address    String @default("")
-  building   String @default("")
-  appartment String @default("")
+  department  String @default("")
+  position    String @default("")
+  dateOfBirth String @default("")
+  // When the person agreed to the privacy notice; null until they do.
+  consentedAt DateTime?
 
   summaries UserSummary[]
   createdAt DateTime      @default(now())
@@ -51,8 +43,9 @@ model Session {
 }
 
 model Category {
-  id    String @id @default(uuid())
-  name  String
+  id           String @id @default(uuid())
+  name         String
+  translations String @default("{}") // see src/utils/content-translation.ts
   forms Form[]
   tests Test[]
 }
@@ -66,6 +59,8 @@ model Form {
   group     String  @default("")
   questions String
   adminOnly Boolean @default(false)
+
+  translations String @default("{}") // see src/utils/content-translation.ts
 
   categories Category[]
 
@@ -99,6 +94,8 @@ model Test {
   stanTable    String
   tGradeTable  String
   summaryTable String
+
+  translations String @default("{}") // see src/utils/content-translation.ts
 
   categories Category[]
 

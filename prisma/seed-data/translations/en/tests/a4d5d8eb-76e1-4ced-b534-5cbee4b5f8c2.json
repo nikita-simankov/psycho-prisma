@@ -1,0 +1,366 @@
+{
+ "name": "Leadership Tendency",
+ "description": "This questionnaire assesses whether a person has the personal psychological qualities a leader needs.",
+ "instruction": "You will see 50 statements. For each one, choose one of the two answers. Don't think too long about any statement. If you are unsure, pick the answer you lean towards most.",
+ "questions": {
+  "1": {
+   "text": "Are you often the centre of attention?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "Do you think many of the people around you hold higher positions at work than you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "At a meeting with people of the same rank as you, do you feel like keeping your opinion to yourself, even when it is needed?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "As a child, did you like being the leader among your peers?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Do you enjoy it when you manage to convince someone of something?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "Do people ever call you indecisive?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "Do you agree that \"everything most useful in the world is the work of a small number of outstanding people\"?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "Do you feel a strong need for a mentor who could guide your professional activity?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "Have you ever lost your composure when talking with people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "Do you enjoy seeing that others are a little afraid of you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "At a table (at a meeting, in company and so on), do you try to take a seat that lets you be the centre of attention and control the situation?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "Do you think you make an imposing impression on people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Do you consider yourself a dreamer?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "Are you thrown when the people around you disagree with you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Have you ever, on your own initiative, organized a work, sports or other team?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "If what you planned did not produce the expected results, you:",
+   "choices": {
+    "1": "Are glad if someone else is made responsible for it",
+    "2": "Take responsibility and see it through yourself"
+   }
+  },
+  "17": {
+   "text": "Which of these two opinions do you agree with?",
+   "choices": {
+    "1": "A real manager must be able to do the work they manage and take part in it personally",
+    "2": "A real manager only needs to be able to lead others and does not have to do the work themselves"
+   }
+  },
+  "18": {
+   "text": "Who do you prefer to work with?",
+   "choices": {
+    "1": "With compliant people",
+    "2": "With independent, self-reliant people"
+   }
+  },
+  "19": {
+   "text": "Do you try to avoid heated discussions?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "As a child, did you often come up against your father's authority?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "In a professional discussion, can you win over people who previously disagreed with you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "Imagine you are walking in a forest with friends and get lost. Evening is coming and a decision has to be made. What do you do?",
+   "choices": {
+    "1": "Let the most competent person in the group decide",
+    "2": "Do nothing and rely on the others"
+   }
+  },
+  "23": {
+   "text": "There is a saying: \"Better to be first in a village than last in a city.\" Is it true?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "Do you consider yourself a person who influences others?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "Could one failure when taking the initiative stop you from ever doing it again?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "In your view, who is the true leader?",
+   "choices": {
+    "1": "The most competent person",
+    "2": "The person with the strongest character"
+   }
+  },
+  "27": {
+   "text": "Do you always try to understand people and appreciate them for who they are?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "Do you respect discipline?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "Which of these two managers would you prefer?",
+   "choices": {
+    "1": "One who decides everything themselves",
+    "2": "One who always consults and listens to others"
+   }
+  },
+  "30": {
+   "text": "Which leadership style do you think is best for the team you work in?",
+   "choices": {
+    "1": "Collaborative",
+    "2": "Authoritarian"
+   }
+  },
+  "31": {
+   "text": "Do you often feel that others take advantage of you?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "Which of these two descriptions is more like you?",
+   "choices": {
+    "1": "A person with a loud voice and expressive gestures who is never at a loss for words",
+    "2": "A person with a calm, quiet voice who is reserved and thoughtful"
+   }
+  },
+  "33": {
+   "text": "What do you do at a meeting if you think your opinion is the only correct one but everyone else disagrees?",
+   "choices": {
+    "1": "Stay silent",
+    "2": "Stand up for my opinion"
+   }
+  },
+  "34": {
+   "text": "Do you put your own interests and other people's behaviour second to the work you are doing?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "Do you feel anxious when you are made responsible for something important?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "What would you prefer?",
+   "choices": {
+    "1": "Work under a good manager",
+    "2": "Work on my own, without a manager"
+   }
+  },
+  "37": {
+   "text": "What do you think of the statement: \"For family life to go well, one of the partners must make the decisions\"?",
+   "choices": {
+    "1": "Agree",
+    "2": "Disagree"
+   }
+  },
+  "38": {
+   "text": "Have you ever bought something because of other people's opinions rather than your own need?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "Do you think your organizational skills are good?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "How do you react when you run into difficulties?",
+   "choices": {
+    "1": "I lose heart",
+    "2": "I feel a strong urge to overcome them"
+   }
+  },
+  "41": {
+   "text": "Do you reproach people when they deserve it?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "Do you think your nervous system can withstand life's pressures?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "What would you do if you were asked to reorganize your organization?",
+   "choices": {
+    "1": "Make the necessary changes immediately",
+    "2": "Take my time and think everything through first"
+   }
+  },
+  "44": {
+   "text": "Can you interrupt a talkative person when necessary?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "Do you agree that \"to be happy, you have to live unnoticed\"?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "Do you think every person should achieve something outstanding?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "What would you rather become?",
+   "choices": {
+    "1": "An artist, poet, composer or scientist",
+    "2": "An outstanding leader or politician"
+   }
+  },
+  "48": {
+   "text": "What kind of music do you prefer to listen to?",
+   "choices": {
+    "1": "Powerful and majestic",
+    "2": "Quiet and lyrical"
+   }
+  },
+  "49": {
+   "text": "Do you feel nervous before meeting important and famous people?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "Have you often met people with a stronger will than yours?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Leadership tendency"
+ },
+ "summaries": {
+  "Лидерские качества выражены слабо": "Weak leadership qualities",
+  "Лидерские качества выражены средне": "Moderate leadership qualities",
+  "Лидерские качества выражены сильно": "Strong leadership qualities",
+  "Лидерские качества выражены очень сильно. Как лидер, склонен к диктату": "Very strong leadership qualities. As a leader, tends to be dictatorial"
+ }
+}

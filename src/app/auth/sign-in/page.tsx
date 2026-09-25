@@ -1,22 +1,18 @@
-import Image from "next/image"
+import { AuthShell } from "@/components/auth-shell"
+import { getTranslations } from "next-intl/server"
 import SignInForm from "./components/sign-in-form"
 
-export default function SignInPage() {
+export async function generateMetadata() {
+  const t = await getTranslations("auth.signIn")
+  return { title: t("metaTitle") }
+}
+
+export default async function SignInPage() {
+  const t = await getTranslations("auth.signIn")
+
   return (
-    <main className="flex flex-row">
-      <div className="bg-white w-1/2 h-dvh flex flex-col gap-6 items-center justify-center">
-        <div className="flex flex-col items-center gap-2">
-          <h2 className="text-3xl font-bold">Добро пожаловать!</h2>
-          <p className="text-sm text-muted-foreground max-w-md text-center">
-            Введите номер телефона и пароль, которые вы указывали при
-            регистрации, чтобы войти в аккаунт
-          </p>
-        </div>
-        <SignInForm />
-      </div>
-      <div className="bg-accent w-1/2 h-dvh flex flex-col items-center justify-center">
-        <Image src="/chevron.png" alt="chevron" width={320} height={320} />
-      </div>
-    </main>
+    <AuthShell title={t("title")} subtitle={t("subtitle")}>
+      <SignInForm />
+    </AuthShell>
   )
 }

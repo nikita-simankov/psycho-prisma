@@ -1,0 +1,335 @@
+{
+ "name": "Suicidal Reaction Tendency (SR-45)",
+ "description": "Assesses a tendency towards suicidal reactions, making it possible to identify people at risk. Developed by P. I. Yunatskevich.",
+ "instruction": "Please answer 45 statements. Choose \"Yes\" if you agree and \"No\" if you don't. Try not to think too long about your answers; there are no right or wrong answers.",
+ "questions": {
+  "1": {
+   "text": "Do you think life can lose its value for a person in some situations?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "Life is sometimes worse than death",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "In the past I have tried to end my life",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "Many people love, understand and value me",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Terminally ill people who choose to die can be justified",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "I don't think I could ever end up in a hopeless situation",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "The meaning of life is not always clear; it can be lost or never found",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "If your family and loved ones betrayed you, do you think you could go on living?",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "I sometimes think about taking my own life",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "In any situation I will fight for my life, whatever it costs",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "I always try to be completely honest everywhere",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "Basically, I have no faults",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Perhaps I won't be able to go on living",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "It is surprising that some people in a hopeless situation don't want to kill themselves",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "A feeling of doom eventually leads to taking one's own life",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "If necessary, taking one's own life can be justified",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "I don't like playing with death on my own",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "The first impression of a person is often the decisive one",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "I have tried different ways of ending my life",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "At a critical moment I can always pull myself together",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "At school I was always well-behaved",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "I can deceive the people around me to make my situation worse",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "There are quite a lot of dishonest people around me",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "Once I considered several ways of killing myself",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "People quite often try to deceive or mislead me",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "I would not want to die instantly after going through something painful",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "I would go on living if a global nuclear war broke out",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "A person is free to do what they want with their life, even if they choose death",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "A person who can't present themselves well to management loses out on a lot",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "I have never written a suicide note to anyone",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "Once I tried to kill myself",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "There is no such thing as a situation with no way out",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "I have tried to kill myself in a way that would not cause much pain",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "You need to be able to hide your thoughts from others, even if they don't care about me",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "A person's soul probably feels relief when it leaves this world by its own choice",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "I can justify anything I do",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "If I am doing something and people start getting in my way, I will still do what I planned",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "To escape an incurable illness and stop suffering, a person should probably end their suffering and leave this life voluntarily",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "I sometimes doubt the mental health of some people I know",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "Once I made up my mind to kill myself",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "The absence of happiness in my life worries me",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "I never break the law, even in small things",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "Sometimes I want to fall asleep and never wake up",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "Most of the time you feel generally weak.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "You rarely have headaches.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Suicidal reaction tendency",
+  "2": "Lie scale"
+ },
+ "summaries": {
+  "Низкий уровень склонности к суицидальным реакциям": "Low tendency towards suicidal reactions",
+  "Суицидальная реакция может возникнуть только на фоне длительной психической травматизации и при реактивных состояниях психики.": "A suicidal reaction can only arise after prolonged psychological trauma or in reactive mental states.",
+  "«Потенциал» склонности к суицидальным реакциям не отличается высокой устойчивостью": "The 'potential' for suicidal reactions is not very stable",
+  "Группа суицидального риска с высоким уровнем проявления склонности к суицидальным реакциям (при нарушениях адаптации возможна суицидальная попытка или реализация саморазрушающего поведения).": "Suicide risk group with a high tendency towards suicidal reactions (if adjustment breaks down, a suicide attempt or self-destructive behaviour is possible).",
+  "Группа суицидального риска с очень высоким уровнем проявления склонности к суицидальным реакциям (ситуация внутреннего и внешнего конфликта, нуждаются в медико-психологической помощи).": "Suicide risk group with a very high tendency towards suicidal reactions (internal and external conflict; needs medical and psychological help).",
+  "Показатели по шкале лжи в норме": "Lie scale within the normal range",
+  "Показатели по шкале лжи выше нормы": "Lie scale above the normal range"
+ }
+}

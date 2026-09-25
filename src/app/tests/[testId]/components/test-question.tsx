@@ -1,105 +1,52 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { QuestionStep } from "@/components/runner/question-step";
+import { ChoiceList } from "@/components/runner/choice-list";
 import { Input } from "@/components/ui/input";
-import {
-  TestQuestion,
-  TestQuestionChoice,
-  TestQuestionResponse,
-} from "@/utils/constants";
-import clsx from "clsx";
-import React, { useState } from "react";
+import { TestQuestion } from "@/utils/constants";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+
+// Question types as written in the test spreadsheet template.
+const SINGLE_CHOICE = "Один из списка";
+const SINGLE_CHOICE_WITH_OTHER = "Один из списка + свой ответ";
 
 type Properties = {
   question: TestQuestion;
-  responses: TestQuestionResponse[];
-  questionIndex: number;
-  setResponses: React.Dispatch<React.SetStateAction<TestQuestionResponse[]>>;
-  setQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  position: number;
+  total: number;
+  initialChoiceId?: number;
+  onAnswer: (choiceId: number) => void;
+  onBack?: () => void;
 };
 
-export const TestQuestionCard: React.FC<Properties> = ({
-  question,
-  responses,
-  setResponses,
-  questionIndex,
-  setQuestionIndex,
-}) => {
-  const [choiceId, setChoiceId] = useState<number>();
-  const [responseValue, setResponseValue] = useState<string>("");
+export function TestQuestionCard({ question, position, total, initialChoiceId, onAnswer, onBack }: Properties) {
+  const t = useTranslations("runner");
+  const [choiceId, setChoiceId] = useState<number | undefined>(initialChoiceId);
+  const [otherValue, setOtherValue] = useState("");
+  // Free-text answers are recorded as one extra choice after the listed ones.
+  const otherChoiceId = question.choices.length + 1;
 
   return (
-    <Card className="border-t-8 border-t-primary max-w-5xl w-full">
-      <CardHeader>
-        <CardTitle>
-          Вопрос {question.id}. {question.text}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2">
-        {question.choices && (
-          <>
-            {question.type === "Один из списка" &&
-              question.choices.map((choice) => (
-                <div
-                  className={clsx(
-                    "px-4 py-2 border rounded-md transition-all cursor-pointer hover:border-primary",
-                    {
-                      "border-primary": choiceId === choice.id,
-                    }
-                  )}
-                  onClick={() => {
-                    setChoiceId(choice.id);
-                  }}
-                >
-                  {choice.text}
-                </div>
-              ))}
+    <QuestionStep
+      position={position}
+      total={total}
+      title={question.text}
+      canContinue={choiceId !== undefined}
+      onNext={() => choiceId !== undefined && onAnswer(choiceId)}
+      onBack={onBack}
+    >
+      {(question.type === SINGLE_CHOICE || question.type === SINGLE_CHOICE_WITH_OTHER) && (
+        <ChoiceList choices={question.choices} value={choiceId} onChange={setChoiceId} />
+      )}
 
-            {question.type === "Один из списка + свой ответ" && (
-              <div className="flex flex-col gap-2">
-                {question.choices.map((choice) => (
-                  <div
-                    className="px-4 py-2 border rounded-md transition-all cursor-pointer hover:border-primary"
-                    onClick={() => {
-                      setChoiceId(choice.id);
-                    }}
-                  >
-                    {choice.text}
-                  </div>
-                ))}
-                <Input
-                  value={responseValue}
-                  onFocus={() => setChoiceId(question.choices.length + 1)}
-                  onChange={(e) => setResponseValue(e.target.value)}
-                  placeholder="Ваш ответ"
-                />
-              </div>
-            )}
-          </>
-        )}
-      </CardContent>
-      <CardFooter className="w-full">
-        <Button
-          className="w-full"
-          onClick={() => {
-            setResponses([
-              ...responses,
-              {
-                questionId: question.id,
-                choiceId: choiceId!,
-              },
-            ]);
-            setQuestionIndex(questionIndex + 1);
-          }}
-        >
-          Далее
-        </Button>
-      </CardFooter>
-    </Card>
+      {question.type === SINGLE_CHOICE_WITH_OTHER && (
+        <Input
+          className="h-12 rounded-xl"
+          value={otherValue}
+          onFocus={() => setChoiceId(otherChoiceId)}
+          onChange={(event) => setOtherValue(event.target.value)}
+          placeholder={t("answerPlaceholder")}
+        />
+      )}
+    </QuestionStep>
   );
-};
+}

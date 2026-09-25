@@ -1,60 +1,64 @@
 import { findAllTestSubmissions } from "@/actions/test-submission/find-all-test-submissions-action";
-import { findTestById } from "@/actions/test/find-test-by-id-action";
-import { findUserById } from "@/actions/user/find-user-by-id-action";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ArrowUpRight } from "lucide-react";
+import { findAllTests } from "@/actions/test/find-all-tests-action";
+import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import UserAvatar from "@/components/ui/user-avatar";
+import { formatFullName } from "@/utils/user";
+import { ChevronRight, Inbox } from "lucide-react";
+import { getFormatter, getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export const DashboardRecentSubmissions: React.FC = async () => {
-  const submissions = await (await findAllTestSubmissions()).slice(0, 10);
+export async function DashboardRecentSubmissions() {
+  const t = await getTranslations("dashboard.recent");
+  const format = await getFormatter();
+  const [submissions, users, tests] = await Promise.all([
+    findAllTestSubmissions(),
+    findAllUsers(),
+    findAllTests(),
+  ]);
+  const usersById = new Map(users.map((user) => [user.id, user]));
+  const testsById = new Map(tests.map((test) => [test.id, test]));
+  const rows = submissions.slice(0, 10).flatMap((submission) => {
+    const user = usersById.get(submission.userId);
+    const test = testsById.get(submission.testId);
+    return user && test ? [{ submission, user, test }] : [];
+  });
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Недавние ответы</CardTitle>
-        <CardDescription>Недавние ответы на тестовые методики</CardDescription>
+        <CardTitle className="text-lg">{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
-      <CardContent>
-        {submissions.map(async (submission) => {
-          const user = await findUserById(submission.userId);
-          const test = await findTestById(submission.testId);
-
-          return (
-            <div className="w-full px-4 py-2 hover:bg-accent text-sm font-semibold tracking-wide flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center gap-6">
-                <Avatar>
-                  <AvatarImage src={user?.imageURL} />
-                  <AvatarFallback>
-                    {user?.name[0]! + user?.surname[0]!}
-                  </AvatarFallback>
-                </Avatar>
-                <span>
-                  {user?.lastName} {user?.name} {user?.surname} ({test?.name})
-                </span>
-              </div>
-
+      <CardContent className="px-2 sm:px-4">
+        {rows.length === 0 && (
+          <div className="flex flex-col items-center gap-2 py-10 text-center text-sm text-muted-foreground">
+            <Inbox className="h-8 w-8" />
+            {t("empty")}
+          </div>
+        )}
+        <ul className="divide-y">
+          {rows.map(({ submission, user, test }) => (
+            <li key={submission.id}>
               <Link
-                href={
-                  "/dashboard/tests/" + test?.id + "/results/" + submission.id
-                }
+                href={`/dashboard/tests/${test.id}/results/${submission.id}`}
+                className="flex items-center gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-accent"
               >
-                <Button size="sm" className="flex flex-row items-center gap-2">
-                  Смотреть результат
-                  <ArrowUpRight className="w-[1.2rem] h-[1.2rem]" />
-                </Button>
+                <UserAvatar user={user} className="h-9 w-9" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{formatFullName(user)}</p>
+                  <p className="truncate text-sm text-muted-foreground">{test.name}</p>
+                </div>
+                <time className="hidden shrink-0 text-xs text-muted-foreground sm:block">
+                  {format.relativeTime(submission.createdAt, new Date())}
+                </time>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <span className="sr-only">{t("viewResult")}</span>
               </Link>
-            </div>
-          );
-        })}
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );
-};
+}

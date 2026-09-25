@@ -1,0 +1,618 @@
+{
+ "name": "Neuropsychological Stability (Prognoz-2)",
+ "description": "Developed by V. Yu. Rybnikov. Measures neuropsychological stability, identifies individual signs of personality disorders and estimates the likelihood of a breakdown under stress. A qualitative look at the answers can clarify biographical details and how a person behaves and functions in different situations.",
+ "instruction": "Please answer 86 questions about certain features of your personality. Be frank, don't think too long about each question, and give the natural answer that first comes to mind. Remember there are no \"good\" or \"bad\" answers. Choose \"Yes\" or \"No\" for every statement and don't skip any.",
+ "questions": {
+  "1": {
+   "text": "I have given up on something I started because I was afraid I couldn't cope.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "It's easy to out-argue me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "I avoid correcting people who make unfounded claims.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "People show me as much sympathy and warmth as I deserve.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Sometimes I am sure that other people know what I'm thinking.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "There have been times when I didn't keep my promises.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "At times I am completely convinced that I'm worthless.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "I have never been in trouble with the law.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "I often remember numbers that mean nothing to me (for example, car registration numbers).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "Sometimes I don't tell the truth.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "I am more impressionable than most people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "I like having important people among my acquaintances; it seems to give me more weight in my own eyes.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Fate is definitely not on my side.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "I'm often told I'm quick-tempered.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "I have talked about things I don't understand.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "I lose patience with people easily.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "I have no enemies who really want to harm me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "Sometimes my hearing becomes so sharp that it bothers me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "I sometimes put off until tomorrow what I could do today.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "If people weren't against me, I would have achieved much more in life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "When I play a game, I prefer to win.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "I often cross the street to avoid meeting someone I don't want to see",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "Most of the time I feel as if I've done something wrong or even bad",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "If someone says something stupid or otherwise shows their ignorance, I try to explain their mistake to them",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "Sometimes I feel that so many difficulties have piled up that it's simply impossible to overcome them",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "My table manners are better when I'm a guest than at home",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "There are very nervous people in my family",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "If someone is to blame for my failures, I won't let them get away with it",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "I must admit that at times I worry about trifles",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "When I'm asked to start a discussion or give my opinion on something I know well, I do it without shyness",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "I often tease my friends",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "Over the course of my life my attitude to my profession has changed several times",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "When discussing some issues, I have agreed with others without really thinking",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "I have often worked under people who managed things so that they got credit for all the successes and others got the blame for mistakes",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "I walk into a room where others have already gathered and are talking without any fear.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "I feel that I in particular am treated unfairly especially often",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "When I'm somewhere high up, I feel an urge to jump",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "There are people I know whom I don't like",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "My plans have often seemed so hard to carry out that I had to give them up",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "I am often absent-minded and forgetful",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "I rarely have bouts of bad mood",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "I would prefer to work with women",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "I'm happiest when I'm alone",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "Sometimes when I don't feel well, I get irritable",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "I often have dreams that are better not told to anyone",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "My beliefs and views are unshakeable",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "I am nervous and easily excited",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "48": {
+   "text": "It irritates me a lot when I forget where I've put things",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "49": {
+   "text": "I sometimes get angry",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "I like work that requires close attention",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "51": {
+   "text": "Sometimes I get so agitated that I can't sit still",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "52": {
+   "text": "An indecent or even obscene joke sometimes makes me laugh",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "53": {
+   "text": "Sometimes such bad thoughts come into my head that it's better not to tell anyone about them",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "54": {
+   "text": "Sometimes I take valerian or other sedatives",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "55": {
+   "text": "I am an active person",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "56": {
+   "text": "It's hard for me now to hope that I'll achieve anything in life",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "57": {
+   "text": "Sometimes I feel close to a nervous breakdown",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "58": {
+   "text": "I haven't always replied to letters straight after reading them",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "59": {
+   "text": "Once a week or more often I get excited and agitated",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "60": {
+   "text": "I find it very hard to adapt to new living, working or study conditions. Moving to new conditions seems unbearably hard",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "61": {
+   "text": "I have sometimes been late for work or an appointment",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "62": {
+   "text": "I often have headaches",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "63": {
+   "text": "I have led an unhealthy lifestyle",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "64": {
+   "text": "I drink alcohol in moderation (or not at all)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "65": {
+   "text": "I often sink into sad thoughts",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "66": {
+   "text": "Compared with other families, there is very little love and warmth in mine",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "67": {
+   "text": "I often have ups and downs in mood",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "68": {
+   "text": "When I'm among people, I hear very strange things",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "69": {
+   "text": "I think I was very often punished undeservedly",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "70": {
+   "text": "I'm afraid to look down from a great height",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "71": {
+   "text": "There have been times when I couldn't do anything for days or even weeks because I couldn't make myself get down to work",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "72": {
+   "text": "I drink an unusually large amount of water every day",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "73": {
+   "text": "There have been times when I did something and afterwards didn't know what I had done.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "74": {
+   "text": "When I try to do something, I often notice my hands are shaking",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "75": {
+   "text": "I think I am doomed",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "76": {
+   "text": "I have periods of such strong anxiety that I can't even sit still",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "77": {
+   "text": "At times it seems to me that my mind is working more slowly",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "78": {
+   "text": "I feel that I sense everything more keenly than others",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "79": {
+   "text": "Sometimes, for no reason at all, I suddenly have a period of unusual cheerfulness",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "80": {
+   "text": "Some things upset me so much that it's hard even to talk about them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "81": {
+   "text": "Sometimes my nerves let me down.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "82": {
+   "text": "I often feel as if everything around me is unreal",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "83": {
+   "text": "When I hear about a close acquaintance's success, I start to feel like a failure",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "84": {
+   "text": "Bad, often even terrible words come into my head and I can't get rid of them",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "85": {
+   "text": "Sometimes I try to keep away from a particular person so as not to do or say something I'll regret",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "86": {
+   "text": "Often, even when things are going well for me, I feel that nothing matters",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Sincerity",
+  "2": "Neuropsychological stability"
+ },
+ "summaries": {
+  "Низкий уровень нервно-психической устойчивости. Выоская вероятность нервно-психических срывов. Необходима консультация психоневролога (невропатолога, психиатра)": "Low neuropsychological stability. A breakdown under stress is highly likely. Consultation with a neurologist or psychiatrist is needed",
+  "Нервно-психически устойчив. Однако существует вероятность нервно-психических срывов в напряженных, экстремальных ситуациях": "Neuropsychologically stable. However, a breakdown is possible in tense or extreme situations",
+  "Высокий уровень нервно-психической устойчивости. Нервно-психические срывы маловероятны.": "High neuropsychological stability. A breakdown is unlikely."
+ }
+}

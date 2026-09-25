@@ -1,0 +1,167 @@
+{
+ "name": "Hobbies Questionnaire",
+ "description": "This questionnaire is anonymous. It looks at which employees have hobbies or interests, as well as creative abilities or an inclination towards creative work.",
+ "questions": {
+  "1": {
+   "text": "Has leadership qualities",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "Can sing (has had singing lessons)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "Dances well (has had dance lessons)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "Writes poetry",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Writes stories",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "Writes song lyrics",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "Draws (or sculpts) well",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "Plays guitar (or another musical instrument)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "Reads a lot",
+   "choices": {
+    "1": "Detective stories",
+    "2": "Science fiction (fantasy)",
+    "3": "Adventure",
+    "4": "Horror",
+    "5": "History (non-fiction)",
+    "6": "Comics",
+    "7": "Manga (Japanese comics)",
+    "8": "Anime-related (light novels, visual novels)",
+    "9": "Psychology books",
+    "10": "Occult literature"
+   }
+  },
+  "10": {
+   "text": "Likes watching films",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "Plays computer games",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "Has done woodcarving, metalwork and so on (say which)"
+  },
+  "13": {
+   "text": "Has done photography",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "Can use Photoshop (or another graphics editor)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Has done programming",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "Has done hiking or travelling",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "Was a football fan",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "Has played sport (which)"
+  },
+  "19": {
+   "text": "Has abused alcohol",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "Has used drugs",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "Is dependent on a gadget (phone)",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "Finds it hard to adapt to work",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "Is constantly angry and silent",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ }
+}

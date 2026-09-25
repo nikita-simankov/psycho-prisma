@@ -1,0 +1,428 @@
+{
+  "metadata": {
+    "appName": "Prisma",
+    "title": "Prisma · Psychological assessment for HR teams",
+    "description": "Run validated psychological tests and questionnaires, score them automatically and review results for your team."
+  },
+  "common": {
+    "appName": "Prisma",
+    "print": "Print",
+    "language": "Language",
+    "locales": {
+      "en": "English",
+      "ru": "Русский"
+    },
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "open": "Open",
+    "start": "Start",
+    "finish": "Finish",
+    "error": "Something went wrong",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "items": "{count, plural, one {# item} other {# items}}",
+    "minutes": "{count, plural, one {# minute} other {# minutes}}",
+    "fileErrorTitle": "Could not read the file",
+    "fileErrorText": "Check that it is an .xlsx file in the expected template format",
+    "fileHint": "Upload an .xlsx file based on the template.",
+    "menu": "Menu",
+    "privacy": "Privacy"
+  },
+  "validation": {
+    "required": "Required",
+    "phone": "Enter a valid phone number",
+    "passwordLength": "Password must be at least 8 characters",
+    "tooLong": "Too long",
+    "consentRequired": "Please agree to continue"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "For HR teams and workplace psychologists",
+      "title": "Understand your people, not just their CVs",
+      "subtitle": "Run established psychological tests and questionnaires online. Scores are calculated the moment someone finishes, and every result lands in one private workspace.",
+      "cta": "Create a workspace account",
+      "secondary": "Sign in",
+      "trust": {
+        "private": "Visible only to your admins",
+        "languages": "English and Russian",
+        "mobile": "Works on any phone"
+      }
+    },
+    "preview": {
+      "person": "Jane Doe",
+      "role": "Account manager, Sales",
+      "test": "State–Trait Anxiety Inventory",
+      "scaleA": "State anxiety",
+      "scaleB": "Trait anxiety",
+      "summary": "Moderate trait anxiety",
+      "badge": "Scored instantly"
+    },
+    "features": {
+      "title": "Everything an assessment day needs",
+      "subtitle": "From the first invitation to the final report, without paper forms or spreadsheets.",
+      "library": {
+        "title": "Ready-made library",
+        "text": "19 established tests and 3 questionnaires, from anxiety and depression screening to leadership and cognitive ability, in English and Russian."
+      },
+      "scoring": {
+        "title": "Automatic scoring",
+        "text": "Raw scores, T-scores and stens are calculated on submit, with an interpretation for every scale."
+      },
+      "reports": {
+        "title": "Per-person reports",
+        "text": "See all of a person's results side by side, add background and a conclusion, then print or archive."
+      },
+      "groups": {
+        "title": "Groups and follow-up",
+        "text": "Put people who may need support into groups and keep an eye on them across departments."
+      }
+    },
+    "trust": {
+      "title": "Built for sensitive data",
+      "subtitle": "Psychological results deserve more care than an ordinary HR form.",
+      "consent": {
+        "title": "Consent first",
+        "text": "People read a plain-language privacy notice and agree to it before their first test."
+      },
+      "access": {
+        "title": "Private by default",
+        "text": "Only workspace admins see answers and scores. Colleagues never do."
+      },
+      "judgement": {
+        "title": "Support, not diagnosis",
+        "text": "Results inform a qualified specialist's judgement and never replace it."
+      }
+    },
+    "steps": {
+      "title": "How it works",
+      "label": "Step {number}",
+      "import": {
+        "title": "Pick or import instruments",
+        "text": "Use the built-in library or upload your own tests and questionnaires from an Excel template."
+      },
+      "invite": {
+        "title": "People take them online",
+        "text": "Employees and candidates sign up and complete assessments from any browser, at their own pace."
+      },
+      "review": {
+        "title": "Review results",
+        "text": "Scores and interpretations are ready in the dashboard as soon as someone finishes."
+      }
+    },
+    "cta": {
+      "title": "Ready to run your first assessment?",
+      "text": "Sign up takes a minute. Your administrator can then assign tests and questionnaires.",
+      "button": "Get started"
+    },
+    "footer": {
+      "tagline": "Prisma · psychological assessment for HR teams",
+      "disclaimer": "Results support, and never replace, a qualified psychologist's judgement."
+    }
+  },
+  "auth": {
+    "signIn": {
+      "metaTitle": "Sign in",
+      "title": "Welcome back",
+      "subtitle": "Enter the phone number and password you used to sign up.",
+      "aside": "Psychological assessment for HR teams: tests, questionnaires and results in one place.",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "successTitle": "Welcome!",
+      "successText": "You are signed in.",
+      "errorTitle": "Could not sign in",
+      "errors": {
+        "invalidCredentials": "Wrong phone number or password",
+        "rateLimited": "Too many attempts. Try again in 15 minutes"
+      }
+    },
+    "signUp": {
+      "metaTitle": "Sign up",
+      "title": "Create an account",
+      "subtitle": "Tell us a little about yourself to take assessments assigned by your HR team.",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "steps": {
+        "personal": "Personal",
+        "work": "Work",
+        "account": "Account"
+      },
+      "successTitle": "Account created",
+      "successText": "You can now sign in.",
+      "errorTitle": "Could not create the account",
+      "errors": {
+        "rateLimited": "Too many attempts. Try again later",
+        "invalidInput": "Check the fields and try again",
+        "phoneTaken": "An account with this phone number already exists"
+      },
+      "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment."
+    }
+  },
+  "profile": {
+    "fields": {
+      "lastName": "Last name",
+      "name": "First name",
+      "middleName": "Middle name",
+      "fullName": "Full name",
+      "dateOfBirth": "Date of birth",
+      "datePlaceholder": "DD.MM.YYYY",
+      "department": "Department",
+      "departmentPlaceholder": "e.g. Sales",
+      "position": "Position",
+      "positionPlaceholder": "e.g. Account manager",
+      "phoneNumber": "Phone number",
+      "phonePlaceholder": "Enter phone number",
+      "password": "Password",
+      "group": "Group",
+      "role": "Role",
+      "photo": "Photo",
+      "registeredAt": "Signed up"
+    },
+    "title": "Profile",
+    "editTitle": "Edit profile",
+    "updateError": "The profile was not saved.",
+    "photoHint": "JPEG up to 1.8 MB",
+    "openReport": "Open report",
+    "formsTaken": "Completed questionnaires",
+    "testsTaken": "Completed tests",
+    "nothingYet": "Nothing yet.",
+    "viewResult": "View result",
+    "details": "Details"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Dashboard",
+      "forms": "Questionnaires",
+      "tests": "Tests",
+      "people": "People",
+      "reports": "Reports",
+      "groups": "Groups",
+      "archive": "Archive"
+    },
+    "search": {
+      "placeholder": "Search",
+      "dialogPlaceholder": "Search people, tests and questionnaires",
+      "empty": "No results.",
+      "navigation": "Navigation"
+    },
+    "home": {
+      "title": "Dashboard",
+      "description": "People, assessments and the latest results at a glance."
+    },
+    "stats": {
+      "people": "People",
+      "forms": "Questionnaires",
+      "tests": "Tests",
+      "atRisk": "Needs attention",
+      "peopleHint": "Signed-up respondents",
+      "formsHint": "Available questionnaires",
+      "testsHint": "Available tests",
+      "atRiskHint": "In a risk group",
+      "viewGroups": "View groups"
+    },
+    "recent": {
+      "title": "Recent results",
+      "description": "Latest test submissions",
+      "empty": "No tests have been taken yet.",
+      "viewResult": "View result"
+    },
+    "forms": {
+      "title": "Questionnaires",
+      "add": "Add questionnaire",
+      "newTitle": "New questionnaire",
+      "newDescription": "Upload a questionnaire to start collecting answers",
+      "name": "Name",
+      "namePlaceholder": "Questionnaire name",
+      "description": "Description",
+      "descriptionPlaceholder": "A short description",
+      "adminOnly": "Admins only",
+      "adminOnlyHint": "Only admins can fill in this questionnaire, for example when interviewing someone",
+      "questions": "Questions",
+      "run": "Fill in",
+      "results": "View results",
+      "pageDescription": "Questionnaires people fill in, and the answers they gave.",
+      "back": "Questionnaires"
+    },
+    "tests": {
+      "title": "Tests",
+      "add": "Add test",
+      "newTitle": "New test",
+      "name": "Name",
+      "namePlaceholder": "Test name",
+      "description": "Description",
+      "descriptionPlaceholder": "A short description",
+      "strategy": "Scoring method",
+      "strategyPlaceholder": "Choose a scoring method",
+      "strategies": {
+        "grade": "Raw score",
+        "t-grade": "T-scores",
+        "standard-ten": "Sten (standard ten)"
+      },
+      "file": "Test file",
+      "createdAt": "Added {date}",
+      "results": "View results",
+      "tryIt": "Take it yourself",
+      "pageDescription": "Scored instruments. Results are calculated as soon as a test is submitted.",
+      "back": "Tests",
+      "instruction": "Instruction",
+      "about": "About this test"
+    }
+  },
+  "table": {
+    "search": "Search...",
+    "empty": "No data"
+  },
+  "groups": {
+    "general": "General",
+    "risk": "At risk",
+    "substance-risk": "Substance use risk",
+    "monitoring": "Monitoring",
+    "suicide-risk": "Suicide risk"
+  },
+  "results": {
+    "empty": "No one has submitted this yet.",
+    "submittedAt": "Submitted {date}",
+    "formTitle": "Answers to “{name}”",
+    "testTitle": "Results for “{name}”",
+    "notesPlaceholder": "Notes for the printout (not saved)",
+    "table": {
+      "number": "No.",
+      "question": "Question",
+      "answer": "Answer"
+    },
+    "title": "Results",
+    "count": "{count, plural, one {# submission} other {# submissions}}"
+  },
+  "runner": {
+    "progress": "Question {current} of {total}",
+    "answerPlaceholder": "Your answer",
+    "doneTitle": "All done!",
+    "formDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
+    "testDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
+    "saveError": "Your answers were not saved. Try again."
+  },
+  "respondent": {
+    "forms": "Questionnaires",
+    "tests": "Tests",
+    "open": "Open",
+    "empty": "Nothing has been assigned yet.",
+    "questionCount": "{count, plural, one {# question} other {# questions}}",
+    "greeting": "Hello, {name}",
+    "formsIntro": "Questionnaires ask about your background, interests and views. There are no right or wrong answers.",
+    "testsIntro": "Tests measure specific traits and abilities. Answer honestly and go with your first reaction.",
+    "all": "All",
+    "savedTitle": "Thank you, your answers are saved",
+    "savedText": "You can close this page or continue with another one.",
+    "start": "Start",
+    "privacyNote": "Your answers are seen only by the HR specialists and psychologists in your organization.",
+    "instruction": "Instruction",
+    "about": "About"
+  },
+  "scores": {
+    "raw": "Raw score",
+    "corrected": "Corrected score",
+    "tScore": "T-score",
+    "sten": "Sten",
+    "summary": "Interpretation",
+    "scale": "Scale",
+    "none": "This submission could not be scored."
+  },
+  "roles": {
+    "admin": "Admin",
+    "user": "Employee"
+  },
+  "people": {
+    "title": "People",
+    "openReport": "Report",
+    "delete": {
+      "title": "Delete this person?",
+      "description": "Their profile and results will be deleted permanently.",
+      "confirm": "Delete"
+    },
+    "description": "Everyone who has signed up, with their group and role.",
+    "back": "People"
+  },
+  "reports": {
+    "title": "Reports",
+    "reportTitle": "Psychological profile",
+    "tabs": {
+      "report": "Report",
+      "answers": "Answers",
+      "scales": "Scale scores"
+    },
+    "background": "Background",
+    "conclusion": "Conclusion",
+    "noResults": "This person has not taken any tests yet.",
+    "archive": "Save to archive",
+    "archivedTitle": "Saved",
+    "archivedText": "The report was saved to the archive.",
+    "archiveError": "The report was not saved. A person can have one archived report; delete the old one first.",
+    "description": "Open a person's report to see all their results and write a conclusion."
+  },
+  "groupsPage": {
+    "title": "Groups",
+    "open": "Open",
+    "empty": "No one is in this group.",
+    "viewProfile": "View profile",
+    "description": "Groups help you follow up with people who may need support."
+  },
+  "archive": {
+    "title": "Report archive",
+    "empty": "The archive is empty.",
+    "open": "Open",
+    "viewReport": "View report",
+    "viewProfile": "View profile",
+    "deletedTitle": "Deleted",
+    "deletedText": "The report was removed from the archive.",
+    "description": "Reports saved with their background and conclusion."
+  },
+  "privacy": {
+    "metaTitle": "Privacy notice",
+    "title": "Privacy notice",
+    "lead": "Prisma is used by your organization to run psychological questionnaires and tests. This notice explains what is collected, who can see it and what you can do about it.",
+    "sections": {
+      "collect": {
+        "title": "What we collect",
+        "text": "Your profile (name, phone number, date of birth, department, position and, if an administrator adds one, a photo), the answers you give, and the scores and interpretations calculated from them."
+      },
+      "purpose": {
+        "title": "Why",
+        "text": "To support hiring, development and well-being decisions in your organization. Results are one input for a qualified specialist and are never a medical diagnosis on their own."
+      },
+      "access": {
+        "title": "Who can see it",
+        "text": "Only administrators of this workspace, typically HR specialists and psychologists in your organization. Other employees cannot see your answers or results."
+      },
+      "storage": {
+        "title": "How long it is kept",
+        "text": "Until an administrator deletes your profile. Deleting a profile removes its answers and results."
+      },
+      "rights": {
+        "title": "Your choices",
+        "text": "Taking part is voluntary. You can stop any questionnaire or test before finishing it, and you can ask your HR team to show, correct or delete your data."
+      }
+    },
+    "controller": "Your organization is responsible for how this data is used. Contact your HR team with any questions."
+  },
+  "consent": {
+    "metaTitle": "Before you start",
+    "title": "Before you start",
+    "text": "Please read how your answers will be used. You only need to do this once.",
+    "accept": "I agree",
+    "decline": "Not now, sign out",
+    "error": "Your choice was not saved. Try again."
+  }
+}

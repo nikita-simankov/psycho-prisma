@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 
 export async function createArchiveEntryAction(
@@ -7,6 +8,8 @@ export async function createArchiveEntryAction(
   verdict: string,
   additionalNotes: string
 ) {
+  await requireAdmin();
+
   const createdArchiveEntry = await prisma.userSummary.create({
     data: {
       userId: userId,

@@ -1,53 +1,42 @@
-import * as xlsx from "xlsx";
 import { FormData, FormQuestionChoice } from "../constants";
+import { getSheetRows, readWorkbook } from "./workbook";
 
-export function extractFormQuestions(
+export async function extractFormQuestions(
   file: File,
   formData: FormData,
   setFormData: React.Dispatch<React.SetStateAction<FormData>>
 ) {
-  const fileReader = new FileReader();
+  const workBook = await readWorkbook(file);
+  const fieldsData = getSheetRows(workBook, workBook.sheetNames[0]);
 
-  fileReader.readAsArrayBuffer(file);
-  fileReader.onload = (event: ProgressEvent<FileReader>) => {
-    const bufferArray = event.target?.result;
-    const workBook: xlsx.WorkBook = xlsx.read(bufferArray, {
-      type: "buffer",
-    });
+  const parsedFormQuestions = fieldsData.map((column: any) => {
+    const [questionId, questionText, questionType, questionChoices] = [
+      column["№ Вопроса"] as number,
+      column["Текст вопроса"] as string,
+      column["Тип ответа"] as string,
+      column["Варианты ответа"] as string,
+    ];
 
-    const fieldsSheetName = workBook.SheetNames[0];
-    const fieldsSheet = workBook.Sheets[fieldsSheetName];
-    const fieldsData = xlsx.utils.sheet_to_json(fieldsSheet);
+    return {
+      id: questionId,
+      text: questionText,
+      type: questionType === "Список" ? "List" : "Text",
+      choices:
+        questionType === "Список"
+          ? questionChoices.split("; ").map((choice, index) => {
+              return {
+                id: index + 1,
+                text: choice,
+              } as FormQuestionChoice;
+            })
+          : [],
+    };
+  });
 
-    const parsedFormQuestions = fieldsData.map((column: any) => {
-      const [questionId, questionText, questionType, questionChoices] = [
-        column["№ Вопроса"] as number,
-        column["Текст вопроса"] as string,
-        column["Тип ответа"] as string,
-        column["Варианты ответа"] as string,
-      ];
+  setFormData({
+    ...formData,
 
-      return {
-        id: questionId,
-        text: questionText,
-        type: questionType === "Список" ? "List" : "Text",
-        choices:
-          questionType === "Список"
-            ? questionChoices.split("; ").map((choice, index) => {
-                return {
-                  id: index + 1,
-                  text: choice,
-                } as FormQuestionChoice;
-              })
-            : [],
-      };
-    });
-
-    setFormData({
-      ...formData,
-
-      // @ts-ignore
-      questions: parsedFormQuestions,
-    });
-  };
+    // @ts-ignore
+    questions: parsedFormQuestions,
+  });
 }

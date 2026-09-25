@@ -1,48 +1,44 @@
 import { findAllUsers } from "@/actions/user/find-all-users-action";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { User } from "@prisma/client";
+import { PageHeader } from "@/components/page-header";
+import { Card } from "@/components/ui/card";
+import { GROUP_STYLES, USER_GROUPS } from "@/utils/groups";
+import { cn } from "@/utils/utils";
+import { ChevronRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default async function DashboardPage() {
+export async function generateMetadata() {
+  const t = await getTranslations("dashboard.nav");
+  return { title: t("groups") };
+}
+
+export default async function GroupsPage() {
+  const t = await getTranslations("groupsPage");
+  const groupNames = await getTranslations("groups");
+  const common = await getTranslations("common");
   const users = await findAllUsers();
-  const groups: Map<string, User[]> = new Map();
-
-  users.forEach((user) => {
-    if (groups.get(user.group) !== undefined) {
-      groups.set(user.group, [...groups.get(user.group)!, user]);
-    } else {
-      groups.set(user.group, [user]);
-    }
-  });
-
-  const keys = Array.from(groups.keys());
 
   return (
-    <div className="p-12 gap-4 grid grid-cols-4">
-      {keys.map((key) => (
-        <Card className="flex flex-col justify-between">
-          <CardHeader>
-            <CardTitle>{key}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            В группе "{key}" состоит {groups.get(key)!.length} военнослужащих
-          </CardContent>
-          <CardFooter>
-            <Button asChild>
-              <Link href={"/dashboard/users/groups/" + encodeURI(key)}>
-                Подробнее
-              </Link>
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+    <>
+      <PageHeader title={t("title")} description={t("description")} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {USER_GROUPS.map((group) => {
+          const count = users.filter((user) => user.group === group).length;
+
+          return (
+            <Link key={group} href={`/dashboard/users/groups/${group}`} className="group">
+              <Card className="flex items-center gap-4 p-5 transition-colors group-hover:border-primary/40">
+                <span className={cn("h-3 w-3 shrink-0 rounded-full", GROUP_STYLES[group].dot)} />
+                <div className="flex-1">
+                  <p className="font-heading font-semibold">{groupNames(group)}</p>
+                  <p className="text-sm text-muted-foreground">{common("people", { count })}</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </Card>
+            </Link>
+          );
+        })}
+      </div>
+    </>
   );
 }

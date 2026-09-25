@@ -1,391 +1,148 @@
-"use client";
-
-import { TimeMetricsChart } from "@/components/landing/time-metrics-chart";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ResultPreview } from "@/components/landing/result-preview";
+import { SiteFooter } from "@/components/landing/site-footer";
+import { SiteHeader } from "@/components/landing/site-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import Logo from "@/components/ui/logo";
-import { ChevronRight } from "lucide-react";
-import Image from "next/image";
+import {
+  ArrowRight,
+  BookOpen,
+  Calculator,
+  Check,
+  ClipboardCheck,
+  EyeOff,
+  FileText,
+  Scale,
+  Users,
+} from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function LandingPage() {
+const FEATURES = [
+  { key: "library", icon: BookOpen },
+  { key: "scoring", icon: Calculator },
+  { key: "reports", icon: FileText },
+  { key: "groups", icon: Users },
+] as const;
+const TRUST = [
+  { key: "consent", icon: ClipboardCheck },
+  { key: "access", icon: EyeOff },
+  { key: "judgement", icon: Scale },
+] as const;
+const STEPS = ["import", "invite", "review"] as const;
+const TRUST_POINTS = ["private", "languages", "mobile"] as const;
+
+export default async function LandingPage() {
+  const t = await getTranslations("landing");
+
   return (
-    <div>
-      <LandingHeader />
-      <main className="flex flex-col">
-        <section className="py-40 w-full flex flex-row gap-6 items-center justify-around">
-          <div className="flex flex-col gap-6">
-            <h1 className="text-6xl font-black max-w-[600px]">
-              Новый способ тестирования военнослужащих
-            </h1>
-            <p className="text-md text-muted-foreground font-medium tracking-wide max-w-[600px]">
-              Создавайте анкеты, тестовые методики. Управляйте результатами и
-              списками личного состава. Откройте для себя новый опыт
-              тестирования и анкетирования военнослужащих
-            </p>
-            <Link href="/auth/sign-up">
-              <Button size="lg" className="flex flex-row items-center gap-2">
-                Начать пользоваться
-                <ChevronRight className="w-[1.2rem] h-[1.2rem]" />
-              </Button>
-            </Link>
-          </div>
-          <Image
-            width={640}
-            height={320}
-            src="/hero-section.jpg"
-            alt="chevron"
-            className="rounded-xl"
-          />
-        </section>
+    <div className="flex min-h-dvh flex-col">
+      <SiteHeader />
 
-        <section id="key-features" className="w-full py-6 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Ключевые особенности
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Облегчите процесс обработки результатов
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Наше приложение предоставляет удобный интерфейс для создания и
-                  обработки тестовых методик. Результаты тестовых методик
-                  автоматически обрабатываются и сохраняются в базу данных
-                </p>
+      <main className="flex flex-1 flex-col">
+        <section className="relative overflow-hidden px-4 py-16 sm:py-24">
+          <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-gradient-to-b from-accent/70 to-transparent" />
+          <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.1fr_1fr]">
+            <div className="flex flex-col gap-6">
+              <span className="w-fit rounded-full border bg-card px-3 py-1 text-sm font-medium text-accent-foreground">
+                {t("hero.eyebrow")}
+              </span>
+              <h1 className="text-4xl font-extrabold leading-[1.1] sm:text-5xl lg:text-6xl">{t("hero.title")}</h1>
+              <p className="max-w-xl text-lg text-muted-foreground">{t("hero.subtitle")}</p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button size="lg" asChild>
+                  <Link href="/auth/sign-up">
+                    {t("hero.cta")}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/auth/sign-in">{t("hero.secondary")}</Link>
+                </Button>
               </div>
+              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                {TRUST_POINTS.map((point) => (
+                  <li key={point} className="inline-flex items-center gap-1.5">
+                    <Check className="h-4 w-4 text-success" />
+                    {t(`hero.trust.${point}`)}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-6">
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Актуальность</h3>
-                      <p className="text-muted-foreground">
-                        Призма была разработана для замены тестирования с
-                        помощью бумажных носителей. Она помогает ускорить
-                        процесс обработки, создания методик в разы
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Безопасность</h3>
-                      <p className="text-muted-foreground">
-                        Призма хранит данные в зашифрованном виде внутри
-                        файловой системы компьютера, тем самым обеспечивает их
-                        100% безопасность
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Удобный интерфейс</h3>
-                      <p className="text-muted-foreground">
-                        Мы предоставляем удобный пользовательский интерфейс для
-                        создания, редактирования анкет, тестовых методик,
-                        обработки результатов и, непосредственно, самого
-                        тестирования
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <TimeMetricsChart />
-            </div>
+            <ResultPreview />
           </div>
         </section>
 
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Отзывы военнослужащих
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Что говорят наши военнослужащие
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Узнайте мнение солдат, которые получили ранний доступ к нашему
-                  приложению
-                </p>
-              </div>
+        <section className="px-4 py-16 sm:py-20">
+          <div className="mx-auto flex max-w-6xl flex-col gap-10">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-bold sm:text-4xl">{t("features.title")}</h2>
+              <p className="mt-3 text-lg text-muted-foreground">{t("features.subtitle")}</p>
             </div>
-            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:gap-8">
-              <Card>
-                <CardContent className="py-4 flex flex-col gap-6">
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src="/user-3.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-lg font-semibold">Станкевич Сергей</p>
-                      <p className="text-sm text-muted-foreground">
-                        Ефрейтор, ИДМБ
-                      </p>
-                    </div>
-                  </div>
-                  <blockquote className="text-muted-foreground">
-                    Я предпочитаю проходить тесты и заполнять анкеты в этом
-                    приложении, по-скольку это не так выматывает, как
-                    традиционное тестирование на бумажных носителях
-                  </blockquote>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="py-4 flex flex-col gap-6">
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src="/user-2.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-lg font-semibold">
-                        Черёмухин Александр
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Сержант, ИТБ
-                      </p>
-                    </div>
-                  </div>
-                  <blockquote className="text-muted-foreground">
-                    Очень приятный интерфейс, не думал что проходить
-                    психологические тесты будет так приятно и легко.
-                  </blockquote>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="py-4 flex flex-col gap-6">
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src="/user-1.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-lg font-semibold">Маслиевич Дмитрий</p>
-                      <p className="text-sm text-muted-foreground">
-                        Майор, ИДМБ
-                      </p>
-                    </div>
-                  </div>
-                  <blockquote className="text-muted-foreground">
-                    Особое внимание в данной программе привлекает возможность
-                    использования в отрыве от ППД, а так же в отсутствие
-                    психолога
-                  </blockquote>
-                </CardContent>
-              </Card>
-            </div>
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {FEATURES.map(({ key, icon: Icon }) => (
+                <li key={key} className="flex flex-col gap-3 rounded-2xl border bg-card p-6">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="text-lg font-semibold">{t(`features.${key}.title`)}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{t(`features.${key}.text`)}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
-        <section id="key-features" className="w-full py-6 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Актуальность применения
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Актуальность применения нашего продукта
-                </h2>
-              </div>
+        <section className="bg-foreground px-4 py-16 text-background sm:py-20 dark:bg-card dark:text-foreground">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_2fr]">
+            <div>
+              <h2 className="text-3xl font-bold sm:text-4xl">{t("trust.title")}</h2>
+              <p className="mt-3 text-lg opacity-70">{t("trust.subtitle")}</p>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-6">
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        1. Эффективность диагностики
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        2. Доступность данных
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        3. Интеграция с другими областями
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        4. Скорость и эффективность
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        5. Минимизация ошибок
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        6. Доступность и удобство
-                      </h3>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">
-                        7. Гибкость и адаптивность
-                      </h3>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <Image
-                src="/actual-section.jpg"
-                alt="image"
-                width={320}
-                height={160}
-                className="rounded-lg"
-              />
-            </div>
+            <ul className="grid gap-6 sm:grid-cols-3">
+              {TRUST.map(({ key, icon: Icon }) => (
+                <li key={key} className="flex flex-col gap-3">
+                  <Icon className="h-6 w-6 text-primary dark:text-primary" />
+                  <h3 className="text-lg font-semibold">{t(`trust.${key}.title`)}</h3>
+                  <p className="text-sm leading-relaxed opacity-70">{t(`trust.${key}.text`)}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
-        <section id="key-features" className="w-full py-6 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Шаблоны для создание анкет и методик
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Всё включено
-                </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Вместе c приложением, мы предоставляем вам 2 шаблона для
-                  создания анкет и тестовых методик. На основе этих шаблонов,
-                  были добавлены все анкеты и тестовые методики в Призму
-                </p>
-              </div>
+        <section className="px-4 py-16 sm:py-20">
+          <div className="mx-auto flex max-w-6xl flex-col gap-10">
+            <h2 className="text-3xl font-bold sm:text-4xl">{t("steps.title")}</h2>
+            <ol className="grid gap-8 md:grid-cols-3">
+              {STEPS.map((step, index) => (
+                <li key={step} className="flex flex-col gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary font-heading font-bold text-primary">
+                    {index + 1}
+                  </span>
+                  <h3 className="text-xl font-semibold">{t(`steps.${step}.title`)}</h3>
+                  <p className="text-muted-foreground">{t(`steps.${step}.text`)}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="px-4 pb-20">
+          <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 rounded-3xl bg-primary px-6 py-12 text-primary-foreground sm:px-12 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold sm:text-3xl">{t("cta.title")}</h2>
+              <p className="mt-2 opacity-85">{t("cta.text")}</p>
             </div>
-            <div className="mx-auto max-w-5xl items-center gap-6 py-12 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <Image
-                  src="/template-1.png"
-                  alt="template-1"
-                  className="w-full"
-                  width={1000}
-                  height={600}
-                />
-                <Image
-                  src="/template-2.png"
-                  alt="template-2"
-                  className="w-full"
-                  width={1000}
-                  height={600}
-                />
-                <Image
-                  src="/template-3.png"
-                  alt="template-3"
-                  className="w-full"
-                  width={1000}
-                  height={600}
-                />
-              </div>
-            </div>
+            <Button size="lg" variant="secondary" asChild>
+              <Link href="/auth/sign-up">
+                {t("cta.button")}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </section>
       </main>
 
-      <footer className="bg-muted py-8 text-muted-foreground">
-        <div className="container mx-auto max-w-4xl px-4 md:px-0">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div>
-                  <h4 className="text-lg font-semibold">
-                    Симаньков Никита Андреевич
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Рядовой, ИТБ</p>
-                </div>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <span className="font-medium">Электронная почта:</span>{" "}
-                  <a href="#" className="hover:underline">
-                    vch25849@mod.mil.by
-                  </a>
-                </div>
-                <div>
-                  <span className="font-medium">Номер телефона:</span>{" "}
-                  <a href="#" className="hover:underline">
-                    +375 (29) 877-35-97 - Психолог в/ч 25849 лейтенант А.Н.
-                    Некрашевич
-                  </a>
-                  <br />
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <h4 className="text-lg font-semibold">Связь с разработчиком</h4>
-                <p className="text-sm text-muted-foreground">
-                  Есть вопрос или нуждаетесь в помощи? Свяжитесь со мной
-                </p>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <span className="font-medium">Адрес:</span> г. Борисов, ул.
-                  Братьев Вайнрубов 110к1, 222518
-                </div>
-                <div>
-                  <span className="font-medium">Время:</span> Понедельник -
-                  Пятница, 8:00 - 18:00
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
-
-const LandingHeader = () => {
-  const router = useRouter();
-
-  return (
-    <header className="h-16 w-full border-b backdrop-blur-xl flex items-center">
-      <div className="max-w-[1400px] w-full mx-auto flex items-center justify-between">
-        <div className="flex flex-row items-center gap-2">
-          <Logo withText />
-          <span className="text-xs font-bold text-muted-foreground">
-            v0.9.7-beta
-          </span>
-        </div>
-        <div className="flex flex-row items-center gap-4">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => router.push("/auth/sign-in")}
-          >
-            Вход
-          </Button>
-          <Button size="sm" onClick={() => router.push("/auth/sign-up")}>
-            Регистрация
-          </Button>
-        </div>
-      </div>
-    </header>
-  );
-};

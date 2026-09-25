@@ -1,0 +1,315 @@
+{
+ "name": "Pattern Finding (Russian words)",
+ "description": "Find words with a given order and number of letters. The words in this test are Russian, so it is only suitable for people who read Russian.",
+ "instruction": "Each row starts with a code made of the symbols x, o, +, =, ? and !. The code shows the letter pattern of one of the words in that row: matching symbols stand for the same letter, different symbols for different letters. Find that word and choose it. For example, the code \"x ! x\" means a three-letter word whose first and last letters are the same, such as \"кок\". The code \"? o ? o\" means a four-letter word whose 1st and 3rd letters match and 2nd and 4th letters match, such as \"мама\". If no word in the row matches the code, choose \"No correct answer\". Unlike in the previous tasks, a row may have more than one correct answer, or none at all.",
+ "questions": {
+  "1": {
+   "text": "!x+x",
+   "choices": {
+    "1": "Клад",
+    "2": "Пила",
+    "3": "Рана",
+    "4": "Вода",
+    "5": "No correct answer"
+   }
+  },
+  "2": {
+   "text": "?=+?",
+   "choices": {
+    "1": "Репа",
+    "2": "Шлак",
+    "3": "Соус",
+    "4": "Луна",
+    "5": "No correct answer"
+   }
+  },
+  "3": {
+   "text": "xo=?",
+   "choices": {
+    "1": "Кран",
+    "2": "Обод",
+    "3": "Тара",
+    "4": "Воск",
+    "5": "No correct answer"
+   }
+  },
+  "4": {
+   "text": "x?=?",
+   "choices": {
+    "1": "Лицо",
+    "2": "Репа",
+    "3": "Желе",
+    "4": "Окно",
+    "5": "No correct answer"
+   }
+  },
+  "5": {
+   "text": "?+?=",
+   "choices": {
+    "1": "Лужа",
+    "2": "Хата",
+    "3": "Град",
+    "4": "Лапа",
+    "5": "No correct answer"
+   }
+  },
+  "6": {
+   "text": "?+=?",
+   "choices": {
+    "1": "Суша",
+    "2": "Море",
+    "3": "Вера",
+    "4": "Овод",
+    "5": "No correct answer"
+   }
+  },
+  "7": {
+   "text": "!x!x",
+   "choices": {
+    "1": "Мама",
+    "2": "Торг",
+    "3": "Гора",
+    "4": "Липа",
+    "5": "No correct answer"
+   }
+  },
+  "8": {
+   "text": "?+?=",
+   "choices": {
+    "1": "Обои",
+    "2": "Соло",
+    "3": "Лето",
+    "4": "Луна",
+    "5": "No correct answer"
+   }
+  },
+  "9": {
+   "text": "?=+=",
+   "choices": {
+    "1": "Корт",
+    "2": "Рама",
+    "3": "Мост",
+    "4": "Крот",
+    "5": "No correct answer"
+   }
+  },
+  "10": {
+   "text": "?= =!",
+   "choices": {
+    "1": "Пила",
+    "2": "Стул",
+    "3": "Соль",
+    "4": "Часы",
+    "5": "No correct answer"
+   }
+  },
+  "11": {
+   "text": "x=xo+",
+   "choices": {
+    "1": "Старт",
+    "2": "Сосна",
+    "3": "Пепел",
+    "4": "Ребро",
+    "5": "No correct answer"
+   }
+  },
+  "12": {
+   "text": "x+??+",
+   "choices": {
+    "1": "Месса",
+    "2": "Касса",
+    "3": "Сумма",
+    "4": "Лассо",
+    "5": "No correct answer"
+   }
+  },
+  "13": {
+   "text": "o=?x=",
+   "choices": {
+    "1": "Слово",
+    "2": "Вахта",
+    "3": "Олово",
+    "4": "Жажда",
+    "5": "No correct answer"
+   }
+  },
+  "14": {
+   "text": "?xo+?",
+   "choices": {
+    "1": "Аванс",
+    "2": "Кулак",
+    "3": "Стихи",
+    "4": "Рупор",
+    "5": "No correct answer"
+   }
+  },
+  "15": {
+   "text": "?=x?=",
+   "choices": {
+    "1": "Тайна",
+    "2": "Шашка",
+    "3": "Кашка",
+    "4": "Ванна",
+    "5": "No correct answer"
+   }
+  },
+  "16": {
+   "text": "x?o?xo",
+   "choices": {
+    "1": "Молоко",
+    "2": "Фараон",
+    "3": "Ананас",
+    "4": "Мнение",
+    "5": "No correct answer"
+   }
+  },
+  "17": {
+   "text": "ox?x+!",
+   "choices": {
+    "1": "Статья",
+    "2": "Талант",
+    "3": "Стакан",
+    "4": "Рапира",
+    "5": "No correct answer"
+   }
+  },
+  "18": {
+   "text": "?+o=+o",
+   "choices": {
+    "1": "Пурпур",
+    "2": "Филиал",
+    "3": "Скалка",
+    "4": "Шедевр",
+    "5": "No correct answer"
+   }
+  },
+  "19": {
+   "text": "x?!+=o",
+   "choices": {
+    "1": "Почерк",
+    "2": "Стакан",
+    "3": "Полоса",
+    "4": "Ангина",
+    "5": "No correct answer"
+   }
+  },
+  "20": {
+   "text": "?+o?+=",
+   "choices": {
+    "1": "Окорок",
+    "2": "Капкан",
+    "3": "Сундук",
+    "4": "Список",
+    "5": "No correct answer"
+   }
+  },
+  "21": {
+   "text": "x+o+x+o",
+   "choices": {
+    "1": "Балаган",
+    "2": "Порошок",
+    "3": "Леденец",
+    "4": "Колокол",
+    "5": "No correct answer"
+   }
+  },
+  "22": {
+   "text": "x=o?o?!",
+   "choices": {
+    "1": "Барабан",
+    "2": "Филолог",
+    "3": "Пулемет",
+    "4": "Чувство",
+    "5": "No correct answer"
+   }
+  },
+  "23": {
+   "text": "x+o=+?!",
+   "choices": {
+    "1": "Конвоир",
+    "2": "Кипарис",
+    "3": "Лазарет",
+    "4": "Гипофиз",
+    "5": "No correct answer"
+   }
+  },
+  "24": {
+   "text": "o=x=o?!",
+   "choices": {
+    "1": "Шеренга",
+    "2": "Комната",
+    "3": "Милиция",
+    "4": "Веревка",
+    "5": "No correct answer"
+   }
+  },
+  "25": {
+   "text": "x?o!+?!",
+   "choices": {
+    "1": "Поворот",
+    "2": "Гравюра",
+    "3": "Складка",
+    "4": "Адмирал",
+    "5": "No correct answer"
+   }
+  },
+  "26": {
+   "text": "!=x+xo+?",
+   "choices": {
+    "1": "Синоптик",
+    "2": "Биология",
+    "3": "Оболочка",
+    "4": "Фантазия",
+    "5": "No correct answer"
+   }
+  },
+  "27": {
+   "text": "?xo=+xo!",
+   "choices": {
+    "1": "Анаконда",
+    "2": "Прокурор",
+    "3": "Внимание",
+    "4": "Описание",
+    "5": "No correct answer"
+   }
+  },
+  "28": {
+   "text": "?=!+ox+!",
+   "choices": {
+    "1": "Антрекот",
+    "2": "Квартира",
+    "3": "Антрацит",
+    "4": "Скакалка",
+    "5": "No correct answer"
+   }
+  },
+  "29": {
+   "text": "!?+?=x?o",
+   "choices": {
+    "1": "Катафалк",
+    "2": "Царапина",
+    "3": "Бурундук",
+    "4": "Анфилада",
+    "5": "No correct answer"
+   }
+  },
+  "30": {
+   "text": "!+=xoox?",
+   "choices": {
+    "1": "Пассажир",
+    "2": "Комиссия",
+    "3": "Оперетта",
+    "4": "Рассылка",
+    "5": "No correct answer"
+   }
+  }
+ },
+ "scales": {
+  "1": "Cognitive ability"
+ },
+ "summaries": {
+  "Низкий уровень познавательных способностей": "Low cognitive ability",
+  "Средний уровень познавательных способностей": "Average cognitive ability",
+  "Высокий уровень познавательных способностей": "High cognitive ability"
+ }
+}

@@ -1,0 +1,641 @@
+{
+ "name": "Victim Behaviour Inventory",
+ "description": "Measures a predisposition to different forms of victim behaviour, originally in adolescents. Victim behaviour here means behaviour that makes a person more likely to become the victim of a crime, circumstances or an accident.",
+ "instruction": "You will see statements about your character, personality, behaviour, particular actions, attitude to people, views on life and so on. If a statement is true for you, answer \"Yes\"; otherwise answer \"No\". There are no right or wrong answers, because everyone is right about their own views. Try to answer accurately and honestly. Don't think too long about each question; decide as quickly as you can which of the two answers seems closer to the truth, even if only slightly.",
+ "questions": {
+  "1": {
+   "text": "I think more unpleasant things happen in my life than in other people's",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "2": {
+   "text": "If I get into an unpleasant situation, it's best for me not to resist and to keep my mouth shut.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "3": {
+   "text": "I would gladly volunteer to take part in military action.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "4": {
+   "text": "I value caution and prudence in people.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "5": {
+   "text": "Even if dangerous work were well paid, I wouldn't take it on.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "6": {
+   "text": "If someone hurts me, I must pay them back.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "7": {
+   "text": "If other people didn't get in my way, I would achieve much more.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "8": {
+   "text": "I have never had trouble because of my sexual behaviour.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "9": {
+   "text": "At times I want to smash things or break dishes.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "10": {
+   "text": "I have had periods lasting days, weeks or even months when I couldn't take anything on because I couldn't get into work",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "11": {
+   "text": "I don't always tell the truth.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "12": {
+   "text": "When I was younger, I was expelled from school for bad behaviour.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "13": {
+   "text": "Sometimes I cross the street where it's convenient rather than where I should.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "14": {
+   "text": "At times I insist on my own way so much that people lose patience.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "15": {
+   "text": "Other people seem happier than me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "16": {
+   "text": "I think many people exaggerate their misfortunes to get sympathy and help.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "17": {
+   "text": "I think I would like work that involves protecting the weak and disadvantaged.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "18": {
+   "text": "It's hard to change my mind.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "19": {
+   "text": "I'm unlikely to achieve anything really worthwhile in my life.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "20": {
+   "text": "People around me regularly hurt me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "21": {
+   "text": "I don't get angry when people make fun of me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "22": {
+   "text": "I think most people would lie if it were in their interest",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "23": {
+   "text": "I rarely do things I later regret (more and more often than others).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "24": {
+   "text": "I rarely do things I later regret (more and more often than others).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "25": {
+   "text": "I very rarely quarrel with my family.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "26": {
+   "text": "I can't set aside certain conventions, even for the sake of pleasure.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "27": {
+   "text": "Most of the time I feel as if I have done something bad or wicked.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "28": {
+   "text": "Most of the time I feel happy.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "29": {
+   "text": "Some people like giving orders so much that I want to do the opposite, even when I know they are right.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "30": {
+   "text": "I get indignant when someone breaks the rules.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "31": {
+   "text": "I have never done anything dangerous just for the thrill.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "32": {
+   "text": "I enjoy a game or a horse race more if I don't bet.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "33": {
+   "text": "At school I was never sent to the principal for misbehaving.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "34": {
+   "text": "My table manners are better when I'm a guest than at home.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "35": {
+   "text": "I think most people would rather act dishonestly for gain than miss an opportunity.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "36": {
+   "text": "My behaviour is largely shaped by the rules and habits of the people around me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "37": {
+   "text": "I prefer to resolve conflicts without using force.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "38": {
+   "text": "I get indignant and irritated when I have to admit I've been cleverly fooled.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "39": {
+   "text": "I don't care what others say about me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "40": {
+   "text": "If there were gladiator fights today, I would definitely take part.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "41": {
+   "text": "I can say no to people who ask me for a favour.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "42": {
+   "text": "I find it hard to keep up a conversation with people I've just met.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "43": {
+   "text": "I can't put an end to a situation, even if I feel awkward and tense.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "44": {
+   "text": "Enduring pain to spite everyone can even be pleasant.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "45": {
+   "text": "People should have the right to drink as much as they want.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "46": {
+   "text": "If I behaved badly as a child, I was punished.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "47": {
+   "text": "I could do work that involves caring for the sick or dying.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "48": {
+   "text": "I always notice immediately when a situation becomes dangerous.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "49": {
+   "text": "I have set myself a plan for life based on duty and responsibility, and I try to follow it.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "50": {
+   "text": "Sometimes I don't give in to people not because the matter is really important but simply on principle.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "51": {
+   "text": "It's true that if you don't hit children, nothing good will come of them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "52": {
+   "text": "My parents never punished me physically.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "53": {
+   "text": "If I had to choose between speed and safety when buying a car, I would choose safety.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "54": {
+   "text": "At school I was called names more often than others.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "55": {
+   "text": "People are right to be outraged when they learn that a criminal has gone unpunished.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "56": {
+   "text": "When I get into an unpleasant situation, I rely only on myself.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "57": {
+   "text": "I'm sure that anyone who does evil will be punished in the future.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "58": {
+   "text": "I can be friendly to people whose actions I disapprove of",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "59": {
+   "text": "I'm ready to forgive my partner's rudeness if I have hope it won't happen again.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "60": {
+   "text": "It's safer not to trust anyone.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "61": {
+   "text": "Sometimes I spend an evening with people I barely know.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "62": {
+   "text": "I regularly get into unpleasant situations.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "63": {
+   "text": "Sometimes I'm in such a mood that I'm ready to start a fight.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "64": {
+   "text": "I sometimes break the law or established rules.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "65": {
+   "text": "I wouldn't risk a parachute jump",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "66": {
+   "text": "Most people don't like sacrificing their interests for others.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "67": {
+   "text": "I lose patience easily.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "68": {
+   "text": "Only unexpected circumstances and a sense of danger let me truly show what I'm capable of.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "69": {
+   "text": "It's very hard to make me angry.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "70": {
+   "text": "People often disappoint me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "71": {
+   "text": "I sometimes feel there are too many difficulties and there's no point trying to overcome them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "72": {
+   "text": "It's hard to make me cross.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "73": {
+   "text": "It's quite all right to get around the law as long as you don't actually break it.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "74": {
+   "text": "I drink alcohol in moderation (or not at all).",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "75": {
+   "text": "I have often met people who envied my ideas just because they didn't think of them first.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "76": {
+   "text": "Even when I'm angry, I try not to swear.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "77": {
+   "text": "I prefer working with a manager who gives strict, clear instructions to one who gives a lot of freedom.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "78": {
+   "text": "If someone starts something interesting, even if it's dangerous, I'll support them.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "79": {
+   "text": "I rarely hit back when someone hits me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "80": {
+   "text": "If someone treats me unfairly, I want them to be properly punished.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "81": {
+   "text": "I believe evil can be repaid with good, and I act accordingly.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "82": {
+   "text": "Every child knows that good has to be able to fight back.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "83": {
+   "text": "I prefer not to socialize with people my age, because they hurt me.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "84": {
+   "text": "I never get involved in a street conflict to stand up for someone being picked on.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "85": {
+   "text": "The harmful effects of alcohol and tobacco are greatly exaggerated.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  },
+  "86": {
+   "text": "A dog that doesn't obey deserves to be hit.",
+   "choices": {
+    "1": "Yes",
+    "2": "No"
+   }
+  }
+ },
+ "scales": {
+  "1": "Social desirability",
+  "2": "Aggressive victim behaviour (aggressive victim type)",
+  "3": "Self-harming and self-destructive behaviour (active victim type)",
+  "4": "Hypersocial behaviour (proactive victim type)",
+  "5": "Dependent and helpless behaviour (passive victim type)",
+  "6": "Uncritical behaviour (uncritical victim type)",
+  "7": "Realized victimization"
+ },
+ "summaries": {
+  "Показатели по шкале социальной желательности ответов ниже нормы": "Social desirability below the normal range",
+  "Показатели по шкале социальной желательности ответов в норме": "Social desirability within the normal range",
+  "Показатели по шкале социальной желательности ответов выше нормы": "Social desirability above the normal range",
+  "Характерно снижение мотивации достижения, спонтанности. Возможна высокая обидчивость. Хороший самоконтроль, стремление придерживаться принятых норм и правил. Стабильность в сохранении установок, интересов и целей. ": "Reduced achievement motivation and spontaneity. May be highly touchy. Good self-control and a desire to follow accepted norms and rules. Stable attitudes, interests and goals.",
+  "Показатели по шкале склонности к агрессивному виктимному поведению в норме": "Aggressive victim behaviour within the normal range",
+  "К данной группе относятся испытуемые, склонные попадать в неприятные и опасные для жизни и здоровья ситуации в результате проявленной ими агрессии в форме нападения или иного провоцирующего поведения (оскорбление, клевета, издевательство и т. д.). Для них характерно намеренное создание или провоцирование конфликтной ситуации. Их поведение может являться реализацией типичной для них антиобщественной направленности личности, в рамках которой агрессивность проявляется по отношению к определенным лицам и в определенных ситуациях (избирательно), но может быть и “размытой”, неперсонифицированной по объекту. Наблюдается склонность к антиобщественному поведению, нарушению социальных норм, правил и этических ценностей, которыми зачастую субъект пренебрегает. Такие люди легко поддаются эмоциям, особенно негативного характера, ярко их выражают, доминантны, нетерпеливы, вспыльчивы. При всех различиях в мотивации поведения характерно наличие насильственной антиобщественной установки личности.  \nС учетом мотивационной и поведенческой характеристик могут быть представлены такие типы (или подтипы), как корыстный, сексуальный (половая распущенность), связанный с бытовыми конфликтами (скандалист, семейный деспот), алкоголик, негативный мститель, лицо психически больное и т. д": "People in this group tend to end up in unpleasant situations that are dangerous to life and health as a result of their own aggression, in the form of attacks or other provocative behaviour (insults, slander, bullying and so on). They deliberately create or provoke conflict. Their behaviour may reflect a typical antisocial orientation in which aggression is directed at particular people in particular situations (selectively), or may be 'diffuse' with no specific target. There is a tendency towards antisocial behaviour and towards violating social norms, rules and ethical values, which the person often disregards. Such people are easily carried away by emotions, especially negative ones, express them vividly, and are dominant, impatient and quick-tempered. Whatever the motives, a violent antisocial attitude is characteristic.\nBased on motivation and behaviour, subtypes include the mercenary, the sexually promiscuous, the domestic type (troublemaker, family tyrant), the alcoholic, the negative avenger, the mentally ill person and so on.",
+  "Повышенная забота о собственной безопасности, стремление оградить себя от ошибок, неприятностей. Может приводить к пассивности личности по принципу “лучше ничего не делать, чем ошибаться”. Характеризуется повышенной тревожностью, мнительностью, подвержен страхам.": "Heightened concern for one's own safety and a desire to protect oneself from mistakes and trouble. May lead to passivity along the lines of 'better to do nothing than to make a mistake'. Characterized by heightened anxiety, suspiciousness and susceptibility to fears.",
+  "Показатели по шкале склонности к самоповреждающему и саморазрушающему поведению в норме": "Self-harming and self-destructive behaviour within the normal range",
+  "Жертвенность, связанная с активным поведением человека, провоцирующим ситуацию виктимности своей просьбой или обращением. По существу, для активных потерпевших характерно поведение двух видов: провоцирующее, если для причинения вреда привлекается другое лицо, и самопричиняющее, которые характеризуется склонностью к риску, необдуманному поведению, зачастую опасному для себя и окружающих. Последствий своих действий могут не осознавать или не придавать им значения, надеясь, что все обойдется. С учетом специфики поведения и отношения к виктимным последствиям в рамках этого типа представлены: сознательный подстрекатель (обращающийся с просьбой о причинении ему вреда), неосторожный подстрекатель (поведение объективно в форме какой-либо просьбы или иным способом провоцирует преступника на причинение вреда, но сам потерпевший этого в должной мере не сознает), сознательный самопричинитель (лицо, умышленно причиняющее себе физический или имущественный вред), неосторожный самопричинитель (вред причинен собственными неосторожными действиями в процессе совершения иного умышленного или неосторожного преступления).": "Victimhood linked to active behaviour in which the person provokes the situation through a request or approach. Active victims show two kinds of behaviour: provocative, when another person is drawn in to cause harm, and self-inflicted, marked by a tendency to take risks and act rashly in ways that are often dangerous to themselves and others. They may not realize the consequences of their actions or may not care, hoping everything will be fine. Depending on behaviour and attitude to the consequences, this type includes the conscious instigator (asks for harm to be done to them), the careless instigator (a request or other behaviour objectively provokes the offender, though the victim doesn't fully realize it), the conscious self-harmer (deliberately causes themselves physical or material harm) and the careless self-harmer (harm caused by their own careless actions while committing another offence).",
+  "Характеризуется пассивностью, равнодушием к тем явлениям, которые происходят вокруг него. Действует по принципу “моя хата с краю”, что может быть последствием как обиды на внешний мир, так и формирования в результате ощущения непонимания, изолированности от мира, отсутствия чувства социальной поддержки и включенности в социум.": "Characterized by passivity and indifference to what is happening around them. Acts on the principle 'it's none of my business', which may result from resentment towards the outside world or from feeling misunderstood, isolated, unsupported and not part of society.",
+  "Показатели по шкале склонности к гиперсоциальному поведению в норме": "Hypersocial behaviour within the normal range",
+  "Жертвенное поведение, социально одобряемое и зачастую ожидаемое. Сюда относятся лица, положительное поведение которых обращает на них преступные действия агрессора. Человек, который демонстрирует положительное поведение в ситуациях конфликта либо постоянно, либо в результате должностного положения, ожидания окружающих. Люди данного типа считают недопустимым уклонение от вмешательства в конфликт, даже если это может стоить им здоровья или жизни. Последствия таких поступков осознаются не всегда. Смел, решителен, отзывчив, принципиален, искренен, добр, требователен, готов рисковать, может быть излишне самонадеян. Нетерпим к поведению, нарушающему общественный порядок. Самооценка чаще всего завышенная. Поведение имеет положительные мотивы.": "Self-sacrificing behaviour that is socially approved and often expected. This covers people whose positive behaviour draws an aggressor's criminal actions towards them: people who act positively in conflict situations, either always or because of their position or others' expectations. They consider it unacceptable to stay out of a conflict, even if it could cost them their health or life, and are not always aware of the consequences. Brave, decisive, responsive, principled, sincere, kind, demanding, willing to take risks and sometimes overconfident. Intolerant of behaviour that disturbs public order. Self-esteem is usually inflated. Their behaviour has positive motives.",
+  "Склонность к независимости, обособленности. Всегда стремится выделиться из группы, имеет на все свою точку зрения, может быть непримирим к мнению других, авторитарен, конфликтен. Повышенный скептицизм. Возможна внутренняя ранимость, приводящая к повышенному желанию обособиться от окружающих.": "A tendency towards independence and detachment. Always wants to stand out from the group, has their own view on everything, may be intolerant of other opinions, authoritarian and prone to conflict. Heightened scepticism. There may be inner vulnerability that drives a strong desire to keep apart from others.",
+  "Показатели по шкале склонности к зависимому и беспомощному поведению в норме": "Dependent and helpless behaviour within the normal range",
+  "Лица, не оказывающие сопротивления, противодействия преступнику по различным причинам: в силу возраста, физической слабости, беспомощного состояния (стабильного или временно), трусости, из опасения ответственности за собственные противоправные или аморальные действия и т. д. Могут иметь установку на беспомощность. Нежелание делать что-то самому, без помощи других. Могут иметь низкую самооценку. Постоянно вовлекаются в кризисные ситуации с целью получения сочувствия и поддержки окружающих. Имеет ролевую позицию жертвы. Робок, скромен, сильно внушаем, конформен. Возможен также вариант усвоенной беспомощности в результате неоднократного попадания в ситуации насилия. Склонен к зависимому поведению, уступчив, оправдывает чужую агрессию, склонен всех прощать.": "People who do not resist or oppose an offender for various reasons: age, physical weakness, a helpless state (permanent or temporary), cowardice, fear of responsibility for their own unlawful or immoral actions and so on. May have a mindset of helplessness and be unwilling to do things without others' help. May have low self-esteem. Keep getting drawn into crises to gain sympathy and support. Take on the role of the victim. Timid, modest, highly suggestible and conformist. Learned helplessness after repeated exposure to violence is also possible. Tends towards dependent behaviour, is compliant, justifies others' aggression and tends to forgive everyone.",
+  "Вдумчивость, осторожность, стремление предугадывать возможные последствия своих поступков, которые иногда приводят к пассивности, страхам. Самореализация в этом случае значительно затруднена, может появляться социальная пассивность, приводящая к неудовлетворенности своими достижениями, чувству досады, зависти.": "Thoughtfulness, caution and a desire to anticipate the possible consequences of one's actions, which sometimes lead to passivity and fears. Self-fulfilment is considerably harder in this case; social passivity may develop, leading to dissatisfaction with one's achievements, frustration and envy.",
+  "Показатели по шкале склонности к некритичному поведению в норме": "Uncritical behaviour within the normal range",
+  "К данной группе относятся лица, демонстрирующие неосмотрительность, неумение правильно оценивать жизненные ситуации. Некритичность может проявиться как на базе личностных негативных черт (алчность, корыстолюбие и др.), так и положительных (щедрость, доброта, отзывчивость, смелость и др.), а кроме того, в силу невысокого интеллектуального уровня. Эти лица демонстрируют неосторожность, неосмотрительность, неумение правильно оценивать жизненные ситуации в результате каких-либо личностных или ситуативных факторов: эмоциональное состояние, возраст, уровень интеллекта, заболевание.  Личность некритичного типа обнаруживает склонность к спиртному, неразборчивость в знакомствах, доверчивость, легкомысленность. Имеет непрочные нравственные устои, что усиливается отсутствием личного опыта или не учетом его. Склонны к идеализации людей, оправданию негативного поведения других, не замечают опасности.": "This group includes people who act imprudently and cannot assess situations correctly. A lack of critical judgement may stem from negative personal traits (greed, self-interest and so on), from positive ones (generosity, kindness, responsiveness, courage and so on), or from a low intellectual level. They act carelessly and imprudently and misjudge situations because of personal or situational factors such as emotional state, age, intelligence or illness. The uncritical type tends to drink, is indiscriminate in choosing acquaintances, trusting and frivolous. Their moral foundations are weak, made worse by a lack of personal experience or by ignoring it. They tend to idealize people, justify others' negative behaviour and fail to notice danger.",
+  "Очевидно, что испытуемый нечасто попадает в критические ситуации либо у него уже успел выработаться защитный способ поведения, позволяющий избегать опасных ситуаций. Однако внутренняя готовность к виктимному способу поведения присутствует. Скорее всего, ощущая внутренний уровень напряжения, испытуемый стремится вообще избегать ситуации конфликта.": "The person evidently rarely gets into critical situations, or has already developed a protective way of behaving that helps them avoid danger. However, an inner readiness for victim behaviour is present. Feeling inner tension, the person most likely tries to avoid conflict altogether.",
+  "Показатели по шкале реализованной виктимности в норме": "Realized victimization within the normal range",
+  "Испытуемый достаточно часто попадает в неприятные или даже опасные для его здоровья и жизни ситуации. Причиной этого является внутренняя предрасположенность и готовность личности действовать определенными, ведущими в индивидуальном профиле способами. Чаще всего это – стремление к агрессивному, необдуманному действию спонтанного характера.": "The person quite often gets into unpleasant or even dangerous situations. The cause is an inner predisposition and readiness to act in certain ways that dominate their individual profile, most often a tendency towards aggressive, rash and spontaneous action."
+ }
+}

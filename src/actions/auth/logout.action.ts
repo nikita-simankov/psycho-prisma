@@ -1,24 +1,18 @@
-import { lucia, useSession } from "@/utils/authentication";
-import { ActionResult } from "next/dist/server/app-render/types";
+"use server";
+
+import { lucia } from "@/utils/authentication";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function logout(): Promise<ActionResult> {
-  "use server";
-  const user = await useSession();
-  if (!user) {
-    return {
-      error: "Unauthorized",
-    };
+export async function logout() {
+  const sessionId = cookies().get(lucia.sessionCookieName)?.value;
+
+  if (sessionId) {
+    await lucia.invalidateSession(sessionId);
   }
 
-  await lucia.invalidateSession(user.id);
-
   const sessionCookie = lucia.createBlankSessionCookie();
-  cookies().set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes
-  );
-  return redirect("/auth/sign-in");
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+
+  redirect("/auth/sign-in");
 }
