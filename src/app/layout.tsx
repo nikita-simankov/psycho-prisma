@@ -25,10 +25,17 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const t = await getTranslations("common");
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.variable} ${manrope.variable} font-sans`}>
+        <a
+          href="#main"
+          className="sr-only z-50 rounded-md bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          {t("skipToContent")}
+        </a>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ReactQueryProvider>
             <ThemeProvider attribute="class" defaultTheme="light">

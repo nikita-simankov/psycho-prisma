@@ -4,19 +4,21 @@ import { cn } from "@/utils/utils";
 
 type Choice = { id: number; text: string };
 
-// Single-choice answers drawn as large, easy-to-tap rows.
+// Single-choice answers drawn as large, easy-to-tap rows, numbered for keyboard answering.
 export function ChoiceList({
   choices,
   value,
   onChange,
+  label,
 }: {
   choices: Choice[];
   value: number | undefined;
   onChange: (choiceId: number) => void;
+  label?: string;
 }) {
   return (
-    <div role="radiogroup" className="flex flex-col gap-2">
-      {choices.map((choice) => {
+    <div role="radiogroup" aria-label={label} className="flex flex-col gap-2">
+      {choices.map((choice, index) => {
         const selected = value === choice.id;
 
         return (
@@ -39,7 +41,12 @@ export function ChoiceList({
             >
               {selected && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
             </span>
-            <span className="whitespace-pre-line">{choice.text.trim()}</span>
+            <span className="flex-1 whitespace-pre-line">{choice.text.trim()}</span>
+            {index < 9 && (
+              <kbd aria-hidden className="hidden font-mono text-xs text-muted-foreground sm:inline">
+                {index + 1}
+              </kbd>
+            )}
           </button>
         );
       })}

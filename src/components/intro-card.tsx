@@ -13,6 +13,7 @@ export function IntroCard({
   minutes,
   startHref,
   backHref,
+  answered = 0,
 }: {
   name: string;
   description: string;
@@ -21,6 +22,8 @@ export function IntroCard({
   minutes: number;
   startHref: string;
   backHref: string;
+  // Questions already answered in a saved draft.
+  answered?: number;
 }) {
   const t = useTranslations("respondent");
   const common = useTranslations("common");
@@ -64,9 +67,14 @@ export function IntroCard({
         <Lock className="mt-0.5 h-4 w-4 shrink-0" />
         {t("privacyNote")}
       </p>
+      {answered > 0 && (
+        <p role="status" className="rounded-lg bg-muted p-3 text-sm">
+          {t("resumeNote", { answered, total: questionCount })}
+        </p>
+      )}
       <Button size="lg" asChild className="w-full sm:w-fit">
         <Link href={startHref}>
-          {t("start")}
+          {answered > 0 ? t("continue") : t("start")}
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </Button>

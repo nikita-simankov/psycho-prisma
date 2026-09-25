@@ -162,6 +162,8 @@ model FormSubmission {
   submission     String
   // The round assignment this answers, if it was sent as part of one.
   assignmentId   String?
+  // JSON: { "<questionId>": milliseconds spent answering }, for answer-quality checks.
+  timings        String  @default("{}")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -208,6 +210,8 @@ model TestSubmission {
   submission     String
   // The round assignment this answers, if it was sent as part of one.
   assignmentId   String?
+  // JSON: { "<questionId>": milliseconds spent answering }, for answer-quality checks.
+  timings        String  @default("{}")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -288,4 +292,22 @@ model RoundSchedule {
   createdById    String
   rounds         Round[]
   createdAt      DateTime     @default(now())
+}
+
+// Answers in progress, saved as people go so they can resume on any device.
+model Draft {
+  id             String   @id @default(uuid())
+  userId         String
+  organizationId String
+  // "test" or "form"
+  kind           String
+  instrumentId   String
+  assignmentId   String?
+  // JSON: { "<questionId>": choiceId or text }
+  answers        String   @default("{}")
+  // JSON: { "<questionId>": milliseconds }
+  timings        String   @default("{}")
+  updatedAt      DateTime @updatedAt
+
+  @@unique([userId, organizationId, kind, instrumentId])
 }

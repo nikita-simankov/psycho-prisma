@@ -1,5 +1,7 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
 import { FormRunner } from "@/components/form-runner";
+import { ensureMember } from "@/utils/authentication";
+import { findDraft } from "@/utils/drafts";
 import { notFound } from "next/navigation";
 
 type PathParams = {
@@ -14,9 +16,17 @@ export default async function Page({ params, searchParams }: PathParams) {
     notFound();
   }
 
+  const { user, organization } = await ensureMember();
+
   return (
     <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
-      <FormRunner form={form} doneHref="/assessments?done=1" assignmentId={searchParams.assignment} />
+      <FormRunner
+        form={form}
+        doneHref="/assessments?done=1"
+        pauseHref="/assessments"
+        assignmentId={searchParams.assignment}
+        initialDraft={await findDraft(user.id, organization.id, "form", form.id)}
+      />
     </div>
   );
 }
