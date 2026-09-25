@@ -9,8 +9,9 @@ const SECTIONS = [
   { key: "rights", icon: ShieldCheck },
 ] as const;
 
-// The privacy notice shown on /privacy and on the consent screen.
-export function PrivacyNotice() {
+// The privacy notice shown on /privacy and on the consent screen. On the consent
+// screen it names the organization responsible for the data and its contact.
+export function PrivacyNotice({ organization, contact }: { organization?: string; contact?: string }) {
   const t = useTranslations("privacy");
 
   return (
@@ -26,7 +27,10 @@ export function PrivacyNotice() {
           </div>
         </section>
       ))}
-      <p className="border-t pt-4 text-sm text-muted-foreground">{t("controller")}</p>
+      <div className="flex flex-col gap-1 border-t pt-4 text-sm text-muted-foreground">
+        <p>{organization ? t("controllerNamed", { organization }) : t("controller")}</p>
+        {contact && <p>{t("contact", { contact })}</p>}
+      </div>
     </div>
   );
 }

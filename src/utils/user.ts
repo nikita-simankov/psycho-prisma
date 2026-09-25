@@ -1,25 +1,56 @@
 import type { Prisma } from "@prisma/client";
+import { can } from "./roles";
 
 // Every User column except secrets. Use this for anything that can reach the browser.
 export const publicUserSelect = {
   id: true,
-  role: true,
   name: true,
   middleName: true,
   lastName: true,
-  firstTimer: true,
+  email: true,
   phoneNumber: true,
   imageURL: true,
-  group: true,
-  department: true,
-  position: true,
   dateOfBirth: true,
-  consentedAt: true,
+  firstTimer: true,
   createdAt: true,
   updatedAt: true,
 } satisfies Prisma.UserSelect;
 
 export type PublicUser = Prisma.UserGetPayload<{ select: typeof publicUserSelect }>;
+
+export const memberInclude = {
+  user: { select: publicUserSelect },
+  team: { select: { id: true, name: true } },
+} satisfies Prisma.MembershipInclude;
+
+type MembershipWithUser = Prisma.MembershipGetPayload<{ include: typeof memberInclude }>;
+
+// A person as seen inside one organization. `id` is the user id, so profile links stay stable.
+export type Member = PublicUser & {
+  membershipId: string;
+  role: string;
+  teamId: string | null;
+  department: string;
+  position: string;
+  // Empty unless the viewer may see restricted flags.
+  flag: string;
+  consentedAt: Date | null;
+  joinedAt: Date;
+};
+
+export function toMember(membership: MembershipWithUser, viewerRole: string): Member {
+  return {
+    ...membership.user,
+    membershipId: membership.id,
+    role: membership.role,
+    teamId: membership.teamId,
+    department: membership.team?.name ?? "",
+    position: membership.position,
+    flag: can(viewerRole, "viewSensitive") ? membership.flag : "",
+    consentedAt: membership.consentedAt,
+    joinedAt: membership.createdAt,
+  };
+}
 
 type NamedUser = Pick<PublicUser, "lastName" | "name" | "middleName">;
 
@@ -31,6 +62,6 @@ export function formatInitials(user: Pick<PublicUser, "lastName" | "name">) {
   return ((user.name[0] ?? "") + (user.lastName[0] ?? "")).toUpperCase();
 }
 
-export function formatWorkInfo(user: Pick<PublicUser, "department" | "position">) {
+export function formatWorkInfo(user: { department: string; position: string }) {
   return [user.position, user.department].filter(Boolean).join(", ");
 }

@@ -1,14 +1,14 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
+import { allowedSubmissionWhere } from "@/utils/library";
 
 export async function findAllTestSubmissionsByTestId(testId: string) {
-  await requireAdmin();
+  const context = await requireMember("viewDashboard");
 
-  return await prisma.testSubmission.findMany({
-    where: {
-      testId: testId,
-    },
+  return prisma.testSubmission.findMany({
+    where: { AND: [await allowedSubmissionWhere(context), { testId }] },
+    orderBy: { createdAt: "desc" },
   });
 }

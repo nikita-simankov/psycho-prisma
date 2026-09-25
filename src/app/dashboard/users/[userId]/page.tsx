@@ -3,7 +3,9 @@ import { findAllForms } from "@/actions/form/find-all-forms-action";
 import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-all-test-submissions-by-user-id-action";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
-import { GroupBadge } from "@/components/group-badge";
+import { findAllTeams } from "@/actions/team/team-actions";
+import { FlagBadge } from "@/components/flag-badge";
+import { Badge } from "@/components/ui/badge";
 import { LinkList } from "@/components/link-list";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
@@ -15,12 +17,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import UserAvatar from "@/components/ui/user-avatar";
+import { ensureMember } from "@/utils/authentication";
+import { assignableRoles, can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { FlaskConical, NotepadText } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EditUserDialog from "./components/edit-user-dialog";
+import { FlagSelect, MembershipDialog, RemoveMemberButton } from "../components/member-controls";
 
 type PathParams = {
   params: {
@@ -34,12 +39,16 @@ export default async function UserProfilePage({ params }: PathParams) {
   const t = await getTranslations("profile");
   const people = await getTranslations("people");
   const format = await getFormatter();
-  const [user, formSubmissions, testSubmissions, forms, tests] = await Promise.all([
+  const roles = await getTranslations("roles");
+  const { user: viewer, membership, organization } = await ensureMember("viewDashboard");
+  const manage = can(membership.role, "manageMembers");
+  const [user, formSubmissions, testSubmissions, forms, tests, teams] = await Promise.all([
     findUserById(params.userId),
     findAllFormSubmissionsByUserId(params.userId),
     findAllTestSubmissionsByUserId(params.userId),
     findAllForms(),
     findAllTests(),
+    findAllTeams(),
   ]);
 
   if (!user) {
@@ -63,13 +72,14 @@ export default async function UserProfilePage({ params }: PathParams) {
   }));
 
   const details = [
+    { label: t("fields.email"), value: user.email },
     { label: t("fields.phoneNumber"), value: user.phoneNumber },
     { label: t("fields.dateOfBirth"), value: user.dateOfBirth },
-    { label: t("fields.department"), value: user.department },
+    { label: t("fields.team"), value: user.department },
     { label: t("fields.position"), value: user.position },
     {
-      label: t("fields.registeredAt"),
-      value: format.dateTime(user.createdAt, { dateStyle: "medium" }),
+      label: t("fields.joinedAt"),
+      value: format.dateTime(user.joinedAt, { dateStyle: "medium" }),
     },
   ];
 
@@ -107,7 +117,20 @@ export default async function UserProfilePage({ params }: PathParams) {
             <Button variant="outline" asChild>
               <Link href={`/dashboard/summary/${user.id}`}>{t("openReport")}</Link>
             </Button>
-            <EditUserDialog user={user} />
+            {manage && <EditUserDialog user={user} />}
+            {manage && (
+              <MembershipDialog
+                userId={user.id}
+                name={formatFullName(user)}
+                current={{ role: user.role, teamId: user.teamId, position: user.position }}
+                roles={
+                  user.id === viewer.id || (user.role === "owner" && membership.role !== "owner")
+                    ? []
+                    : assignableRoles(membership.role)
+                }
+                teams={teams.map((team) => ({ id: team.id, name: team.name }))}
+              />
+            )}
           </>
         }
       />
@@ -117,8 +140,9 @@ export default async function UserProfilePage({ params }: PathParams) {
             <UserAvatar user={user} className="mb-2 h-20 w-20 text-lg" />
             <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
             <CardDescription>{formatWorkInfo(user)}</CardDescription>
-            <div className="pt-1">
-              <GroupBadge group={user.group} />
+            <div className="flex flex-wrap justify-center gap-2 pt-1">
+              <Badge variant="secondary">{roles(user.role)}</Badge>
+              <FlagBadge flag={user.flag} />
             </div>
           </CardHeader>
           <CardContent>
@@ -130,6 +154,16 @@ export default async function UserProfilePage({ params }: PathParams) {
                 </div>
               ))}
             </dl>
+            {can(membership.role, "viewSensitive") && (
+              <div className="mt-4 rounded-lg border border-dashed p-3">
+                <FlagSelect userId={user.id} flag={user.flag} />
+              </div>
+            )}
+            {manage && user.id !== viewer.id && (user.role !== "owner" || membership.role === "owner") && (
+              <div className="mt-4 flex justify-end">
+                <RemoveMemberButton userId={user.id} name={formatFullName(user)} organization={organization.name} />
+              </div>
+            )}
           </CardContent>
         </Card>
         <div className="flex min-w-0 flex-col gap-6">

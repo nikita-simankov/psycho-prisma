@@ -1,11 +1,11 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { FormData } from "@/utils/constants";
 
 export async function uploadFormData(formData: FormData) {
-  await requireAdmin();
+  const { organization } = await requireMember("manageLibrary");
 
   return await prisma.form.create({
     data: {
@@ -13,6 +13,7 @@ export async function uploadFormData(formData: FormData) {
       description: formData.description,
       adminOnly: formData.adminOnly,
       questions: JSON.stringify(formData.questions),
+      organizationId: organization.id,
     },
   });
 }

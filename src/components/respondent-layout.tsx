@@ -1,12 +1,13 @@
 import { RespondentHeader } from "@/components/respondent-header";
-import { ensureUser } from "@/utils/authentication";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { redirect } from "next/navigation";
 
 // Shared layout for /forms and /tests: respondents agree to the privacy notice first.
 export async function RespondentLayout({ children }: { children: React.ReactNode }) {
-  const user = await ensureUser();
+  const { membership } = await ensureMember();
 
-  if (user.role !== "admin" && !user.consentedAt) {
+  if (!can(membership.role, "viewDashboard") && !membership.consentedAt) {
     redirect("/consent");
   }
 

@@ -39,14 +39,17 @@
     "fileErrorText": "Check that it is an .xlsx file in the expected template format",
     "fileHint": "Upload an .xlsx file based on the template.",
     "menu": "Menu",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "done": "Done"
   },
   "validation": {
     "required": "Required",
     "phone": "Enter a valid phone number",
     "passwordLength": "Password must be at least 8 characters",
     "tooLong": "Too long",
-    "consentRequired": "Please agree to continue"
+    "consentRequired": "Please agree to continue",
+    "email": "Enter a valid email address",
+    "identifier": "Enter your email or phone number"
   },
   "landing": {
     "hero": {
@@ -86,8 +89,8 @@
         "text": "See all of a person's results side by side, add background and a conclusion, then print or archive."
       },
       "groups": {
-        "title": "Groups and follow-up",
-        "text": "Put people who may need support into groups and keep an eye on them across departments."
+        "title": "Teams and follow-up",
+        "text": "Organise people by team, and let psychologists privately flag anyone who may need support."
       }
     },
     "trust": {
@@ -136,39 +139,62 @@
     "signIn": {
       "metaTitle": "Sign in",
       "title": "Welcome back",
-      "subtitle": "Enter the phone number and password you used to sign up.",
+      "subtitle": "Sign in with your work email and password.",
       "aside": "Psychological assessment for HR teams: tests, questionnaires and results in one place.",
       "submit": "Sign in",
       "noAccount": "Don't have an account?",
       "signUpLink": "Sign up",
-      "successTitle": "Welcome!",
-      "successText": "You are signed in.",
       "errorTitle": "Could not sign in",
       "errors": {
-        "invalidCredentials": "Wrong phone number or password",
+        "invalidCredentials": "Wrong email or password",
         "rateLimited": "Too many attempts. Try again in 15 minutes"
-      }
+      },
+      "identifier": "Email",
+      "forgot": "Forgot password?"
     },
     "signUp": {
       "metaTitle": "Sign up",
-      "title": "Create an account",
-      "subtitle": "Tell us a little about yourself to take assessments assigned by your HR team.",
+      "title": "Create your workspace",
+      "subtitle": "Set up an organization for your team. You'll invite people once you're in.",
       "haveAccount": "Already have an account?",
       "signInLink": "Sign in",
-      "steps": {
-        "personal": "Personal",
-        "work": "Work",
-        "account": "Account"
-      },
-      "successTitle": "Account created",
-      "successText": "You can now sign in.",
       "errorTitle": "Could not create the account",
       "errors": {
         "rateLimited": "Too many attempts. Try again later",
         "invalidInput": "Check the fields and try again",
-        "phoneTaken": "An account with this phone number already exists"
+        "emailTaken": "An account with this email already exists. Sign in instead."
       },
-      "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment."
+      "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment.",
+      "organization": "Organization name",
+      "organizationPlaceholder": "e.g. Acme Ltd",
+      "submit": "Create workspace",
+      "invitedHint": "Were you invited by your HR team? Use the link in your invitation email instead."
+    },
+    "forgot": {
+      "metaTitle": "Reset password",
+      "title": "Reset your password",
+      "subtitle": "Enter the email you sign in with and we'll send you a link to choose a new password.",
+      "submit": "Send reset link",
+      "sentTitle": "Check your email",
+      "sentText": "If {email} has an account, a reset link is on its way. It works for one hour.",
+      "back": "Back to sign in",
+      "errorTitle": "Could not send the link",
+      "rateLimited": "Too many requests. Try again later."
+    },
+    "reset": {
+      "metaTitle": "Choose a new password",
+      "title": "Choose a new password",
+      "subtitle": "You'll be signed out on every other device.",
+      "newPassword": "New password",
+      "submit": "Save password and sign in",
+      "invalidTitle": "This link doesn't work",
+      "invalidText": "Reset links work once and expire after an hour.",
+      "requestNew": "Send a new link",
+      "errorTitle": "Password not changed",
+      "errors": {
+        "invalidLink": "The link has expired or was already used.",
+        "invalidInput": "Password must be at least 8 characters"
+      }
     }
   },
   "profile": {
@@ -179,17 +205,15 @@
       "fullName": "Full name",
       "dateOfBirth": "Date of birth",
       "datePlaceholder": "DD.MM.YYYY",
-      "department": "Department",
-      "departmentPlaceholder": "e.g. Sales",
       "position": "Position",
-      "positionPlaceholder": "e.g. Account manager",
       "phoneNumber": "Phone number",
-      "phonePlaceholder": "Enter phone number",
       "password": "Password",
-      "group": "Group",
       "role": "Role",
       "photo": "Photo",
-      "registeredAt": "Signed up"
+      "email": "Email",
+      "emailPlaceholder": "you@company.com",
+      "team": "Team",
+      "joinedAt": "Joined"
     },
     "title": "Profile",
     "editTitle": "Edit profile",
@@ -209,8 +233,10 @@
       "tests": "Tests",
       "people": "People",
       "reports": "Reports",
-      "groups": "Groups",
-      "archive": "Archive"
+      "archive": "Archive",
+      "teams": "Teams",
+      "followUp": "Follow-up",
+      "settings": "Settings"
     },
     "search": {
       "placeholder": "Search",
@@ -226,12 +252,13 @@
       "people": "People",
       "forms": "Questionnaires",
       "tests": "Tests",
-      "atRisk": "Needs attention",
-      "peopleHint": "Signed-up respondents",
+      "atRisk": "Needs follow-up",
+      "peopleHint": "Members who take assessments",
       "formsHint": "Available questionnaires",
       "testsHint": "Available tests",
-      "atRiskHint": "In a risk group",
-      "viewGroups": "View groups"
+      "atRiskHint": "People with a follow-up flag",
+      "teams": "Teams",
+      "teamsHint": "Groups of people"
     },
     "recent": {
       "title": "Recent results",
@@ -285,13 +312,6 @@
     "search": "Search...",
     "empty": "No data"
   },
-  "groups": {
-    "general": "General",
-    "risk": "At risk",
-    "substance-risk": "Substance use risk",
-    "monitoring": "Monitoring",
-    "suicide-risk": "Suicide risk"
-  },
   "results": {
     "empty": "No one has submitted this yet.",
     "submittedAt": "Submitted {date}",
@@ -341,19 +361,50 @@
     "none": "This submission could not be scored."
   },
   "roles": {
+    "owner": "Owner",
     "admin": "Admin",
-    "user": "Employee"
+    "psychologist": "Psychologist",
+    "manager": "HR manager",
+    "member": "Member"
   },
   "people": {
     "title": "People",
     "openReport": "Report",
-    "delete": {
-      "title": "Delete this person?",
-      "description": "Their profile and results will be deleted permanently.",
-      "confirm": "Delete"
+    "description": "Everyone in {organization}.",
+    "back": "People",
+    "invite": {
+      "button": "Invite people",
+      "title": "Invite someone",
+      "description": "They'll get an email with a link to join. You can also copy the link and send it yourself.",
+      "send": "Send invitation",
+      "sentTitle": "Invitation created",
+      "emailed": "We emailed the link to {email}.",
+      "notEmailed": "Email isn't set up yet, so send this link yourself. It works for 14 days.",
+      "link": "Invitation link",
+      "copy": "Copy link",
+      "linkHint": "Anyone with this link can join as the invited person, so send it only to them.",
+      "alreadyMember": "This person is already in your organization."
     },
-    "description": "Everyone who has signed up, with their group and role.",
-    "back": "People"
+    "invitations": {
+      "title": "Invitations waiting",
+      "description": "People who haven't accepted yet.",
+      "expires": "Expires {date}",
+      "expired": "Expired",
+      "revoke": "Revoke",
+      "revokeFor": "Revoke the invitation for {email}"
+    },
+    "membership": {
+      "button": "Role and team",
+      "title": "Role and team",
+      "roleChange": "{name} will change from {from} to {to}. Their access changes as soon as you save.",
+      "confirmRole": "Make {role}"
+    },
+    "remove": {
+      "button": "Remove from organization",
+      "title": "Remove {name}?",
+      "description": "They lose access to {organization}, and their answers, results and conclusions here are deleted. Their account and other organizations are not affected.",
+      "confirm": "Remove and delete results"
+    }
   },
   "reports": {
     "title": "Reports",
@@ -372,13 +423,6 @@
     "archiveError": "The report was not saved. A person can have one archived report; delete the old one first.",
     "description": "Open a person's report to see all their results and write a conclusion."
   },
-  "groupsPage": {
-    "title": "Groups",
-    "open": "Open",
-    "empty": "No one is in this group.",
-    "viewProfile": "View profile",
-    "description": "Groups help you follow up with people who may need support."
-  },
   "archive": {
     "title": "Report archive",
     "empty": "The archive is empty.",
@@ -396,7 +440,7 @@
     "sections": {
       "collect": {
         "title": "What we collect",
-        "text": "Your profile (name, phone number, date of birth, department, position and, if an administrator adds one, a photo), the answers you give, and the scores and interpretations calculated from them."
+        "text": "Your profile (name, email, date of birth, team, position and, if an administrator adds one, a photo), the answers you give, and the scores and interpretations calculated from them."
       },
       "purpose": {
         "title": "Why",
@@ -404,25 +448,124 @@
       },
       "access": {
         "title": "Who can see it",
-        "text": "Only administrators of this workspace, typically HR specialists and psychologists in your organization. Other employees cannot see your answers or results."
+        "text": "Only people your organization authorises, such as HR specialists and psychologists. Results of clinical and wellbeing screens are visible only to psychologists. Other employees cannot see your answers or results."
       },
       "storage": {
         "title": "How long it is kept",
-        "text": "Until an administrator deletes your profile. Deleting a profile removes its answers and results."
+        "text": "Until you leave the organization or an administrator removes you. Removing you deletes your answers and results in that organization."
       },
       "rights": {
         "title": "Your choices",
         "text": "Taking part is voluntary. You can stop any questionnaire or test before finishing it, and you can ask your HR team to show, correct or delete your data."
       }
     },
-    "controller": "Your organization is responsible for how this data is used. Contact your HR team with any questions."
+    "controller": "Your organization is responsible for how this data is used. Contact your HR team with any questions.",
+    "controllerNamed": "{organization} is responsible for how this data is used.",
+    "contact": "Questions about your data: {contact}"
   },
   "consent": {
     "metaTitle": "Before you start",
     "title": "Before you start",
-    "text": "Please read how your answers will be used. You only need to do this once.",
+    "text": "{organization} asks you to read how your answers will be used. You only need to do this once.",
     "accept": "I agree",
     "decline": "Not now, sign out",
     "error": "Your choice was not saved. Try again."
+  },
+  "invite": {
+    "metaTitle": "Invitation",
+    "title": "Join {organization}",
+    "createAccount": "Create your account to accept the invitation.",
+    "accept": "Join {organization}",
+    "signedInAs": "You're signed in as {email}.",
+    "existing": "You already have an account with {email}. Sign in to accept the invitation.",
+    "otherUser": "This invitation is for {email}, but you're signed in with another account. Sign out, then open the link again.",
+    "invalidTitle": "This invitation link doesn't work",
+    "invalidText": "It may have expired or already been used. Ask your HR team for a new one.",
+    "errorTitle": "Could not accept the invitation",
+    "errors": {
+      "invalidLink": "The invitation has expired or was already used.",
+      "invalidInput": "Check the fields and try again.",
+      "signInFirst": "Sign in with the invited email first.",
+      "rateLimited": "Too many attempts. Try again later."
+    }
+  },
+  "organizations": {
+    "switch": "Switch organization",
+    "yours": "Your organizations",
+    "create": "New organization",
+    "new": {
+      "metaTitle": "New organization",
+      "title": "Create an organization",
+      "subtitle": "Start a separate workspace with its own people and results.",
+      "subtitleFirst": "You're not part of any organization yet. Create one for your team, or ask your HR team for an invitation.",
+      "name": "Organization name",
+      "namePlaceholder": "e.g. Acme Ltd",
+      "submit": "Create organization",
+      "error": "The organization was not created."
+    }
+  },
+  "mail": {
+    "invitation": {
+      "subject": "You're invited to join {organization} on Prisma",
+      "text": "Hello,\n\n{organization} has invited you to Prisma, where you'll complete psychological assessments for your workplace.\n\nAccept the invitation: {link}\n\nThe link works for {days} days. If you weren't expecting this, you can ignore this email."
+    },
+    "passwordReset": {
+      "subject": "Reset your Prisma password",
+      "text": "Hello,\n\nChoose a new password here: {link}\n\nThe link works once and expires in {minutes} minutes. If you didn't ask for this, you can ignore this email."
+    }
+  },
+  "roleHints": {
+    "owner": "Full access, including clinical results and removing other owners.",
+    "admin": "Manages people, teams, settings and the library. Doesn't see clinical results.",
+    "psychologist": "Sees every result, including clinical screens and follow-up flags, and writes conclusions.",
+    "manager": "Sees people and results of workplace tests. Doesn't see clinical results.",
+    "member": "Takes assessments. Doesn't see the dashboard."
+  },
+  "flags": {
+    "monitoring": "Monitoring",
+    "risk": "Needs support",
+    "suicide-risk": "Suicide risk",
+    "substance-risk": "Substance use risk",
+    "label": "Follow-up flag",
+    "none": "No flag",
+    "hint": "Visible only to psychologists and owners."
+  },
+  "teams": {
+    "title": "Teams",
+    "description": "Group people by department or project.",
+    "team": "Team",
+    "noTeam": "No team",
+    "create": "New team",
+    "rename": "Rename",
+    "name": "Team name",
+    "namePlaceholder": "e.g. Sales",
+    "saveError": "The team was not saved. The name may already be taken.",
+    "deleteTitle": "Delete {name}?",
+    "deleteText": "People in this team stay in the organization without a team.",
+    "emptyTitle": "No teams yet",
+    "emptyText": "Create teams to group people by department or project.",
+    "withoutTeam": "{count, plural, one {# person isn't} other {# people aren't}} in a team yet.",
+    "teamEmpty": "No one is in this team yet."
+  },
+  "followUp": {
+    "title": "Follow-up",
+    "description": "People a psychologist has flagged for support.",
+    "restricted": "Only psychologists and owners can see this page and these flags.",
+    "empty": "No one is flagged."
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "How your organization appears and handles people's data.",
+    "general": "General",
+    "name": "Organization name",
+    "privacy": "Privacy",
+    "privacyText": "Shown to people when they agree to the privacy notice.",
+    "contact": "Privacy contact",
+    "contactPlaceholder": "e.g. privacy@acme.com or the HR team",
+    "contactHint": "Who people contact to see, correct or delete their data.",
+    "feedback": "Let people see their own results",
+    "feedbackText": "When on, people will see a short summary of their workplace test results. Clinical screens always stay with the psychologist.",
+    "saved": "Settings saved",
+    "saveError": "Settings were not saved."
   }
 }

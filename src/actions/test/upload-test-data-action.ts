@@ -1,11 +1,11 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { TestData } from "@/utils/constants";
 
 export async function uploadTestData(data: TestData) {
-  await requireAdmin();
+  const { organization } = await requireMember("manageLibrary");
 
   return await prisma.test.create({
     data: {
@@ -20,6 +20,8 @@ export async function uploadTestData(data: TestData) {
       stanTable: JSON.stringify(data.stanTable),
       tGradeTable: JSON.stringify(data.tGradeTable),
       summaryTable: JSON.stringify(data.summaryTable),
+
+      organizationId: organization.id,
     },
   });
 }

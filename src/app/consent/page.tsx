@@ -1,7 +1,8 @@
 import { PrivacyNotice } from "@/components/privacy-notice";
 import { Card } from "@/components/ui/card";
 import Logo from "@/components/ui/logo";
-import { ensureUser } from "@/utils/authentication";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { ConsentActions } from "./consent-actions";
@@ -12,10 +13,11 @@ export async function generateMetadata() {
 }
 
 export default async function ConsentPage() {
-  const user = await ensureUser();
+  const { membership, organization } = await ensureMember();
+  const staff = can(membership.role, "viewDashboard");
 
-  if (user.consentedAt || user.role === "admin") {
-    redirect(user.role === "admin" ? "/dashboard" : "/forms");
+  if (membership.consentedAt || staff) {
+    redirect(staff ? "/dashboard" : "/forms");
   }
 
   const t = await getTranslations("consent");
@@ -25,10 +27,10 @@ export default async function ConsentPage() {
       <Logo withText />
       <div>
         <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
-        <p className="mt-2 text-muted-foreground">{t("text")}</p>
+        <p className="mt-2 text-muted-foreground">{t("text", { organization: organization.name })}</p>
       </div>
       <Card className="p-5 sm:p-6">
-        <PrivacyNotice />
+        <PrivacyNotice organization={organization.name} contact={organization.privacyContact} />
       </Card>
       <ConsentActions />
     </main>

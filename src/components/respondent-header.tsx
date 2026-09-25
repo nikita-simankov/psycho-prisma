@@ -4,7 +4,8 @@ import { RespondentNav } from "@/components/respondent-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
-import { getCurrentUser } from "@/utils/authentication";
+import { getContext } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { LayoutDashboard, LogOut } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -13,7 +14,7 @@ import Link from "next/link";
 export async function RespondentHeader() {
   const common = await getTranslations("common");
   const nav = await getTranslations("dashboard.nav");
-  const user = await getCurrentUser();
+  const context = await getContext();
 
   return (
     <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur">
@@ -23,7 +24,7 @@ export async function RespondentHeader() {
         </Link>
         <RespondentNav />
         <div className="ml-auto flex items-center">
-          {user?.role === "admin" && (
+          {context?.membership && can(context.membership.role, "viewDashboard") && (
             <Button variant="ghost" size="icon" asChild title={nav("home")}>
               <Link href="/dashboard">
                 <LayoutDashboard className="h-4 w-4" />

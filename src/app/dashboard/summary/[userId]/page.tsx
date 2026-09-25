@@ -13,6 +13,8 @@ import UserAvatar from "@/components/ui/user-avatar";
 import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
 import { localizeResult } from "@/utils/content-translation";
 import { getSubmissionSummary, toScaleRows } from "@/utils/scoring";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -34,6 +36,8 @@ export default async function UserSummaryPage({ params }: PathParams) {
   const t = await getTranslations("reports");
   const format = await getFormatter();
   const locale = await getLocale();
+  const { membership } = await ensureMember("viewDashboard");
+  const write = can(membership.role, "writeConclusions");
   const [user, submissions, tests] = await Promise.all([
     findUserById(params.userId),
     findAllTestSubmissionsByUserId(params.userId),
@@ -81,7 +85,7 @@ export default async function UserSummaryPage({ params }: PathParams) {
         back={{ href: "/dashboard/summary", label: t("title") }}
         actions={
           <>
-            <SaveToArchiveButton userId={user.id} />
+            {write && <SaveToArchiveButton userId={user.id} />}
             <PrintButton />
           </>
         }

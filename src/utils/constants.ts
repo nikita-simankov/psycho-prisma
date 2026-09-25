@@ -1,4 +1,6 @@
 export const COOKIE_NAME = "auth_cookie";
+// Which of the signed-in person's organizations the dashboard shows.
+export const ORGANIZATION_COOKIE = "active_org";
 
 export type ChoiceType = "Text" | "List";
 

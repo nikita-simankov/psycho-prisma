@@ -2,32 +2,41 @@ import { findAllForms } from "@/actions/form/find-all-forms-action";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { Card } from "@/components/ui/card";
-import { RISK_GROUPS } from "@/utils/groups";
+import { findAllTeams } from "@/actions/team/team-actions";
+import { getContext } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { cn } from "@/utils/utils";
-import { FlaskConical, NotepadText, TriangleAlert, Users } from "lucide-react";
+import { FlaskConical, Layers, NotepadText, TriangleAlert, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 export async function DashboardStatistics() {
   const t = await getTranslations("dashboard.stats");
-  const [users, forms, tests] = await Promise.all([findAllUsers(), findAllForms(), findAllTests()]);
-  const respondents = users.filter((user) => user.role !== "admin");
-  const atRisk = respondents.filter((user) =>
-    (RISK_GROUPS as readonly string[]).includes(user.group)
-  ).length;
+  const [users, forms, tests, teams, context] = await Promise.all([
+    findAllUsers(),
+    findAllForms(),
+    findAllTests(),
+    findAllTeams(),
+    getContext(),
+  ]);
+  const respondents = users.filter((user) => user.role === "member");
+  const flagged = users.filter((user) => user.flag).length;
+  const sensitive = context?.membership ? can(context.membership.role, "viewSensitive") : false;
 
   const cards = [
     { icon: Users, title: t("people"), hint: t("peopleHint"), value: respondents.length, href: "/dashboard/users" },
     { icon: NotepadText, title: t("forms"), hint: t("formsHint"), value: forms.length, href: "/dashboard/forms" },
     { icon: FlaskConical, title: t("tests"), hint: t("testsHint"), value: tests.length, href: "/dashboard/tests" },
-    {
-      icon: TriangleAlert,
-      title: t("atRisk"),
-      hint: t("atRiskHint"),
-      value: atRisk,
-      href: "/dashboard/users/groups",
-      warn: atRisk > 0,
-    },
+    sensitive
+      ? {
+          icon: TriangleAlert,
+          title: t("atRisk"),
+          hint: t("atRiskHint"),
+          value: flagged,
+          href: "/dashboard/users/follow-up",
+          warn: flagged > 0,
+        }
+      : { icon: Layers, title: t("teams"), hint: t("teamsHint"), value: teams.length, href: "/dashboard/users/teams" },
   ];
 
   return (

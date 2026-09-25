@@ -11,25 +11,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
-import { PhoneInput } from "@/components/ui/phone-input";
+import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { SignInFormData, signInSchema } from "../schema/sign-in.schema";
 
 export default function SignInForm() {
   const router = useRouter();
+  // Only same-site paths, so the link cannot send people elsewhere.
+  const next = useSearchParams().get("next");
+  const safeNext = next?.startsWith("/") && !next.startsWith("//") ? next : null;
   const t = useTranslations("auth.signIn");
   const fields = useTranslations("profile.fields");
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
 
     defaultValues: {
-      phoneNumber: "",
+      identifier: "",
       password: "",
     },
   });
@@ -46,16 +49,8 @@ export default function SignInForm() {
     },
 
     onSuccess: (data) => {
-      toast({
-        title: t("successTitle"),
-        description: t("successText"),
-      });
-
-      if (data.role === "admin") {
-        router.push("/dashboard");
-      } else {
-        router.push("/forms");
-      }
+      router.push(safeNext ?? data.redirectTo);
+      router.refresh();
     },
 
     onError: (error) => {
@@ -78,17 +73,13 @@ export default function SignInForm() {
         className="w-full flex flex-col gap-4"
       >
         <FormField
-          name="phoneNumber"
+          name="identifier"
           control={form.control}
           render={({ field }) => (
             <FormItem className="flex flex-col gap-1">
-              <FormLabel>{fields("phoneNumber")}</FormLabel>
+              <FormLabel>{t("identifier")}</FormLabel>
               <FormControl>
-                <PhoneInput
-                  placeholder={fields("phonePlaceholder")}
-                  international
-                  {...field}
-                />
+                <Input autoComplete="username" placeholder={fields("emailPlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,9 +93,12 @@ export default function SignInForm() {
             <FormItem className="flex flex-col gap-1">
               <FormLabel className="flex flex-row items-center justify-between">
                 {fields("password")}
+                <Link href="/auth/forgot-password" className="text-sm font-normal text-primary hover:underline">
+                  {t("forgot")}
+                </Link>
               </FormLabel>
               <FormControl>
-                <PasswordInput placeholder="• • • • • •" {...field} />
+                <PasswordInput autoComplete="current-password" placeholder="• • • • • •" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

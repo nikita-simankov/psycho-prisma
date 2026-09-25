@@ -1,0 +1,2169 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`scoreSubmission on every bundled test > Госпитальная Шкала Тревоги и Депрессии (HADS) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 1,
+    "scaleName": "Шкала оценки уровня тревоги",
+    "stan": null,
+    "summary": "Клинически выраженная тревога",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 2,
+    "scaleName": "Шкала оценки уровня депрессии",
+    "stan": null,
+    "summary": "Клинически выраженная депрессия",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Госпитальная Шкала Тревоги и Депрессии (HADS) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала оценки уровня тревоги",
+    "stan": null,
+    "summary": "Отсутствуют достоверно выраженные симптомы тревоги",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 2,
+    "scaleName": "Шкала оценки уровня депрессии",
+    "stan": null,
+    "summary": "Отсутствуют достоверно выраженные симптомы депрессии",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Госпитальная Шкала Тревоги и Депрессии (HADS) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 12,
+    "scaleId": 1,
+    "scaleName": "Шкала оценки уровня тревоги",
+    "stan": null,
+    "summary": "Клинически выраженная тревога",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 2,
+    "scaleName": "Шкала оценки уровня депрессии",
+    "stan": null,
+    "summary": "Клинически выраженная депрессия",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Коммуникативные и организаторские склонности (КОС) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 1,
+    "scaleName": "Шкала оценок коммуникационных склонностей",
+    "stan": null,
+    "summary": "Уровень проявления коммуникатихвных склонностей ниже среднего",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 2,
+    "scaleName": "Шкала оценок организаторских склонностей",
+    "stan": null,
+    "summary": "Низкий уровень проявления организаторских склонностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Коммуникативные и организаторские склонности (КОС) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 1,
+    "scaleName": "Шкала оценок коммуникационных склонностей",
+    "stan": null,
+    "summary": "Уровень проявления коммуникатихвных склонностей ниже среднего",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 2,
+    "scaleName": "Шкала оценок организаторских склонностей",
+    "stan": null,
+    "summary": "Низкий уровень проявления организаторских склонностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Коммуникативные и организаторские склонности (КОС) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 1,
+    "scaleName": "Шкала оценок коммуникационных склонностей",
+    "stan": null,
+    "summary": "Уровень проявления коммуникатихвных склонностей ниже среднего",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.5,
+    "scaleId": 2,
+    "scaleName": "Шкала оценок организаторских склонностей",
+    "stan": null,
+    "summary": "Низкий уровень проявления организаторских склонностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Аналогии" > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 2,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 2,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Аналогии" > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 2,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 2,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Аналогии" > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 8,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 4,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Арифметический счёт" > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 5,
+    "summary": "Средний уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Арифметический счёт" > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 4,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Арифметический счёт" > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 7,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 6,
+    "summary": "Средний уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Склонность к лидерству" > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 28,
+    "scaleId": 1,
+    "scaleName": "Шкала склонности к лидерству",
+    "stan": null,
+    "summary": "Лидерские качества выражены средне",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Склонность к лидерству" > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 1,
+    "scaleName": "Шкала склонности к лидерству",
+    "stan": null,
+    "summary": "Лидерские качества выражены слабо",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Склонность к лидерству" > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 22,
+    "scaleId": 1,
+    "scaleName": "Шкала склонности к лидерству",
+    "stan": null,
+    "summary": "Лидерские качества выражены слабо",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Установление закономерностей" > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 3,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Установление закономерностей" > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 2,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика "Установление закономерностей" > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 9,
+    "scaleId": 1,
+    "scaleName": "Шкала познавательных способностей",
+    "stan": 3,
+    "summary": "Низкий уровень познавательных способностей",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления акцентуаций характера (Леонгард-Шмишек) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 24,
+    "scaleId": 1,
+    "scaleName": "Шкала гипертимности",
+    "stan": null,
+    "summary": "Люди, склонные к повышенному настроению, оптимисты, быстро переключаются с одного дела на другое, не доводят начатого до конца, недисциплинированные, легко попадают под влияние неблагополучных компаний. Подростки склонны к приключениям, романтике. Не терпят власти над собой, но любят, когда их опекают. Тенденция к доминированию, лидированию. Высокие оценки говорят о постоянном повышенном фоне настроения в сочетании с жаждой деятельности, высокой активностью, предприимчивости. В патологии — невроз навязчивых идей",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 18,
+    "scaleId": 2,
+    "scaleName": "Шкала застревания",
+    "stan": null,
+    "summary": "Имеется тенденция к акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 3,
+    "scaleName": "Шкала эмотивности",
+    "stan": null,
+    "summary": "Аффектно лабильные (неустойчивые). Люди, у которых быстро и резко меняется настроение по незначительному для окружающих поводу. От настроения зависит все — и работоспособность, и самочувствие и т. д. Тонко организована эмоциональная сфера; способны глубоко чувствовать и переживать. Склонны к добрым отношениям с окружающими. В любви ранимы как никто. Не против того, чтобы их опекали, заботились. Лицам этого типа свойственен большой диапазон эмоциональных состояний, они легко приходят в восторг от радостных событий и в полное отчаяние от печальных.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 22,
+    "scaleId": 4,
+    "scaleName": "Шкала педантичности",
+    "stan": null,
+    "summary": "Преобладание черт ригидности и педантизма. Люди ригидны, им трудно переключаться с одной эмоции на другую. Любят, чтобы все было на своих местах, чтобы люди четко оформляли свои мысли, — крайний педантизм. Периоды злобно-тоскливого настроения, все их раздражает. В патологии — эпилептоидная психопатия. Могут проявлять агрессию (долго помнят и выливают). Высокие оценки говорят о ригидности, инертности психических процессов, о долгом переживании травмирующих событий.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 5,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Люди меланхолического склада с очень высоким уровнем конституционной тревожности, не уверены в себе. Недооценивают, преуменьшают свои способности. Застенчивы, пугаются ответственности. Основная черта - склонность к страхам, повышенная робость и пугливость.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 24,
+    "scaleId": 6,
+    "scaleName": "Шкала циклотимности",
+    "stan": null,
+    "summary": "Резкие перепады настроения. Хорошее настроение коротко, плохое длительно. При депрессии ведут себя как тревожные, быстро утомляются, снижается творческая активность. Людям с высокими оценками по этой шкале соответствует смена гипертимических и дистимических фаз (при хорошем настроении как гипертивные).",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 22,
+    "scaleId": 7,
+    "scaleName": "Шкала демонстративности",
+    "stan": null,
+    "summary": "В патологии — психопатия истерического типа. Люди, у которых сильно выражен эгоцентризм, стремление быть постоянно в центре внимания («пусть ненавидят, лишь бы не были равнодушными»). Много таких людей среди артистов. Если нет способностей, чтобы выделиться, они привлекают внимание антисоциальными поступками. Патологическая лживость - чтобы приукрасить свою особу. Склонны носить яркую, экстравагантную одежду - могут быть определены чисто внешне. Высокие оценки по этой шкале говорят о повышенной способности к вытеснению, демонстративности поведения. ",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 24,
+    "scaleId": 8,
+    "scaleName": "Шкала возбудимости",
+    "stan": null,
+    "summary": "Склонность к повышенной импульсивной реактивности в сфере влечения. Таким людям свойственна повышенная импульсивность, ослабление контроля над влечениями и побуждениями. В патологии — эпилептоидная психопатия.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 9,
+    "scaleName": "Шкала дистимности",
+    "stan": null,
+    "summary": "Имеется тенденция к акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 24,
+    "scaleId": 10,
+    "scaleName": "Шкала экзальтированности",
+    "stan": null,
+    "summary": "Склонность к аффективной экзальтации (близко к демонстративности, но там из-за характера). Здесь идут те же проявления, но на уровне эмоций (все идет от темперамента). Религиозный экстаз. Это чувствительные и впечатлительные люди, отличаются глубиной переживаний в области тонких эмоций в духовной жизни человека.",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления акцентуаций характера (Леонгард-Шмишек) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала гипертимности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 2,
+    "scaleName": "Шкала застревания",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 3,
+    "scaleName": "Шкала эмотивности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 2,
+    "scaleId": 4,
+    "scaleName": "Шкала педантичности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 5,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 6,
+    "scaleName": "Шкала циклотимности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 2,
+    "scaleId": 7,
+    "scaleName": "Шкала демонстративности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 8,
+    "scaleName": "Шкала возбудимости",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 9,
+    "scaleId": 9,
+    "scaleName": "Шкала дистимности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 10,
+    "scaleName": "Шкала экзальтированности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления акцентуаций характера (Леонгард-Шмишек) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 24,
+    "scaleId": 1,
+    "scaleName": "Шкала гипертимности",
+    "stan": null,
+    "summary": "Люди, склонные к повышенному настроению, оптимисты, быстро переключаются с одного дела на другое, не доводят начатого до конца, недисциплинированные, легко попадают под влияние неблагополучных компаний. Подростки склонны к приключениям, романтике. Не терпят власти над собой, но любят, когда их опекают. Тенденция к доминированию, лидированию. Высокие оценки говорят о постоянном повышенном фоне настроения в сочетании с жаждой деятельности, высокой активностью, предприимчивости. В патологии — невроз навязчивых идей",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 2,
+    "scaleName": "Шкала застревания",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 3,
+    "scaleName": "Шкала эмотивности",
+    "stan": null,
+    "summary": "Аффектно лабильные (неустойчивые). Люди, у которых быстро и резко меняется настроение по незначительному для окружающих поводу. От настроения зависит все — и работоспособность, и самочувствие и т. д. Тонко организована эмоциональная сфера; способны глубоко чувствовать и переживать. Склонны к добрым отношениям с окружающими. В любви ранимы как никто. Не против того, чтобы их опекали, заботились. Лицам этого типа свойственен большой диапазон эмоциональных состояний, они легко приходят в восторг от радостных событий и в полное отчаяние от печальных.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 4,
+    "scaleName": "Шкала педантичности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 9,
+    "scaleId": 5,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 6,
+    "scaleName": "Шкала циклотимности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 14,
+    "scaleId": 7,
+    "scaleName": "Шкала демонстративности",
+    "stan": null,
+    "summary": "Имеются признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 8,
+    "scaleName": "Шкала возбудимости",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 9,
+    "scaleName": "Шкала дистимности",
+    "stan": null,
+    "summary": "Имеется тенденция к акцентуации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 10,
+    "scaleName": "Шкала экзальтированности",
+    "stan": null,
+    "summary": "Отсутствуют признаки акцентуации",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления склонности к суицидальным реакциям (CP-45) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.7557142857142858,
+    "scaleId": 1,
+    "scaleName": "Шкала склонности к суицидальным реакциям",
+    "stan": null,
+    "summary": "Группа суицидального риска с очень высоким уровнем проявления склонности к суицидальным реакциям (ситуация внутреннего и внешнего конфликта, нуждаются в медико-психологической помощи).",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 1.06,
+    "scaleId": 2,
+    "scaleName": "Шкала лжи",
+    "stan": null,
+    "summary": "Показатели по шкале лжи выше нормы",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления склонности к суицидальным реакциям (CP-45) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.26,
+    "scaleId": 2,
+    "scaleName": "Шкала лжи",
+    "stan": null,
+    "summary": "Показатели по шкале лжи в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика выявления склонности к суицидальным реакциям (CP-45) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.6985714285714286,
+    "scaleId": 1,
+    "scaleName": "Шкала склонности к суицидальным реакциям",
+    "stan": null,
+    "summary": "Группа суицидального риска с высоким уровнем проявления склонности к суицидальным реакциям (при нарушениях адаптации возможна суицидальная попытка или реализация саморазрушающего поведения).",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0.86,
+    "scaleId": 2,
+    "scaleName": "Шкала лжи",
+    "stan": null,
+    "summary": "Показатели по шкале лжи выше нормы",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики показателей и форм агрессии > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 8,
+    "scaleId": 9,
+    "scaleName": "Шкала индекса агрессивности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса агрессивности ниже нормы",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 7.5,
+    "scaleId": 10,
+    "scaleName": "Шкала индекса враждебности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса враждебности в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики показателей и форм агрессии > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 2.6666666666666665,
+    "scaleId": 9,
+    "scaleName": "Шкала индекса агрессивности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса агрессивности ниже нормы",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 1,
+    "scaleId": 10,
+    "scaleName": "Шкала индекса враждебности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса враждебности ниже нормы",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики показателей и форм агрессии > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 9,
+    "scaleName": "Шкала индекса агрессивности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса агрессивности ниже нормы",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 10,
+    "scaleName": "Шкала индекса враждебности",
+    "stan": null,
+    "summary": "Показатели по шкале индекса враждебности в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики самооценки (Спилберг-Ханин) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 1,
+    "scaleName": "Шкала ситуативной тревожности",
+    "stan": null,
+    "summary": "Низкий уровень ситуативной тревожности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 2,
+    "scaleName": "Шкала личностной тревожности",
+    "stan": null,
+    "summary": "Низкий уровень личностной тревожности",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики самооценки (Спилберг-Ханин) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 80,
+    "scaleId": 1,
+    "scaleName": "Шкала ситуативной тревожности",
+    "stan": null,
+    "summary": "Высокий уровень ситуативной тревожности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 80,
+    "scaleId": 2,
+    "scaleName": "Шкала личностной тревожности",
+    "stan": null,
+    "summary": "Высокий уровень личностной тревожности",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики самооценки (Спилберг-Ханин) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 50,
+    "scaleId": 1,
+    "scaleName": "Шкала ситуативной тревожности",
+    "stan": null,
+    "summary": "Высокий уровень ситуативной тревожности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 50,
+    "scaleId": 2,
+    "scaleName": "Шкала личностной тревожности",
+    "stan": null,
+    "summary": "Высокий уровень личностной тревожности",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики степени готовности к риску (Шуберт) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 50,
+    "scaleId": 1,
+    "scaleName": "Шкала готовности к риску",
+    "stan": null,
+    "summary": "Испытуемый не осторожен и полностью готов к рискам",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики степени готовности к риску (Шуберт) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": -50,
+    "scaleId": 1,
+    "scaleName": "Шкала готовности к риску",
+    "stan": null,
+    "summary": "Испытуемый слишком осторожен и не готов к рискам",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика диагностики степени готовности к риску (Шуберт) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала готовности к риску",
+    "stan": null,
+    "summary": "Испытуемый больше готов к риску, чем нет",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика исследования виктимного поведения > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 1,
+    "scaleName": "Шкала социальной желательности ответов",
+    "stan": 4,
+    "summary": "Показатели по шкале социальной желательности ответов в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 14,
+    "scaleId": 2,
+    "scaleName": "Шкала склонности к агрессивному виктимному поведению (агрессивный тип потерпевшего)",
+    "stan": 6,
+    "summary": "Показатели по шкале склонности к агрессивному виктимному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 3,
+    "scaleName": "Шкала склонности к самоповреждающему и саморазрушающему поведению (активный тип потерпевшего)",
+    "stan": 7,
+    "summary": "Показатели по шкале склонности к самоповреждающему и саморазрушающему поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 8,
+    "scaleId": 4,
+    "scaleName": "Шкала склонности к гиперсоциальному поведению (инициативный тип потерпевшего)",
+    "stan": 8,
+    "summary": "Жертвенное поведение, социально одобряемое и зачастую ожидаемое. Сюда относятся лица, положительное поведение которых обращает на них преступные действия агрессора. Человек, который демонстрирует положительное поведение в ситуациях конфликта либо постоянно, либо в результате должностного положения, ожидания окружающих. Люди данного типа считают недопустимым уклонение от вмешательства в конфликт, даже если это может стоить им здоровья или жизни. Последствия таких поступков осознаются не всегда. Смел, решителен, отзывчив, принципиален, искренен, добр, требователен, готов рисковать, может быть излишне самонадеян. Нетерпим к поведению, нарушающему общественный порядок. Самооценка чаще всего завышенная. Поведение имеет положительные мотивы.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 16,
+    "scaleId": 5,
+    "scaleName": "Шкала склонности к зависимому и беспомощному поведению (пассивный тип потерпевшего)",
+    "stan": 10,
+    "summary": "Лица, не оказывающие сопротивления, противодействия преступнику по различным причинам: в силу возраста, физической слабости, беспомощного состояния (стабильного или временно), трусости, из опасения ответственности за собственные противоправные или аморальные действия и т. д. Могут иметь установку на беспомощность. Нежелание делать что-то самому, без помощи других. Могут иметь низкую самооценку. Постоянно вовлекаются в кризисные ситуации с целью получения сочувствия и поддержки окружающих. Имеет ролевую позицию жертвы. Робок, скромен, сильно внушаем, конформен. Возможен также вариант усвоенной беспомощности в результате неоднократного попадания в ситуации насилия. Склонен к зависимому поведению, уступчив, оправдывает чужую агрессию, склонен всех прощать.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 12,
+    "scaleId": 6,
+    "scaleName": "Шкала склонности к некритичному поведению (некритичный тип потерпевшего)",
+    "stan": 7,
+    "summary": "Показатели по шкале склонности к некритичному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 12,
+    "scaleId": 7,
+    "scaleName": "Шкала реализованной виктимности",
+    "stan": 7,
+    "summary": "Показатели по шкале реализованной виктимности в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика исследования виктимного поведения > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 1,
+    "scaleName": "Шкала социальной желательности ответов",
+    "stan": 8,
+    "summary": "Показатели по шкале социальной желательности ответов выше нормы",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 13,
+    "scaleId": 2,
+    "scaleName": "Шкала склонности к агрессивному виктимному поведению (агрессивный тип потерпевшего)",
+    "stan": 6,
+    "summary": "Показатели по шкале склонности к агрессивному виктимному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 3,
+    "scaleName": "Шкала склонности к самоповреждающему и саморазрушающему поведению (активный тип потерпевшего)",
+    "stan": 6,
+    "summary": "Показатели по шкале склонности к самоповреждающему и саморазрушающему поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 4,
+    "scaleName": "Шкала склонности к гиперсоциальному поведению (инициативный тип потерпевшего)",
+    "stan": 5,
+    "summary": "Показатели по шкале склонности к гиперсоциальному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 3,
+    "scaleId": 5,
+    "scaleName": "Шкала склонности к зависимому и беспомощному поведению (пассивный тип потерпевшего)",
+    "stan": 1,
+    "summary": "Склонность к независимости, обособленности. Всегда стремится выделиться из группы, имеет на все свою точку зрения, может быть непримирим к мнению других, авторитарен, конфликтен. Повышенный скептицизм. Возможна внутренняя ранимость, приводящая к повышенному желанию обособиться от окружающих.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 7,
+    "scaleId": 6,
+    "scaleName": "Шкала склонности к некритичному поведению (некритичный тип потерпевшего)",
+    "stan": 3,
+    "summary": "Вдумчивость, осторожность, стремление предугадывать возможные последствия своих поступков, которые иногда приводят к пассивности, страхам. Самореализация в этом случае значительно затруднена, может появляться социальная пассивность, приводящая к неудовлетворенности своими достижениями, чувству досады, зависти.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 7,
+    "scaleName": "Шкала реализованной виктимности",
+    "stan": 3,
+    "summary": "Очевидно, что испытуемый нечасто попадает в критические ситуации либо у него уже успел выработаться защитный способ поведения, позволяющий избегать опасных ситуаций. Однако внутренняя готовность к виктимному способу поведения присутствует. Скорее всего, ощущая внутренний уровень напряжения, испытуемый стремится вообще избегать ситуации конфликта.",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика исследования виктимного поведения > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 1,
+    "scaleName": "Шкала социальной желательности ответов",
+    "stan": 7,
+    "summary": "Показатели по шкале социальной желательности ответов в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 12,
+    "scaleId": 2,
+    "scaleName": "Шкала склонности к агрессивному виктимному поведению (агрессивный тип потерпевшего)",
+    "stan": 5,
+    "summary": "Показатели по шкале склонности к агрессивному виктимному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 3,
+    "scaleName": "Шкала склонности к самоповреждающему и саморазрушающему поведению (активный тип потерпевшего)",
+    "stan": 6,
+    "summary": "Показатели по шкале склонности к самоповреждающему и саморазрушающему поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 8,
+    "scaleId": 4,
+    "scaleName": "Шкала склонности к гиперсоциальному поведению (инициативный тип потерпевшего)",
+    "stan": 8,
+    "summary": "Жертвенное поведение, социально одобряемое и зачастую ожидаемое. Сюда относятся лица, положительное поведение которых обращает на них преступные действия агрессора. Человек, который демонстрирует положительное поведение в ситуациях конфликта либо постоянно, либо в результате должностного положения, ожидания окружающих. Люди данного типа считают недопустимым уклонение от вмешательства в конфликт, даже если это может стоить им здоровья или жизни. Последствия таких поступков осознаются не всегда. Смел, решителен, отзывчив, принципиален, искренен, добр, требователен, готов рисковать, может быть излишне самонадеян. Нетерпим к поведению, нарушающему общественный порядок. Самооценка чаще всего завышенная. Поведение имеет положительные мотивы.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 5,
+    "scaleName": "Шкала склонности к зависимому и беспомощному поведению (пассивный тип потерпевшего)",
+    "stan": 6,
+    "summary": "Показатели по шкале склонности к зависимому и беспомощному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 9,
+    "scaleId": 6,
+    "scaleName": "Шкала склонности к некритичному поведению (некритичный тип потерпевшего)",
+    "stan": 5,
+    "summary": "Показатели по шкале склонности к некритичному поведению в норме",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 7,
+    "scaleName": "Шкала реализованной виктимности",
+    "stan": 6,
+    "summary": "Показатели по шкале реализованной виктимности в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика оценки нервно-психической устойчивости (Прогноз-2) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 60,
+    "scaleId": 2,
+    "scaleName": "Шкала нервно-психической устойчивости",
+    "stan": 1,
+    "summary": "Низкий уровень нервно-психической устойчивости. Выоская вероятность нервно-психических срывов. Необходима консультация психоневролога (невропатолога, психиатра)",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика оценки нервно-психической устойчивости (Прогноз-2) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 2,
+    "scaleName": "Шкала нервно-психической устойчивости",
+    "stan": 6,
+    "summary": "Нервно-психически устойчив. Однако существует вероятность нервно-психических срывов в напряженных, экстремальных ситуациях",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Методика оценки нервно-психической устойчивости (Прогноз-2) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 39,
+    "scaleId": 2,
+    "scaleName": "Шкала нервно-психической устойчивости",
+    "stan": 2,
+    "summary": "Низкий уровень нервно-психической устойчивости. Выоская вероятность нервно-психических срывов. Необходима консультация психоневролога (невропатолога, психиатра)",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Многоуровневый личностный опросник "Адаптивность" (МЛО-АМ) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 112,
+    "scaleId": 2,
+    "scaleName": "Шкала личностного адаптивного потенциала (ЛАП)",
+    "stan": 1,
+    "summary": "Группа низкой адаптации. Лица этой группы обладают  признаками явных акцентуаций характера и некоторыми признаками психопатий, а психическое состояние можно охарактеризовать,  как пограничное. Возможны нервно-психические срывы. Лица этой  группы обладают низкой нервно-психической устойчивостью, конфликтны, могут допускать асоциальные поступки. Требуют наблюдения психолога и врача (невропатолога, психиатра).",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 73,
+    "scaleId": 3,
+    "scaleName": "Шкала нервно-психической устойчивости (НПУ)",
+    "stan": 1,
+    "summary": "Низкий уровень поведенческой регуляции, определенная склонность к нервно-психическим срывам, отсутствие адекватности самооценки и реального восприятия действительности.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 21,
+    "scaleId": 4,
+    "scaleName": "Шкала коммуникативных способностей (КС)",
+    "stan": 3,
+    "summary": "Низкий уровень развития коммуникативных способностей, затруднение в построении контактов с  окружающими, проявление агрессивности, повышенная конфликтность.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 18,
+    "scaleId": 5,
+    "scaleName": "Шкала моральной нормативности (МН)",
+    "stan": 1,
+    "summary": "Не может адекватно оценить свое место и роль в коллективе, не стремится соблюдать общепринятые нормы поведения.",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Многоуровневый личностный опросник "Адаптивность" (МЛО-АМ) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 40,
+    "scaleId": 2,
+    "scaleName": "Шкала личностного адаптивного потенциала (ЛАП)",
+    "stan": 3,
+    "summary": "Группа удовлетворительной адаптации. Большинство лиц этой группы обладают признаками различных акцентуаций, которые в привычных условиях частично компенсированы и могут проявляться при смене деятельности. Поэтому успех адаптации зависит от внешних условий  среды. Эти лица, как правило, обладают невысокой  эмоциональной устойчивостью. Возможны асоциальные срывы, проявление агрессии и конфликтности. Лица этой группы требуют индивидуального подхода, постоянного наблюдения, коррекционных мероприятий.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 23,
+    "scaleId": 3,
+    "scaleName": "Шкала нервно-психической устойчивости (НПУ)",
+    "stan": 4,
+    "summary": "Средний уровень нервно-психической усточивости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 4,
+    "scaleName": "Шкала коммуникативных способностей (КС)",
+    "stan": 5,
+    "summary": "Средний уровень развития коммуникативных способностей",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 6,
+    "scaleId": 5,
+    "scaleName": "Шкала моральной нормативности (МН)",
+    "stan": 6,
+    "summary": "Показатели по шкале моральной нормативности в норме",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Многоуровневый личностный опросник "Адаптивность" (МЛО-АМ) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 79,
+    "scaleId": 2,
+    "scaleName": "Шкала личностного адаптивного потенциала (ЛАП)",
+    "stan": 1,
+    "summary": "Группа низкой адаптации. Лица этой группы обладают  признаками явных акцентуаций характера и некоторыми признаками психопатий, а психическое состояние можно охарактеризовать,  как пограничное. Возможны нервно-психические срывы. Лица этой  группы обладают низкой нервно-психической устойчивостью, конфликтны, могут допускать асоциальные поступки. Требуют наблюдения психолога и врача (невропатолога, психиатра).",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 51,
+    "scaleId": 3,
+    "scaleName": "Шкала нервно-психической устойчивости (НПУ)",
+    "stan": 1,
+    "summary": "Низкий уровень поведенческой регуляции, определенная склонность к нервно-психическим срывам, отсутствие адекватности самооценки и реального восприятия действительности.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 16,
+    "scaleId": 4,
+    "scaleName": "Шкала коммуникативных способностей (КС)",
+    "stan": 4,
+    "summary": "Средний уровень развития коммуникативных способностей",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 12,
+    "scaleId": 5,
+    "scaleName": "Шкала моральной нормативности (МН)",
+    "stan": 3,
+    "summary": "Не может адекватно оценить свое место и роль в коллективе, не стремится соблюдать общепринятые нормы поведения.",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Мотивы употребления наркотиков (МУН) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 18.25,
+    "scaleId": 10,
+    "scaleName": "Шкала риска наркотизации",
+    "stan": null,
+    "summary": "Высокий риск наркотизации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 225,
+    "scaleId": 11,
+    "scaleName": "Шкала общего мотивационного напряжения",
+    "stan": null,
+    "summary": "Сильное мотивационное напряжение",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Мотивы употребления наркотиков (МУН) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": -9.95,
+    "scaleId": 10,
+    "scaleName": "Шкала риска наркотизации",
+    "stan": null,
+    "summary": "Отсутствие риска наркотизации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 45,
+    "scaleId": 11,
+    "scaleName": "Шкала общего мотивационного напряжения",
+    "stan": null,
+    "summary": "Отсутствует мотивационное напряжение",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Мотивы употребления наркотиков (МУН) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 4.149999999999999,
+    "scaleId": 10,
+    "scaleName": "Шкала риска наркотизации",
+    "stan": null,
+    "summary": "Низкий риск наркотизации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 135,
+    "scaleId": 11,
+    "scaleName": "Шкала общего мотивационного напряжения",
+    "stan": null,
+    "summary": "Присутствует мотивационное напряжение",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Определение склонности к разным зависимостям (Лозовая Г.В.) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 1,
+    "scaleName": "Шкала алкогольной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 2,
+    "scaleName": "Шкала телевизионной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 3,
+    "scaleName": "Шкала любовной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 4,
+    "scaleName": "Шкала игровой зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 5,
+    "scaleName": "Шкала сексуальной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 6,
+    "scaleName": "Шкала пищевой зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 7,
+    "scaleName": "Шкала религиозной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 8,
+    "scaleName": "Шкала трудовой зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 9,
+    "scaleName": "Шкала лекарственной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 10,
+    "scaleName": "Шкала компьютерной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 11,
+    "scaleName": "Шкала табачной зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 12,
+    "scaleName": "Шкала зависимости от ЗОЖ",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 13,
+    "scaleName": "Шкала наркотической зависимости",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 5,
+    "scaleId": 14,
+    "scaleName": "Шкала общей склонности к зависимостям",
+    "stan": null,
+    "summary": "Низкая степень склонности к зависимости",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Определение склонности к разным зависимостям (Лозовая Г.В.) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 1,
+    "scaleName": "Шкала алкогольной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 2,
+    "scaleName": "Шкала телевизионной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 3,
+    "scaleName": "Шкала любовной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 4,
+    "scaleName": "Шкала игровой зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 5,
+    "scaleName": "Шкала сексуальной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 6,
+    "scaleName": "Шкала пищевой зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 7,
+    "scaleName": "Шкала религиозной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 8,
+    "scaleName": "Шкала трудовой зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 9,
+    "scaleName": "Шкала лекарственной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 10,
+    "scaleName": "Шкала компьютерной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 11,
+    "scaleName": "Шкала табачной зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 12,
+    "scaleName": "Шкала зависимости от ЗОЖ",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 13,
+    "scaleName": "Шкала наркотической зависимости",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 25,
+    "scaleId": 14,
+    "scaleName": "Шкала общей склонности к зависимостям",
+    "stan": null,
+    "summary": "Высокая степень склонности к зависимости",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Определение склонности к разным зависимостям (Лозовая Г.В.) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 1,
+    "scaleName": "Шкала алкогольной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 2,
+    "scaleName": "Шкала телевизионной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 3,
+    "scaleName": "Шкала любовной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 4,
+    "scaleName": "Шкала игровой зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 5,
+    "scaleName": "Шкала сексуальной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 6,
+    "scaleName": "Шкала пищевой зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 7,
+    "scaleName": "Шкала религиозной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 8,
+    "scaleName": "Шкала трудовой зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 9,
+    "scaleName": "Шкала лекарственной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 10,
+    "scaleName": "Шкала компьютерной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 11,
+    "scaleName": "Шкала табачной зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 12,
+    "scaleName": "Шкала зависимости от ЗОЖ",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 13,
+    "scaleName": "Шкала наркотической зависимости",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 15,
+    "scaleId": 14,
+    "scaleName": "Шкала общей склонности к зависимостям",
+    "stan": null,
+    "summary": "Средняя степень склонности к зависимости",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Самооценка психических состояний (по Айзенку) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 1,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Высокий уровень тревожности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 2,
+    "scaleName": "Шкала фрустрация",
+    "stan": null,
+    "summary": "Низкая самооценка, избегает трудностей, боится неудач. Высокий уровень фрустрации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 3,
+    "scaleName": "Шкала агрессивности",
+    "stan": null,
+    "summary": "Агрессивен, не выдержан, есть трудности при общении и работе с людьми.",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 20,
+    "scaleId": 4,
+    "scaleName": "Шкала ригидности",
+    "stan": null,
+    "summary": "Сильно выраженная ригидность, неизменность поведения, убеждений, взглядов",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Самооценка психических состояний (по Айзенку) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Тревожность отсутствует",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 2,
+    "scaleName": "Шкала фрустрация",
+    "stan": null,
+    "summary": "Не имеет высокой самооценки, устойчив к неудачам, не боится трудностей",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 3,
+    "scaleName": "Шкала агрессивности",
+    "stan": null,
+    "summary": "Агрессивность отсутствует, спокоен, выдержан",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 4,
+    "scaleName": "Шкала ригидности",
+    "stan": null,
+    "summary": "Ригидность отсутствует, легкая переключаемость",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Самооценка психических состояний (по Айзенку) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 1,
+    "scaleName": "Шкала тревожности",
+    "stan": null,
+    "summary": "Средний уровень тревожности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 10,
+    "scaleId": 2,
+    "scaleName": "Шкала фрустрация",
+    "stan": null,
+    "summary": "Средний уровень фрустрации",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 9,
+    "scaleId": 3,
+    "scaleName": "Шкала агрессивности",
+    "stan": null,
+    "summary": "Средний уровень агрессивности",
+    "tGrade": null,
+  },
+  {
+    "correctedGrade": null,
+    "rawGrade": 11,
+    "scaleId": 4,
+    "scaleName": "Шкала ригидности",
+    "stan": null,
+    "summary": "Средний уровень ригидности",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Сокращенный многофакторный опросник для исследования личности (Мини-мульт) > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": 0,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала лжи (L)",
+    "stan": null,
+    "summary": "Лица чрезмерно открытые, не скрывающие своих затруднений, слабостей и психопатологических расстройств. Хорошо сознает свои затруднения, склонен скорее преувеличивать, чем недооценивать степень межличностных конфликтов, тяжесть отмечающихся симптомов, степень личностной неадекватности. Склонность критически относиться к себе и окружающим - приводит к скептицизму. Неудовлетворенность и склонность преувеличивать существенность конфликтов делает испытуемого легко уязвимым и порождает неловкость в межличностных отношениях.",
+    "tGrade": 38,
+  },
+  {
+    "correctedGrade": 12,
+    "rawGrade": 12,
+    "scaleId": 2,
+    "scaleName": "Шкала достоверности (F)",
+    "stan": null,
+    "summary": "Высокие показатели по шкале "F" возможны в следующих случаях:
+неконформность личности, связанная с своеобразием восприятия и логики (шизоидный тип личности);
+аутичная личность, испытывающая затруднения в межличностных контактах;
+психопатоподобное поведение, склонность к неупорядоченному поведению или выраженное чувство протеста против конвенциональных норм;
+подростки в период формирования личности, когда преобладает потребность в самовыражении неконформным поведением и взглядами;
+выраженная тревожность и потребность в помощи со стороны окружающих.
+В каждом конкретном случае к оценке профиля по шкале "F" надо подходить индивидуально:
+результаты тестирования в целом вызывают сомнения из-за намеренного искажения результатов самим испытуемым;
+следует сочетать показания по шкале "F" с клиническим состоянием испытуемого (возможно неадекватное восприятие утверждений).",
+    "tGrade": 95,
+  },
+  {
+    "correctedGrade": 0,
+    "rawGrade": 0,
+    "scaleId": 3,
+    "scaleName": "Шкала коррекции (К)",
+    "stan": null,
+    "summary": "Производит впечатление человека благоразумного, доброжелательного, общительного, имеющего широкий круг интересов. Большой опыт межличностных контактов и отрицание затруднений обусловливает у него более или менее высокую предприимчивость и умение находить правильную линию поведения. Поскольку такие качества улучшают социальную адаптацию, умеренное повышение профиля по шкале "K" может рассматриваться как прогностически благоприятный признак.",
+    "tGrade": 28,
+  },
+  {
+    "correctedGrade": 9,
+    "rawGrade": 9,
+    "scaleId": 4,
+    "scaleName": "Ипохондрия (Hs)",
+    "stan": null,
+    "summary": "Показатели по шкале ипохондрии в норме",
+    "tGrade": 55,
+  },
+  {
+    "correctedGrade": 8,
+    "rawGrade": 8,
+    "scaleId": 5,
+    "scaleName": "Депрессия (D)",
+    "stan": null,
+    "summary": "Показатели по шкале депрессии в норме",
+    "tGrade": 54,
+  },
+  {
+    "correctedGrade": 9,
+    "rawGrade": 9,
+    "scaleId": 6,
+    "scaleName": "Истерия (Ну)",
+    "stan": null,
+    "summary": "Показатели по шкале истерии в норме",
+    "tGrade": 47,
+  },
+  {
+    "correctedGrade": 11,
+    "rawGrade": 11,
+    "scaleId": 7,
+    "scaleName": "Психопатия (Pd)",
+    "stan": null,
+    "summary": "Показатели по шкале психопатии в норме",
+    "tGrade": 53,
+  },
+  {
+    "correctedGrade": 10,
+    "rawGrade": 10,
+    "scaleId": 8,
+    "scaleName": "Паранойяльностъ (Ра)",
+    "stan": null,
+    "summary": "В случае высокой оценки по шкале "Ра", возможно:
+Ригидность, склонность к систематизации накопленного опыта, подозрительность, обидчивость, упорство в достижении цели, педантизм, склонность обвинять других в недружелюбии, враждебность и ригидность аффекта.
+Динамика ригидности аффекта:
+фрустрация и возникающая в связи с ней тревога переживаются как импульс, побуждающий к той или иной форме поведения, позволяющей прямо или косвенно удовлетворить блокированную потребность;
+этот импульс лежит в основе эмоции, как привод от потребности индивида к соответствующей форме поведения;
+в условиях общества эмоция не всегда реализуется, поэтому угасание ее происходит медленно, а у некоторых личностей значительно медленнее;
+у последних (то есть, ригидных личностей) при одной мысли о фрустрирующей ситуации снова возникает неотреагированная эмоция.
+Черты личности: сочетание сензитивности и обидчивости с жалобами на недостатки окружающих, их враждебные действия, утверждение моральных устоев, склонность к идеаторной разработке ситуации. Ригидность аффекта обычно связана с эгоистическими побуждениями. Сопровождается интенсивной разработкой концепции, которая призвана объяснить его возникновение и в то же время сохранить приемлимое для индивида представление о собственной личности. Эта вторичная идеаторная разработка создает впечатление независимой позиции, верности своим критериям. Однако в действительности поступки определяются внешним воздействием, так как они являются ответом на действия окружающих, воспринимаемых аффективно, как ущемляющие личность испытуемого. Рассуждения их внутренне логичны. С ригидностью аффекта связано также длительное переживание собственных успехов, причем это переживание включает гордость своей ценностью, повышенное себялюбие и недовольство отсутствием признания со стороны окружающих. Для личности свойственно упрямство, рациональная житейская платформа, выраженное чувство соперничества, прямолинейность.
+",
+    "tGrade": 84,
+  },
+  {
+    "correctedGrade": 13,
+    "rawGrade": 13,
+    "scaleId": 9,
+    "scaleName": "Психастения (Pt)",
+    "stan": null,
+    "summary": "Показатели по шкале психастении в норме",
+    "tGrade": 47,
+  },
+  {
+    "correctedGrade": 18,
+    "rawGrade": 18,
+    "scaleId": 10,
+    "scaleName": "Шизоидность (Se)",
+    "stan": null,
+    "summary": "Показатели по шкале шизоидности в норме",
+    "tGrade": 67,
+  },
+  {
+    "correctedGrade": 11,
+    "rawGrade": 11,
+    "scaleId": 11,
+    "scaleName": "Гипотония [мании] (Ма)",
+    "stan": null,
+    "summary": "Повышенное настроение, чрезмерная активность, большое количество и легкость возникновения планов и идей, которые часто не осуществляются в силу повышенной отвлекаемости и переоценки своих возможностей, разнообразии интересов, широким и поверхностным контактам.
+Клиника: дезадаптация поведения, чрезмерно и плохо направленная активность, эмоциональное возбуждение, раздражительность, обидчивость и недостаточная сдержанность. Деятельность в этих случаях может оказаться неэффективной либо в связи с тем, что она не доводится до конца, из-за переключения внимания на другие объекты, либо в связи с тем, что преувеличение своих возможностей позволяет планировать ее заведомо на нереальные сроки.
+Диагноз: маниакально-депрессивная реакция, мания;
+Жалобы, черты личности и симптомы: обстоятельность, плохое финансовое положение, бред величия, враждебность, гиперактивность, доминирование матери, религиозность, болтливость, алкоголизм, снижение трудоспособности;
+Ведущие черты: гиперактивность, напыщенность, болтливость, в анамнезе приступы депрессии и мании. Склонность к ретроспективному анализу. Сверхактивный, много проектов, во время психоза речь и мышление становятся странными. Когда сердится, то может вспыхнуть и нагрубить. В фазах ремиссии отмечается приспособление к жизни.",
+    "tGrade": 74,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Сокращенный многофакторный опросник для исследования личности (Мини-мульт) > scores the "last" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": 5,
+    "rawGrade": 5,
+    "scaleId": 1,
+    "scaleName": "Шкала лжи (L)",
+    "stan": null,
+    "summary": "Тенденция испытуемого представить себя в более выгодном свете, продемонстрировав строгое соблюдение социальных норм. Это стремление может быть обусловлено некоторыми причинами:
+с ограниченностью кругозора испытуемого или
+ситуацией, или
+вызвано наличием патологии, или
+в тех случаях, когда индивидуум следует установленному стандарту поведения, соблюдая порой незначительные и не имеющие существенной ценности правила;
+принадлежность к определенной профессиональной группе, от которой из-за ее специфики, требуется чрезвычайно высокий стандарт поведения и пунктуальное следование конвенциональным нормам (юристы, педагоги).
+У лиц с высоким интеллектом и большим жизненным опытом этот показатель нельзя рассматривать, как стремление выглядеть в благоприятном свете.
+В случае, если отмечаются также пики на других шкалах, - профиль личности можно проанализировать только в сочетании с известными клиническими данными больного.",
+    "tGrade": 79,
+  },
+  {
+    "correctedGrade": 3,
+    "rawGrade": 3,
+    "scaleId": 2,
+    "scaleName": "Шкала достоверности (F)",
+    "stan": null,
+    "summary": "Показатели по шкале достоверности в норме",
+    "tGrade": 50,
+  },
+  {
+    "correctedGrade": 16,
+    "rawGrade": 16,
+    "scaleId": 3,
+    "scaleName": "Шкала коррекции (К)",
+    "stan": null,
+    "summary": "Высокий показатель по шкале "К" говорит о возможности, что: личность определяет свое поведение в зависимости от социального одобрения и озабочена своим социальным статусом. Склонность отрицать какие-либо затруднения в межличностных отношениях или в контроле собственного поведения, стремление к соблюдению принятых норм поведения и воздерживается от критики окружающих в той мере, в какой поведение окружающих укладывается в рамки принятой нормы. Отмечается отрицательная реакция на поведение тех лиц, которые ведут себя явно отклоняясь от рамок традиций и обычаев. В случае клиники: выраженное беспокойство, неуверенность в себе в сочетании с желанием добиться благожелательного к себе отношения.",
+    "tGrade": 73,
+  },
+  {
+    "correctedGrade": 13,
+    "rawGrade": 5,
+    "scaleId": 4,
+    "scaleName": "Ипохондрия (Hs)",
+    "stan": null,
+    "summary": "Показатели по шкале ипохондрии в норме",
+    "tGrade": 68,
+  },
+  {
+    "correctedGrade": 11,
+    "rawGrade": 11,
+    "scaleId": 5,
+    "scaleName": "Депрессия (D)",
+    "stan": null,
+    "summary": "Показатели по шкале депрессии в норме",
+    "tGrade": 65,
+  },
+  {
+    "correctedGrade": 17,
+    "rawGrade": 17,
+    "scaleId": 6,
+    "scaleName": "Истерия (Ну)",
+    "stan": null,
+    "summary": "Высокий показатель по шкале "Hy" говорит о возможности:
+У испытуемого отмечается способность к вытеснению факторов, вызывающих тревогу; демонстративное подчеркивание соматического неблагополучия с тенденцией отрицать затруднения в социальной адаптации. Высокая способность к вытеснению, позволяющая эффективно устранять тревогу, в то же время затрудняет формирование достаточно устойчивого поведения: постоянно возникают новые роли, задачи и оценки. Люди этого типа не обладают достаточно развитым внутренним миром, их переживания ориентированы на внешнего наблюдателя. Игнорирование отрицательных сигналов извне позволяет сохранять высокую самооценку, переходящей в самолюбование. Такое поведение может привести к бесцеремонности, некритичности в оценке ситуации.
+Личность стремится быть в центре внимания, ищет признания и поддержки и добивается этого настойчивыми действиями. Склонность к фантазированию, эгоцентризм, незрелость и поверхностность в контактах. Обычно затрудняет деятельность группы, которая должна планомерно и длительное время решать какую-либо проблему. Проявляются чаще декларации, невозможность длительного и упорядоченного усилия по выполнению длительной деятельности. Лучше проявляет себя в ситуациях, где надо быстро менять свою роль, где присутствуют кратковременные контакты, умение приспосабливаться к различным людям. В конфликтах чаще всего используются для самозащиты соматические жалобы, которые носят поверхностный характер.
+В случае клиники - может наблюдаться полная утрата способности к формированию устойчивых установок и построению поведения на основе предшествующего опыта, живет методом "проб и ошибок", исходя из удовлетворения своих сиюминутных желаний. Отмечается слабость задержки своих желаний, в результате возникает бесплановость и хаотичность поведения. Декомпенсация личности возникает в ситуациях повышенных требований и нагрузок, а также нарушения отношений, которые по социальным нормам должны поддерживаться (например, в семье). Возникает грубая конверсионная симптоматика или более тонкая - изменения вегетативной регуляции, которая является "копией" ранее виденных или слышанных "страшных" заболеваний (например, инфаркта). Основная цель поведения больного - потребность во внимании и поддержке, в любовании своими страданиями и своей волей, стойкостью при этом.",
+    "tGrade": 77,
+  },
+  {
+    "correctedGrade": 14,
+    "rawGrade": 8,
+    "scaleId": 7,
+    "scaleName": "Психопатия (Pd)",
+    "stan": null,
+    "summary": "Показатели по шкале психопатии в норме",
+    "tGrade": 68,
+  },
+  {
+    "correctedGrade": 4,
+    "rawGrade": 4,
+    "scaleId": 8,
+    "scaleName": "Паранойяльностъ (Ра)",
+    "stan": null,
+    "summary": "Показатели по шкале паранойяльности в норме ",
+    "tGrade": 50,
+  },
+  {
+    "correctedGrade": 19,
+    "rawGrade": 3,
+    "scaleId": 9,
+    "scaleName": "Психастения (Pt)",
+    "stan": null,
+    "summary": "Высокие результаты по шкале "Pt" говорят о возможности:
+Конституациональная предрасположенность к возникновению тревожных реакций, а устранение этой тревоги достигается путем формирования ограниченного поведения. Сензитивность, страх, тревога, немотивированные опасения, неуверенность в себе и в своей компетентности, пониженная самооценка, навязчивость. Тревожно-мнительная личность, низкий порог фрустраций, напряженность, самокритичность, эмпатийность, трудности социального приспособления, застенчивость, боязливость. Низкая способность к вытеснению и повышенное внимание к отрицательным сигналам. Стремление удержать в центре внимания даже несущественные факты, учитывать и предвидеть даже маловероятные возможности. В результате ситуация никогда не представляется достаточно определенной, что еще более усиливает постоянную тревожность. Поэтому неспособность отделять фон от сигнала, увеличение эмоциональной значимости фона приводит к ослаблению концентрации внимания, к сомнениям и колебаниям при необходимости принять решение, тревогу и страхи по поводу возможных последствий своих действий. Поскольку каждый новый сигнал воспринимается как угроза, то личность придерживается уже испытанных приемов деятельности.
+В своей деятельности руководствуется главным образом не потребностью достичь успеха, а стремлением избежать неуспех и поведение испытуемого определяется страхом перед возможностью повлечь на себя опасность неверным поступком. Этот страх лежит в основе ограничений своего поведения, особенно там, где успех не гарантирован. В тех же областях, где приходится действовать, испытуемый стремится контролировать успешность своей деятельности с помощью разработки высокого внутреннего стандарта, с которым сопоставляется действие и результат. Такие лица описываются окружающими как добросовестные, тщательно выполняющие свои обязанности, сдержанные во внешних проявлениях и нерешительные.
+Клиника: склонность к навязчивому беспокойству, напряженность, нерешительность, пониженная помехоустойчивость по отношению к стрессу, стрессорами являются ситуации, где происходит быстрая смена факторов, неупорядоченные и не поддающиеся планированию ситуации; декомпенсация личности сопровождается навязчивыми страхами и ритуалами.",
+    "tGrade": 73,
+  },
+  {
+    "correctedGrade": 18,
+    "rawGrade": 2,
+    "scaleId": 10,
+    "scaleName": "Шизоидность (Se)",
+    "stan": null,
+    "summary": "Показатели по шкале шизоидности в норме",
+    "tGrade": 67,
+  },
+  {
+    "correctedGrade": 4,
+    "rawGrade": 1,
+    "scaleId": 11,
+    "scaleName": "Гипотония [мании] (Ма)",
+    "stan": null,
+    "summary": "Снижение активности и контактов с людьми.",
+    "tGrade": 35,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Сокращенный многофакторный опросник для исследования личности (Мини-мульт) > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": 1,
+    "rawGrade": 1,
+    "scaleId": 1,
+    "scaleName": "Шкала лжи (L)",
+    "stan": null,
+    "summary": "Показатели по шкале лжи в норме",
+    "tGrade": 46,
+  },
+  {
+    "correctedGrade": 8,
+    "rawGrade": 8,
+    "scaleId": 2,
+    "scaleName": "Шкала достоверности (F)",
+    "stan": null,
+    "summary": "Высокие показатели по шкале "F" возможны в следующих случаях:
+неконформность личности, связанная с своеобразием восприятия и логики (шизоидный тип личности);
+аутичная личность, испытывающая затруднения в межличностных контактах;
+психопатоподобное поведение, склонность к неупорядоченному поведению или выраженное чувство протеста против конвенциональных норм;
+подростки в период формирования личности, когда преобладает потребность в самовыражении неконформным поведением и взглядами;
+выраженная тревожность и потребность в помощи со стороны окружающих.
+В каждом конкретном случае к оценке профиля по шкале "F" надо подходить индивидуально:
+результаты тестирования в целом вызывают сомнения из-за намеренного искажения результатов самим испытуемым;
+следует сочетать показания по шкале "F" с клиническим состоянием испытуемого (возможно неадекватное восприятие утверждений).",
+    "tGrade": 75,
+  },
+  {
+    "correctedGrade": 5,
+    "rawGrade": 5,
+    "scaleId": 3,
+    "scaleName": "Шкала коррекции (К)",
+    "stan": null,
+    "summary": "Показатели по шкале коррекции в норме",
+    "tGrade": 42,
+  },
+  {
+    "correctedGrade": 8,
+    "rawGrade": 5,
+    "scaleId": 4,
+    "scaleName": "Ипохондрия (Hs)",
+    "stan": null,
+    "summary": "Показатели по шкале ипохондрии в норме",
+    "tGrade": 52,
+  },
+  {
+    "correctedGrade": 9,
+    "rawGrade": 9,
+    "scaleId": 5,
+    "scaleName": "Депрессия (D)",
+    "stan": null,
+    "summary": "Показатели по шкале депрессии в норме",
+    "tGrade": 57,
+  },
+  {
+    "correctedGrade": 9,
+    "rawGrade": 9,
+    "scaleId": 6,
+    "scaleName": "Истерия (Ну)",
+    "stan": null,
+    "summary": "Показатели по шкале истерии в норме",
+    "tGrade": 47,
+  },
+  {
+    "correctedGrade": 10,
+    "rawGrade": 8,
+    "scaleId": 7,
+    "scaleName": "Психопатия (Pd)",
+    "stan": null,
+    "summary": "Показатели по шкале психопатии в норме",
+    "tGrade": 49,
+  },
+  {
+    "correctedGrade": 5,
+    "rawGrade": 5,
+    "scaleId": 8,
+    "scaleName": "Паранойяльностъ (Ра)",
+    "stan": null,
+    "summary": "Показатели по шкале паранойяльности в норме ",
+    "tGrade": 55,
+  },
+  {
+    "correctedGrade": 14,
+    "rawGrade": 9,
+    "scaleId": 9,
+    "scaleName": "Психастения (Pt)",
+    "stan": null,
+    "summary": "Показатели по шкале психастении в норме",
+    "tGrade": 51,
+  },
+  {
+    "correctedGrade": 14,
+    "rawGrade": 9,
+    "scaleId": 10,
+    "scaleName": "Шизоидность (Se)",
+    "stan": null,
+    "summary": "Показатели по шкале шизоидности в норме",
+    "tGrade": 52,
+  },
+  {
+    "correctedGrade": 6,
+    "rawGrade": 5,
+    "scaleId": 11,
+    "scaleName": "Гипотония [мании] (Ма)",
+    "stan": null,
+    "summary": "Показатели по шкале гипомании в норме",
+    "tGrade": 46,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Шкала депрессии Бека > scores the "first" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 0,
+    "scaleId": 1,
+    "scaleName": "Шкала депрессии",
+    "stan": null,
+    "summary": "Отсутствуют депрессивные симптомы",
+    "tGrade": null,
+  },
+]
+`;
+
+exports[`scoreSubmission on every bundled test > Шкала депрессии Бека > scores the "last" answer pattern 1`] = `[]`;
+
+exports[`scoreSubmission on every bundled test > Шкала депрессии Бека > scores the "rotating" answer pattern 1`] = `
+[
+  {
+    "correctedGrade": null,
+    "rawGrade": 31,
+    "scaleId": 1,
+    "scaleName": "Шкала депрессии",
+    "stan": null,
+    "summary": "Наблюдаются симптомы тяжелой депрессии",
+    "tGrade": null,
+  },
+]
+`;

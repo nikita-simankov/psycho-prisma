@@ -1,7 +1,8 @@
 import { z } from "zod"
 
 export const signInSchema = z.object({
-  phoneNumber: z.string().min(9, "phone").max(20, "phone"),
+  // Email, or the phone number of an account created before email sign-in.
+  identifier: z.string().trim().min(3, "identifier").max(254, "tooLong"),
   password: z.string().min(8, "passwordLength").max(128, "tooLong"),
 })
 
