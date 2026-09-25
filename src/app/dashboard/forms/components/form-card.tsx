@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FormQuestion, TestQuestion } from "@/utils/constants";
 import { Form } from "@prisma/client";
 import Link from "next/link";
 
@@ -15,7 +15,8 @@ type Properties = {
   form: Form;
 };
 
-export const FormCard: React.FC<Properties> = ({ form }) => {
+export function FormCard({ form }: Properties) {
+  const t = useTranslations("dashboard.forms");
   return (
     <Card className="flex flex-col justify-between h-64">
       <CardHeader>
@@ -23,7 +24,7 @@ export const FormCard: React.FC<Properties> = ({ form }) => {
           {form.adminOnly && (
             <>
               <Badge variant="outline" className="mr-2">
-                Для администраторов
+                {t("adminOnly")}
               </Badge>
             </>
           )}
@@ -35,10 +36,10 @@ export const FormCard: React.FC<Properties> = ({ form }) => {
         {form.adminOnly ? (
           <>
             <Link href={"/dashboard/forms/" + form.id + "/run"}>
-              <Button className="w-full">Запустить</Button>
+              <Button className="w-full">{t("run")}</Button>
             </Link>
             <Link href={"/dashboard/forms/" + form.id + "/results"}>
-              <Button className="w-full">Смотреть результаты</Button>
+              <Button className="w-full">{t("results")}</Button>
             </Link>
           </>
         ) : (
@@ -46,10 +47,10 @@ export const FormCard: React.FC<Properties> = ({ form }) => {
             href={"/dashboard/forms/" + form.id + "/results"}
             className="col-span-2"
           >
-            <Button className="w-full">Смотреть результаты</Button>
+            <Button className="w-full">{t("results")}</Button>
           </Link>
         )}
       </CardFooter>
     </Card>
   );
-};
+}

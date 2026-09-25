@@ -1,7 +1,6 @@
 import { findAllTestSubmissions } from "@/actions/test-submission/find-all-test-submissions-action";
-import { findTestById } from "@/actions/test/find-test-by-id-action";
-import { findUserById } from "@/actions/user/find-user-by-id-action";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { findAllTests } from "@/actions/test/find-all-tests-action";
+import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,51 +9,65 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import UserAvatar from "@/components/ui/user-avatar";
+import { formatFullName } from "@/utils/user";
 import { ArrowUpRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export const DashboardRecentSubmissions: React.FC = async () => {
-  const submissions = await (await findAllTestSubmissions()).slice(0, 10);
+export async function DashboardRecentSubmissions() {
+  const t = await getTranslations("dashboard.recent");
+  const [submissions, users, tests] = await Promise.all([
+    findAllTestSubmissions(),
+    findAllUsers(),
+    findAllTests(),
+  ]);
+  const usersById = new Map(users.map((user) => [user.id, user]));
+  const testsById = new Map(tests.map((test) => [test.id, test]));
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Недавние ответы</CardTitle>
-        <CardDescription>Недавние ответы на тестовые методики</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
-        {submissions.map(async (submission) => {
-          const user = await findUserById(submission.userId);
-          const test = await findTestById(submission.testId);
+        {submissions.length === 0 && (
+          <p className="text-sm text-muted-foreground">{t("empty")}</p>
+        )}
+        {submissions.slice(0, 10).map((submission) => {
+          const user = usersById.get(submission.userId);
+          const test = testsById.get(submission.testId);
+
+          if (!user || !test) {
+            return null;
+          }
 
           return (
-            <div className="w-full px-4 py-2 hover:bg-accent text-sm font-semibold tracking-wide flex flex-row items-center justify-between">
+            <div
+              key={submission.id}
+              className="w-full px-4 py-2 hover:bg-accent text-sm font-semibold tracking-wide flex flex-row items-center justify-between"
+            >
               <div className="flex flex-row items-center gap-6">
-                <Avatar>
-                  <AvatarImage src={user?.imageURL} />
-                  <AvatarFallback>
-                    {user?.name[0]! + user?.surname[0]!}
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar user={user} />
                 <span>
-                  {user?.lastName} {user?.name} {user?.surname} ({test?.name})
+                  {formatFullName(user)} ({test.name})
                 </span>
               </div>
 
-              <Link
-                href={
-                  "/dashboard/tests/" + test?.id + "/results/" + submission.id
-                }
-              >
-                <Button size="sm" className="flex flex-row items-center gap-2">
-                  Смотреть результат
+              <Button size="sm" asChild>
+                <Link
+                  href={`/dashboard/tests/${test.id}/results/${submission.id}`}
+                  className="flex flex-row items-center gap-2"
+                >
+                  {t("viewResult")}
                   <ArrowUpRight className="w-[1.2rem] h-[1.2rem]" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           );
         })}
       </CardContent>
     </Card>
   );
-};
+}

@@ -9,15 +9,14 @@ import { cookies, headers } from "next/headers";
 
 // Compared against when the phone number is unknown, so both paths take the same time.
 const DUMMY_HASH = "$2a$10$tpMTjOqMdk5cAjXejhc8qOlegoxIr8QhGT/VE5n22td9Vv3ZYolbC";
-const INVALID_CREDENTIALS = "Неверный номер телефона или пароль";
 
 export async function signIn(
   data: unknown
-): Promise<{ role: string } | { error: string }> {
+): Promise<{ role: string } | { error: "invalidCredentials" | "rateLimited" }> {
   const parsed = signInSchema.safeParse(data);
 
   if (!parsed.success) {
-    return { error: INVALID_CREDENTIALS };
+    return { error: "invalidCredentials" };
   }
 
   const { phoneNumber, password } = parsed.data;
@@ -27,7 +26,7 @@ export async function signIn(
     !consumeRateLimit(`sign-in:phone:${phoneNumber}`, 5, 15 * 60_000) ||
     !consumeRateLimit(`sign-in:ip:${ip}`, 30, 15 * 60_000)
   ) {
-    return { error: "Слишком много попыток входа. Попробуйте позже" };
+    return { error: "rateLimited" };
   }
 
   const existingUser = await prisma.user.findUnique({
@@ -41,7 +40,7 @@ export async function signIn(
   );
 
   if (!existingUser || !passwordMatches) {
-    return { error: INVALID_CREDENTIALS };
+    return { error: "invalidCredentials" };
   }
 
   const session = await lucia.createSession(existingUser.id, {});

@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TestQuestion } from "@/utils/constants";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type PathParams = {
   params: {
@@ -18,23 +19,35 @@ type PathParams = {
 };
 
 export default async function TestPage({ params }: PathParams) {
+  const t = await getTranslations("dashboard.tests");
+  const respondent = await getTranslations("respondent");
   const test = await findTestById(params.testId);
-  const questions = JSON.parse(test?.questions!) as TestQuestion[];
+
+  if (!test) {
+    notFound();
+  }
 
   return (
     <div className="p-12">
       <Card>
         <CardHeader>
-          <CardTitle>{test?.name}</CardTitle>
+          <CardTitle>{test.name}</CardTitle>
           <CardDescription>
-            Количество вопросов: {questions.length} шт.
+            {respondent("questionCount", { count: JSON.parse(test.questions).length })}
+            {" · "}
+            {t(`strategies.${test.strategy}` as "strategies.grade")}
           </CardDescription>
         </CardHeader>
-        <CardContent>{test?.description}</CardContent>
-        <CardFooter>
-          <Link href={"/tests/" + test?.id}>
-            <Button>Начать</Button>
-          </Link>
+        {test.description && (
+          <CardContent className="whitespace-pre-line">{test.description}</CardContent>
+        )}
+        <CardFooter className="gap-2">
+          <Button asChild>
+            <Link href={`/dashboard/tests/${test.id}/results`}>{t("results")}</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href={`/tests/${test.id}`}>{t("tryIt")}</Link>
+          </Button>
         </CardFooter>
       </Card>
     </div>

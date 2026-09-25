@@ -104,3 +104,41 @@ export function getSubmissionSummary(
     scoreSubmission(test, JSON.parse(submission.submission))?.result ?? []
   );
 }
+
+export type ScaleRow = {
+  scaleId: number;
+  scaleName: string;
+  rawGrade: number | null;
+  correctedGrade: number | null;
+  tGrade: number | null;
+  stan: number | null;
+  summary: string | null;
+};
+
+type StoredEntry = {
+  scale?: { id: number; name: string };
+  grade?: number;
+  correctedGrade?: number;
+  tGradeValue?: number;
+  stanValue?: number;
+  summary?: string;
+} | null;
+
+// One display row per scale, whatever strategy produced the result.
+export function toScaleRows(result: unknown[]): ScaleRow[] {
+  return (result as StoredEntry[]).flatMap((entry) =>
+    entry?.scale
+      ? [
+          {
+            scaleId: entry.scale.id,
+            scaleName: entry.scale.name,
+            rawGrade: entry.grade ?? null,
+            correctedGrade: entry.correctedGrade ?? null,
+            tGrade: entry.tGradeValue ?? null,
+            stan: entry.stanValue ?? null,
+            summary: entry.summary ?? null,
+          },
+        ]
+      : []
+  );
+}

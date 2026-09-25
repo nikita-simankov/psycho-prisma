@@ -1,131 +1,110 @@
-"use client"
+"use client";
 
 import { UpdateUserInfoAction } from "@/actions/user/update-user-info-action";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import type { PublicUser } from "@/utils/user";
 import { useMutation } from "@tanstack/react-query";
 import { Edit } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface Properties {
-  user: PublicUser
-}
+const MAX_PHOTO_BYTES = 1.8 * 1024 * 1024;
+const TEXT_FIELDS = ["lastName", "name", "middleName", "dateOfBirth", "department", "position"] as const;
 
-export default function EditUserDialog({ user }: Properties) {
-  const router = useRouter()
-  const [showDialog, setShowDialog] = useState(false)
-  const [updatedUserData, setUpdatedUserData] = useState({
-    name: user.name,
-    surname: user.surname,
+type EditableFields = Record<(typeof TEXT_FIELDS)[number], string> & { imageURL?: string };
+
+export default function EditUserDialog({ user }: { user: PublicUser }) {
+  const t = useTranslations("profile");
+  const common = useTranslations("common");
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState<EditableFields>({
     lastName: user.lastName,
-    imageURL: user.imageURL,
-
-    rank: user.rank,
-    division: user.division,
-    servingKind: user.servingKind, 
-    servingPeriod: user.servingPeriod
-  })
+    name: user.name,
+    middleName: user.middleName,
+    dateOfBirth: user.dateOfBirth,
+    department: user.department,
+    position: user.position,
+  });
 
   const mutation = useMutation({
-    mutationFn: () => UpdateUserInfoAction(user.id, updatedUserData),
-
+    mutationFn: () => UpdateUserInfoAction(user.id, values),
     onSuccess: () => {
-      setShowDialog(false)
-      router.refresh()
+      setOpen(false);
+      router.refresh();
     },
+    onError: () =>
+      toast({ title: common("error"), description: t("updateError"), variant: "destructive" }),
+  });
 
-    onError: (error) => {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось обновить данные пользователя"
-      })
+  const onPhotoChange = async (file: File | undefined) => {
+    if (!file) {
+      return;
     }
-  })
 
-  return <Dialog open={showDialog} onOpenChange={setShowDialog}>
-    <DialogTrigger asChild>
-      <Button>
-        <Edit className="w-5 h-5 mr-2" />
-        Редактировать
-      </Button>
-    </DialogTrigger>
-    <DialogContent>
-      <DialogHeader>Редактировать информацию</DialogHeader>
-      <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-          <Label>Фотография</Label>
-          <Input type="file" onChange={async (e) => {
-            const file = e.target.files![0]
-            const fileBuffer = await file.arrayBuffer()
-            const fileString = Buffer.from(fileBuffer).toString("base64")
+    if (file.type !== "image/jpeg" || file.size > MAX_PHOTO_BYTES) {
+      toast({ title: common("error"), description: t("photoHint"), variant: "destructive" });
+      return;
+    }
 
-            setUpdatedUserData({
-              ...updatedUserData,
-              imageURL: fileString,
-            })
-          }}/>
+    const buffer = await file.arrayBuffer();
+    let binary = "";
+    new Uint8Array(buffer).forEach((byte) => (binary += String.fromCharCode(byte)));
+    setValues({ ...values, imageURL: btoa(binary) });
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>
+          <Edit className="w-5 h-5 mr-2" />
+          {common("edit")}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("editTitle")}</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="photo">{t("fields.photo")}</Label>
+            <Input
+              id="photo"
+              type="file"
+              accept="image/jpeg"
+              onChange={(event) => onPhotoChange(event.target.files?.[0])}
+            />
+            <p className="text-xs text-muted-foreground">{t("photoHint")}</p>
+          </div>
+          {TEXT_FIELDS.map((field) => (
+            <div key={field} className="flex flex-col gap-2">
+              <Label htmlFor={field}>{t(`fields.${field}`)}</Label>
+              <Input
+                id={field}
+                value={values[field]}
+                onChange={(event) => setValues({ ...values, [field]: event.target.value })}
+              />
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-2">
-          <Label>Фамилия</Label>
-          <Input value={updatedUserData.lastName} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            lastName: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Имя</Label>
-          <Input value={updatedUserData.name} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            name: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Отчество</Label>
-          <Input value={updatedUserData.surname} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            surname: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Воинское звание</Label>
-          <Input value={updatedUserData.rank} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            rank: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Подразделение</Label>
-          <Input value={updatedUserData.division} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            division: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Период службы</Label>
-          <Input value={updatedUserData.servingPeriod} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            servingPeriod: e.target.value
-          })}/>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>Вид службы</Label>
-          <Input value={updatedUserData.servingKind} onChange={(e) => setUpdatedUserData({
-            ...updatedUserData,
-            servingKind: e.target.value
-          })}/>
-        </div>
-      </div>
-      <DialogFooter>
-        <Button onClick={() => {
-          console.log(updatedUserData)
-          mutation.mutate()
-        }}>Обновить</Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+        <DialogFooter>
+          <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
+            {common("save")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 }

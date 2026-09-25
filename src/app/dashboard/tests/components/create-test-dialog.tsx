@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { uploadTestData } from "@/actions/test/upload-test-data-action";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,8 @@ import { ChangeEvent, useState } from "react";
 
 export const CreateTestDialog: React.FC = () => {
   const router = useRouter();
+  const t = useTranslations("dashboard.tests");
+  const common = useTranslations("common");
   const [testData, setTestData] = useState<TestData>({
     name: "",
     strategy: "",
@@ -50,8 +53,8 @@ export const CreateTestDialog: React.FC = () => {
     const targetFile = event.target.files![0];
     extractTestData(targetFile, testData, setTestData).catch(() =>
       toast({
-        title: "Не удалось прочитать файл",
-        description: "Проверьте, что это файл .xlsx в ожидаемом формате",
+        title: common("fileErrorTitle"),
+        description: common("fileErrorText"),
         variant: "destructive",
       })
     );
@@ -86,24 +89,22 @@ export const CreateTestDialog: React.FC = () => {
         <Card className="aspect-video cursor-pointer border-dashed border-2 border-gray-300 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-950 transition-all">
           <CardContent className="p-6 w-full h-full flex flex-col gap-2 items-center justify-center">
             <FlaskConical />
-            <h1 className="text-lg font-bold tracking-wide">
-              Добавить методику
-            </h1>
+            <span className="text-lg font-bold tracking-wide">{t("add")}</span>
           </CardContent>
         </Card>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="font-semibold text-lg">
-            Добавить новую методику
+            {t("newTitle")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-2">
-          <Label>Название методики</Label>
+          <Label>{t("name")}</Label>
           <Input
             value={testData.name}
-            placeholder="Введите название методики"
+            placeholder={t("namePlaceholder")}
             onChange={(event) =>
               setTestData({
                 ...testData,
@@ -114,11 +115,11 @@ export const CreateTestDialog: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label>Описание методики</Label>
+          <Label>{t("description")}</Label>
           <Textarea
             rows={3}
             value={testData.description}
-            placeholder="Введите краткое описание методики"
+            placeholder={t("descriptionPlaceholder")}
             onChange={(event) =>
               setTestData({
                 ...testData,
@@ -129,7 +130,7 @@ export const CreateTestDialog: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label>Метод обработки результатов</Label>
+          <Label>{t("strategy")}</Label>
           <Select
             onValueChange={(selection) =>
               setTestData({
@@ -139,23 +140,23 @@ export const CreateTestDialog: React.FC = () => {
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Выберите метод обработки" />
+              <SelectValue placeholder={t("strategyPlaceholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="grade">Подсчёт баллов</SelectItem>
-              <SelectItem value="t-grade">Подсчёт Т-баллов</SelectItem>
+              <SelectItem value="grade">{t("strategies.grade")}</SelectItem>
+              <SelectItem value="t-grade">{t("strategies.t-grade")}</SelectItem>
               <SelectItem value="standard-ten">
-                Стандартная десятка (СТЭН)
+                {t("strategies.standard-ten")}
               </SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label>Вопросы</Label>
-          <Input type="file" onChange={fileUploadHandler} />
+          <Label>{t("file")}</Label>
+          <Input type="file" accept=".xlsx" onChange={fileUploadHandler} />
           <p className="text-sm text-muted-foreground">
-            Выберите файл для загрузки. Поддерживаемые форматы: XLS, XLSX.
+            {common("fileHint")}
           </p>
         </div>
 
@@ -166,7 +167,7 @@ export const CreateTestDialog: React.FC = () => {
               uploadTestMutation.mutate();
             }}
           >
-            Сохранить
+            {common("save")}
           </Button>
         </DialogClose>
       </DialogContent>

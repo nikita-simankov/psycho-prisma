@@ -1,6 +1,6 @@
-# Призма
+# Prisma
 
-Web app for running psychological questionnaires and test instruments, scoring them, and reviewing results.
+Web app for HR teams to run psychological questionnaires and test instruments, score them, and review results. The interface is available in English and Russian.
 
 ## Getting started
 
@@ -20,7 +20,10 @@ Databases created before migrations were added already have every table. Mark th
 
 ```bash
 npx prisma migrate resolve --applied 0_init
+npx prisma migrate deploy
 ```
+
+`1_hr_profile` then converts the old profile to the HR one and keeps the data: patronymic becomes middle name, division becomes department, rank becomes position, and Russian group names become group keys. Rank-only, service and address fields are dropped, so back up the database first. Forms and categories already in the database stay as they are; the seed only adds or updates the bundled ones.
 
 ## Useful commands
 
@@ -30,6 +33,16 @@ npx prisma migrate resolve --applied 0_init
 | `npm run build` / `npm start` | Production build and server |
 | `npx tsc --noEmit` | Type check |
 | `npm run db:seed` | Re-run the seed (safe to repeat) |
+
+## Languages
+
+Interface text lives in `messages/en.json` and `messages/ru.json` (next-intl, no locale in the URL). The locale comes from the `NEXT_LOCALE` cookie set by the language switcher, then the browser's `Accept-Language`, then English. Keep both files with the same keys.
+
+The bundled test and questionnaire content stays in Russian: translating validated instruments needs validated translations, not ad-hoc ones. Spreadsheet import templates also keep their Russian column headers.
+
+## Groups
+
+People are sorted into groups stored as keys (`general`, `monitoring`, `risk`, `suicide-risk`, `substance-risk`), defined in `src/utils/groups.ts`. Labels come from the `groups` messages.
 
 ## Access rules
 

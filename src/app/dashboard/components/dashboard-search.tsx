@@ -9,23 +9,23 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
-import { Form, Test } from "@prisma/client";
-import type { PublicUser } from "@/utils/user";
-import {
-  FlaskConical,
-  Home,
-  NotepadText,
-  Smile,
-  UserIcon,
-  Users,
-} from "lucide-react";
+import { formatFullName, formatWorkInfo, PublicUser } from "@/utils/user";
+import { FlaskConical, NotepadText, UserIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+import { DASHBOARD_NAVIGATION } from "./navigation";
+
+type SearchUser = Pick<
+  PublicUser,
+  "id" | "name" | "middleName" | "lastName" | "department" | "position"
+>;
+type SearchItem = { id: string; name: string };
 
 interface Properties {
-  users: PublicUser[];
-  forms: Form[];
-  tests: Test[];
+  users: SearchUser[];
+  forms: SearchItem[];
+  tests: SearchItem[];
 }
 
 export default function DashboardSearch({
@@ -33,126 +33,81 @@ export default function DashboardSearch({
   forms,
   tests,
 }: Readonly<Properties>) {
+  const t = useTranslations("dashboard.search");
+  const nav = useTranslations("dashboard.nav");
   const router = useRouter();
   const [isOpen, setOpen] = useState<boolean>(false);
 
+  const go = (href: string) => {
+    router.push(href);
+    setOpen(false);
+  };
+
   return (
     <>
-      <Input placeholder="Поиск" onClick={() => setOpen(true)} />
+      <Input
+        placeholder={t("placeholder")}
+        onClick={() => setOpen(true)}
+        readOnly
+      />
       <CommandDialog modal={true} open={isOpen} onOpenChange={setOpen}>
-        <CommandInput placeholder="Быстрый поиск по приложению" />
+        <CommandInput placeholder={t("dialogPlaceholder")} />
         <CommandList>
-          <CommandEmpty>Нет результатов.</CommandEmpty>
-          <CommandGroup heading="Навигация">
-            <CommandItem
-              onSelect={() => {
-                router.push("/dashboard");
-                setOpen(false);
-              }}
-              className="flex flex-row items-center gap-2"
-            >
-              <Home />
-              <span className="text-xs font-medium">Панель управления</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                router.push("/dashboard/forms");
-                setOpen(false);
-              }}
-              className="flex flex-row items-center gap-2"
-            >
-              <NotepadText />
-              <span className="text-xs font-medium">Анкетирование</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                router.push("/dashboard/tests");
-                setOpen(false);
-              }}
-              className="flex flex-row items-center gap-2"
-            >
-              <FlaskConical />
-              <span className="text-xs font-medium">Тестирование</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                router.push("/dashboard/summary");
-                setOpen(false);
-              }}
-              className="flex flex-row items-center gap-2"
-            >
-              <Smile />
-              <span className="text-xs font-medium">Характеристика</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                router.push("/dashboard/users");
-                setOpen(false);
-              }}
-              className="flex flex-row items-center gap-2"
-            >
-              <Users />
-              <span className="text-xs font-medium">Личный состав</span>
-            </CommandItem>
+          <CommandEmpty>{t("empty")}</CommandEmpty>
+          <CommandGroup heading={t("navigation")}>
+            {DASHBOARD_NAVIGATION.map(({ key, href, icon: Icon }) => (
+              <CommandItem
+                key={key}
+                onSelect={() => go(href)}
+                className="flex flex-row items-center gap-2"
+              >
+                <Icon />
+                <span className="text-xs font-medium">{nav(key)}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
-          <CommandGroup heading="Пользователи">
-            {users?.map((user) => {
-              return (
-                <CommandItem
-                  onSelect={() => {
-                    router.push("/dashboard/users/" + user.id);
-                    setOpen(false);
-                  }}
-                  className="flex flex-row items-center justify-between gap-2"
-                >
-                  <div className="flex flex-row items-center gap-2">
-                    <UserIcon className="w-5 h-5" />
-                    <span className="text-xs font-medium">
-                      {user.lastName} {user.name} {user.surname}
-                    </span>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {user.rank}, {user.division}
+          <CommandGroup heading={nav("people")}>
+            {users.map((user) => (
+              <CommandItem
+                key={user.id}
+                onSelect={() => go("/dashboard/users/" + user.id)}
+                className="flex flex-row items-center justify-between gap-2"
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <UserIcon className="w-5 h-5" />
+                  <span className="text-xs font-medium">
+                    {formatFullName(user)}
                   </span>
-                </CommandItem>
-              );
-            })}
+                </div>
+                <span className="text-xs text-muted-foreground">
+                  {formatWorkInfo(user)}
+                </span>
+              </CommandItem>
+            ))}
           </CommandGroup>
-          <CommandGroup heading="Анкетирование">
-            {forms?.map((form) => {
-              return (
-                <CommandItem
-                  onSelect={() => {
-                    router.push("/dashboard/forms/" + form.id + "/results");
-                    setOpen(false);
-                  }}
-                  className="flex flex-row items-center justify-between gap-2"
-                >
-                  <div className="flex flex-row items-center gap-2">
-                    <NotepadText className="w-5 h-5" />
-                    <span className="text-xs font-medium">{form.name}</span>
-                  </div>
-                </CommandItem>
-              );
-            })}
+          <CommandGroup heading={nav("forms")}>
+            {forms.map((form) => (
+              <CommandItem
+                key={form.id}
+                onSelect={() => go("/dashboard/forms/" + form.id + "/results")}
+                className="flex flex-row items-center gap-2"
+              >
+                <NotepadText className="w-5 h-5" />
+                <span className="text-xs font-medium">{form.name}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
-          <CommandGroup heading="Тестирование">
-            {tests?.map((test) => {
-              return (
-                <CommandItem
-                  onSelect={() => {
-                    router.push("/dashboard/tests/" + test.id + "/results");
-                    setOpen(false);
-                  }}
-                  className="flex flex-row items-center justify-between gap-2"
-                >
-                  <div className="flex flex-row items-center gap-2">
-                    <FlaskConical className="w-5 h-5" />
-                    <span className="text-xs font-medium">{test.name}</span>
-                  </div>
-                </CommandItem>
-              );
-            })}
+          <CommandGroup heading={nav("tests")}>
+            {tests.map((test) => (
+              <CommandItem
+                key={test.id}
+                onSelect={() => go("/dashboard/tests/" + test.id + "/results")}
+                className="flex flex-row items-center gap-2"
+              >
+                <FlaskConical className="w-5 h-5" />
+                <span className="text-xs font-medium">{test.name}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

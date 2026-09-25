@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "appName": "Prisma",
+    "title": "Prisma · Psychological assessment for HR teams",
+    "description": "Run validated psychological tests and questionnaires, score them automatically and review results for your team."
+  },
+  "common": {
+    "appName": "Prisma",
+    "print": "Print",
+    "language": "Language",
+    "locales": {
+      "en": "English",
+      "ru": "Русский"
+    },
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "open": "Open",
+    "start": "Start",
+    "finish": "Finish",
+    "error": "Something went wrong",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "items": "{count, plural, one {# item} other {# items}}",
+    "minutes": "{count, plural, one {# minute} other {# minutes}}",
+    "fileErrorTitle": "Could not read the file",
+    "fileErrorText": "Check that it is an .xlsx file in the expected template format",
+    "fileHint": "Upload an .xlsx file based on the template."
+  },
+  "validation": {
+    "required": "Required",
+    "phone": "Enter a valid phone number",
+    "passwordLength": "Password must be at least 8 characters",
+    "tooLong": "Too long"
+  },
+  "landing": {
+    "hero": {
+      "title": "Psychological assessment for HR teams",
+      "subtitle": "Run established tests and questionnaires online, get results scored automatically, and keep every employee's profile in one place.",
+      "cta": "Get started"
+    },
+    "features": {
+      "title": "Less paperwork, faster insight",
+      "library": {
+        "title": "Ready-made library",
+        "text": "Twenty validated instruments and questionnaires are included, from anxiety and depression screening to leadership and cognitive tests."
+      },
+      "scoring": {
+        "title": "Automatic scoring",
+        "text": "Raw scores, T-scores and stens are calculated the moment a test is submitted, with interpretation text for each scale."
+      },
+      "reports": {
+        "title": "Per-person reports",
+        "text": "See every result for an employee side by side, add your conclusion and print or archive it."
+      },
+      "groups": {
+        "title": "Groups and follow-up",
+        "text": "Flag people who need attention and track groups across departments."
+      }
+    },
+    "steps": {
+      "title": "How it works",
+      "label": "Step {number}",
+      "import": {
+        "title": "Import or pick instruments",
+        "text": "Use the built-in library or upload your own tests and questionnaires from an Excel template."
+      },
+      "invite": {
+        "title": "Employees take them online",
+        "text": "People sign up and complete assessments from any browser, at their own pace."
+      },
+      "review": {
+        "title": "Review results",
+        "text": "Scores and interpretations are ready immediately in the admin dashboard."
+      }
+    },
+    "chart": {
+      "title": "Time spent per person",
+      "unit": "Minutes",
+      "testing": "Testing",
+      "processing": "Scoring results",
+      "paper": "On paper",
+      "prisma": "With Prisma"
+    },
+    "footer": {
+      "tagline": "Prisma · psychological assessment platform",
+      "disclaimer": "Results support, and never replace, a qualified psychologist's judgement."
+    }
+  },
+  "auth": {
+    "signIn": {
+      "metaTitle": "Sign in",
+      "title": "Welcome back",
+      "subtitle": "Enter the phone number and password you used to sign up.",
+      "aside": "Psychological assessment for HR teams: tests, questionnaires and results in one place.",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "successTitle": "Welcome!",
+      "successText": "You are signed in.",
+      "errorTitle": "Could not sign in",
+      "errors": {
+        "invalidCredentials": "Wrong phone number or password",
+        "rateLimited": "Too many attempts. Try again in 15 minutes"
+      }
+    },
+    "signUp": {
+      "metaTitle": "Sign up",
+      "title": "Create an account",
+      "subtitle": "Tell us a little about yourself to take assessments assigned by your HR team.",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "steps": {
+        "personal": "Personal",
+        "work": "Work",
+        "account": "Account"
+      },
+      "successTitle": "Account created",
+      "successText": "You can now sign in.",
+      "errorTitle": "Could not create the account",
+      "errors": {
+        "rateLimited": "Too many attempts. Try again later",
+        "invalidInput": "Check the fields and try again",
+        "phoneTaken": "An account with this phone number already exists"
+      }
+    }
+  },
+  "profile": {
+    "fields": {
+      "lastName": "Last name",
+      "name": "First name",
+      "middleName": "Middle name",
+      "fullName": "Full name",
+      "dateOfBirth": "Date of birth",
+      "datePlaceholder": "DD.MM.YYYY",
+      "department": "Department",
+      "departmentPlaceholder": "e.g. Sales",
+      "position": "Position",
+      "positionPlaceholder": "e.g. Account manager",
+      "phoneNumber": "Phone number",
+      "phonePlaceholder": "Enter phone number",
+      "password": "Password",
+      "group": "Group",
+      "role": "Role",
+      "photo": "Photo",
+      "registeredAt": "Signed up"
+    },
+    "title": "Profile",
+    "editTitle": "Edit profile",
+    "updateError": "The profile was not saved.",
+    "photoHint": "JPEG up to 1.8 MB",
+    "openReport": "Open report",
+    "formsTaken": "Completed questionnaires",
+    "testsTaken": "Completed tests",
+    "nothingYet": "Nothing yet.",
+    "viewResult": "View result"
+  },
+  "dashboard": {
+    "nav": {
+      "home": "Dashboard",
+      "forms": "Questionnaires",
+      "tests": "Tests",
+      "people": "People",
+      "reports": "Reports",
+      "groups": "Groups",
+      "archive": "Archive"
+    },
+    "search": {
+      "placeholder": "Search",
+      "dialogPlaceholder": "Search people, tests and questionnaires",
+      "empty": "No results.",
+      "navigation": "Navigation"
+    },
+    "home": {
+      "title": "Dashboard"
+    },
+    "stats": {
+      "people": "People",
+      "forms": "Questionnaires",
+      "tests": "Tests",
+      "atRisk": "Needs attention"
+    },
+    "recent": {
+      "title": "Recent results",
+      "description": "Latest test submissions",
+      "empty": "No tests have been taken yet.",
+      "viewResult": "View result"
+    },
+    "forms": {
+      "title": "Questionnaires",
+      "add": "Add questionnaire",
+      "newTitle": "New questionnaire",
+      "newDescription": "Upload a questionnaire to start collecting answers",
+      "name": "Name",
+      "namePlaceholder": "Questionnaire name",
+      "description": "Description",
+      "descriptionPlaceholder": "A short description",
+      "adminOnly": "Admins only",
+      "adminOnlyHint": "Only admins can fill in this questionnaire, for example when interviewing someone",
+      "questions": "Questions",
+      "run": "Fill in",
+      "results": "View results"
+    },
+    "tests": {
+      "title": "Tests",
+      "add": "Add test",
+      "newTitle": "New test",
+      "name": "Name",
+      "namePlaceholder": "Test name",
+      "description": "Description",
+      "descriptionPlaceholder": "A short description",
+      "strategy": "Scoring method",
+      "strategyPlaceholder": "Choose a scoring method",
+      "strategies": {
+        "grade": "Raw score",
+        "t-grade": "T-scores",
+        "standard-ten": "Sten (standard ten)"
+      },
+      "file": "Test file",
+      "createdAt": "Added {date}",
+      "results": "View results",
+      "tryIt": "Take it yourself"
+    }
+  },
+  "table": {
+    "search": "Search...",
+    "empty": "No data"
+  },
+  "groups": {
+    "general": "General",
+    "risk": "At risk",
+    "substance-risk": "Substance use risk",
+    "monitoring": "Monitoring",
+    "suicide-risk": "Suicide risk"
+  },
+  "results": {
+    "empty": "No one has submitted this yet.",
+    "submittedAt": "Submitted {date}",
+    "formTitle": "Answers to “{name}”",
+    "testTitle": "Results for “{name}”",
+    "notesPlaceholder": "Notes for the printout (not saved)",
+    "table": {
+      "number": "No.",
+      "question": "Question",
+      "answer": "Answer"
+    }
+  },
+  "runner": {
+    "progress": "Question {current} of {total}",
+    "answerPlaceholder": "Your answer",
+    "doneTitle": "All done!",
+    "formDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
+    "testDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
+    "saveError": "Your answers were not saved. Try again."
+  },
+  "respondent": {
+    "forms": "Questionnaires",
+    "tests": "Tests",
+    "open": "Open",
+    "empty": "Nothing has been assigned yet.",
+    "questionCount": "{count, plural, one {# question} other {# questions}}"
+  },
+  "scores": {
+    "raw": "Raw score",
+    "corrected": "Corrected score",
+    "tScore": "T-score",
+    "sten": "Sten",
+    "summary": "Interpretation",
+    "scale": "Scale",
+    "none": "This submission could not be scored."
+  },
+  "roles": {
+    "admin": "Admin",
+    "user": "Employee"
+  },
+  "people": {
+    "title": "People",
+    "openReport": "Report",
+    "delete": {
+      "title": "Delete this person?",
+      "description": "Their profile and results will be deleted permanently.",
+      "confirm": "Delete"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "reportTitle": "Psychological profile",
+    "tabs": {
+      "report": "Report",
+      "answers": "Answers",
+      "scales": "Scale scores"
+    },
+    "background": "Background",
+    "conclusion": "Conclusion",
+    "noResults": "This person has not taken any tests yet.",
+    "archive": "Save to archive",
+    "archivedTitle": "Saved",
+    "archivedText": "The report was saved to the archive.",
+    "archiveError": "The report was not saved. A person can have one archived report; delete the old one first."
+  },
+  "groupsPage": {
+    "title": "Groups",
+    "open": "Open",
+    "empty": "No one is in this group.",
+    "viewProfile": "View profile"
+  },
+  "archive": {
+    "title": "Report archive",
+    "empty": "The archive is empty.",
+    "open": "Open",
+    "viewReport": "View report",
+    "viewProfile": "View profile",
+    "deletedTitle": "Deleted",
+    "deletedText": "The report was removed from the archive."
+  }
+}
