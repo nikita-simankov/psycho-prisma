@@ -8,26 +8,26 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { formatFullName, formatWorkInfo, PublicUser } from "@/utils/user";
+import { can } from "@/utils/roles";
+import { formatFullName, formatWorkInfo, type Member } from "@/utils/user";
 import { FlaskConical, NotepadText, Search, UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DASHBOARD_NAVIGATION } from "./navigation";
 
-type SearchUser = Pick<
-  PublicUser,
-  "id" | "name" | "middleName" | "lastName" | "department" | "position"
->;
+type SearchUser = Pick<Member, "id" | "name" | "middleName" | "lastName" | "department" | "position">;
 type SearchItem = { id: string; name: string };
 
 interface Properties {
+  role: string;
   users: SearchUser[];
   forms: SearchItem[];
   tests: SearchItem[];
 }
 
 export default function DashboardSearch({
+  role,
   users,
   forms,
   tests,
@@ -70,7 +70,7 @@ export default function DashboardSearch({
         <CommandList>
           <CommandEmpty>{t("empty")}</CommandEmpty>
           <CommandGroup heading={t("navigation")}>
-            {DASHBOARD_NAVIGATION.map(({ key, href, icon: Icon }) => (
+            {DASHBOARD_NAVIGATION.filter((link) => !("permission" in link) || can(role, link.permission)).map(({ key, href, icon: Icon }) => (
               <CommandItem
                 key={key}
                 onSelect={() => go(href)}

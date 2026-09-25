@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { DashboardNav } from "./dashboard-nav";
 
-export function MobileNav() {
+export function MobileNav({ role, switcher }: { role: string; switcher: React.ReactNode }) {
   const t = useTranslations("common");
   const [open, setOpen] = useState(false);
 
@@ -23,7 +23,8 @@ export function MobileNav() {
       <SheetContent side="left" className="w-72 flex flex-col gap-6">
         <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
         <Logo withText />
-        <DashboardNav onNavigate={() => setOpen(false)} />
+        {switcher}
+        <DashboardNav role={role} onNavigate={() => setOpen(false)} />
       </SheetContent>
     </Sheet>
   );

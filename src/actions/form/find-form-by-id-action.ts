@@ -1,18 +1,19 @@
 "use server";
 
-import { requireUser } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { localizeForm } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
+import { libraryWhere } from "@/utils/library";
+import { can } from "@/utils/roles";
 import { getLocale } from "next-intl/server";
 
 export async function findFormById(formId: string) {
-  const user = await requireUser();
+  const { membership, organization } = await requireMember();
+  const staff = can(membership.role, "viewDashboard");
 
-  const form = await prisma.form.findUnique({ where: { id: formId } });
+  const form = await prisma.form.findFirst({
+    where: { id: formId, AND: [libraryWhere(organization.id), staff ? {} : { adminOnly: false }] },
+  });
 
-  if (!form || (form.adminOnly && user.role !== "admin")) {
-    return null;
-  }
-
-  return localizeForm(form, await getLocale());
+  return form && localizeForm(form, await getLocale());
 }

@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const MAX_PHOTO_BYTES = 1.8 * 1024 * 1024;
-const TEXT_FIELDS = ["lastName", "name", "middleName", "dateOfBirth", "department", "position"] as const;
+const TEXT_FIELDS = ["lastName", "name", "middleName", "dateOfBirth"] as const;
 
 type EditableFields = Record<(typeof TEXT_FIELDS)[number], string> & { imageURL?: string };
 
@@ -35,8 +35,6 @@ export default function EditUserDialog({ user }: { user: PublicUser }) {
     name: user.name,
     middleName: user.middleName,
     dateOfBirth: user.dateOfBirth,
-    department: user.department,
-    position: user.position,
   });
 
   const mutation = useMutation({
@@ -68,8 +66,8 @@ export default function EditUserDialog({ user }: { user: PublicUser }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Edit className="w-5 h-5 mr-2" />
+        <Button variant="outline">
+          <Edit className="mr-2 h-4 w-4" />
           {common("edit")}
         </Button>
       </DialogTrigger>

@@ -1,52 +1,60 @@
 "use server";
 
-import { prisma } from "@/utils/database";
-import { lucia } from "@/utils/authentication";
-import { consumeRateLimit } from "@/utils/rate-limit";
 import { signInSchema } from "@/app/auth/sign-in/schema/sign-in.schema";
+import { homePath } from "@/utils/authentication";
+import { prisma } from "@/utils/database";
+import { consumeRateLimit } from "@/utils/rate-limit";
+import { normalizePhone, rememberOrganization, startSession } from "@/utils/session";
 import { compare } from "bcryptjs";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
-// Compared against when the phone number is unknown, so both paths take the same time.
+// Compared against when the account is unknown, so both paths take the same time.
 const DUMMY_HASH = "$2a$10$tpMTjOqMdk5cAjXejhc8qOlegoxIr8QhGT/VE5n22td9Vv3ZYolbC";
 
 export async function signIn(
   data: unknown
-): Promise<{ role: string } | { error: "invalidCredentials" | "rateLimited" }> {
+): Promise<{ redirectTo: string } | { error: "invalidCredentials" | "rateLimited" }> {
   const parsed = signInSchema.safeParse(data);
 
   if (!parsed.success) {
     return { error: "invalidCredentials" };
   }
 
-  const { phoneNumber, password } = parsed.data;
+  const { identifier, password } = parsed.data;
+  const where = identifier.includes("@")
+    ? { email: identifier.toLowerCase() }
+    : { phoneNumber: normalizePhone(identifier) };
   const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (
-    !consumeRateLimit(`sign-in:phone:${phoneNumber}`, 5, 15 * 60_000) ||
+    !consumeRateLimit(`sign-in:account:${Object.values(where)[0]}`, 5, 15 * 60_000) ||
     !consumeRateLimit(`sign-in:ip:${ip}`, 30, 15 * 60_000)
   ) {
     return { error: "rateLimited" };
   }
 
   const existingUser = await prisma.user.findUnique({
-    where: { phoneNumber },
-    select: { id: true, role: true, password: true },
+    where,
+    select: {
+      id: true,
+      password: true,
+      memberships: { select: { role: true, organizationId: true }, orderBy: { createdAt: "asc" }, take: 1 },
+    },
   });
 
-  const passwordMatches = await compare(
-    password,
-    existingUser?.password ?? DUMMY_HASH
-  );
+  const passwordMatches = await compare(password, existingUser?.password ?? DUMMY_HASH);
 
   if (!existingUser || !passwordMatches) {
     return { error: "invalidCredentials" };
   }
 
-  const session = await lucia.createSession(existingUser.id, {});
-  const sessionCookie = lucia.createSessionCookie(session.id);
+  await startSession(existingUser.id);
 
-  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+  const [membership] = existingUser.memberships;
 
-  return { role: existingUser.role };
+  if (membership) {
+    rememberOrganization(membership.organizationId);
+  }
+
+  return { redirectTo: homePath(membership ?? null) };
 }

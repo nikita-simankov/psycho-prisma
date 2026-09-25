@@ -1,290 +1,64 @@
 "use client";
 
 import { signUp } from "@/actions/auth/sign-up-action";
+import { AccountFields } from "@/components/auth/account-fields";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PasswordInput } from "@/components/ui/password-input";
-import { PhoneInput } from "@/components/ui/phone-input";
-import { Step, Stepper, useStepper } from "@/components/ui/stepper";
 import { toast } from "@/hooks/use-toast";
-import { useSignUpStore } from "@/store/sign-up.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Control, FieldValues, Path, useForm } from "react-hook-form";
-import {
-  CredentialsFormData,
-  credentialsSchema,
-  GeneralInfoFormData,
-  generalInfoSchema,
-  WorkInfoFormData,
-  workInfoSchema,
-} from "../schema/sign-up.schema";
+import { useForm } from "react-hook-form";
+import { SignUpFormData, signUpSchema } from "../schema/sign-up.schema";
 
+// Creates an account together with the organization it owns.
 export default function SignUpForm() {
-  const t = useTranslations("auth.signUp.steps");
-  const steps = [
-    { label: t("personal") },
-    { label: t("work") },
-    { label: t("account") },
-  ];
-
-  return (
-    <div className="flex flex-col gap-4 w-full">
-      <Stepper initialStep={0} steps={steps} className="w-full">
-        <Step key="personal" {...steps[0]}>
-          <GeneralInfoForm />
-        </Step>
-        <Step key="work" {...steps[1]}>
-          <WorkInfoForm />
-        </Step>
-        <Step key="account" {...steps[2]}>
-          <CredentialsForm />
-        </Step>
-      </Stepper>
-    </div>
-  );
-}
-
-function TextField<T extends FieldValues>({
-  control,
-  name,
-  label,
-  placeholder,
-}: {
-  control: Control<T>;
-  name: Path<T>;
-  label: string;
-  placeholder?: string;
-}) {
-  return (
-    <FormField
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <FormItem className="flex flex-col gap-2">
-          <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Input placeholder={placeholder} {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-}
-
-function StepButtons({ loading }: { loading?: boolean }) {
-  const common = useTranslations("common");
-  const { prevStep, isDisabledStep, isLastStep } = useStepper();
-
-  return (
-    <div className="sm:col-span-2 flex flex-row items-center gap-4">
-      <Button
-        type="button"
-        variant="secondary"
-        onClick={prevStep}
-        disabled={isDisabledStep}
-        className="w-1/2"
-      >
-        {common("back")}
-      </Button>
-      <Button type="submit" className="w-1/2" disabled={loading}>
-        {loading && <Loader2 className="animate-spin mr-2" />}
-        {isLastStep ? common("finish") : common("next")}
-      </Button>
-    </div>
-  );
-}
-
-function GeneralInfoForm() {
-  const t = useTranslations("profile.fields");
-  const { nextStep } = useStepper();
-  const store = useSignUpStore();
-  const form = useForm<GeneralInfoFormData>({
-    resolver: zodResolver(generalInfoSchema),
-    defaultValues: store.generalInfo,
-  });
-
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => {
-          store.updateGeneralInfo(data);
-          nextStep();
-        })}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-      >
-        <TextField control={form.control} name="lastName" label={t("lastName")} />
-        <TextField control={form.control} name="name" label={t("name")} />
-        <TextField control={form.control} name="middleName" label={t("middleName")} />
-        <TextField
-          control={form.control}
-          name="dateOfBirth"
-          label={t("dateOfBirth")}
-          placeholder={t("datePlaceholder")}
-        />
-        <StepButtons />
-      </form>
-    </Form>
-  );
-}
-
-function WorkInfoForm() {
-  const t = useTranslations("profile.fields");
-  const { nextStep } = useStepper();
-  const store = useSignUpStore();
-  const form = useForm<WorkInfoFormData>({
-    resolver: zodResolver(workInfoSchema),
-    defaultValues: store.workInfo,
-  });
-
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => {
-          store.updateWorkInfo(data);
-          nextStep();
-        })}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-      >
-        <TextField
-          control={form.control}
-          name="department"
-          label={t("department")}
-          placeholder={t("departmentPlaceholder")}
-        />
-        <TextField
-          control={form.control}
-          name="position"
-          label={t("position")}
-          placeholder={t("positionPlaceholder")}
-        />
-        <StepButtons />
-      </form>
-    </Form>
-  );
-}
-
-function CredentialsForm() {
-  const t = useTranslations("profile.fields");
-  const messages = useTranslations("auth.signUp");
+  const t = useTranslations("auth.signUp");
   const router = useRouter();
-  const store = useSignUpStore();
-  const form = useForm<CredentialsFormData>({
-    resolver: zodResolver(credentialsSchema),
-    defaultValues: { phoneNumber: "", password: "", consent: false as unknown as true },
+  const form = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { organization: "", name: "", lastName: "", email: "", password: "", consent: false as never },
   });
 
-  const signUpMutation = useMutation({
-    mutationFn: async (data: CredentialsFormData) => {
-      const result = await signUp({
-        ...store.generalInfo,
-        ...store.workInfo,
-        ...data,
-      });
+  const mutation = useMutation({
+    mutationFn: async (data: SignUpFormData) => {
+      const result = await signUp(data);
 
       if ("error" in result) {
-        throw new Error(messages(`errors.${result.error}`));
+        throw new Error(t(`errors.${result.error}`));
       }
     },
-
     onSuccess: () => {
-      toast({
-        title: messages("successTitle"),
-        description: messages("successText"),
-      });
-      router.push("/auth/sign-in");
+      router.push("/dashboard");
+      router.refresh();
     },
-
-    onError: (error) => {
-      toast({
-        title: messages("errorTitle"),
-        variant: "destructive",
-        description: error.message,
-      });
-    },
+    onError: (error) => toast({ title: t("errorTitle"), description: error.message, variant: "destructive" }),
   });
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => signUpMutation.mutate(data))}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-      >
+      <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="flex w-full flex-col gap-4">
         <FormField
-          name="phoneNumber"
+          name="organization"
           control={form.control}
           render={({ field }) => (
-            <FormItem className="sm:col-span-2 flex flex-col gap-2">
-              <FormLabel>{t("phoneNumber")}</FormLabel>
+            <FormItem>
+              <FormLabel>{t("organization")}</FormLabel>
               <FormControl>
-                <PhoneInput
-                  international
-                  placeholder={t("phonePlaceholder")}
-                  {...field}
-                />
+                <Input autoComplete="organization" placeholder={t("organizationPlaceholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        <FormField
-          name="password"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="sm:col-span-2 flex flex-col gap-2">
-              <FormLabel>{t("password")}</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="• • • • • • • •" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="consent"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="sm:col-span-2 flex flex-col gap-2">
-              <div className="flex items-start gap-3 rounded-lg border bg-muted/40 p-3">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={(checked) => field.onChange(checked === true)}
-                    className="mt-0.5"
-                  />
-                </FormControl>
-                <FormLabel className="text-sm font-normal leading-snug">
-                  {messages.rich("consent", {
-                    link: (chunks) => (
-                      <Link href="/privacy" target="_blank" className="font-medium text-primary underline-offset-4 hover:underline">
-                        {chunks}
-                      </Link>
-                    ),
-                  })}
-                </FormLabel>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <StepButtons loading={signUpMutation.isPending} />
+        <AccountFields control={form.control} />
+        <Button type="submit" size="lg" disabled={mutation.isPending}>
+          {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {t("submit")}
+        </Button>
       </form>
     </Form>
   );

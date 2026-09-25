@@ -1,24 +1,17 @@
 "use server";
 
-import { hash } from "bcryptjs";
-import { randomUUID } from "crypto";
+import { signUpSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { prisma } from "@/utils/database";
 import { consumeRateLimit } from "@/utils/rate-limit";
-import {
-  credentialsSchema,
-  generalInfoSchema,
-  workInfoSchema,
-} from "@/app/auth/sign-up/schema/sign-up.schema";
+import { createOwnedOrganization } from "@/utils/organizations";
+import { rememberOrganization, startSession } from "@/utils/session";
+import { hash } from "bcryptjs";
+import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 
-// Whitelists every field a new account may set. Role is always "user".
-const signUpSchema = generalInfoSchema
-  .merge(workInfoSchema)
-  .merge(credentialsSchema)
-  .strip();
+type SignUpError = "rateLimited" | "invalidInput" | "emailTaken";
 
-type SignUpError = "rateLimited" | "invalidInput" | "phoneTaken";
-
+// Creates an account and the organization it owns, then signs the person in.
 export async function signUp(data: unknown): Promise<{ ok: true } | { error: SignUpError }> {
   const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
@@ -32,26 +25,20 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: Sig
     return { error: "invalidInput" };
   }
 
-  const { password, consent: _consent, ...profile } = parsed.data;
+  const { password, consent: _consent, organization, ...profile } = parsed.data;
 
-  const userExists = await prisma.user.findUnique({
-    where: { phoneNumber: profile.phoneNumber },
-    select: { id: true },
-  });
-
-  if (userExists) {
-    return { error: "phoneTaken" };
+  if (await prisma.user.findUnique({ where: { email: profile.email }, select: { id: true } })) {
+    return { error: "emailTaken" };
   }
 
-  await prisma.user.create({
-    data: {
-      ...profile,
-      id: randomUUID(),
-      role: "user",
-      password: await hash(password, 10),
-      consentedAt: new Date(),
-    },
+  const user = await prisma.user.create({
+    data: { ...profile, id: randomUUID(), password: await hash(password, 10) },
   });
+
+  const created = await createOwnedOrganization(user.id, organization);
+
+  await startSession(user.id);
+  rememberOrganization(created.id);
 
   return { ok: true };
 }

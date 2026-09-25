@@ -10,28 +10,103 @@ datasource db {
 model User {
   id String @id
 
-  role        String
   name        String
   middleName  String    @default("")
   lastName    String
   password    String
-  firstTimer  Boolean   @default(true)
-  phoneNumber String    @unique
+  // People sign in with email; phone is kept for accounts created before email sign-in.
+  email       String?   @unique
+  phoneNumber String?   @unique
   sessions    Session[]
   imageURL    String    @default("")
+  dateOfBirth String    @default("")
+  firstTimer  Boolean   @default(true)
 
-  // One of the keys in src/utils/groups.ts
-  group String @default("general")
+  memberships    Membership[]
+  passwordResets PasswordReset[]
+  summaries      UserSummary[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
 
-  department  String @default("")
-  position    String @default("")
-  dateOfBirth String @default("")
-  // When the person agreed to the privacy notice; null until they do.
-  consentedAt DateTime?
+// A company or team using Prisma. Everything people submit belongs to one.
+model Organization {
+  id   String @id @default(uuid())
+  name String
+  slug String @unique
 
-  summaries UserSummary[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  // Whether respondents may see their own results (shown from phase 8 on).
+  respondentFeedback Boolean @default(false)
+  // Who respondents contact about their data; shown in the privacy notice.
+  privacyContact     String  @default("")
+
+  memberships Membership[]
+  invitations Invitation[]
+  teams       Team[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+// A person's place in an organization. Role keys are in src/utils/roles.ts.
+model Membership {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  role           String       @default("member")
+  team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  teamId         String?
+  position       String       @default("")
+  // Restricted follow-up flag (src/utils/flags.ts); only psychologists see it.
+  flag           String       @default("")
+  // When the person agreed to this organization's privacy notice.
+  consentedAt    DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, organizationId])
+}
+
+model Team {
+  id             String       @id @default(uuid())
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  memberships    Membership[]
+  invitations    Invitation[]
+  createdAt      DateTime     @default(now())
+
+  @@unique([organizationId, name])
+}
+
+model Invitation {
+  id             String       @id @default(uuid())
+  // SHA-256 of the token in the link; the token itself is never stored.
+  tokenHash      String       @unique
+  email          String
+  name           String       @default("")
+  lastName       String       @default("")
+  role           String       @default("member")
+  position       String       @default("")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  teamId         String?
+  invitedById    String
+  expiresAt      DateTime
+  acceptedAt     DateTime?
+  createdAt      DateTime     @default(now())
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid())
+  tokenHash String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 }
 
 model Session {
@@ -46,8 +121,8 @@ model Category {
   id           String @id @default(uuid())
   name         String
   translations String @default("{}") // see src/utils/content-translation.ts
-  forms Form[]
-  tests Test[]
+  forms        Form[]
+  tests        Test[]
 }
 
 model Form {
@@ -62,6 +137,9 @@ model Form {
 
   translations String @default("{}") // see src/utils/content-translation.ts
 
+  // Null for the shared library; otherwise the organization that uploaded it.
+  organizationId String?
+
   categories Category[]
 
   createdAt DateTime @default(now())
@@ -71,9 +149,10 @@ model Form {
 model FormSubmission {
   id String @id @default(uuid())
 
-  userId     String
-  formId     String
-  submission String
+  organizationId String
+  userId         String
+  formId         String
+  submission     String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,6 +176,11 @@ model Test {
 
   translations String @default("{}") // see src/utils/content-translation.ts
 
+  // Null for the shared library; otherwise the organization that uploaded it.
+  organizationId String?
+  // Clinical and wellbeing screens: only psychologists see them and their results.
+  sensitive      Boolean @default(false)
+
   categories Category[]
 
   createdAt DateTime @default(now())
@@ -106,10 +190,11 @@ model Test {
 model TestSubmission {
   id String @id @default(uuid())
 
-  userId     String
-  testId     String
-  summary    String
-  submission String
+  organizationId String
+  userId         String
+  testId         String
+  summary        String
+  submission     String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -117,10 +202,13 @@ model TestSubmission {
 
 model UserSummary {
   id              String   @id @default(uuid())
+  organizationId  String
   user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String?  @unique
+  userId          String?
   verdict         String
   additionalNotes String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@unique([userId, organizationId])
 }

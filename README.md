@@ -6,13 +6,13 @@ Web app for HR teams to run psychological questionnaires and test instruments, s
 
 ```bash
 npm ci
-cp .env.example .env          # then set ADMIN_PHONE and ADMIN_PASSWORD
+cp .env.example .env          # then set ADMIN_EMAIL and ADMIN_PASSWORD
 npx prisma migrate deploy     # creates the SQLite database
-npm run db:seed               # loads the bundled tests and forms, creates the admin
+npm run db:seed               # loads the bundled tests and forms, creates the owner and organization
 npm run dev
 ```
 
-Open http://localhost:3000 and sign in with the admin phone number and password.
+Open http://localhost:3000 and sign in with the owner email and password. Anyone can also sign up, which creates a new organization they own.
 
 ### Existing databases
 
@@ -25,6 +25,8 @@ npx prisma migrate deploy
 
 `1_hr_profile` then converts the old profile to the HR one and keeps the data: patronymic becomes middle name, division becomes department, rank becomes position, and Russian group names become group keys. Rank-only, service and address fields are dropped, so back up the database first. Forms and categories already in the database stay as they are; the seed only adds or updates the bundled ones.
 
+`4_organizations` moves everyone into one organization called "My organization" (rename it in Settings). Former admins become psychologists and the earliest of them becomes the owner; everyone else becomes a member. Departments become teams, groups other than `general` become follow-up flags, and all submissions and conclusions belong to that organization. Accounts keep signing in with their phone number and can add an email later.
+
 ## Useful commands
 
 | Command | What it does |
@@ -32,6 +34,7 @@ npx prisma migrate deploy
 | `npm run dev` | Development server |
 | `npm run build` / `npm start` | Production build and server |
 | `npx tsc --noEmit` | Type check |
+| `npm test` | Scoring unit tests (Vitest, snapshots of every bundled instrument) |
 | `npm run db:seed` | Re-run the seed (safe to repeat) |
 
 ## Languages
@@ -46,16 +49,29 @@ Tests and forms retired in the move away from military use are kept in `prisma/s
 
 Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are Inter for text and Manrope for headings (`src/app/layout.tsx`), and the logo is `src/components/ui/logo.tsx`. Dashboard pages start with `PageHeader`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
 
-## Groups
+## Organizations and roles
 
-People are sorted into groups stored as keys (`general`, `monitoring`, `risk`, `suicide-risk`, `substance-risk`), defined in `src/utils/groups.ts`. Labels come from the `groups` messages.
+Each organization has its own people, teams, results and uploaded instruments; one account can belong to several and switch between them in the sidebar. The active one is kept in the `active_org` cookie. Bundled instruments (`organizationId` null) are shared by every organization.
+
+| Role | Can |
+| --- | --- |
+| Owner | Everything, including settings and assigning owners |
+| Admin | Manage people, teams, invitations, settings and the instrument library |
+| Psychologist | Manage the library, see restricted instruments and follow-up flags, write conclusions |
+| HR manager | See the dashboard and non-restricted results |
+| Member | Take assigned questionnaires and tests |
+
+Permissions are defined in `src/utils/roles.ts`. People join through invitation links (valid 7 days, only a hash of the token is stored). Links are emailed when `RESEND_API_KEY` is set and can always be copied from the People page. Password reset works the same way.
+
+Follow-up flags (`monitoring`, `risk`, `suicide-risk`, `substance-risk`, in `src/utils/flags.ts`) are only visible to owners and psychologists.
+
+Clinical instruments are marked `sensitive` in `prisma/seed-data/tests.json`: members don't see them and HR managers and admins don't see their results. Only Communication and Organizational Tendencies, Analogies, Mental Arithmetic, Leadership Tendency, Pattern Finding and Risk Readiness (Schubert) are unrestricted. Change the flag in that file and re-run the seed to adjust. Check licensing before using HADS, BDI or the Mini-Mult commercially.
 
 ## Access rules
 
-- Signed-out visitors can only see the landing page, the privacy notice (`/privacy`) and the sign-in and sign-up pages.
-- Respondents must accept the privacy notice before taking anything. Sign-up asks for it, and accounts created earlier are sent to `/consent` once. The date is stored in `User.consentedAt` (migration `3_consent`). The notice text is in the `privacy` messages; adjust it to your organisation before going live.
-- `/forms` and `/tests` need a signed-in user; `/dashboard` needs an admin.
-- Every server action checks the session itself with `requireUser()` or `requireAdmin()` from `src/utils/authentication.ts`. Keep doing this in new actions: the middleware only checks that a cookie exists.
+- Signed-out visitors can only see the landing page, the privacy notice, sign-in, sign-up, password reset and invitation pages.
+- Members must accept their organization's privacy notice before taking anything; the date is stored on `Membership.consentedAt`.
+- Every server action checks the session and role itself with `requireUser()` or `requireMember(permission)`, and pages use `ensureMember(permission)`, all from `src/utils/authentication.ts`. Queries are always scoped to the active organization. Keep doing this in new actions: the middleware only checks that a cookie exists.
 - Data sent to the browser uses `publicUserSelect` from `src/utils/user.ts`, which leaves out the password hash and recovery answer.
 
 ## Scoring

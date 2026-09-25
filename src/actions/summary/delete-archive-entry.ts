@@ -1,14 +1,12 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 
 export async function deleteArchiveEntry(entryId: string) {
-  await requireAdmin();
+  const { organization } = await requireMember("writeConclusions");
 
-  return await prisma.userSummary.delete({
-    where: {
-      id: entryId,
-    },
+  await prisma.userSummary.deleteMany({
+    where: { id: entryId, organizationId: organization.id },
   });
 }

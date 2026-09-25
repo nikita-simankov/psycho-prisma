@@ -1,13 +1,14 @@
 "use server";
 
-import { requireUser } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 
+// Records agreement to the active organization's privacy notice.
 export async function acceptConsent() {
-  const user = await requireUser();
+  const { membership } = await requireMember();
 
-  await prisma.user.update({
-    where: { id: user.id },
+  await prisma.membership.update({
+    where: { id: membership.id },
     data: { consentedAt: new Date() },
   });
 }

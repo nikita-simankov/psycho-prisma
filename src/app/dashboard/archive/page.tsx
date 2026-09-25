@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import UserAvatar from "@/components/ui/user-avatar";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -22,6 +24,8 @@ export async function generateMetadata() {
 export default async function ArchivePage() {
   const t = await getTranslations("archive");
   const entries = await findAllArchiveEntries();
+  const { membership } = await ensureMember("viewDashboard");
+  const write = can(membership.role, "writeConclusions");
 
   return (
     <>
@@ -40,8 +44,8 @@ export default async function ArchivePage() {
                   <CardDescription className="truncate">{formatWorkInfo(entry.user)}</CardDescription>
                 </div>
               </CardHeader>
-              <CardFooter className="mt-auto grid grid-cols-2 gap-2">
-                <DeleteEntryButton summaryId={entry.id} />
+              <CardFooter className={write ? "mt-auto grid grid-cols-2 gap-2" : "mt-auto grid gap-2"}>
+                {write && <DeleteEntryButton summaryId={entry.id} />}
                 <Button asChild>
                   <Link href={`/dashboard/archive/${entry.user.id}`}>{t("open")}</Link>
                 </Button>

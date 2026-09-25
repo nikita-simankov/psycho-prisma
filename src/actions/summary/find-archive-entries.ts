@@ -1,20 +1,32 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import { publicUserSelect } from "@/utils/user";
+import { memberInclude, toMember } from "@/utils/user";
 
 export async function findAllArchiveEntries() {
-  await requireAdmin();
+  const { membership, organization } = await requireMember("viewDashboard");
 
-  return prisma.userSummary.findMany({
-    include: { user: { select: publicUserSelect } },
-    orderBy: { createdAt: "desc" },
+  const [entries, memberships] = await Promise.all([
+    prisma.userSummary.findMany({
+      where: { organizationId: organization.id },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.membership.findMany({ where: { organizationId: organization.id }, include: memberInclude }),
+  ]);
+
+  const members = new Map(memberships.map((m) => [m.userId, toMember(m, membership.role)]));
+
+  return entries.flatMap((entry) => {
+    const user = entry.userId ? members.get(entry.userId) : undefined;
+    return user ? [{ ...entry, user }] : [];
   });
 }
 
 export async function findArchiveEntryByUserId(userId: string) {
-  await requireAdmin();
+  const { organization } = await requireMember("viewDashboard");
 
-  return prisma.userSummary.findUnique({ where: { userId } });
+  return prisma.userSummary.findUnique({
+    where: { userId_organizationId: { userId, organizationId: organization.id } },
+  });
 }

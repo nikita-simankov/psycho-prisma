@@ -1,13 +1,14 @@
 "use server";
 
-import { requireAdmin } from "@/utils/authentication";
+import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 
 export async function findFormSubmissionById(submissionId: string) {
-  await requireAdmin();
+  const { organization } = await requireMember("viewDashboard");
 
   return await prisma.formSubmission.findFirst({
     where: {
+      organizationId: organization.id,
       id: submissionId,
     },
   });

@@ -28,8 +28,8 @@ function loadTranslations(kind: "tests" | "forms" | "categories", id: string): s
   return JSON.stringify(translations);
 }
 
-// Loads the bundled instruments and questionnaires, and creates the first admin
-// from ADMIN_PHONE and ADMIN_PASSWORD. Safe to run more than once.
+// Loads the bundled instruments and questionnaires, and creates the first owner and
+// their organization from ADMIN_EMAIL, ADMIN_PASSWORD and ORGANIZATION_NAME. Safe to run more than once.
 async function main() {
   for (const category of categories) {
     await prisma.category.upsert({
@@ -73,11 +73,11 @@ async function main() {
     });
   }
 
-  const phoneNumber = process.env.ADMIN_PHONE;
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;
 
-  if (!phoneNumber || !password) {
-    console.log("ADMIN_PHONE or ADMIN_PASSWORD not set, skipping admin account");
+  if (!email || !password) {
+    console.log("ADMIN_EMAIL or ADMIN_PASSWORD not set, skipping the first account");
     return;
   }
 
@@ -85,20 +85,33 @@ async function main() {
     throw new Error("ADMIN_PASSWORD must be at least 8 characters");
   }
 
-  await prisma.user.upsert({
-    where: { phoneNumber },
+  const user = await prisma.user.upsert({
+    where: { email },
     create: {
       id: randomUUID(),
-      role: "admin",
       name: "Admin",
       lastName: "Admin",
-      phoneNumber,
+      email,
       password: await hash(password, 10),
     },
-    update: { role: "admin" },
+    update: {},
   });
 
-  console.log(`Admin account ready for ${phoneNumber}`);
+  // The first account owns an organization; people are invited from there.
+  if (!(await prisma.membership.findFirst({ where: { userId: user.id } }))) {
+    const name = process.env.ORGANIZATION_NAME?.trim() || "My organization";
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "organization";
+
+    await prisma.organization.create({
+      data: {
+        name,
+        slug: (await prisma.organization.findUnique({ where: { slug } })) ? `${slug}-${Date.now()}` : slug,
+        memberships: { create: { userId: user.id, role: "owner", consentedAt: new Date() } },
+      },
+    });
+  }
+
+  console.log(`Owner account ready for ${email}`);
 }
 
 main()

@@ -14,6 +14,7 @@ export default async function SignUpPage() {
   return (
     <AuthShell title={t("title")} subtitle={t("subtitle")}>
       <SignUpForm />
+      <p className="rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground">{t("invitedHint")}</p>
       <p className="text-sm text-muted-foreground">
         {t("haveAccount")}{" "}
         <Link href="/auth/sign-in" className="font-medium text-primary hover:underline">

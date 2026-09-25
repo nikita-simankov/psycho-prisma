@@ -1,26 +1,24 @@
 import { z } from "zod"
 
-const text = (max = 200) => z.string().trim().max(max, "tooLong")
-const requiredText = (max = 100) => text(max).min(1, "required")
+const requiredText = (max = 100) => z.string().trim().min(1, "required").max(max, "tooLong")
 
-export const generalInfoSchema = z.object({
-  lastName: requiredText(),
+export const emailSchema = z.string().trim().toLowerCase().min(1, "required").email("email").max(254, "tooLong")
+export const passwordSchema = z.string().min(8, "passwordLength").max(128, "tooLong")
+export const consentSchema = z.literal(true, { errorMap: () => ({ message: "consentRequired" }) })
+
+// Account fields shared by sign-up and accepting an invitation.
+export const accountSchema = z.object({
   name: requiredText(),
-  middleName: text(100),
-  dateOfBirth: text(20),
+  lastName: requiredText(),
+  email: emailSchema,
+  password: passwordSchema,
+  consent: consentSchema,
 })
 
-export const workInfoSchema = z.object({
-  department: text(),
-  position: text(),
+// Sign-up creates an organization owned by the new account.
+export const signUpSchema = accountSchema.extend({
+  organization: requiredText(100).pipe(z.string().min(2, "required")),
 })
 
-export const credentialsSchema = z.object({
-  phoneNumber: z.string().min(9, "phone").max(20, "phone"),
-  password: z.string().min(8, "passwordLength").max(128, "tooLong"),
-  consent: z.literal(true, { errorMap: () => ({ message: "consentRequired" }) }),
-})
-
-export type GeneralInfoFormData = z.infer<typeof generalInfoSchema>
-export type WorkInfoFormData = z.infer<typeof workInfoSchema>
-export type CredentialsFormData = z.infer<typeof credentialsSchema>
+export type SignUpFormData = z.infer<typeof signUpSchema>
+export type AccountFormData = z.infer<typeof accountSchema>
