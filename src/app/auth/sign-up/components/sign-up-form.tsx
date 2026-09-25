@@ -2,6 +2,7 @@
 
 import { signUp } from "@/actions/auth/sign-up-action";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -20,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Control, FieldValues, Path, useForm } from "react-hook-form";
 import {
@@ -40,7 +42,7 @@ export default function SignUpForm() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 max-w-lg w-full">
+    <div className="flex flex-col gap-4 w-full">
       <Stepper initialStep={0} steps={steps} className="w-full">
         <Step key="personal" {...steps[0]}>
           <GeneralInfoForm />
@@ -89,7 +91,7 @@ function StepButtons({ loading }: { loading?: boolean }) {
   const { prevStep, isDisabledStep, isLastStep } = useStepper();
 
   return (
-    <div className="col-span-2 flex flex-row items-center gap-4">
+    <div className="sm:col-span-2 flex flex-row items-center gap-4">
       <Button
         type="button"
         variant="secondary"
@@ -123,7 +125,7 @@ function GeneralInfoForm() {
           store.updateGeneralInfo(data);
           nextStep();
         })}
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <TextField control={form.control} name="lastName" label={t("lastName")} />
         <TextField control={form.control} name="name" label={t("name")} />
@@ -156,7 +158,7 @@ function WorkInfoForm() {
           store.updateWorkInfo(data);
           nextStep();
         })}
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <TextField
           control={form.control}
@@ -183,7 +185,7 @@ function CredentialsForm() {
   const store = useSignUpStore();
   const form = useForm<CredentialsFormData>({
     resolver: zodResolver(credentialsSchema),
-    defaultValues: { phoneNumber: "", password: "" },
+    defaultValues: { phoneNumber: "", password: "", consent: false as unknown as true },
   });
 
   const signUpMutation = useMutation({
@@ -220,13 +222,13 @@ function CredentialsForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data) => signUpMutation.mutate(data))}
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <FormField
           name="phoneNumber"
           control={form.control}
           render={({ field }) => (
-            <FormItem className="col-span-2 flex flex-col gap-2">
+            <FormItem className="sm:col-span-2 flex flex-col gap-2">
               <FormLabel>{t("phoneNumber")}</FormLabel>
               <FormControl>
                 <PhoneInput
@@ -244,11 +246,39 @@ function CredentialsForm() {
           name="password"
           control={form.control}
           render={({ field }) => (
-            <FormItem className="col-span-2 flex flex-col gap-2">
+            <FormItem className="sm:col-span-2 flex flex-col gap-2">
               <FormLabel>{t("password")}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="• • • • • • • •" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="consent"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="sm:col-span-2 flex flex-col gap-2">
+              <div className="flex items-start gap-3 rounded-lg border bg-muted/40 p-3">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={(checked) => field.onChange(checked === true)}
+                    className="mt-0.5"
+                  />
+                </FormControl>
+                <FormLabel className="text-sm font-normal leading-snug">
+                  {messages.rich("consent", {
+                    link: (chunks) => (
+                      <Link href="/privacy" target="_blank" className="font-medium text-primary underline-offset-4 hover:underline">
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
+                </FormLabel>
+              </div>
               <FormMessage />
             </FormItem>
           )}

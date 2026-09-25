@@ -1,13 +1,9 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import UserAvatar from "@/components/ui/user-avatar";
 import { formatFullName, formatWorkInfo, PublicUser } from "@/utils/user";
 import { useFormatter, useTranslations } from "next-intl";
-import Link from "next/link";
 import { GroupBadge } from "./group-badge";
+import { LinkList } from "./link-list";
 
 export type SubmissionListItem = {
   id: string;
@@ -16,40 +12,29 @@ export type SubmissionListItem = {
   user: PublicUser;
 };
 
-// Grid of people who submitted a test or questionnaire, each linking to their answers.
+// People who submitted a test or questionnaire, each linking to their answers.
 export function SubmissionList({ items }: { items: SubmissionListItem[] }) {
   const t = useTranslations("results");
   const format = useFormatter();
 
-  if (items.length === 0) {
-    return <p className="text-sm text-muted-foreground">{t("empty")}</p>;
-  }
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-      {items.map((item) => (
-        <Link key={item.id} href={item.href}>
-          <Card className="h-full hover:border-primary transition-colors">
-            <CardHeader className="flex flex-row items-start justify-between gap-2">
-              <div className="flex flex-col gap-1">
-                <CardTitle className="text-lg">
-                  {formatFullName(item.user)}
-                </CardTitle>
-                <CardDescription>{formatWorkInfo(item.user)}</CardDescription>
-                <CardDescription>
-                  {t("submittedAt", {
-                    date: format.dateTime(item.createdAt, {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    }),
-                  })}
-                </CardDescription>
-              </div>
-              <GroupBadge group={item.user.group} />
-            </CardHeader>
-          </Card>
-        </Link>
-      ))}
-    </div>
+    <Card className="p-2 sm:p-4">
+      <LinkList
+        empty={t("empty")}
+        items={items.map((item) => ({
+          id: item.id,
+          href: item.href,
+          title: (
+            <span className="inline-flex items-center gap-2">
+              {formatFullName(item.user)}
+              {item.user.group !== "general" && <GroupBadge group={item.user.group} />}
+            </span>
+          ),
+          subtitle: formatWorkInfo(item.user),
+          leading: <UserAvatar user={item.user} className="h-9 w-9" />,
+          trailing: format.dateTime(item.createdAt, { dateStyle: "medium", timeStyle: "short" }),
+        }))}
+      />
+    </Card>
   );
 }

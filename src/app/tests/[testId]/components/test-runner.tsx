@@ -1,14 +1,7 @@
 "use client";
 
 import { uploadTestSubmission } from "@/actions/test-submission/upload-test-submission-action";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { DoneStep } from "@/components/runner/done-step";
 import { toast } from "@/hooks/use-toast";
 import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
 import { Test } from "@prisma/client";
@@ -28,14 +21,21 @@ export function TestRunner({ test, questions }: Properties) {
   const common = useTranslations("common");
   const router = useRouter();
   const [responses, setResponses] = useState<TestQuestionResponse[]>([]);
+  // Answers taken back with Back, so the choice is still selected when the question reappears.
+  const [undone, setUndone] = useState<TestQuestionResponse[]>([]);
   const question = questions[responses.length];
 
   const submission = useMutation({
     mutationFn: () => uploadTestSubmission(test.id, responses),
-    onSuccess: () => router.push("/tests"),
-    onError: () =>
-      toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
+    onSuccess: () => router.push("/tests?done=1"),
+    onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });
+
+  const back = () => {
+    const last = responses[responses.length - 1];
+    setResponses(responses.slice(0, -1));
+    setUndone([last, ...undone]);
+  };
 
   if (question) {
     return (
@@ -44,32 +44,22 @@ export function TestRunner({ test, questions }: Properties) {
         question={question}
         position={responses.length + 1}
         total={questions.length}
-        onAnswer={(choiceId) =>
-          setResponses([...responses, { questionId: question.id, choiceId }])
-        }
+        initialChoiceId={undone.find((response) => response.questionId === question.id)?.choiceId}
+        onBack={responses.length > 0 ? back : undefined}
+        onAnswer={(choiceId) => {
+          setResponses([...responses, { questionId: question.id, choiceId }]);
+          setUndone(undone.filter((response) => response.questionId !== question.id));
+        }}
       />
     );
   }
 
   return (
-    <Card className="max-w-3xl w-full">
-      <CardHeader>
-        <CardTitle>{t("doneTitle")}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          {t("testDoneText", { name: test.name })}
-        </p>
-      </CardContent>
-      <CardFooter>
-        <Button
-          className="w-full"
-          disabled={submission.isPending}
-          onClick={() => submission.mutate()}
-        >
-          {common("finish")}
-        </Button>
-      </CardFooter>
-    </Card>
+    <DoneStep
+      text={t("testDoneText", { name: test.name })}
+      pending={submission.isPending}
+      onFinish={() => submission.mutate()}
+      onBack={back}
+    />
   );
 }

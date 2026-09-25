@@ -16,7 +16,7 @@ export default async function RunForm({ params }: PathParams) {
   }
 
   return (
-    <div className="p-10">
+    <div className="py-2">
       <FormRunner form={form} doneHref="/dashboard/forms" />
     </div>
   );

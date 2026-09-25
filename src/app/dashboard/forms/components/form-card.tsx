@@ -1,56 +1,45 @@
-import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
+import { InstrumentCard } from "@/components/instrument-card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Form } from "@prisma/client";
+import { Category, Form } from "@prisma/client";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 type Properties = {
-  form: Form;
+  form: Form & { categories?: Category[] };
 };
 
 export function FormCard({ form }: Properties) {
   const t = useTranslations("dashboard.forms");
+  const common = useTranslations("common");
+  const respondent = useTranslations("respondent");
+  const questionCount = (JSON.parse(form.questions) as unknown[]).length;
+  const badges = [
+    ...(form.adminOnly ? [t("adminOnly")] : []),
+    ...(form.categories?.map((category) => category.name) ?? []),
+  ];
+
   return (
-    <Card className="flex flex-col justify-between h-64">
-      <CardHeader>
-        <CardTitle className="text-lg">
-          {form.adminOnly && (
-            <>
-              <Badge variant="outline" className="mr-2">
-                {t("adminOnly")}
-              </Badge>
-            </>
-          )}
-          {form.name}
-        </CardTitle>
-        <CardDescription></CardDescription>
-      </CardHeader>
-      <CardFooter className="grid grid-cols-2 gap-2">
-        {form.adminOnly ? (
+    <InstrumentCard
+      kind="form"
+      name={form.name}
+      badges={badges}
+      meta={[respondent("questionCount", { count: questionCount }), common("minutes", { count: form.ttc })]}
+      actions={
+        form.adminOnly ? (
           <>
-            <Link href={"/dashboard/forms/" + form.id + "/run"}>
-              <Button className="w-full">{t("run")}</Button>
-            </Link>
-            <Link href={"/dashboard/forms/" + form.id + "/results"}>
-              <Button className="w-full">{t("results")}</Button>
-            </Link>
+            <Button variant="outline" asChild>
+              <Link href={`/dashboard/forms/${form.id}/run`}>{t("run")}</Link>
+            </Button>
+            <Button asChild>
+              <Link href={`/dashboard/forms/${form.id}/results`}>{t("results")}</Link>
+            </Button>
           </>
         ) : (
-          <Link
-            href={"/dashboard/forms/" + form.id + "/results"}
-            className="col-span-2"
-          >
-            <Button className="w-full">{t("results")}</Button>
-          </Link>
-        )}
-      </CardFooter>
-    </Card>
+          <Button asChild className="col-span-2">
+            <Link href={`/dashboard/forms/${form.id}/results`}>{t("results")}</Link>
+          </Button>
+        )
+      }
+    />
   );
 }

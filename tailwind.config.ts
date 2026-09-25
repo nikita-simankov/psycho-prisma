@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+  			heading: ['var(--font-heading)', 'var(--font-sans)', 'system-ui', 'sans-serif']
+  		},
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
@@ -49,6 +53,8 @@ const config: Config = {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+  			success: 'hsl(var(--success))',
+  			warning: 'hsl(var(--warning))',
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',

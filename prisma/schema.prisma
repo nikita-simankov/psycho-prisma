@@ -26,6 +26,8 @@ model User {
   department  String @default("")
   position    String @default("")
   dateOfBirth String @default("")
+  // When the person agreed to the privacy notice; null until they do.
+  consentedAt DateTime?
 
   summaries UserSummary[]
   createdAt DateTime      @default(now())

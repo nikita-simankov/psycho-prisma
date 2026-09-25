@@ -7,7 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { PageHeader } from "@/components/page-header";
+import UserAvatar from "@/components/ui/user-avatar";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -23,23 +24,25 @@ export default async function ArchivePage() {
   const entries = await findAllArchiveEntries();
 
   return (
-    <div className="p-12 flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
-      <Separator />
+    <>
+      <PageHeader title={t("title")} description={t("description")} />
       {entries.length === 0 && (
-        <p className="text-lg font-medium text-muted-foreground">{t("empty")}</p>
+        <Card className="p-10 text-center text-muted-foreground">{t("empty")}</Card>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {entries.map((entry) =>
           entry.user ? (
-            <Card key={entry.id}>
-              <CardHeader>
-                <CardTitle className="text-lg">{formatFullName(entry.user)}</CardTitle>
-                <CardDescription>{formatWorkInfo(entry.user)}</CardDescription>
+            <Card key={entry.id} className="flex flex-col">
+              <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+                <UserAvatar user={entry.user} className="h-10 w-10" />
+                <div className="min-w-0">
+                  <CardTitle className="truncate text-base">{formatFullName(entry.user)}</CardTitle>
+                  <CardDescription className="truncate">{formatWorkInfo(entry.user)}</CardDescription>
+                </div>
               </CardHeader>
-              <CardFooter className="w-full flex flex-row items-center gap-4">
+              <CardFooter className="mt-auto grid grid-cols-2 gap-2">
                 <DeleteEntryButton summaryId={entry.id} />
-                <Button size="sm" className="w-1/2" asChild>
+                <Button asChild>
                   <Link href={`/dashboard/archive/${entry.user.id}`}>{t("open")}</Link>
                 </Button>
               </CardFooter>
@@ -47,6 +50,6 @@ export default async function ArchivePage() {
           ) : null
         )}
       </div>
-    </div>
+    </>
   );
 }

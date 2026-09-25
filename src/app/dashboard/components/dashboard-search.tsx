@@ -8,12 +8,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Input } from "@/components/ui/input";
 import { formatFullName, formatWorkInfo, PublicUser } from "@/utils/user";
-import { FlaskConical, NotepadText, UserIcon } from "lucide-react";
+import { FlaskConical, NotepadText, Search, UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DASHBOARD_NAVIGATION } from "./navigation";
 
 type SearchUser = Pick<
@@ -38,6 +37,18 @@ export default function DashboardSearch({
   const router = useRouter();
   const [isOpen, setOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "k" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   const go = (href: string) => {
     router.push(href);
     setOpen(false);
@@ -45,11 +56,15 @@ export default function DashboardSearch({
 
   return (
     <>
-      <Input
-        placeholder={t("placeholder")}
+      <button
+        type="button"
         onClick={() => setOpen(true)}
-        readOnly
-      />
+        className="flex h-9 w-full max-w-sm items-center gap-2 rounded-lg border bg-card px-3 text-sm text-muted-foreground shadow-sm transition-colors hover:border-primary/40"
+      >
+        <Search className="h-4 w-4 shrink-0" />
+        <span className="flex-1 truncate text-left">{t("placeholder")}</span>
+        <kbd className="hidden sm:inline rounded border bg-muted px-1.5 font-mono text-[10px]">Ctrl K</kbd>
+      </button>
       <CommandDialog modal={true} open={isOpen} onOpenChange={setOpen}>
         <CommandInput placeholder={t("dialogPlaceholder")} />
         <CommandList>

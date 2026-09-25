@@ -24,6 +24,7 @@ import {
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Search } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,6 +56,7 @@ export function DataTable<TData, TValue>({
       : undefined,
 
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     state: {
       sorting: sorting,
       columnFilters: columnFilters,
@@ -64,25 +66,26 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       {enableFiltering && (
-        <div className="flex items-center py-4">
+        <div className="relative mb-4 max-w-sm">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={t("search")}
             value={(table.getColumn("index")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("index")?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className="pl-9"
           />
         </div>
       )}
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-xl border bg-card">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="bg-muted/50 hover:bg-muted/50">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="whitespace-nowrap">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -116,7 +119,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-muted-foreground"
                 >
                   {t("empty")}
                 </TableCell>

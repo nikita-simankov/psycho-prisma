@@ -20,6 +20,8 @@ export default async function Page({ params }: PathParams) {
       name={form.name}
       description={form.description}
       questionCount={JSON.parse(form.questions).length}
+      minutes={form.ttc}
+      backHref="/forms"
       startHref={`/forms/${form.id}/run`}
     />
   );

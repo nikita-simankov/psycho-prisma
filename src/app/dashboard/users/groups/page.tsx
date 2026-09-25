@@ -1,13 +1,9 @@
 import { findAllUsers } from "@/actions/user/find-all-users-action";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { USER_GROUPS } from "@/utils/groups";
+import { PageHeader } from "@/components/page-header";
+import { Card } from "@/components/ui/card";
+import { GROUP_STYLES, USER_GROUPS } from "@/utils/groups";
+import { cn } from "@/utils/utils";
+import { ChevronRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -23,27 +19,26 @@ export default async function GroupsPage() {
   const users = await findAllUsers();
 
   return (
-    <div className="p-12 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold tracking-wide">{t("title")}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+    <>
+      <PageHeader title={t("title")} description={t("description")} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {USER_GROUPS.map((group) => {
           const count = users.filter((user) => user.group === group).length;
 
           return (
-            <Card key={group} className="flex flex-col justify-between">
-              <CardHeader>
-                <CardTitle>{groupNames(group)}</CardTitle>
-              </CardHeader>
-              <CardContent>{common("people", { count })}</CardContent>
-              <CardFooter>
-                <Button asChild disabled={count === 0}>
-                  <Link href={`/dashboard/users/groups/${group}`}>{t("open")}</Link>
-                </Button>
-              </CardFooter>
-            </Card>
+            <Link key={group} href={`/dashboard/users/groups/${group}`} className="group">
+              <Card className="flex items-center gap-4 p-5 transition-colors group-hover:border-primary/40">
+                <span className={cn("h-3 w-3 shrink-0 rounded-full", GROUP_STYLES[group].dot)} />
+                <div className="flex-1">
+                  <p className="font-heading font-semibold">{groupNames(group)}</p>
+                  <p className="text-sm text-muted-foreground">{common("people", { count })}</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </Card>
+            </Link>
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

@@ -16,8 +16,8 @@ export default async function Page({ params }: PathParams) {
   }
 
   return (
-    <div className="p-12 flex flex-col items-center justify-between gap-6">
-      <FormRunner form={form} doneHref="/forms" />
+    <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
+      <FormRunner form={form} doneHref="/forms?done=1" />
     </div>
   );
 }

@@ -16,3 +16,12 @@ export const RISK_GROUPS: readonly UserGroup[] = ["risk", "suicide-risk", "subst
 export function isUserGroup(value: string): value is UserGroup {
   return (USER_GROUPS as readonly string[]).includes(value);
 }
+
+// Badge and dot colours per group, from calm to urgent.
+export const GROUP_STYLES: Record<UserGroup, { badge: string; dot: string }> = {
+  general: { badge: "bg-secondary text-secondary-foreground", dot: "bg-muted-foreground" },
+  monitoring: { badge: "bg-accent text-accent-foreground", dot: "bg-primary" },
+  risk: { badge: "bg-warning/15 text-warning", dot: "bg-warning" },
+  "substance-risk": { badge: "bg-warning/15 text-warning", dot: "bg-warning" },
+  "suicide-risk": { badge: "bg-destructive/15 text-destructive", dot: "bg-destructive" },
+};

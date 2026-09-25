@@ -20,12 +20,15 @@ export function UsersTable({ users, mode = "manage" }: { users: PublicUser[]; mo
 
   const columns = useMemo<ColumnDef<PublicUser>[]>(() => {
     const base: ColumnDef<PublicUser>[] = [
-      { id: "avatar", header: "", cell: ({ row }) => <UserAvatar user={row.original} /> },
       {
         id: "index",
         header: t("fullName"),
         cell: ({ row }) => (
-          <Link href={`/dashboard/users/${row.original.id}`} className="hover:underline">
+          <Link
+            href={`/dashboard/users/${row.original.id}`}
+            className="flex min-w-48 items-center gap-3 font-medium hover:text-primary"
+          >
+            <UserAvatar user={row.original} className="h-8 w-8" />
             {formatFullName(row.original)}
           </Link>
         ),

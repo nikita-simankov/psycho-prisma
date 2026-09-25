@@ -32,7 +32,7 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: Sig
     return { error: "invalidInput" };
   }
 
-  const { password, ...profile } = parsed.data;
+  const { password, consent: _consent, ...profile } = parsed.data;
 
   const userExists = await prisma.user.findUnique({
     where: { phoneNumber: profile.phoneNumber },
@@ -49,6 +49,7 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: Sig
       id: randomUUID(),
       role: "user",
       password: await hash(password, 10),
+      consentedAt: new Date(),
     },
   });
 

@@ -19,7 +19,7 @@ export default async function Page({ params }: PathParams) {
   const questions = JSON.parse(test.questions) as TestQuestion[];
 
   return (
-    <div className="p-6 md:p-12 flex flex-col items-center justify-center">
+    <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
       <TestRunner test={test} questions={questions} />
     </div>
   );

@@ -75,7 +75,7 @@ export default function SignInForm() {
         onSubmit={form.handleSubmit((data: SignInFormData) =>
           signInMutation.mutate(data)
         )}
-        className="max-w-md w-full flex flex-col gap-4"
+        className="w-full flex flex-col gap-4"
       >
         <FormField
           name="phoneNumber"
@@ -118,7 +118,7 @@ export default function SignInForm() {
           <span className="text-muted-foreground">{t("noAccount")}</span>
           <Link
             href="/auth/sign-up"
-            className="font-medium underline underline-offset-2"
+            className="font-medium text-primary hover:underline"
           >
             {t("signUpLink")}
           </Link>

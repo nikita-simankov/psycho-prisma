@@ -16,6 +16,7 @@ import { getSubmissionSummary, toScaleRows } from "@/utils/scoring";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import PrintButton from "../../components/print-button";
 import AdditionalNotes from "./additional-notes";
 import AnswerTable from "./answer-table";
@@ -63,111 +64,89 @@ export default async function UserSummaryPage({ params }: PathParams) {
     ];
   });
 
-  const header = (title: string) => (
-    <Card className="print:border-none print:shadow-none">
-      <CardHeader className="p-4 flex flex-row items-center justify-between">
-        <div className="flex flex-row items-center gap-4">
-          <UserAvatar user={user} className="w-20 h-20" />
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">{title}</span>
-            <CardTitle>{formatFullName(user)}</CardTitle>
-            <CardDescription>{formatWorkInfo(user)}</CardDescription>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 print:hidden">
-          <SaveToArchiveButton userId={user.id} />
-          <PrintButton />
-        </div>
+  const resultCard = (result: (typeof results)[number], children: React.ReactNode) => (
+    <Card key={result.id} className="break-inside-avoid print:border-none print:shadow-none">
+      <CardHeader>
+        <CardTitle className="text-lg">{result.testName}</CardTitle>
+        <CardDescription>{result.date}</CardDescription>
       </CardHeader>
+      <CardContent>{children}</CardContent>
     </Card>
   );
 
   return (
-    <div className="p-10 max-w-7xl w-full mx-auto">
+    <>
+      <PageHeader
+        title={t("reportTitle")}
+        back={{ href: "/dashboard/summary", label: t("title") }}
+        actions={
+          <>
+            <SaveToArchiveButton userId={user.id} />
+            <PrintButton />
+          </>
+        }
+      />
+      <Card className="mb-6 print:border-none print:shadow-none">
+        <CardHeader className="flex flex-row items-center gap-4">
+          <UserAvatar user={user} className="h-16 w-16" />
+          <div className="flex flex-col gap-1">
+            <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
+            <CardDescription>{formatWorkInfo(user)}</CardDescription>
+          </div>
+        </CardHeader>
+      </Card>
       <Tabs defaultValue="report">
-        <TabsList className="w-full print:hidden">
-          <TabsTrigger value="report" className="w-1/3">
-            {t("tabs.report")}
-          </TabsTrigger>
-          <TabsTrigger value="answers" className="w-1/3">
-            {t("tabs.answers")}
-          </TabsTrigger>
-          <TabsTrigger value="scales" className="w-1/3">
-            {t("tabs.scales")}
-          </TabsTrigger>
+        <TabsList className="mb-2 grid w-full grid-cols-3 print:hidden sm:w-fit">
+          <TabsTrigger value="report">{t("tabs.report")}</TabsTrigger>
+          <TabsTrigger value="answers">{t("tabs.answers")}</TabsTrigger>
+          <TabsTrigger value="scales">{t("tabs.scales")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="report" className="flex flex-col gap-4">
-          {header(t("reportTitle"))}
           <Card className="print:border-none print:shadow-none">
-            <CardHeader className="px-4 py-2">
+            <CardHeader>
               <CardTitle className="text-lg">{t("background")}</CardTitle>
             </CardHeader>
-            <CardContent className="px-4 pb-2">
+            <CardContent>
               <AdditionalNotes />
             </CardContent>
           </Card>
           {results.length === 0 && (
             <p className="text-muted-foreground">{t("noResults")}</p>
           )}
-          {results.map((result) => (
-            <Card key={result.id}>
-              <CardHeader>
-                <CardTitle>{result.testName}</CardTitle>
-                <CardDescription>{result.date}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-2">
+          {results.map((result) =>
+            resultCard(
+              result,
+              <dl className="flex flex-col gap-3">
                 {result.rows.map((row) => (
-                  <div key={row.scaleId} className="flex flex-col">
-                    <span className="font-bold">{row.scaleName}</span>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {row.summary}
-                    </p>
+                  <div key={row.scaleId} className="border-l-2 border-primary/40 pl-3">
+                    <dt className="font-medium">{row.scaleName}</dt>
+                    <dd className="text-sm text-muted-foreground">{row.summary}</dd>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
-          ))}
+              </dl>
+            )
+          )}
           <Card className="print:border-none print:shadow-none">
-            <CardHeader className="px-4 py-2">
+            <CardHeader>
               <CardTitle className="text-lg">{t("conclusion")}</CardTitle>
             </CardHeader>
-            <CardContent className="px-4 pb-2">
+            <CardContent>
               <Verdict />
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="answers" className="flex flex-col gap-4">
-          {header(t("tabs.answers"))}
-          {results.map((result) => (
-            <Card key={result.id}>
-              <CardHeader>
-                <CardTitle>{result.testName}</CardTitle>
-                <CardDescription>{result.date}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <AnswerTable questions={result.questions} responses={result.responses} />
-              </CardContent>
-            </Card>
-          ))}
+          {results.map((result) =>
+            resultCard(result, <AnswerTable questions={result.questions} responses={result.responses} />)
+          )}
         </TabsContent>
 
         <TabsContent value="scales" className="flex flex-col gap-4">
-          {header(t("tabs.scales"))}
-          {results.map((result) => (
-            <Card key={result.id}>
-              <CardHeader>
-                <CardTitle>{result.testName}</CardTitle>
-                <CardDescription>{result.date}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScaleTable rows={result.rows} />
-              </CardContent>
-            </Card>
-          ))}
+          {results.map((result) => resultCard(result, <ScaleTable rows={result.rows} />))}
         </TabsContent>
       </Tabs>
-    </div>
+    </>
   );
 }

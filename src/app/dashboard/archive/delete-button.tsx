@@ -25,7 +25,6 @@ export default function DeleteEntryButton({ summaryId }: { summaryId: string }) 
     <Button
       size="sm"
       variant="destructive"
-      className="w-1/2"
       disabled={mutation.isPending}
       onClick={() => mutation.mutate()}
     >

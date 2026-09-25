@@ -1,6 +1,5 @@
 import { findAllTests } from "@/actions/test/find-all-tests-action";
-import { Catalog } from "@/components/catalog";
-import { Separator } from "@/components/ui/separator";
+import { CatalogPage } from "@/components/catalog-page";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
@@ -8,15 +7,20 @@ export async function generateMetadata() {
   return { title: t("tests") };
 }
 
-export default async function Page() {
-  const t = await getTranslations("respondent");
+export default async function Page({ searchParams }: { searchParams: { done?: string } }) {
   const tests = await findAllTests();
 
   return (
-    <div className="flex flex-col gap-4 items-center p-6">
-      <h1 className="text-2xl font-bold">{t("tests")}</h1>
-      <Separator />
-      <Catalog items={tests} hrefPrefix="/tests/" />
-    </div>
+    <CatalogPage
+      kind="test"
+      saved={searchParams.done === "1"}
+      items={tests.map((test) => ({
+        id: test.id,
+        name: test.name,
+        categories: test.categories.map(({ id, name }) => ({ id, name })),
+        questionCount: JSON.parse(test.questions).length,
+        minutes: test.ttc,
+      }))}
+    />
   );
 }

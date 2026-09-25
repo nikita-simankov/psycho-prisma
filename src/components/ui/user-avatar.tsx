@@ -1,4 +1,5 @@
 import { formatInitials, type PublicUser } from "@/utils/user";
+import { cn } from "@/utils/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 
 // imageURL holds either a path/URL or a base64-encoded JPEG uploaded by an admin.
@@ -22,7 +23,7 @@ export default function UserAvatar({
   return (
     <Avatar className={className}>
       <AvatarImage src={imageSource(user.imageURL)} className={className} />
-      <AvatarFallback className={className}>{formatInitials(user)}</AvatarFallback>
+      <AvatarFallback className={cn("bg-accent text-xs font-semibold text-accent-foreground", className)}>{formatInitials(user)}</AvatarFallback>
     </Avatar>
   );
 }

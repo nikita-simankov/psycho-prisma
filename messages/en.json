@@ -37,65 +37,98 @@
     "minutes": "{count, plural, one {# minute} other {# minutes}}",
     "fileErrorTitle": "Could not read the file",
     "fileErrorText": "Check that it is an .xlsx file in the expected template format",
-    "fileHint": "Upload an .xlsx file based on the template."
+    "fileHint": "Upload an .xlsx file based on the template.",
+    "menu": "Menu",
+    "privacy": "Privacy"
   },
   "validation": {
     "required": "Required",
     "phone": "Enter a valid phone number",
     "passwordLength": "Password must be at least 8 characters",
-    "tooLong": "Too long"
+    "tooLong": "Too long",
+    "consentRequired": "Please agree to continue"
   },
   "landing": {
     "hero": {
-      "title": "Psychological assessment for HR teams",
-      "subtitle": "Run established tests and questionnaires online, get results scored automatically, and keep every employee's profile in one place.",
-      "cta": "Get started"
+      "eyebrow": "For HR teams and workplace psychologists",
+      "title": "Understand your people, not just their CVs",
+      "subtitle": "Run established psychological tests and questionnaires online. Scores are calculated the moment someone finishes, and every result lands in one private workspace.",
+      "cta": "Create a workspace account",
+      "secondary": "Sign in",
+      "trust": {
+        "private": "Visible only to your admins",
+        "languages": "English and Russian",
+        "mobile": "Works on any phone"
+      }
+    },
+    "preview": {
+      "person": "Jane Doe",
+      "role": "Account manager, Sales",
+      "test": "State–Trait Anxiety Inventory",
+      "scaleA": "State anxiety",
+      "scaleB": "Trait anxiety",
+      "summary": "Moderate trait anxiety",
+      "badge": "Scored instantly"
     },
     "features": {
-      "title": "Less paperwork, faster insight",
+      "title": "Everything an assessment day needs",
+      "subtitle": "From the first invitation to the final report, without paper forms or spreadsheets.",
       "library": {
         "title": "Ready-made library",
-        "text": "Twenty validated instruments and questionnaires are included, from anxiety and depression screening to leadership and cognitive tests."
+        "text": "19 established tests and 3 questionnaires, from anxiety and depression screening to leadership and cognitive ability, in English and Russian."
       },
       "scoring": {
         "title": "Automatic scoring",
-        "text": "Raw scores, T-scores and stens are calculated the moment a test is submitted, with interpretation text for each scale."
+        "text": "Raw scores, T-scores and stens are calculated on submit, with an interpretation for every scale."
       },
       "reports": {
         "title": "Per-person reports",
-        "text": "See every result for an employee side by side, add your conclusion and print or archive it."
+        "text": "See all of a person's results side by side, add background and a conclusion, then print or archive."
       },
       "groups": {
         "title": "Groups and follow-up",
-        "text": "Flag people who need attention and track groups across departments."
+        "text": "Put people who may need support into groups and keep an eye on them across departments."
+      }
+    },
+    "trust": {
+      "title": "Built for sensitive data",
+      "subtitle": "Psychological results deserve more care than an ordinary HR form.",
+      "consent": {
+        "title": "Consent first",
+        "text": "People read a plain-language privacy notice and agree to it before their first test."
+      },
+      "access": {
+        "title": "Private by default",
+        "text": "Only workspace admins see answers and scores. Colleagues never do."
+      },
+      "judgement": {
+        "title": "Support, not diagnosis",
+        "text": "Results inform a qualified specialist's judgement and never replace it."
       }
     },
     "steps": {
       "title": "How it works",
       "label": "Step {number}",
       "import": {
-        "title": "Import or pick instruments",
+        "title": "Pick or import instruments",
         "text": "Use the built-in library or upload your own tests and questionnaires from an Excel template."
       },
       "invite": {
-        "title": "Employees take them online",
-        "text": "People sign up and complete assessments from any browser, at their own pace."
+        "title": "People take them online",
+        "text": "Employees and candidates sign up and complete assessments from any browser, at their own pace."
       },
       "review": {
         "title": "Review results",
-        "text": "Scores and interpretations are ready immediately in the admin dashboard."
+        "text": "Scores and interpretations are ready in the dashboard as soon as someone finishes."
       }
     },
-    "chart": {
-      "title": "Time spent per person",
-      "unit": "Minutes",
-      "testing": "Testing",
-      "processing": "Scoring results",
-      "paper": "On paper",
-      "prisma": "With Prisma"
+    "cta": {
+      "title": "Ready to run your first assessment?",
+      "text": "Sign up takes a minute. Your administrator can then assign tests and questionnaires.",
+      "button": "Get started"
     },
     "footer": {
-      "tagline": "Prisma · psychological assessment platform",
+      "tagline": "Prisma · psychological assessment for HR teams",
       "disclaimer": "Results support, and never replace, a qualified psychologist's judgement."
     }
   },
@@ -134,7 +167,8 @@
         "rateLimited": "Too many attempts. Try again later",
         "invalidInput": "Check the fields and try again",
         "phoneTaken": "An account with this phone number already exists"
-      }
+      },
+      "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment."
     }
   },
   "profile": {
@@ -165,7 +199,8 @@
     "formsTaken": "Completed questionnaires",
     "testsTaken": "Completed tests",
     "nothingYet": "Nothing yet.",
-    "viewResult": "View result"
+    "viewResult": "View result",
+    "details": "Details"
   },
   "dashboard": {
     "nav": {
@@ -184,13 +219,19 @@
       "navigation": "Navigation"
     },
     "home": {
-      "title": "Dashboard"
+      "title": "Dashboard",
+      "description": "People, assessments and the latest results at a glance."
     },
     "stats": {
       "people": "People",
       "forms": "Questionnaires",
       "tests": "Tests",
-      "atRisk": "Needs attention"
+      "atRisk": "Needs attention",
+      "peopleHint": "Signed-up respondents",
+      "formsHint": "Available questionnaires",
+      "testsHint": "Available tests",
+      "atRiskHint": "In a risk group",
+      "viewGroups": "View groups"
     },
     "recent": {
       "title": "Recent results",
@@ -211,7 +252,9 @@
       "adminOnlyHint": "Only admins can fill in this questionnaire, for example when interviewing someone",
       "questions": "Questions",
       "run": "Fill in",
-      "results": "View results"
+      "results": "View results",
+      "pageDescription": "Questionnaires people fill in, and the answers they gave.",
+      "back": "Questionnaires"
     },
     "tests": {
       "title": "Tests",
@@ -231,7 +274,11 @@
       "file": "Test file",
       "createdAt": "Added {date}",
       "results": "View results",
-      "tryIt": "Take it yourself"
+      "tryIt": "Take it yourself",
+      "pageDescription": "Scored instruments. Results are calculated as soon as a test is submitted.",
+      "back": "Tests",
+      "instruction": "Instruction",
+      "about": "About this test"
     }
   },
   "table": {
@@ -255,7 +302,9 @@
       "number": "No.",
       "question": "Question",
       "answer": "Answer"
-    }
+    },
+    "title": "Results",
+    "count": "{count, plural, one {# submission} other {# submissions}}"
   },
   "runner": {
     "progress": "Question {current} of {total}",
@@ -270,7 +319,17 @@
     "tests": "Tests",
     "open": "Open",
     "empty": "Nothing has been assigned yet.",
-    "questionCount": "{count, plural, one {# question} other {# questions}}"
+    "questionCount": "{count, plural, one {# question} other {# questions}}",
+    "greeting": "Hello, {name}",
+    "formsIntro": "Questionnaires ask about your background, interests and views. There are no right or wrong answers.",
+    "testsIntro": "Tests measure specific traits and abilities. Answer honestly and go with your first reaction.",
+    "all": "All",
+    "savedTitle": "Thank you, your answers are saved",
+    "savedText": "You can close this page or continue with another one.",
+    "start": "Start",
+    "privacyNote": "Your answers are seen only by the HR specialists and psychologists in your organization.",
+    "instruction": "Instruction",
+    "about": "About"
   },
   "scores": {
     "raw": "Raw score",
@@ -292,7 +351,9 @@
       "title": "Delete this person?",
       "description": "Their profile and results will be deleted permanently.",
       "confirm": "Delete"
-    }
+    },
+    "description": "Everyone who has signed up, with their group and role.",
+    "back": "People"
   },
   "reports": {
     "title": "Reports",
@@ -308,13 +369,15 @@
     "archive": "Save to archive",
     "archivedTitle": "Saved",
     "archivedText": "The report was saved to the archive.",
-    "archiveError": "The report was not saved. A person can have one archived report; delete the old one first."
+    "archiveError": "The report was not saved. A person can have one archived report; delete the old one first.",
+    "description": "Open a person's report to see all their results and write a conclusion."
   },
   "groupsPage": {
     "title": "Groups",
     "open": "Open",
     "empty": "No one is in this group.",
-    "viewProfile": "View profile"
+    "viewProfile": "View profile",
+    "description": "Groups help you follow up with people who may need support."
   },
   "archive": {
     "title": "Report archive",
@@ -323,6 +386,43 @@
     "viewReport": "View report",
     "viewProfile": "View profile",
     "deletedTitle": "Deleted",
-    "deletedText": "The report was removed from the archive."
+    "deletedText": "The report was removed from the archive.",
+    "description": "Reports saved with their background and conclusion."
+  },
+  "privacy": {
+    "metaTitle": "Privacy notice",
+    "title": "Privacy notice",
+    "lead": "Prisma is used by your organization to run psychological questionnaires and tests. This notice explains what is collected, who can see it and what you can do about it.",
+    "sections": {
+      "collect": {
+        "title": "What we collect",
+        "text": "Your profile (name, phone number, date of birth, department, position and, if an administrator adds one, a photo), the answers you give, and the scores and interpretations calculated from them."
+      },
+      "purpose": {
+        "title": "Why",
+        "text": "To support hiring, development and well-being decisions in your organization. Results are one input for a qualified specialist and are never a medical diagnosis on their own."
+      },
+      "access": {
+        "title": "Who can see it",
+        "text": "Only administrators of this workspace, typically HR specialists and psychologists in your organization. Other employees cannot see your answers or results."
+      },
+      "storage": {
+        "title": "How long it is kept",
+        "text": "Until an administrator deletes your profile. Deleting a profile removes its answers and results."
+      },
+      "rights": {
+        "title": "Your choices",
+        "text": "Taking part is voluntary. You can stop any questionnaire or test before finishing it, and you can ask your HR team to show, correct or delete your data."
+      }
+    },
+    "controller": "Your organization is responsible for how this data is used. Contact your HR team with any questions."
+  },
+  "consent": {
+    "metaTitle": "Before you start",
+    "title": "Before you start",
+    "text": "Please read how your answers will be used. You only need to do this once.",
+    "accept": "I agree",
+    "decline": "Not now, sign out",
+    "error": "Your choice was not saved. Try again."
   }
 }

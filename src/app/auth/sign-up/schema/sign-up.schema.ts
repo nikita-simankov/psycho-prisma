@@ -18,6 +18,7 @@ export const workInfoSchema = z.object({
 export const credentialsSchema = z.object({
   phoneNumber: z.string().min(9, "phone").max(20, "phone"),
   password: z.string().min(8, "passwordLength").max(128, "tooLong"),
+  consent: z.literal(true, { errorMap: () => ({ message: "consentRequired" }) }),
 })
 
 export type GeneralInfoFormData = z.infer<typeof generalInfoSchema>

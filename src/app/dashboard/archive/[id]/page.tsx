@@ -1,14 +1,8 @@
 import { findArchiveEntryByUserId } from "@/actions/summary/find-archive-entries";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import UserAvatar from "@/components/ui/user-avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -33,38 +27,36 @@ export default async function ArchiveEntryPage({ params }: Params) {
   }
 
   return (
-    <div className="p-12 max-w-6xl w-full mx-auto flex flex-col gap-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center gap-4">
-            <UserAvatar user={user} className="w-20 h-20" />
-            <div className="flex flex-col gap-2">
-              <CardTitle>{formatFullName(user)}</CardTitle>
-              <CardDescription>{formatWorkInfo(user)}</CardDescription>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button size="sm" asChild>
-              <Link href={`/dashboard/summary/${user.id}`}>{t("viewReport")}</Link>
-            </Button>
-            <Button size="sm" variant="outline" asChild>
+    <>
+      <PageHeader
+        title={formatFullName(user)}
+        description={formatWorkInfo(user)}
+        back={{ href: "/dashboard/archive", label: t("title") }}
+        actions={
+          <>
+            <Button variant="outline" asChild>
               <Link href={`/dashboard/users/${user.id}`}>{t("viewProfile")}</Link>
             </Button>
-          </div>
-        </CardHeader>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>{reports("background")}</CardTitle>
-        </CardHeader>
-        <CardContent className="whitespace-pre-line">{entry.additionalNotes}</CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>{reports("conclusion")}</CardTitle>
-        </CardHeader>
-        <CardContent className="whitespace-pre-line">{entry.verdict}</CardContent>
-      </Card>
-    </div>
+            <Button asChild>
+              <Link href={`/dashboard/summary/${user.id}`}>{t("viewReport")}</Link>
+            </Button>
+          </>
+        }
+      />
+      <div className="flex flex-col gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{reports("background")}</CardTitle>
+          </CardHeader>
+          <CardContent className="whitespace-pre-line">{entry.additionalNotes || "—"}</CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{reports("conclusion")}</CardTitle>
+          </CardHeader>
+          <CardContent className="whitespace-pre-line">{entry.verdict || "—"}</CardContent>
+        </Card>
+      </div>
+    </>
   );
 }

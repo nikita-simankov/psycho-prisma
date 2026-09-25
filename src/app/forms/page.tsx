@@ -1,6 +1,5 @@
 import { findAllForms } from "@/actions/form/find-all-forms-action";
-import { Catalog } from "@/components/catalog";
-import { Separator } from "@/components/ui/separator";
+import { CatalogPage } from "@/components/catalog-page";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
@@ -8,15 +7,22 @@ export async function generateMetadata() {
   return { title: t("forms") };
 }
 
-export default async function Page() {
-  const t = await getTranslations("respondent");
+export default async function Page({ searchParams }: { searchParams: { done?: string } }) {
   const forms = await findAllForms();
 
   return (
-    <div className="flex flex-col gap-4 items-center p-6">
-      <h1 className="text-2xl font-bold">{t("forms")}</h1>
-      <Separator />
-      <Catalog items={forms.filter((form) => !form.adminOnly)} hrefPrefix="/forms/" />
-    </div>
+    <CatalogPage
+      kind="form"
+      saved={searchParams.done === "1"}
+      items={forms
+        .filter((form) => !form.adminOnly)
+        .map((form) => ({
+          id: form.id,
+          name: form.name,
+          categories: form.categories.map(({ id, name }) => ({ id, name })),
+          questionCount: JSON.parse(form.questions).length,
+          minutes: form.ttc,
+        }))}
+    />
   );
 }

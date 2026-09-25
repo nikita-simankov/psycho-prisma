@@ -42,13 +42,18 @@ Bundled tests, questionnaires and categories are written in Russian and carry an
 
 Tests and forms retired in the move away from military use are kept in `prisma/seed-data/retired/`. The seed does not load them.
 
+## Design
+
+Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are Inter for text and Manrope for headings (`src/app/layout.tsx`), and the logo is `src/components/ui/logo.tsx`. Dashboard pages start with `PageHeader`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
+
 ## Groups
 
 People are sorted into groups stored as keys (`general`, `monitoring`, `risk`, `suicide-risk`, `substance-risk`), defined in `src/utils/groups.ts`. Labels come from the `groups` messages.
 
 ## Access rules
 
-- Signed-out visitors can only see the landing page and the sign-in and sign-up pages.
+- Signed-out visitors can only see the landing page, the privacy notice (`/privacy`) and the sign-in and sign-up pages.
+- Respondents must accept the privacy notice before taking anything. Sign-up asks for it, and accounts created earlier are sent to `/consent` once. The date is stored in `User.consentedAt` (migration `3_consent`). The notice text is in the `privacy` messages; adjust it to your organisation before going live.
 - `/forms` and `/tests` need a signed-in user; `/dashboard` needs an admin.
 - Every server action checks the session itself with `requireUser()` or `requireAdmin()` from `src/utils/authentication.ts`. Keep doing this in new actions: the middleware only checks that a cookie exists.
 - Data sent to the browser uses `publicUserSelect` from `src/utils/user.ts`, which leaves out the password hash and recovery answer.

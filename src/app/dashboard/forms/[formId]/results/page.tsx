@@ -2,7 +2,7 @@ import { findAllFormSubmissionsByFormId } from "@/actions/form-submission/find-a
 import { findFormById } from "@/actions/form/find-form-by-id-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { SubmissionList } from "@/components/submission-list";
-import { Separator } from "@/components/ui/separator";
+import { PageHeader } from "@/components/page-header";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -14,6 +14,7 @@ type PathParams = {
 
 export default async function FormResultsPage({ params }: PathParams) {
   const t = await getTranslations("results");
+  const section = await getTranslations("dashboard.forms");
   const [form, submissions, users] = await Promise.all([
     findFormById(params.formId),
     findAllFormSubmissionsByFormId(params.formId),
@@ -27,11 +28,12 @@ export default async function FormResultsPage({ params }: PathParams) {
   const usersById = new Map(users.map((user) => [user.id, user]));
 
   return (
-    <div className="p-12 flex flex-col gap-4">
-      <h1 className="text-2xl font-bold tracking-wide">
-        {t("formTitle", { name: form.name })}
-      </h1>
-      <Separator />
+    <>
+      <PageHeader
+        title={form.name}
+        description={t("count", { count: submissions.length })}
+        back={{ href: "/dashboard/forms", label: section("back") }}
+      />
       <SubmissionList
         items={submissions.flatMap((submission) => {
           const user = usersById.get(submission.userId);
@@ -48,6 +50,6 @@ export default async function FormResultsPage({ params }: PathParams) {
             : [];
         })}
       />
-    </div>
+    </>
   );
 }

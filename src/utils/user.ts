@@ -14,6 +14,7 @@ export const publicUserSelect = {
   department: true,
   position: true,
   dateOfBirth: true,
+  consentedAt: true,
   createdAt: true,
   updatedAt: true,
 } satisfies Prisma.UserSelect;

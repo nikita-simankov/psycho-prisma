@@ -4,6 +4,8 @@ import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-a
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
 import { GroupBadge } from "@/components/group-badge";
+import { LinkList } from "@/components/link-list";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,6 +17,7 @@ import {
 import UserAvatar from "@/components/ui/user-avatar";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { FlaskConical, NotepadText } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EditUserDialog from "./components/edit-user-dialog";
@@ -29,6 +32,7 @@ type HistoryItem = { id: string; name: string; date: Date; href: string };
 
 export default async function UserProfilePage({ params }: PathParams) {
   const t = await getTranslations("profile");
+  const people = await getTranslations("people");
   const format = await getFormatter();
   const [user, formSubmissions, testSubmissions, forms, tests] = await Promise.all([
     findUserById(params.userId),
@@ -69,72 +73,70 @@ export default async function UserProfilePage({ params }: PathParams) {
     },
   ];
 
-  const history = (title: string, items: HistoryItem[]) => (
+  const history = (title: string, items: HistoryItem[], icon: React.ReactNode) => (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        {items.length === 0 && (
-          <p className="text-sm text-muted-foreground">{t("nothingYet")}</p>
-        )}
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="w-full py-2 rounded-md hover:bg-accent flex items-center justify-between gap-4"
-          >
-            <div className="flex flex-col">
-              <span className="font-bold">{item.name}</span>
-              <span className="text-sm font-medium text-muted-foreground">
-                {format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" })}
+      <CardContent className="px-2 sm:px-4">
+        <LinkList
+          empty={t("nothingYet")}
+          items={items.map((item) => ({
+            id: item.id,
+            href: item.href,
+            title: item.name,
+            subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
+            leading: (
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                {icon}
               </span>
-            </div>
-            <Button size="sm" variant="outline" asChild>
-              <Link href={item.href}>{t("viewResult")}</Link>
-            </Button>
-          </div>
-        ))}
+            ),
+          }))}
+        />
       </CardContent>
     </Card>
   );
 
   return (
-    <div className="w-full p-10 flex flex-col gap-4">
-      <h1 className="text-3xl font-bold tracking-normal">{t("title")}</h1>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center gap-4">
-            <UserAvatar user={user} className="w-16 h-16" />
-            <div className="flex flex-col gap-1">
-              <CardTitle className="text-lg">{formatFullName(user)}</CardTitle>
-              <CardDescription>{formatWorkInfo(user)}</CardDescription>
-              <div>
-                <GroupBadge group={user.group} />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-row gap-2">
+    <>
+      <PageHeader
+        title={t("title")}
+        back={{ href: "/dashboard/users", label: people("back") }}
+        actions={
+          <>
             <Button variant="outline" asChild>
               <Link href={`/dashboard/summary/${user.id}`}>{t("openReport")}</Link>
             </Button>
             <EditUserDialog user={user} />
-          </div>
-        </CardHeader>
-
-        <CardContent>
-          <dl className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 text-sm font-medium">
-            {details.map((detail) => (
-              <div key={detail.label} className="contents">
-                <dt className="text-muted-foreground">{detail.label}</dt>
-                <dd className="text-right">{detail.value || "—"}</dd>
-              </div>
-            ))}
-          </dl>
-        </CardContent>
-      </Card>
-
-      {history(t("formsTaken"), formHistory)}
-      {history(t("testsTaken"), testHistory)}
-    </div>
+          </>
+        }
+      />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+        <Card className="h-fit">
+          <CardHeader className="items-center text-center">
+            <UserAvatar user={user} className="mb-2 h-20 w-20 text-lg" />
+            <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
+            <CardDescription>{formatWorkInfo(user)}</CardDescription>
+            <div className="pt-1">
+              <GroupBadge group={user.group} />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <dl className="divide-y rounded-lg border text-sm">
+              {details.map((detail) => (
+                <div key={detail.label} className="flex items-center justify-between gap-4 px-3 py-2.5">
+                  <dt className="text-muted-foreground">{detail.label}</dt>
+                  <dd className="text-right font-medium">{detail.value || "—"}</dd>
+                </div>
+              ))}
+            </dl>
+          </CardContent>
+        </Card>
+        <div className="flex min-w-0 flex-col gap-6">
+          {history(t("testsTaken"), testHistory, <FlaskConical className="h-4 w-4" />)}
+          {history(t("formsTaken"), formHistory, <NotepadText className="h-4 w-4" />)}
+        </div>
+      </div>
+    </>
   );
 }

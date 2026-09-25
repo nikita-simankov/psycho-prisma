@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { toast } from "@/hooks/use-toast";
 import { uploadTestData } from "@/actions/test/upload-test-data-action";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -26,7 +25,7 @@ import { TestData } from "@/utils/constants";
 import { extractTestData } from "@/utils/sheet/test";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { FlaskConical } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -86,12 +85,10 @@ export const CreateTestDialog: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Card className="aspect-video cursor-pointer border-dashed border-2 border-gray-300 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-950 transition-all">
-          <CardContent className="p-6 w-full h-full flex flex-col gap-2 items-center justify-center">
-            <FlaskConical />
-            <span className="text-lg font-bold tracking-wide">{t("add")}</span>
-          </CardContent>
-        </Card>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          {t("add")}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

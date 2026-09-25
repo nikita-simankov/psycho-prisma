@@ -21,7 +21,6 @@ import { FormData } from "@/utils/constants";
 import { extractFormQuestions } from "@/utils/sheet/form";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
 import { uploadFormData } from "@/actions/form/upload-form-data-action";
 import { Switch } from "@/components/ui/switch";
 
@@ -56,12 +55,10 @@ export const CreateFormDialog: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Card className="aspect-video border-2 border-dashed border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer">
-          <CardContent className="h-full pt-4 flex flex-col items-center justify-center gap-2 text-lg font-bold tracking-wide">
-            <Plus />
-            {t("add")}
-          </CardContent>
-        </Card>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          {t("add")}
+        </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-4">
         <DialogHeader>
