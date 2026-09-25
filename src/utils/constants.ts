@@ -50,6 +50,15 @@ export type TestScale = {
   multiplier: number;
   correction: number;
   resultCalculationFormula: string;
+  // Set on lie, sincerity and other validity scales; see src/utils/validity.ts.
+  validity?: ValidityRule;
+};
+
+export type ValidityRule = {
+  // Which score the cut-off applies to: the raw grade (after any formula), the sten or the T-score.
+  measure: "grade" | "stan" | "tGrade";
+  // Scores above this make the answers questionable. Without it the score is shown with no verdict.
+  max?: number;
 };
 
 export type TestScaleKey = {

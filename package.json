@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:production": "prisma migrate deploy && prisma db seed && next start -p ${PORT:-3000}",
     "lint": "next lint",
     "db:seed": "prisma db seed",
     "test": "vitest run"
@@ -80,5 +81,8 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserAvatar from "@/components/ui/user-avatar";
-import { TestQuestion, TestQuestionResponse } from "@/utils/constants";
+import { TestQuestion, TestQuestionResponse, TestScale } from "@/utils/constants";
 import { localizeResult } from "@/utils/content-translation";
 import { getSubmissionSummary, toScaleRows } from "@/utils/scoring";
+import { assessValidity, validityScaleIds } from "@/utils/validity";
+import { ValidityPanel } from "@/components/validity-panel";
 import { ensureMember } from "@/utils/authentication";
 import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
@@ -56,14 +58,22 @@ export default async function UserSummaryPage({ params }: PathParams) {
       return [];
     }
 
+    const scales = JSON.parse(test.scales) as TestScale[];
+    const responses = JSON.parse(submission.submission) as TestQuestionResponse[];
+    const rows = toScaleRows(localizeResult(getSubmissionSummary(test, submission), test, locale));
+    const validityIds = validityScaleIds(scales);
+
     return [
       {
         id: submission.id,
         testName: test.name,
         date: format.dateTime(submission.createdAt, { dateStyle: "medium", timeStyle: "short" }),
         questions: JSON.parse(test.questions) as TestQuestion[],
-        responses: JSON.parse(submission.submission) as TestQuestionResponse[],
-        rows: toScaleRows(localizeResult(getSubmissionSummary(test, submission), test, locale)),
+        responses,
+        rows,
+        // Validity scales are shown in their own panel, not among the findings.
+        findings: rows.filter((row) => !validityIds.has(row.scaleId)),
+        validity: assessValidity(scales, responses, rows),
       },
     ];
   });
@@ -121,14 +131,17 @@ export default async function UserSummaryPage({ params }: PathParams) {
           {results.map((result) =>
             resultCard(
               result,
+              <div className="flex flex-col gap-3">
+              {result.validity && <ValidityPanel validity={result.validity} />}
               <dl className="flex flex-col gap-3">
-                {result.rows.map((row) => (
+                {result.findings.map((row) => (
                   <div key={row.scaleId} className="border-l-2 border-primary/40 pl-3">
                     <dt className="font-medium">{row.scaleName}</dt>
                     <dd className="text-sm text-muted-foreground">{row.summary}</dd>
                   </div>
                 ))}
               </dl>
+              </div>
             )
           )}
           <Card className="print:border-none print:shadow-none">
@@ -148,7 +161,15 @@ export default async function UserSummaryPage({ params }: PathParams) {
         </TabsContent>
 
         <TabsContent value="scales" className="flex flex-col gap-4">
-          {results.map((result) => resultCard(result, <ScaleTable rows={result.rows} />))}
+          {results.map((result) =>
+            resultCard(
+              result,
+              <div className="flex flex-col gap-3">
+                {result.validity && <ValidityPanel validity={result.validity} />}
+                <ScaleTable rows={result.rows} />
+              </div>
+            )
+          )}
         </TabsContent>
       </Tabs>
     </>

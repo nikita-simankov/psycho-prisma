@@ -4,7 +4,10 @@ import { findUserById } from "@/actions/user/find-user-by-id-action";
 import { PageHeader } from "@/components/page-header";
 import PrintButton from "@/app/dashboard/components/print-button";
 import { ScaleResultCard } from "@/components/scale-result-card";
+import { ValidityPanel } from "@/components/validity-panel";
+import type { TestScale } from "@/utils/constants";
 import { scoreSubmission, toScaleRows } from "@/utils/scoring";
+import { assessValidity, validityScaleIds } from "@/utils/validity";
 import { formatFullName } from "@/utils/user";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -30,8 +33,14 @@ export default async function SubmissionPage({ params }: PathParams) {
 
   const user = await findUserById(submission.userId);
   // Recomputed from the answers so the page reflects the test's current tables.
-  const score = scoreSubmission(test, JSON.parse(submission.submission));
+  const responses = JSON.parse(submission.submission);
+  const score = scoreSubmission(test, responses);
   const rows = score ? toScaleRows(score.result) : [];
+  const scales = JSON.parse(test.scales) as TestScale[];
+  const validity = assessValidity(scales, responses, rows);
+  const validityIds = validityScaleIds(scales);
+  // Validity scales lead the page; the rest follow as findings.
+  const ordered = [...rows.filter((row) => validityIds.has(row.scaleId)), ...rows.filter((row) => !validityIds.has(row.scaleId))];
 
   return (
     <div className="flex flex-col gap-4">
@@ -42,8 +51,9 @@ export default async function SubmissionPage({ params }: PathParams) {
         back={{ href: `/dashboard/tests/${test.id}/results`, label: results("title") }}
         actions={<PrintButton />}
       />
+      {validity && <ValidityPanel validity={validity} />}
       {rows.length === 0 && <p className="text-muted-foreground">{t("none")}</p>}
-      {rows.map((row) => (
+      {ordered.map((row) => (
         <ScaleResultCard key={row.scaleId} row={row} />
       ))}
     </div>
