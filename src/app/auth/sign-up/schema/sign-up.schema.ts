@@ -1,42 +1,25 @@
 import { z } from "zod"
 
-const text = (max = 200) => z.string().trim().max(max)
+const text = (max = 200) => z.string().trim().max(max, "tooLong")
+const requiredText = (max = 100) => text(max).min(1, "required")
 
 export const generalInfoSchema = z.object({
-  name: text(100),
-  surname: text(100),
-  lastName: text(100),
+  lastName: requiredText(),
+  name: requiredText(),
+  middleName: text(100),
   dateOfBirth: text(20),
 })
 
-export const militaryInfoSchema = z.object({
-  rank: text(),
-  division: text(),
-  recruitedBy: text(),
-  servingKind: text(),
-  servingPeriod: text(),
-  recruitmentDate: text(20),
-})
-
-export const livingAddressInfoSchema = z.object({
-  city: text(),
-  region: text(),
-  address: text(),
-  building: text(20),
-  appartment: text(20),
+export const workInfoSchema = z.object({
+  department: text(),
+  position: text(),
 })
 
 export const credentialsSchema = z.object({
-  password: z.string().min(8, {
-    message: "Пароль должен содержать не менее 8 символов"
-  }).max(128),
-  phoneNumber: z.string().min(9, {
-    message: "Неверный формат номера телефона"
-  }).max(20),
-  recoveryQuestionAnswer: text(),
+  phoneNumber: z.string().min(9, "phone").max(20, "phone"),
+  password: z.string().min(8, "passwordLength").max(128, "tooLong"),
 })
 
-export type CredentialsFormData = z.infer<typeof credentialsSchema>
 export type GeneralInfoFormData = z.infer<typeof generalInfoSchema>
-export type MilitaryInfoFormData = z.infer<typeof militaryInfoSchema>
-export type LivingAddressInfoFormData = z.infer<typeof livingAddressInfoSchema>
+export type WorkInfoFormData = z.infer<typeof workInfoSchema>
+export type CredentialsFormData = z.infer<typeof credentialsSchema>

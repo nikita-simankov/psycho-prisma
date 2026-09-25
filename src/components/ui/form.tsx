@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
 import {
@@ -147,7 +148,10 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message) : children
+  const t = useTranslations("validation")
+  // Schemas use translation keys from the "validation" namespace as messages.
+  const message = error ? String(error?.message) : null
+  const body = message ? (t.has(message) ? t(message) : message) : children
 
   if (!body) {
     return null

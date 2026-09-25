@@ -7,29 +7,29 @@ import { consumeRateLimit } from "@/utils/rate-limit";
 import {
   credentialsSchema,
   generalInfoSchema,
-  livingAddressInfoSchema,
-  militaryInfoSchema,
+  workInfoSchema,
 } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { headers } from "next/headers";
 
 // Whitelists every field a new account may set. Role is always "user".
 const signUpSchema = generalInfoSchema
-  .merge(militaryInfoSchema)
-  .merge(livingAddressInfoSchema)
+  .merge(workInfoSchema)
   .merge(credentialsSchema)
   .strip();
 
-export async function signUp(data: unknown): Promise<{ ok: true } | { error: string }> {
+type SignUpError = "rateLimited" | "invalidInput" | "phoneTaken";
+
+export async function signUp(data: unknown): Promise<{ ok: true } | { error: SignUpError }> {
   const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (!consumeRateLimit(`sign-up:ip:${ip}`, 10, 60 * 60_000)) {
-    return { error: "Слишком много попыток регистрации. Попробуйте позже" };
+    return { error: "rateLimited" };
   }
 
   const parsed = signUpSchema.safeParse(data);
 
   if (!parsed.success) {
-    return { error: "Проверьте правильность заполнения полей" };
+    return { error: "invalidInput" };
   }
 
   const { password, ...profile } = parsed.data;
@@ -40,7 +40,7 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: str
   });
 
   if (userExists) {
-    return { error: "Пользователь с таким номером телефона уже существует" };
+    return { error: "phoneTaken" };
   }
 
   await prisma.user.create({

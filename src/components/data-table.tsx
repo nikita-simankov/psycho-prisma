@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -41,6 +42,8 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
+  const t = useTranslations("table");
+  const common = useTranslations("common");
   const table = useReactTable({
     data,
     columns,
@@ -63,7 +66,7 @@ export function DataTable<TData, TValue>({
       {enableFiltering && (
         <div className="flex items-center py-4">
           <Input
-            placeholder="Поиск..."
+            placeholder={t("search")}
             value={(table.getColumn("index")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("index")?.setFilterValue(event.target.value)
@@ -115,7 +118,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Данные отсутствуют
+                  {t("empty")}
                 </TableCell>
               </TableRow>
             )}
@@ -130,7 +133,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Назад
+            {common("back")}
           </Button>
           <Button
             variant="outline"
@@ -138,7 +141,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Далее
+            {common("next")}
           </Button>
         </div>
       )}

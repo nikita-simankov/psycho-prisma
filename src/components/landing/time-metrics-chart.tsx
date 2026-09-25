@@ -1,13 +1,12 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,28 +17,30 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { action: "Время на тестирование", paper: 30, prisma: 10 },
-  { action: "Обработка результатов", paper: 15, prisma: 1 },
-];
-
-const chartConfig = {
-  paper: {
-    label: "Бумажный носитель",
-    color: "hsl(105, 57%, 61%)",
-  },
-  prisma: {
-    label: "Призма",
-    color: "hsl(105, 41%, 37%)",
-  },
-} satisfies ChartConfig;
-
 export function TimeMetricsChart() {
+  const t = useTranslations("landing.chart");
+
+  const chartData = [
+    { action: t("testing"), paper: 30, prisma: 10 },
+    { action: t("processing"), paper: 15, prisma: 1 },
+  ];
+
+  const chartConfig = {
+    paper: {
+      label: t("paper"),
+      color: "hsl(105, 57%, 61%)",
+    },
+    prisma: {
+      label: t("prisma"),
+      color: "hsl(105, 41%, 37%)",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Затраты по времени</CardTitle>
-        <CardDescription>Данные указаны в минутах</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("unit")}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

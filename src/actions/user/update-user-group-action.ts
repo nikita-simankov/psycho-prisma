@@ -3,6 +3,7 @@
 import { requireAdmin } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { publicUserSelect } from "@/utils/user";
+import { USER_GROUPS } from "@/utils/groups";
 import { z } from "zod";
 
 export async function updateUserGroup(userId: string, group: string) {
@@ -10,7 +11,7 @@ export async function updateUserGroup(userId: string, group: string) {
 
   return prisma.user.update({
     where: { id: z.string().parse(userId) },
-    data: { group: z.string().trim().min(1).max(100).parse(group) },
+    data: { group: z.enum(USER_GROUPS).parse(group) },
     select: publicUserSelect,
   });
 }

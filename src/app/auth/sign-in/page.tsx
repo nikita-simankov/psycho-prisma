@@ -1,21 +1,35 @@
-import Image from "next/image"
+import { LocaleSwitcher } from "@/components/locale-switcher"
+import Logo from "@/components/ui/logo"
+import { getTranslations } from "next-intl/server"
 import SignInForm from "./components/sign-in-form"
 
-export default function SignInPage() {
+export async function generateMetadata() {
+  const t = await getTranslations("auth.signIn")
+  return { title: t("metaTitle") }
+}
+
+export default async function SignInPage() {
+  const t = await getTranslations("auth.signIn")
+
   return (
-    <main className="flex flex-row">
-      <div className="bg-white w-1/2 h-dvh flex flex-col gap-6 items-center justify-center">
+    <main className="flex flex-row min-h-dvh">
+      <div className="relative bg-background w-full lg:w-1/2 flex flex-col gap-6 items-center justify-center px-4">
+        <div className="absolute top-4 right-4">
+          <LocaleSwitcher />
+        </div>
         <div className="flex flex-col items-center gap-2">
-          <h2 className="text-3xl font-bold">Добро пожаловать!</h2>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
           <p className="text-sm text-muted-foreground max-w-md text-center">
-            Введите номер телефона и пароль, которые вы указывали при
-            регистрации, чтобы войти в аккаунт
+            {t("subtitle")}
           </p>
         </div>
         <SignInForm />
       </div>
-      <div className="bg-accent w-1/2 h-dvh flex flex-col items-center justify-center">
-        <Image src="/chevron.png" alt="chevron" width={320} height={320} />
+      <div className="hidden lg:flex bg-accent w-1/2 flex-col items-center justify-center gap-4 px-8">
+        <Logo withText />
+        <p className="text-muted-foreground max-w-sm text-center">
+          {t("aside")}
+        </p>
       </div>
     </main>
   )

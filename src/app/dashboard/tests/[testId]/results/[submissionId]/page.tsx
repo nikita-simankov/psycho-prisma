@@ -1,13 +1,11 @@
 import { findTestSubmissionById } from "@/actions/test-submission/find-test-submission-by-id-action";
 import { findTestById } from "@/actions/test/find-test-by-id-action";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { scoreSubmission } from "@/utils/scoring";
+import { findUserById } from "@/actions/user/find-user-by-id-action";
+import PrintButton from "@/app/dashboard/components/print-button";
+import { ScaleResultCard } from "@/components/scale-result-card";
+import { scoreSubmission, toScaleRows } from "@/utils/scoring";
+import { formatFullName } from "@/utils/user";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 type PathParams = {
@@ -18,94 +16,34 @@ type PathParams = {
 };
 
 export default async function SubmissionPage({ params }: PathParams) {
-  const test = await findTestById(params.testId);
-  const submission = await findTestSubmissionById(params.submissionId);
+  const t = await getTranslations("scores");
+  const [test, submission] = await Promise.all([
+    findTestById(params.testId),
+    findTestSubmissionById(params.submissionId),
+  ]);
 
   if (!test || !submission || submission.testId !== test.id) {
     notFound();
   }
 
+  const user = await findUserById(submission.userId);
+  // Recomputed from the answers so the page reflects the test's current tables.
   const score = scoreSubmission(test, JSON.parse(submission.submission));
+  const rows = score ? toScaleRows(score.result) : [];
 
-  if (score?.strategy === "t-grade") {
-    const result = score.result;
-
-    return (
-      <div className="p-12 flex flex-col gap-6`">
-        {result.map((entry) => (
-          <Card>
-            <CardHeader>
-              <CardTitle>{entry.scale.name}</CardTitle>
-              <CardDescription>
-                <span>Количеcтво баллов: {entry!.grade}</span>
-                <br />
-                <span>Скорректированный балл: {entry!.correctedGrade}</span>
-                <br />
-                <span>Количество Т-Баллов: {entry.tGradeValue}</span>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>{entry.summary}</CardContent>
-          </Card>
-        ))}
+  return (
+    <div className="p-12 flex flex-col gap-6">
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold">{test.name}</h1>
+          {user && <p className="text-muted-foreground">{formatFullName(user)}</p>}
+        </div>
+        <PrintButton />
       </div>
-    );
-  }
-
-  if (score?.strategy === "standard-ten") {
-    const stansSummary = score.result;
-
-    return (
-      <div className="p-12 flex flex-col gap-6">
-        {stansSummary.map((entry) => (
-          <Card>
-            <CardHeader>
-              <CardTitle>{entry!.scale!.name}</CardTitle>
-              <CardDescription>
-                <span>Сырой балл: {entry!.grade}</span>
-                <br />
-                <span>СТЭН: {entry?.stanValue}</span>
-                <br />
-              </CardDescription>
-            </CardHeader>
-            <CardContent>{entry?.summary}</CardContent>
-          </Card>
-        ))}
-      </div>
-    );
-  }
-
-  if (score?.strategy === "grade") {
-    const gradeSummary = score.result;
-
-    return (
-      <div className="p-12 flex flex-col gap-6">
-        {gradeSummary
-          .filter((s) => s !== undefined)
-          .map((entry) => (
-            <Card>
-              <CardHeader>
-                <CardTitle>{entry!.scale.name}</CardTitle>
-                <CardDescription>
-                  Балл:{" "}
-                  <span className="text-primary font-bold">
-                    {" "}
-                    {entry!.grade}
-                  </span>
-                  <br />
-                  <span>
-                    Характеристика:
-                    <span className="text-black dark:text-white font-bold">
-                      {" "}
-                      {entry?.summary}
-                    </span>
-                  </span>
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-      </div>
-    );
-  }
-
-  notFound();
+      {rows.length === 0 && <p className="text-muted-foreground">{t("none")}</p>}
+      {rows.map((row) => (
+        <ScaleResultCard key={row.scaleId} row={row} />
+      ))}
+    </div>
+  );
 }
