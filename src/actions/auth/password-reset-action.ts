@@ -77,10 +77,11 @@ export async function resetPassword(
   const membership = await prisma.membership.findFirst({
     where: { userId: reset.userId },
     orderBy: { createdAt: "asc" },
+    include: { organization: { select: { slug: true } } },
   });
 
   if (membership) {
-    rememberOrganization(membership.organizationId);
+    rememberOrganization(membership.organization.slug);
   }
 
   return { redirectTo: homePath(membership) };

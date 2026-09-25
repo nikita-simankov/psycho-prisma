@@ -3,16 +3,16 @@
 import { signUpSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { prisma } from "@/utils/database";
 import { consumeRateLimit } from "@/utils/rate-limit";
-import { createOwnedOrganization } from "@/utils/organizations";
+import { createOwnedOrganization, isOrganizationNameTaken } from "@/utils/organizations";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { headers } from "next/headers";
 
-type SignUpError = "rateLimited" | "invalidInput" | "emailTaken";
+type SignUpError = "rateLimited" | "invalidInput" | "emailTaken" | "organizationTaken";
 
 // Creates an account and the organization it owns, then signs the person in.
-export async function signUp(data: unknown): Promise<{ ok: true } | { error: SignUpError }> {
+export async function signUp(data: unknown): Promise<{ redirectTo: string } | { error: SignUpError }> {
   const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (!consumeRateLimit(`sign-up:ip:${ip}`, 10, 60 * 60_000)) {
@@ -31,6 +31,10 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: Sig
     return { error: "emailTaken" };
   }
 
+  if (await isOrganizationNameTaken(organization)) {
+    return { error: "organizationTaken" };
+  }
+
   const user = await prisma.user.create({
     data: { ...profile, id: randomUUID(), password: await hash(password, 10) },
   });
@@ -38,7 +42,7 @@ export async function signUp(data: unknown): Promise<{ ok: true } | { error: Sig
   const created = await createOwnedOrganization(user.id, organization);
 
   await startSession(user.id);
-  rememberOrganization(created.id);
+  rememberOrganization(created.slug);
 
-  return { ok: true };
+  return { redirectTo: `/${created.slug}` };
 }

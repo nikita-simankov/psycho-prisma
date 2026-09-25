@@ -27,6 +27,8 @@ npx prisma migrate deploy
 
 `4_organizations` moves everyone into one organization called "My organization" (rename it in Settings). Former admins become psychologists and the earliest of them becomes the owner; everyone else becomes a member. Departments become teams, groups other than `general` become follow-up flags, and all submissions and conclusions belong to that organization. Accounts keep signing in with their phone number and can add an email later.
 
+`5_unique_organization_names` makes organization names unique, compared without case or extra spaces. If two organizations already share a name, the older one keeps it and the others get " (2)", " (3)" and so on; rename them in Settings afterwards. An organization whose address is still the placeholder `/default` gets a real one the first time it is renamed.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -69,11 +71,13 @@ Tests and forms retired in the move away from military use are kept in `prisma/s
 
 ## Design
 
-Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are Inter for text and Manrope for headings (`src/app/layout.tsx`), and the logo is `src/components/ui/logo.tsx`. Dashboard pages start with `PageHeader`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
+Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are Inter for text and Manrope for headings (`src/app/layout.tsx`), and the logo is `src/components/ui/logo.tsx`. Staff pages live under `src/app/[org]/` inside an inset sidebar (`src/components/ui/sidebar.tsx`, groups in `src/app/[org]/components/navigation.ts`) with breadcrumbs and a Ctrl+K search. They start with `PageHeader`, which also names the last breadcrumb, and share `loading.tsx`, `error.tsx`, `not-found.tsx` and `EmptyState`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
 
 ## Organizations and roles
 
-Each organization has its own people, teams, results and uploaded instruments; one account can belong to several and switch between them in the sidebar. The active one is kept in the `active_org` cookie. Bundled instruments (`organizationId` null) are shared by every organization.
+Each organization has its own people, teams, results and uploaded instruments; one account can belong to several and switch between them in the sidebar. Staff pages carry the organization's slug in the address (`/acme-ltd/people`), so a shared link always opens the right organization; the middleware passes the slug to the server in the `x-organization` header and also remembers it in the `active_org` cookie for pages outside the slug, such as `/forms` and `/tests` for respondents. Old `/dashboard/...` links redirect to the matching page. Opening another organization's slug shows "not found". Bundled instruments (`organizationId` null) are shared by every organization.
+
+Organization names are unique regardless of case and spacing (`Organization.nameKey`). Owners can transfer ownership (they become an admin) and delete the organization after typing its name, under Settings. Everyone can change their name, email and password and leave an organization on the account page (`/account`); the last owner has to transfer ownership first.
 
 | Role | Can |
 | --- | --- |
@@ -93,7 +97,7 @@ Clinical instruments are marked `sensitive` in `prisma/seed-data/tests.json`: me
 
 - Signed-out visitors can only see the landing page, the privacy notice, sign-in, sign-up, password reset and invitation pages.
 - Members must accept their organization's privacy notice before taking anything; the date is stored on `Membership.consentedAt`.
-- Every server action checks the session and role itself with `requireUser()` or `requireMember(permission)`, and pages use `ensureMember(permission)`, all from `src/utils/authentication.ts`. Queries are always scoped to the active organization. Keep doing this in new actions: the middleware only checks that a cookie exists.
+- Every server action checks the session and role itself with `requireUser()` or `requireMember(permission)`, and pages use `ensureMember(permission)`, all from `src/utils/authentication.ts`. Queries are always scoped to the active organization, which comes from the slug in the address when there is one. Keep doing this in new actions: the middleware only checks that a cookie exists.
 - Data sent to the browser uses `publicUserSelect` from `src/utils/user.ts`, which leaves out the password hash and recovery answer.
 
 ## Scoring

@@ -1,3 +1,4 @@
+import { EmptyState } from "@/components/empty-state";
 import { cn } from "@/utils/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ export type LinkListItem = {
 // Rows that each open a detail page: people, results, archived reports.
 export function LinkList({ items, empty, className }: { items: LinkListItem[]; empty: React.ReactNode; className?: string }) {
   if (items.length === 0) {
-    return <p className="py-6 text-center text-sm text-muted-foreground">{empty}</p>;
+    return <EmptyState title={empty} className="py-6" />;
   }
 
   return (

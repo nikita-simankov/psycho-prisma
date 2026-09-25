@@ -4,10 +4,10 @@ import { prisma } from "@/utils/database";
 import type { Prisma } from "@prisma/client";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { Lucia, TimeSpan } from "lucia";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies, headers } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 import { cache } from "react";
-import { COOKIE_NAME, ORGANIZATION_COOKIE } from "./constants";
+import { COOKIE_NAME, ORGANIZATION_COOKIE, ORGANIZATION_HEADER } from "./constants";
 import { can, type Permission } from "./roles";
 import { publicUserSelect, PublicUser } from "./user";
 
@@ -75,9 +75,12 @@ export type Context = {
   memberships: Context["membership"][];
 };
 
-// The signed-in user and the organization they are working in: the one in the
-// active_org cookie if they belong to it, otherwise their oldest membership.
-export const getContext = cache(async (): Promise<Context | { user: PublicUser; membership: null } | null> => {
+type NoOrganization = { user: PublicUser; membership: null; requestedSlug: string | null };
+
+// The signed-in user and the organization they are working in. Under /[org] that is
+// the organization in the URL (null membership when they don't belong to it);
+// elsewhere it is the last one they opened, falling back to their oldest membership.
+export const getContext = cache(async (): Promise<Context | NoOrganization | null> => {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -90,20 +93,23 @@ export const getContext = cache(async (): Promise<Context | { user: PublicUser; 
     orderBy: { createdAt: "asc" },
   });
 
-  const activeId = cookies().get(ORGANIZATION_COOKIE)?.value;
-  const membership = memberships.find((m) => m.organizationId === activeId) ?? memberships[0];
+  const requestedSlug = headers().get(ORGANIZATION_HEADER);
+  const remembered = cookies().get(ORGANIZATION_COOKIE)?.value;
+  const membership = requestedSlug
+    ? memberships.find((m) => m.organization.slug === requestedSlug)
+    : memberships.find((m) => m.organization.slug === remembered || m.organizationId === remembered) ?? memberships[0];
 
   if (!membership) {
-    return { user, membership: null };
+    return { user, membership: null, requestedSlug };
   }
 
   return { user, membership, organization: membership.organization, memberships };
 });
 
 // Where a person lands after signing in.
-export function homePath(membership: { role: string } | null) {
+export function homePath(membership: { role: string; organization: { slug: string } } | null) {
   if (!membership) return "/organizations/new";
-  return can(membership.role, "viewDashboard") ? "/dashboard" : "/forms";
+  return can(membership.role, "viewDashboard") ? `/${membership.organization.slug}` : "/forms";
 }
 
 // For server actions: throws when there is no signed-in user.
@@ -152,6 +158,11 @@ export async function ensureMember(permission?: Permission): Promise<Context> {
   }
 
   if (!context.membership) {
+    // An organization in the URL that this person doesn't belong to looks like it doesn't exist.
+    if (context.requestedSlug) {
+      notFound();
+    }
+
     redirect("/organizations/new");
   }
 

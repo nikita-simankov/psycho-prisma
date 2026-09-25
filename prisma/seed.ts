@@ -28,6 +28,22 @@ function loadTranslations(kind: "tests" | "forms" | "categories", id: string): s
   return JSON.stringify(translations);
 }
 
+// Same rule as organizationNameKey in src/utils/organizations.ts.
+function nameKey(name: string) {
+  return name.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+}
+
+// Migration 5 could only lowercase ASCII; this folds every script, skipping any clash.
+async function normalizeOrganizationNameKeys() {
+  for (const organization of await prisma.organization.findMany({ select: { id: true, name: true, nameKey: true } })) {
+    const key = nameKey(organization.name);
+
+    if (key !== organization.nameKey && !(await prisma.organization.findUnique({ where: { nameKey: key } }))) {
+      await prisma.organization.update({ where: { id: organization.id }, data: { nameKey: key } });
+    }
+  }
+}
+
 // Loads the bundled instruments and questionnaires, and creates the first owner and
 // their organization from ADMIN_EMAIL, ADMIN_PASSWORD and ORGANIZATION_NAME. Safe to run more than once.
 async function main() {
@@ -73,6 +89,8 @@ async function main() {
     });
   }
 
+  await normalizeOrganizationNameKeys();
+
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;
 
@@ -99,12 +117,17 @@ async function main() {
 
   // The first account owns an organization; people are invited from there.
   if (!(await prisma.membership.findFirst({ where: { userId: user.id } }))) {
-    const name = process.env.ORGANIZATION_NAME?.trim() || "My organization";
+    const requested = process.env.ORGANIZATION_NAME?.trim().replace(/\s+/g, " ") || "My organization";
+    let name = requested;
+    for (let suffix = 2; await prisma.organization.findUnique({ where: { nameKey: nameKey(name) } }); suffix++) {
+      name = `${requested} (${suffix})`;
+    }
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "organization";
 
     await prisma.organization.create({
       data: {
         name,
+        nameKey: nameKey(name),
         slug: (await prisma.organization.findUnique({ where: { slug } })) ? `${slug}-${Date.now()}` : slug,
         memberships: { create: { userId: user.id, role: "owner", consentedAt: new Date() } },
       },

@@ -162,7 +162,8 @@
       "errors": {
         "rateLimited": "Too many attempts. Try again later",
         "invalidInput": "Check the fields and try again",
-        "emailTaken": "An account with this email already exists. Sign in instead."
+        "emailTaken": "An account with this email already exists. Sign in instead.",
+        "organizationTaken": "An organization with this name already exists. Ask its owner for an invitation or choose another name."
       },
       "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment.",
       "organization": "Organization name",
@@ -306,11 +307,33 @@
       "back": "Tests",
       "instruction": "Instruction",
       "about": "About this test"
+    },
+    "navGroups": {
+      "assessments": "Assessments",
+      "people": "People",
+      "reports": "Reports",
+      "organization": "Organization"
+    },
+    "menu": "Menu",
+    "toggleSidebar": "Toggle sidebar",
+    "crumbs": {
+      "home": "Dashboard",
+      "forms": "Questionnaires",
+      "tests": "Tests",
+      "people": "People",
+      "teams": "Teams",
+      "followUp": "Follow-up",
+      "reports": "Reports",
+      "archive": "Archive",
+      "settings": "Settings",
+      "results": "Results",
+      "run": "Run"
     }
   },
   "table": {
     "search": "Search...",
-    "empty": "No data"
+    "empty": "No data",
+    "noMatches": "Nothing matches this search"
   },
   "results": {
     "empty": "No one has submitted this yet.",
@@ -501,7 +524,8 @@
       "name": "Organization name",
       "namePlaceholder": "e.g. Acme Ltd",
       "submit": "Create organization",
-      "error": "The organization was not created."
+      "error": "The organization was not created.",
+      "nameTaken": "An organization with this name already exists. Choose another name."
     }
   },
   "mail": {
@@ -566,7 +590,27 @@
     "feedback": "Let people see their own results",
     "feedbackText": "When on, people will see a short summary of their workplace test results. Clinical screens always stay with the psychologist.",
     "saved": "Settings saved",
-    "saveError": "Settings were not saved."
+    "saveError": "Settings were not saved.",
+    "nameTaken": "Another organization already uses this name.",
+    "owner": {
+      "title": "Ownership",
+      "description": "Only owners see this section.",
+      "transfer": "Transfer ownership",
+      "transferText": "The person you choose becomes the owner and you become an admin.",
+      "choosePerson": "Choose a person",
+      "nobody": "Nobody else to choose yet",
+      "transferButton": "Transfer",
+      "transferConfirmTitle": "Make {name} the owner?",
+      "transferConfirmText": "You will become an admin and lose access to this section.",
+      "transferred": "Ownership transferred",
+      "delete": "Delete organization",
+      "deleteText": "Deletes every membership, invitation, result and report in this organization. This cannot be undone.",
+      "deleteButton": "Delete organization",
+      "deleteConfirmTitle": "Delete {name}?",
+      "deleteConfirmText": "All people's answers, results and reports in this organization will be deleted permanently.",
+      "typeName": "Type {name} to confirm",
+      "nameMismatch": "The name doesn't match."
+    }
   },
   "validity": {
     "title": "Response validity",
@@ -589,5 +633,52 @@
     "noLimit": "(no cut-off set)",
     "noScore": "no score",
     "advice": "A high lie or validity score suggests the person answered to look good or inconsistently. Treat the other scales of this test as tentative and discuss them in person."
+  },
+  "account": {
+    "menu": {
+      "account": "Account",
+      "theme": "Theme",
+      "open": "Open account menu"
+    },
+    "title": "Account",
+    "description": "Your name, sign-in details and organizations.",
+    "profile": "Profile",
+    "profileText": "How your name appears to your organizations.",
+    "email": "Email",
+    "emailText": "You sign in with this address. Enter your current password to change it.",
+    "changeEmail": "Change email",
+    "password": "Password",
+    "passwordText": "Changing it signs you out on every other device.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "repeatPassword": "Repeat new password",
+    "passwordsDiffer": "The new passwords don't match.",
+    "changePassword": "Change password",
+    "organizations": "Organizations",
+    "organizationsText": "Workspaces you belong to.",
+    "noOrganizations": "You're not part of any organization.",
+    "leave": "Leave",
+    "leaveTitle": "Leave {name}?",
+    "leaveText": "Your answers in this organization will be deleted and you will need a new invitation to come back.",
+    "createOrganization": "Create an organization",
+    "saved": "Saved",
+    "notSaved": "Not saved",
+    "errors": {
+      "invalidInput": "Check the fields and try again.",
+      "phoneTaken": "Another account uses this phone number.",
+      "emailTaken": "Another account uses this email.",
+      "wrongPassword": "The current password is wrong.",
+      "rateLimited": "Too many attempts. Try again later.",
+      "lastOwner": "You're the only owner. Transfer ownership in the organization's settings first."
+    }
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "text": "The page could not be loaded. Try again, and if it keeps happening tell your administrator.",
+    "reference": "Reference: {digest}",
+    "retry": "Try again",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "It may have moved, or it belongs to an organization you're not part of.",
+    "goHome": "Go to the start page"
   }
 }

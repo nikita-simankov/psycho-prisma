@@ -38,7 +38,7 @@ export async function signIn(
     select: {
       id: true,
       password: true,
-      memberships: { select: { role: true, organizationId: true }, orderBy: { createdAt: "asc" }, take: 1 },
+      memberships: { select: { role: true, organization: { select: { slug: true } } }, orderBy: { createdAt: "asc" }, take: 1 },
     },
   });
 
@@ -53,7 +53,7 @@ export async function signIn(
   const [membership] = existingUser.memberships;
 
   if (membership) {
-    rememberOrganization(membership.organizationId);
+    rememberOrganization(membership.organization.slug);
   }
 
   return { redirectTo: homePath(membership ?? null) };
