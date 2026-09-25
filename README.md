@@ -77,3 +77,5 @@ Clinical instruments are marked `sensitive` in `prisma/seed-data/tests.json`: me
 ## Scoring
 
 Test submissions are scored on the server when they are saved (`src/utils/scoring.ts`). Formulas in imported spreadsheets are evaluated with `fparser`, never `eval`.
+
+Lie, sincerity and other validity scales carry a `validity` rule in `prisma/seed-data/tests.json` (`measure` is `grade`, `stan` or `tGrade`; `max` is the top of the normal range). Reports show them in a panel at the top of each test and warn when a score is above `max` (`src/utils/validity.ts`). Re-run `npm run db:seed` after changing a rule. Prognoz-2's sincerity scale has no cut-off yet, so its score is shown without a verdict.

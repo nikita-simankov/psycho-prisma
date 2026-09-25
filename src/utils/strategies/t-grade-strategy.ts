@@ -4,9 +4,9 @@ import { GradeStrategy } from "./grade-strategy";
 export class TGradeStrategy {
   public static getCorrectionScaleGrade = (
     entries: ReturnType<typeof GradeStrategy.calculateGradesForScales>,
-    name: string
+    scaleId: number
   ): number => {
-    return entries.filter((entry) => entry.scale.name === name)[0].grade;
+    return entries.find((entry) => entry.scale.id === scaleId)?.grade ?? 0;
   };
 
   public static applyGradeCorrection = (
@@ -34,17 +34,26 @@ export class TGradeStrategy {
     tGradeTable: TGradeTableRow[]
   ) => {
     return data.map((entry) => {
-      for (const row of tGradeTable) {
-        if (
-          entry.scale.id === row.scaleId &&
-          row.rawGrade === entry.correctedGrade
-        ) {
-          return {
-            ...entry,
-            tGradeValue: row.convertedGrade,
-          };
-        }
+      const rows = tGradeTable.filter((row) => row.scaleId === entry.scale.id);
+
+      if (rows.length === 0) {
+        return undefined;
       }
+
+      // Raw scores beyond the ends of the table take the nearest row, so an extreme
+      // score still gets the extreme T-score instead of disappearing.
+      const row =
+        rows.find((item) => item.rawGrade === entry.correctedGrade) ??
+        rows.reduce((nearest, item) =>
+          Math.abs(item.rawGrade - entry.correctedGrade) < Math.abs(nearest.rawGrade - entry.correctedGrade)
+            ? item
+            : nearest
+        );
+
+      return {
+        ...entry,
+        tGradeValue: row.convertedGrade,
+      };
     });
   };
 

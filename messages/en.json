@@ -567,5 +567,27 @@
     "feedbackText": "When on, people will see a short summary of their workplace test results. Clinical screens always stay with the psychologist.",
     "saved": "Settings saved",
     "saveError": "Settings were not saved."
+  },
+  "validity": {
+    "title": "Response validity",
+    "status": {
+      "reliable": "Answers look reliable",
+      "questionable": "Interpret with caution",
+      "unknown": "Validity not rated"
+    },
+    "value": {
+      "grade": "score {value}",
+      "stan": "sten {value}",
+      "tGrade": "T-score {value}"
+    },
+    "valueWithLimit": {
+      "grade": "score {value}, normal up to {max}",
+      "stan": "sten {value}, normal up to {max}",
+      "tGrade": "T-score {value}, normal up to {max}"
+    },
+    "aboveLimit": "above the normal range",
+    "noLimit": "(no cut-off set)",
+    "noScore": "no score",
+    "advice": "A high lie or validity score suggests the person answered to look good or inconsistently. Treat the other scales of this test as tentative and discuss them in person."
   }
 }

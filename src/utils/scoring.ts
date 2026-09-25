@@ -11,7 +11,8 @@ import { StanStrategy } from "./strategies/stan-strategy";
 import { TGradeStrategy } from "./strategies/t-grade-strategy";
 
 // The Mini-Mult K-correction: the correction scale and the scales it adjusts.
-const CORRECTION_SCALE_NAME = "Шкала коррекции (К)";
+// Found by id so translated scale names don't break it.
+const CORRECTION_SCALE_ID = 3;
 const CORRECTED_SCALE_IDS = [4, 7, 9, 10, 11];
 
 type ScorableTest = Pick<
@@ -49,7 +50,7 @@ export function scoreSubmission(
       const tGradeTable = JSON.parse(test.tGradeTable) as TGradeTableRow[];
       const correctionScaleGrade = TGradeStrategy.getCorrectionScaleGrade(
         scaleGrades,
-        CORRECTION_SCALE_NAME
+        CORRECTION_SCALE_ID
       );
       const correctedGrades = TGradeStrategy.applyGradeCorrection(
         scaleGrades,

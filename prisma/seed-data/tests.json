@@ -8143,6 +8143,7 @@
    {
     "id": 2,
     "name": "Шкала лжи",
+    "validity": { "measure": "grade", "max": 0.75 },
     "keys": [
      {
       "questionId": 11,
@@ -14715,6 +14716,7 @@
    {
     "id": 1,
     "name": "Шкала социальной желательности ответов",
+    "validity": { "measure": "stan", "max": 7 },
     "keys": [
      {
       "questionId": 5,
@@ -17345,6 +17347,7 @@
    {
     "id": 1,
     "name": "Шкала искренности",
+    "validity": { "measure": "grade" },
     "keys": [
      {
       "questionId": 1,
@@ -19197,6 +19200,7 @@
    {
     "id": 1,
     "name": "Шкала достоверности (Д)",
+    "validity": { "measure": "grade", "max": 10 },
     "keys": [
      {
       "questionId": 1,
@@ -31628,6 +31632,7 @@
    {
     "id": 1,
     "name": "Шкала лжи (L)",
+    "validity": { "measure": "tGrade", "max": 70 },
     "keys": [
      {
       "questionId": 5,
@@ -31661,6 +31666,7 @@
    {
     "id": 2,
     "name": "Шкала достоверности (F)",
+    "validity": { "measure": "tGrade", "max": 70 },
     "keys": [
      {
       "questionId": 22,
@@ -31744,6 +31750,7 @@
    {
     "id": 3,
     "name": "Шкала коррекции (К)",
+    "validity": { "measure": "tGrade", "max": 70 },
     "keys": [
      {
       "questionId": 11,
