@@ -9,13 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import { LogOut, UserCircle, Users2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 type Properties = {
-  user: User;
+  user: PublicUser;
 };
 
 export const DashboardNavbarUserButton: React.FC<Properties> = ({ user }) => {

@@ -32,7 +32,15 @@ export default function SignInForm() {
   });
 
   const signInMutation = useMutation({
-    mutationFn: (formValues: SignInFormData) => signIn(formValues),
+    mutationFn: async (formValues: SignInFormData) => {
+      const result = await signIn(formValues);
+
+      if ("error" in result) {
+        throw new Error(result.error);
+      }
+
+      return result;
+    },
 
     onSuccess: (data) => {
       toast({

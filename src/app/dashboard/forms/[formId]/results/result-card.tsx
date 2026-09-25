@@ -7,12 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import { Router } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 
 type Properties = {
-  user: User;
+  user: PublicUser;
   formId: string;
   resultId: string;
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@/hooks/use-toast";
 import {
   Dialog,
   DialogClose,
@@ -40,7 +41,13 @@ export const CreateFormDialog: React.FC = () => {
 
   const fileUploadHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files![0];
-    extractFormQuestions(uploadedFile, formData, setFormData);
+    extractFormQuestions(uploadedFile, formData, setFormData).catch(() =>
+      toast({
+        title: "Не удалось прочитать файл",
+        description: "Проверьте, что это файл .xlsx в ожидаемом формате",
+        variant: "destructive",
+      })
+    );
   };
 
   return (

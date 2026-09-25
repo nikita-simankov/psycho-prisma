@@ -1,4 +1,3 @@
-import * as xlsx from "xlsx";
 import {
   StanTableRow,
   SummaryTableRow,
@@ -9,41 +8,27 @@ import {
   TestScaleKey,
   TGradeTableRow,
 } from "../constants";
+import { getSheetRows, readWorkbook, Workbook } from "./workbook";
 
-export function extractTestData(
+export async function extractTestData(
   file: File,
   testData: TestData,
   setTestData: React.Dispatch<React.SetStateAction<TestData>>
 ) {
-  const fileReader = new FileReader();
+  const workBook = await readWorkbook(file);
 
-  fileReader.readAsArrayBuffer(file);
-  fileReader.onload = (event: ProgressEvent<FileReader>) => {
-    const bufferArray = event.target?.result;
-    const workBook: xlsx.WorkBook = xlsx.read(bufferArray, {
-      type: "buffer",
-    });
-
-    const scales = extractScales(workBook);
-    const questions = extractQuestions(workBook);
-    const stanTable = extractStanTable(workBook);
-    const tGradeTable = extractTGradeTable(workBook);
-    const summaryTable = extractSummaryTable(workBook);
-
-    setTestData({
-      ...testData,
-      scales: scales,
-      questions: questions,
-      stanTable: stanTable,
-      tGradeTable: tGradeTable,
-      summaryTable: summaryTable,
-    });
-  };
+  setTestData({
+    ...testData,
+    scales: extractScales(workBook),
+    questions: extractQuestions(workBook),
+    stanTable: extractStanTable(workBook),
+    tGradeTable: extractTGradeTable(workBook),
+    summaryTable: extractSummaryTable(workBook),
+  });
 }
 
-function extractScales(workBook: xlsx.WorkBook) {
-  const scalesSheet = workBook.Sheets["Обработка"];
-  const scales = xlsx.utils.sheet_to_json(scalesSheet);
+function extractScales(workBook: Workbook) {
+  const scales = getSheetRows(workBook, "Обработка");
 
   const parsedScales: TestScale[] = scales.map((entry: any) => {
     const [
@@ -94,9 +79,8 @@ function extractScales(workBook: xlsx.WorkBook) {
   return parsedScales;
 }
 
-function extractQuestions(workBook: xlsx.WorkBook): TestQuestion[] {
-  const questionsSheet = workBook.Sheets["Список вопросов"];
-  const questions = xlsx.utils.sheet_to_json(questionsSheet);
+function extractQuestions(workBook: Workbook): TestQuestion[] {
+  const questions = getSheetRows(workBook, "Список вопросов");
 
   const parsedQuestions: TestQuestion[] = questions.map((entry: any) => {
     const [
@@ -129,9 +113,8 @@ function extractQuestions(workBook: xlsx.WorkBook): TestQuestion[] {
   return parsedQuestions;
 }
 
-function extractStanTable(workBook: xlsx.WorkBook): StanTableRow[] {
-  const tableSheet = workBook.Sheets["Таблица перевода в СТЭН"];
-  const tableData = xlsx.utils.sheet_to_json(tableSheet);
+function extractStanTable(workBook: Workbook): StanTableRow[] {
+  const tableData = getSheetRows(workBook, "Таблица перевода в СТЭН");
 
   const parsedRows: StanTableRow[] = tableData.map((entry: any) => {
     const [scaleId, minGrade, maxGrade, convertedGrade] = [
@@ -152,9 +135,8 @@ function extractStanTable(workBook: xlsx.WorkBook): StanTableRow[] {
   return parsedRows;
 }
 
-function extractTGradeTable(workBook: xlsx.WorkBook): TGradeTableRow[] {
-  const tableSheet = workBook.Sheets["Таблица перевода в Т-баллы"];
-  const tableData = xlsx.utils.sheet_to_json(tableSheet);
+function extractTGradeTable(workBook: Workbook): TGradeTableRow[] {
+  const tableData = getSheetRows(workBook, "Таблица перевода в Т-баллы");
 
   const parsedRows: TGradeTableRow[] = tableData.map((entry: any) => {
     const [scaleId, rawGrade, convertedGrade] = [
@@ -173,9 +155,8 @@ function extractTGradeTable(workBook: xlsx.WorkBook): TGradeTableRow[] {
   return parsedRows;
 }
 
-function extractSummaryTable(workBook: xlsx.WorkBook): SummaryTableRow[] {
-  const tableSheet = workBook.Sheets["Характеристика"];
-  const tableData = xlsx.utils.sheet_to_json(tableSheet);
+function extractSummaryTable(workBook: Workbook): SummaryTableRow[] {
+  const tableData = getSheetRows(workBook, "Характеристика");
 
   const parsedRows: SummaryTableRow[] = tableData.map((entry: any) => {
     const [

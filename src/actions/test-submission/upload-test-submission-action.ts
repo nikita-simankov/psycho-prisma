@@ -1,21 +1,32 @@
 "use server";
 
+import { requireUser } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import { useSession } from "@/utils/authentication";
-import { TestQuestionResponse } from "@/utils/constants";
+import { scoreSubmission } from "@/utils/scoring";
+import { z } from "zod";
 
-export async function uploadTestSubmission(
-  testId: string,
-  submission: TestQuestionResponse[]
-) {
-  const user = await useSession();
+const responsesSchema = z
+  .array(z.object({ questionId: z.number(), choiceId: z.number() }))
+  .max(2000);
 
-  return await prisma.testSubmission.create({
+export async function uploadTestSubmission(testId: string, submission: unknown) {
+  const user = await requireUser();
+  const responses = responsesSchema.parse(submission);
+
+  const test = await prisma.test.findUniqueOrThrow({
+    where: { id: z.string().parse(testId) },
+  });
+
+  const score = scoreSubmission(test, responses);
+
+  const created = await prisma.testSubmission.create({
     data: {
-      userId: user?.id!,
-      testId: testId,
-      summary: "",
-      submission: JSON.stringify(submission),
+      userId: user.id,
+      testId: test.id,
+      summary: score ? JSON.stringify(score.result) : "",
+      submission: JSON.stringify(responses),
     },
   });
+
+  return { id: created.id, testId: created.testId };
 }

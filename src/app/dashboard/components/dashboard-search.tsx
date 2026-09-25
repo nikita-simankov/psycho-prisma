@@ -9,7 +9,8 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
-import { Form, Test, User } from "@prisma/client";
+import { Form, Test } from "@prisma/client";
+import type { PublicUser } from "@/utils/user";
 import {
   FlaskConical,
   Home,
@@ -22,7 +23,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface Properties {
-  users: User[];
+  users: PublicUser[];
   forms: Form[];
   tests: Test[];
 }

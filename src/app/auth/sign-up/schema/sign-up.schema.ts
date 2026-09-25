@@ -1,33 +1,39 @@
 import { z } from "zod"
 
+const text = (max = 200) => z.string().trim().max(max)
+
 export const generalInfoSchema = z.object({
-  name: z.string(),
-  surname: z.string(),
-  lastName: z.string(),
-  dateOfBirth: z.string(),
+  name: text(100),
+  surname: text(100),
+  lastName: text(100),
+  dateOfBirth: text(20),
 })
 
 export const militaryInfoSchema = z.object({
-  rank: z.string(),
-  division: z.string(),
-  recruitedBy: z.string(),
-  servingKind: z.string(),
-  servingPeriod: z.string(),
-  recruitmentDate: z.string(),
+  rank: text(),
+  division: text(),
+  recruitedBy: text(),
+  servingKind: text(),
+  servingPeriod: text(),
+  recruitmentDate: text(20),
 })
 
 export const livingAddressInfoSchema = z.object({
-  city: z.string(),
-  region: z.string(),
-  address: z.string(),
-  building: z.string(),
-  appartment: z.string(),
+  city: text(),
+  region: text(),
+  address: text(),
+  building: text(20),
+  appartment: text(20),
 })
 
 export const credentialsSchema = z.object({
-  password: z.string(),
-  phoneNumber: z.string(),
-  recoveryQuestionAnswer: z.string(),
+  password: z.string().min(8, {
+    message: "Пароль должен содержать не менее 8 символов"
+  }).max(128),
+  phoneNumber: z.string().min(9, {
+    message: "Неверный формат номера телефона"
+  }).max(20),
+  recoveryQuestionAnswer: text(),
 })
 
 export type CredentialsFormData = z.infer<typeof credentialsSchema>

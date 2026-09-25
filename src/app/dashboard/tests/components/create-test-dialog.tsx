@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@/hooks/use-toast";
 import { uploadTestData } from "@/actions/test/upload-test-data-action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,7 +48,13 @@ export const CreateTestDialog: React.FC = () => {
 
   const fileUploadHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const targetFile = event.target.files![0];
-    extractTestData(targetFile, testData, setTestData);
+    extractTestData(targetFile, testData, setTestData).catch(() =>
+      toast({
+        title: "Не удалось прочитать файл",
+        description: "Проверьте, что это файл .xlsx в ожидаемом формате",
+        variant: "destructive",
+      })
+    );
   };
 
   const uploadTestMutation = useMutation({
