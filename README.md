@@ -31,6 +31,8 @@ npx prisma migrate deploy
 
 `6_rounds` adds assessment rounds (`Round`, `Assignment`, `RoundSchedule`), links submissions to the round they answer, and adds `Test.retestDays` and `User.locale`.
 
+`7_drafts` adds `Draft`, which keeps answers in progress so people can pause and resume on any device, and a `timings` column on submissions with the milliseconds spent on each answer.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
