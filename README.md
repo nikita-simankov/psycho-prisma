@@ -27,6 +27,28 @@ npx prisma migrate deploy
 
 `4_organizations` moves everyone into one organization called "My organization" (rename it in Settings). Former admins become psychologists and the earliest of them becomes the owner; everyone else becomes a member. Departments become teams, groups other than `general` become follow-up flags, and all submissions and conclusions belong to that organization. Accounts keep signing in with their phone number and can add an email later.
 
+## Deploying to Railway
+
+The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
+
+1. Create a project from this GitHub repository.
+2. Add a volume to the service, mounted at `/data`. SQLite lives there, so data survives deploys. Keep the service at one replica while the database is SQLite.
+3. Set these variables on the service:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | `file:/data/prisma.db` |
+| `APP_URL` | The public address, e.g. `https://prisma.up.railway.app` |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first owner, created on the first start |
+| `ORGANIZATION_NAME` | That owner's organization |
+| `RESEND_API_KEY`, `MAIL_FROM` | Email for invitations and password resets (optional) |
+
+4. Generate a domain under Settings > Networking. Railway serves it over HTTPS, which the session cookie needs in production.
+
+To move an existing database in, upload the file to the volume (for example with `railway ssh`) before the first start, and back it up first.
+
+The same image runs on any Docker host: `docker build -t prisma .` then `docker run -p 3000:3000 -v prisma-data:/data -e DATABASE_URL=file:/data/prisma.db ... prisma`.
+
 ## Useful commands
 
 | Command | What it does |
