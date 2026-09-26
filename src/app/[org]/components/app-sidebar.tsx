@@ -37,7 +37,7 @@ type OrganizationOption = { slug: string; name: string; role: string };
 
 function OrganizationMark({ name }: { name: string }) {
   return (
-    <span className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary font-heading text-sm font-bold text-sidebar-primary-foreground">
+    <span className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-md bg-foreground font-heading text-sm font-medium text-background">
       {name.slice(0, 1).toUpperCase()}
     </span>
   );
@@ -91,11 +91,14 @@ function OrganizationSwitcher({ organizations }: { organizations: OrganizationOp
   );
 }
 
-// The most specific section containing the current path is the active one.
+// The most specific section containing the current path is the active one; returns its link.
 function activePath(pathname: string, base: string) {
-  return NAVIGATION.map((item) => base + item.path)
-    .filter((href) => pathname === href || (href !== base && pathname.startsWith(href + "/")))
-    .sort((a, b) => b.length - a.length)[0];
+  const within = (href: string) => pathname === href || (href !== base && pathname.startsWith(href + "/"));
+  return NAVIGATION.flatMap((item) =>
+    [item.path, ...(item.alsoMatches ?? [])].map((path) => ({ href: base + item.path, match: base + path })),
+  )
+    .filter(({ match }) => within(match))
+    .sort((a, b) => b.match.length - a.match.length)[0]?.href;
 }
 
 export function AppSidebar({ organizations, user }: { organizations: OrganizationOption[]; user: MenuUser }) {

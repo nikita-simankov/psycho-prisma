@@ -1,7 +1,7 @@
 import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/page-templates";
 import { Progress } from "@/components/ui/progress";
 import { allowedSubmissionWhere } from "@/utils/library";
 import { ensureMember } from "@/utils/authentication";
@@ -81,24 +81,25 @@ export async function DashboardWork() {
   const progress = await roundProgress(open.map((round) => round.id));
 
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid gap-8 lg:grid-cols-3">
       {waiting && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
+        <Section
+          title={
+            <span className="flex items-center gap-2">
               {t("review")}
               {waiting.total > 0 && <Badge variant="secondary">{waiting.total}</Badge>}
-            </CardTitle>
-            <CardDescription>{t("reviewText")}</CardDescription>
-          </CardHeader>
-          <CardContent className="px-2 sm:px-4">
+            </span>
+          }
+          description={t("reviewText")}
+        >
+          <div>
             {waiting.rows.length === 0 ? (
               <EmptyState icon={ClipboardCheck} title={t("reviewEmpty")} className="py-6" />
             ) : (
               <ul className="divide-y">
                 {waiting.rows.map(({ user, at }) => (
                   <li key={user.id}>
-                    <Link href={`${base}/reports/${user.id}`} className="flex items-center gap-3 rounded-lg px-2 py-2.5 hover:bg-accent">
+                    <Link href={`${base}/reports/${user.id}`} className="-mx-2 flex items-center gap-3 rounded-md px-2 py-2.5 hover:bg-card">
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium">{formatFullName(user)}</span>
                         <span className="text-xs text-muted-foreground">{format.relativeTime(at, now)}</span>
@@ -109,19 +110,20 @@ export async function DashboardWork() {
                 ))}
               </ul>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </Section>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <Section
+        title={
+          <span className="flex items-center gap-2">
             {t("overdue")}
             {overdue.length > 0 && <Badge variant="destructive">{overdue.length}</Badge>}
-          </CardTitle>
-          <CardDescription>{t("overdueText")}</CardDescription>
-        </CardHeader>
-        <CardContent className="px-2 sm:px-4">
+          </span>
+        }
+        description={t("overdueText")}
+      >
+        <div>
           {overdue.length === 0 ? (
             <EmptyState icon={Clock} title={t("overdueEmpty")} className="py-6" />
           ) : (
@@ -130,7 +132,7 @@ export async function DashboardWork() {
                 <li key={assignment.id}>
                   <Link
                     href={rounds ? `${base}/rounds/${assignment.round.id}` : `${base}/people/${assignment.user.id}`}
-                    className="flex items-center gap-3 rounded-lg px-2 py-2.5 hover:bg-accent"
+                    className="-mx-2 flex items-center gap-3 rounded-md px-2 py-2.5 hover:bg-card"
                   >
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-medium">{formatFullName(assignment.user)}</span>
@@ -145,16 +147,12 @@ export async function DashboardWork() {
               ))}
             </ul>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </Section>
 
       {rounds && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("rounds")}</CardTitle>
-            <CardDescription>{t("roundsText")}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+        <Section title={t("rounds")} description={t("roundsText")}>
+          <div className="flex flex-col gap-4">
             {open.length === 0 ? (
               <EmptyState
                 icon={Send}
@@ -173,7 +171,7 @@ export async function DashboardWork() {
                   <Link key={round.id} href={`${base}/rounds/${round.id}`} className="flex flex-col gap-1.5 rounded-lg hover:opacity-80">
                     <span className="flex justify-between gap-2 text-sm">
                       <span className="truncate font-medium">{round.name}</span>
-                      <span className="shrink-0 text-muted-foreground">
+                      <span className="shrink-0 font-mono text-xs text-muted-foreground">
                         {stats.completed}/{stats.people}
                       </span>
                     </span>
@@ -182,8 +180,8 @@ export async function DashboardWork() {
                 );
               })
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </Section>
       )}
     </div>
   );

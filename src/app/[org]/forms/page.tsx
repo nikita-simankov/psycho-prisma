@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/page-header";
+import { LibraryTabs } from "../components/library-tabs";
 import { DraftsList } from "@/components/studio/drafts-list";
 import { NewInstrumentButton } from "@/components/studio/studio-buttons";
 import { ensureMember } from "@/utils/authentication";
@@ -32,6 +33,7 @@ export default async function Page() {
             </>
           )
         } />
+      <LibraryTabs />
       <DraftsList kind="form" drafts={drafts} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {forms.map((form) => (

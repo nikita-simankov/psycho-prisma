@@ -1,17 +1,17 @@
 import type { Permission } from "@/utils/roles";
 import type { LucideIcon } from "lucide-react";
-import { ChartColumn, FileText, FlaskConical, Flag, Home, Layers, NotepadText, Send, Settings, Users } from "lucide-react";
+import { ChartColumn, FileText, Flag, Layers, LibraryBig, Send, Settings, Sun, Users } from "lucide-react";
 
 // Sidebar sections, grouped as they appear, shown when the person's role has the permission.
 // Paths are relative to the organization (/acme + path). Labels live under "dashboard.nav".
 export const NAVIGATION_GROUPS: NavigationGroup[] = [
-  { key: "overview", items: [{ key: "home", path: "", icon: Home }] },
+  { key: "overview", items: [{ key: "home", path: "", icon: Sun }] },
   {
     key: "assessments",
     items: [
       { key: "rounds", path: "/rounds", icon: Send, permission: "manageRounds" as const },
-      { key: "forms", path: "/forms", icon: NotepadText },
-      { key: "tests", path: "/tests", icon: FlaskConical },
+      // Tests and questionnaires share one Library entry; its pages switch between them with tabs.
+      { key: "library", path: "/tests", icon: LibraryBig, alsoMatches: ["/forms"] },
     ],
   },
   {
@@ -35,9 +35,16 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
 ];
 
-export type NavigationKey = "home" | "rounds" | "forms" | "tests" | "people" | "teams" | "followUp" | "analytics" | "reports" | "settings";
+export type NavigationKey = "home" | "rounds" | "library" | "people" | "teams" | "followUp" | "analytics" | "reports" | "settings";
 
-export type NavigationItem = { key: NavigationKey; path: string; icon: LucideIcon; permission?: Permission };
+export type NavigationItem = {
+  key: NavigationKey;
+  path: string;
+  icon: LucideIcon;
+  permission?: Permission;
+  // Other paths that belong to this entry, so it stays highlighted on them.
+  alsoMatches?: string[];
+};
 
 export type NavigationGroup = {
   key: "overview" | "assessments" | "people" | "reports" | "organization";
