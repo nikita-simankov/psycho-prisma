@@ -7,6 +7,7 @@ export const ORGANIZATION_HEADER = "x-organization";
 export const RESERVED_SLUGS = new Set([
   "account", "api", "assessments", "auth", "consent", "dashboard", "design", "forms", "invite", "link-expired",
   "organizations", "privacy", "r", "tests", "settings", "admin", "app", "help", "static", "_next",
+  "product", "pricing", "instruments", "security", "legal", "start",
 ]);
 
 export type ChoiceType = "Text" | "List";

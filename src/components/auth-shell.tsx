@@ -55,7 +55,7 @@ export async function AuthShell({ title, subtitle, children }: Properties) {
             ))}
           </ol>
         </div>
-        <p className="max-w-lg text-xs text-muted-foreground">{t("landing.footer.disclaimer")}</p>
+        <p className="max-w-lg text-xs text-muted-foreground">{t("site.footer.disclaimer")}</p>
       </aside>
     </main>
   );
