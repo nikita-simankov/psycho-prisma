@@ -8,6 +8,7 @@ import { assignableRoles, can } from "@/utils/roles";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { InviteDialog, RevokeInvitationButton } from "./components/member-controls";
 import { UsersTable } from "./components/users-table";
+import { BulkInviteDialog, ResendInvitationButton } from "./components/bulk-invite";
 
 export async function generateMetadata() {
   const t = await getTranslations("dashboard.nav");
@@ -33,10 +34,13 @@ export default async function Page() {
         description={t("description", { organization: organization.name })}
         actions={
           manage && (
-            <InviteDialog
-              roles={assignableRoles(membership.role)}
-              teams={teams.map((team) => ({ id: team.id, name: team.name }))}
-            />
+            <>
+              <BulkInviteDialog />
+              <InviteDialog
+                roles={assignableRoles(membership.role)}
+                teams={teams.map((team) => ({ id: team.id, name: team.name }))}
+              />
+            </>
           )
         }
       />
@@ -66,7 +70,10 @@ export default async function Page() {
                           ? t("invitations.expired")
                           : t("invitations.expires", { date: format.dateTime(invitation.expiresAt, { dateStyle: "medium" }) })}
                       </span>
-                      <RevokeInvitationButton invitationId={invitation.id} email={invitation.email} />
+                      <div className="flex gap-1">
+                        <ResendInvitationButton invitationId={invitation.id} email={invitation.email} />
+                        <RevokeInvitationButton invitationId={invitation.id} email={invitation.email} />
+                      </div>
                     </li>
                   );
                 })}

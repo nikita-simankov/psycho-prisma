@@ -1577,6 +1577,7 @@
   "ttc": 5,
   "strategy": "standard-ten",
   "sensitive": false,
+  "retestDays": 180,
   "scales": [
    {
     "id": 1,
@@ -2656,6 +2657,7 @@
   "ttc": 8,
   "strategy": "standard-ten",
   "sensitive": false,
+  "retestDays": 180,
   "scales": [
    {
     "id": 1,
@@ -4783,6 +4785,7 @@
   "ttc": 5,
   "strategy": "standard-ten",
   "sensitive": false,
+  "retestDays": 180,
   "scales": [
    {
     "id": 1,

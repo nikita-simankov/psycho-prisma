@@ -1,5 +1,6 @@
 // Roles a person can hold in an organization, most powerful first.
-export const ROLES = ["owner", "admin", "psychologist", "manager", "member"] as const;
+// Candidates are people invited only for a hiring round; they see nothing but that round.
+export const ROLES = ["owner", "admin", "psychologist", "manager", "member", "candidate"] as const;
 
 export type Role = (typeof ROLES)[number];
 
@@ -17,6 +18,8 @@ const PERMISSIONS = {
   manageSettings: ["owner", "admin"],
   // Upload tests and questionnaires.
   manageLibrary: ["owner", "admin", "psychologist"],
+  // Send assessment rounds and set up recurring ones.
+  manageRounds: STAFF_ROLES,
   // Use the dashboard: people, results and reports.
   viewDashboard: STAFF_ROLES,
   // Results of clinical and wellbeing screens, and the restricted follow-up flag.
@@ -33,7 +36,8 @@ export function can(role: string, permission: Permission): boolean {
 
 // Roles an inviter may hand out: nobody can grant more than they have, and only owners create owners.
 export function assignableRoles(role: string): Role[] {
-  if (role === "owner") return [...ROLES];
-  if (role === "admin") return ROLES.filter((r) => r !== "owner");
+  // Candidates are only added through hiring rounds.
+  if (role === "owner") return ROLES.filter((r) => r !== "candidate");
+  if (role === "admin") return ROLES.filter((r) => r !== "owner" && r !== "candidate");
   return [];
 }

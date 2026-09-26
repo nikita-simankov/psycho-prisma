@@ -225,7 +225,9 @@
     "testsTaken": "Completed tests",
     "nothingYet": "Nothing yet.",
     "viewResult": "View result",
-    "details": "Details"
+    "details": "Details",
+    "nextDue": "Next due",
+    "openRounds": "Open rounds"
   },
   "dashboard": {
     "nav": {
@@ -237,7 +239,8 @@
       "archive": "Archive",
       "teams": "Teams",
       "followUp": "Follow-up",
-      "settings": "Settings"
+      "settings": "Settings",
+      "rounds": "Rounds"
     },
     "search": {
       "placeholder": "Search",
@@ -327,7 +330,22 @@
       "archive": "Archive",
       "settings": "Settings",
       "results": "Results",
-      "run": "Run"
+      "run": "Run",
+      "rounds": "Rounds",
+      "new": "New"
+    },
+    "work": {
+      "review": "Waiting for review",
+      "reviewText": "People with results newer than their conclusion.",
+      "reviewEmpty": "Everything is reviewed.",
+      "overdue": "Overdue",
+      "overdueText": "People who haven't finished a round past its due date.",
+      "overdueEmpty": "Nobody is overdue.",
+      "dueWas": "was due {date}",
+      "rounds": "Open rounds",
+      "roundsText": "How many people have finished.",
+      "roundsEmpty": "No rounds are open.",
+      "newRound": "Send a round"
     }
   },
   "table": {
@@ -372,7 +390,8 @@
     "start": "Start",
     "privacyNote": "Your answers are seen only by the HR specialists and psychologists in your organization.",
     "instruction": "Instruction",
-    "about": "About"
+    "about": "About",
+    "home": "My assessments"
   },
   "scores": {
     "raw": "Raw score",
@@ -388,7 +407,8 @@
     "admin": "Admin",
     "psychologist": "Psychologist",
     "manager": "HR manager",
-    "member": "Member"
+    "member": "Member",
+    "candidate": "Candidate"
   },
   "people": {
     "title": "People",
@@ -414,7 +434,12 @@
       "expires": "Expires {date}",
       "expired": "Expired",
       "revoke": "Revoke",
-      "revokeFor": "Revoke the invitation for {email}"
+      "revokeFor": "Revoke the invitation for {email}",
+      "resend": "Resend",
+      "resendFor": "Resend the invitation to {email}",
+      "resent": "Invitation sent again to {email}",
+      "resentNotEmailed": "Email isn't set up, so nothing was sent. Pass on the new link instead.",
+      "linkCopied": "New link copied"
     },
     "membership": {
       "button": "Role and team",
@@ -427,6 +452,26 @@
       "title": "Remove {name}?",
       "description": "They lose access to {organization}, and their answers, results and conclusions here are deleted. Their account and other organizations are not affected.",
       "confirm": "Remove and delete results"
+    },
+    "bulk": {
+      "button": "Invite from spreadsheet",
+      "title": "Invite from a spreadsheet",
+      "text": "Upload an .xlsx or .csv file with one person per row. Each person gets their own invitation email.",
+      "file": "Spreadsheet file",
+      "columns": "Columns: Email (required), First name, Last name, Role, Team, Position. Headers can be in English or Russian. Role defaults to Member; teams must already exist.",
+      "found": "{count, plural, one {# person found} other {# people found}}",
+      "noneFound": "No rows with an email were found. Check the header row.",
+      "send": "{count, plural, =0 {Send invitations} one {Invite # person} other {Invite # people}}",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "outcomes": {
+        "sent": "Invitation emailed",
+        "notEmailed": "Created, but email isn't set up",
+        "alreadyMember": "Already a member",
+        "invalidEmail": "Not a valid email",
+        "unknownRole": "Unknown role, or one you can't give",
+        "unknownTeam": "No team with this name"
+      }
     }
   },
   "reports": {
@@ -536,6 +581,15 @@
     "passwordReset": {
       "subject": "Reset your Prisma password",
       "text": "Hello,\n\nChoose a new password here: {link}\n\nThe link works once and expires in {minutes} minutes. If you didn't ask for this, you can ignore this email."
+    },
+    "round": {
+      "inviteSubject": "{organization}: please complete {round}",
+      "inviteText": "Hello {name},\n\n{organization} has asked you to complete \"{round}\" on Prisma.",
+      "reminderSubject": "Reminder: {round} for {organization}",
+      "reminderText": "Hello {name},\n\nThis is a reminder to finish \"{round}\" for {organization}.",
+      "due": "Please finish by {date}.",
+      "open": "Open it here (no password needed): {link}",
+      "footer": "\nThe link is personal, so please don't forward it. If you weren't expecting this, you can ignore this email."
     }
   },
   "roleHints": {
@@ -543,7 +597,8 @@
     "admin": "Manages people, teams, settings and the library. Doesn't see clinical results.",
     "psychologist": "Sees every result, including clinical screens and follow-up flags, and writes conclusions.",
     "manager": "Sees people and results of workplace tests. Doesn't see clinical results.",
-    "member": "Takes assessments. Doesn't see the dashboard."
+    "member": "Takes assessments. Doesn't see the dashboard.",
+    "candidate": "Takes only the hiring round they were sent. Doesn't see anything else."
   },
   "flags": {
     "monitoring": "Monitoring",
@@ -680,5 +735,146 @@
     "notFoundTitle": "Page not found",
     "notFoundText": "It may have moved, or it belongs to an organization you're not part of.",
     "goHome": "Go to the start page"
+  },
+  "rounds": {
+    "title": "Rounds",
+    "description": "Send tests and questionnaires to people with a due date, once or on a schedule.",
+    "new": "New round",
+    "open": "Open",
+    "closed": "Closed",
+    "noneOpen": "No open rounds",
+    "noneOpenText": "A round sends chosen instruments to people or teams, emails them a link and tracks who has finished.",
+    "recurring": "Recurring",
+    "recurringText": "Each schedule opens a new round on its own. Team members at that time are included.",
+    "paused": "Paused",
+    "every": "{count, plural, one {Every month} other {Every # months}}",
+    "nextRun": "next on {date}",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stopRepeating": "Stop repeating",
+    "stopTitle": "Stop repeating {name}?",
+    "stopText": "No new cycles will open. Rounds it already opened stay, with their results.",
+    "purposes": {
+      "development": "Development",
+      "hiring": "Hiring",
+      "wellbeing": "Wellbeing"
+    },
+    "cycle": "Cycle {cycle}",
+    "cycleOf": "Cycle {cycle}, {count, plural, one {monthly} other {every # months}}",
+    "overdueCount": "{count} overdue",
+    "itemCount": "{count, plural, one {# instrument} other {# instruments}}",
+    "wasDue": "Was due {date}",
+    "dueOn": "Due {date}",
+    "noDue": "No due date",
+    "completedOf": "{done} of {total} finished",
+    "progressLabel": "Progress",
+    "closedBadge": "Closed",
+    "itemDone": "{count} done",
+    "peopleTitle": "People",
+    "person": "Person",
+    "status": "Status",
+    "finishedAt": "Finished",
+    "actions": "Actions",
+    "statuses": {
+      "finished": "Finished",
+      "started": "In progress",
+      "notStarted": "Not started",
+      "overdue": "Overdue"
+    },
+    "partDone": "{done} of {total} done",
+    "linkCopied": "Link copied",
+    "copyLink": "Copy sign-in link",
+    "reminderSent": "Reminder sent to {name}",
+    "reminderNotEmailed": "Email isn't set up, so the reminder wasn't sent. Pass on the link instead.",
+    "actionsFor": "Actions for {name}",
+    "remind": "Send reminder",
+    "remindAgain": "Remind again",
+    "removeFromRound": "Remove from round",
+    "reopen": "Reopen round",
+    "close": "Close round",
+    "addPeople": "Add people",
+    "addPeopleText": "They get the same instruments and due date, and an email with their link.",
+    "added": "{count, plural, one {# person added} other {# people added}}",
+    "addCount": "{count, plural, =0 {Add} one {Add # person} other {Add # people}}",
+    "form": {
+      "title": "New round",
+      "description": "Choose what to send, to whom, and by when.",
+      "about": "About",
+      "name": "Name",
+      "namePlaceholder": "e.g. Q3 team check-in",
+      "purpose": "Purpose",
+      "purposeHints": {
+        "development": "Growth, feedback and team planning.",
+        "hiring": "Candidates for a job. Clinical screens aren't allowed.",
+        "wellbeing": "Check-ins on stress and wellbeing."
+      },
+      "instruments": "Tests and questionnaires",
+      "instrumentsText": "Pick one or more.",
+      "instrumentsChosen": "{count, plural, one {# chosen} other {# chosen}}, about {minutes} min in total.",
+      "searchInstruments": "Search tests and questionnaires",
+      "clinical": "Clinical",
+      "retest": "Not repeated within {days} days",
+      "notForHiring": "Not available for hiring rounds.",
+      "people": "People",
+      "recipients": "{count, plural, =0 {Nobody chosen yet.} one {# person will get it.} other {# people will get it.}}",
+      "teams": "Teams",
+      "teamsRepeatHint": "Each cycle goes to the team's members at that time, so new joiners are included.",
+      "individuals": "People",
+      "searchPeople": "Search people",
+      "viaTeam": "Via team",
+      "candidates": "Candidates",
+      "candidatesPlaceholder": "anna@example.com, Anna, Smith",
+      "candidatesHint": "One per line: email, first name, last name. They only see this round.",
+      "candidatesInvalid": "{count, plural, one {# line needs} other {# lines need}} an email and a first name.",
+      "timing": "Timing and message",
+      "dueDate": "Due date",
+      "repeat": "Repeat",
+      "once": "Only once",
+      "hiringOnce": "Hiring rounds are sent once.",
+      "repeatHint": "A new round opens on its own each time, with the same instruments and time to finish.",
+      "message": "Message",
+      "messagePlaceholder": "Why you're asking and what happens with the results. Shown in the email and on their list.",
+      "send": "{count, plural, =0 {Send round} one {Send to # person} other {Send to # people}}",
+      "incomplete": "Add a name, at least one instrument and at least one person.",
+      "sentTitle": "Round sent",
+      "sent": "{count, plural, =0 {Nobody was emailed.} one {Emailed # person.} other {Emailed # people.}}",
+      "linksText": "Email isn't set up for these people. Copy each link and pass it on:",
+      "skipped": "Some tests were skipped for people who took them recently: {names}.",
+      "openRound": "Open the round",
+      "notSent": "The round was not sent",
+      "errors": {
+        "unknownItem": "One of the instruments is no longer available.",
+        "sensitiveItem": "Clinical screens can't be sent in this round.",
+        "nobody": "Nobody is in this round. Choose people or a team with members.",
+        "pastDue": "The due date has already passed.",
+        "candidatesNeedHiring": "Candidates can only be added to hiring rounds.",
+        "hiringRepeats": "Hiring rounds can't repeat.",
+        "candidateIsStaff": "One of the candidates already works in this organization as staff."
+      }
+    }
+  },
+  "assessments": {
+    "title": "My assessments",
+    "intro": "What {organization} has asked you to complete. Go with your first reaction; there are no right or wrong answers.",
+    "savedMore": "Carry on with the next one when you're ready.",
+    "savedAll": "That's everything for now.",
+    "todo": "To do",
+    "nothingToDo": "Nothing to do right now",
+    "nothingToDoText": "You'll get an email when your organization sends you something.",
+    "overdue": "Was due {date}",
+    "due": "Due {date}",
+    "progress": "{done} of {total} done",
+    "finished": "Finished",
+    "unavailable": "No longer available",
+    "continue": "Continue",
+    "start": "Start",
+    "done": "Done",
+    "finishedOn": "Finished {date}",
+    "linkExpired": {
+      "title": "This link no longer works",
+      "text": "It has expired, the round was closed, or you've already finished. Sign in to see what's left.",
+      "signIn": "Sign in",
+      "forgot": "Set a password"
+    }
   }
 }

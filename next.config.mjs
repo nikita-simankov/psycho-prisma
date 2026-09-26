@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
+    // Runs src/instrumentation.ts, which starts the hourly round scheduler.
+    instrumentationHook: true,
     serverActions: {
       bodySizeLimit: "3mb",
     },

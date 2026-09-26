@@ -15,6 +15,8 @@ import { createContext, Fragment, useContext, useEffect, useState } from "react"
 
 // Path segments with a fixed name. Anything else (an id) takes the page's title.
 const SEGMENT_LABELS = {
+  rounds: "rounds",
+  new: "new",
   forms: "forms",
   tests: "tests",
   people: "people",

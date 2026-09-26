@@ -4,12 +4,11 @@ import { notFound } from "next/navigation";
 import { TestRunner } from "../components/test-runner";
 
 type PathParams = {
-  params: {
-    testId: string;
-  };
+  params: { testId: string };
+  searchParams: { assignment?: string };
 };
 
-export default async function Page({ params }: PathParams) {
+export default async function Page({ params, searchParams }: PathParams) {
   const test = await findTestById(params.testId);
 
   if (!test) {
@@ -20,7 +19,7 @@ export default async function Page({ params }: PathParams) {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
-      <TestRunner test={test} questions={questions} />
+      <TestRunner test={test} questions={questions} assignmentId={searchParams.assignment} />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { RespondentNav } from "@/components/respondent-nav";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
 import UserAvatar from "@/components/ui/user-avatar";
@@ -18,10 +17,9 @@ export async function RespondentHeader() {
   return (
     <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 px-4 sm:gap-4">
-        <Link href="/forms" className="shrink-0">
+        <Link href="/assessments" className="shrink-0">
           <Logo withText className="[&>span]:hidden sm:[&>span]:inline" />
         </Link>
-        <RespondentNav />
         <div className="ml-auto flex items-center gap-1">
           {context?.membership && can(context.membership.role, "viewDashboard") && (
             <Button variant="ghost" size="icon" asChild title={nav("home")}>

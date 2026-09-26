@@ -5,8 +5,8 @@ export const ORGANIZATION_COOKIE = "active_org";
 export const ORGANIZATION_HEADER = "x-organization";
 // Top-level paths that can never be an organization's slug.
 export const RESERVED_SLUGS = new Set([
-  "account", "api", "auth", "consent", "dashboard", "forms", "invite", "organizations",
-  "privacy", "tests", "settings", "admin", "app", "help", "static", "_next",
+  "account", "api", "assessments", "auth", "consent", "dashboard", "forms", "invite", "link-expired",
+  "organizations", "privacy", "r", "tests", "settings", "admin", "app", "help", "static", "_next",
 ]);
 
 export type ChoiceType = "Text" | "List";

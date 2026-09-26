@@ -1,6 +1,6 @@
 import type { Permission } from "@/utils/roles";
 import type { LucideIcon } from "lucide-react";
-import { Archive, FileText, FlaskConical, Flag, Home, Layers, NotepadText, Settings, Users } from "lucide-react";
+import { Archive, FileText, FlaskConical, Flag, Home, Layers, NotepadText, Send, Settings, Users } from "lucide-react";
 
 // Sidebar sections, grouped as they appear, shown when the person's role has the permission.
 // Paths are relative to the organization (/acme + path). Labels live under "dashboard.nav".
@@ -9,6 +9,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   {
     key: "assessments",
     items: [
+      { key: "rounds", path: "/rounds", icon: Send, permission: "manageRounds" as const },
       { key: "forms", path: "/forms", icon: NotepadText },
       { key: "tests", path: "/tests", icon: FlaskConical },
     ],
@@ -34,7 +35,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
 ];
 
-export type NavigationKey = "home" | "forms" | "tests" | "people" | "teams" | "followUp" | "reports" | "archive" | "settings";
+export type NavigationKey = "home" | "rounds" | "forms" | "tests" | "people" | "teams" | "followUp" | "reports" | "archive" | "settings";
 
 export type NavigationItem = { key: NavigationKey; path: string; icon: LucideIcon; permission?: Permission };
 

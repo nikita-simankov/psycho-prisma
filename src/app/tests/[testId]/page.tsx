@@ -3,17 +3,18 @@ import { IntroCard } from "@/components/intro-card";
 import { notFound } from "next/navigation";
 
 type PathParams = {
-  params: {
-    testId: string;
-  };
+  params: { testId: string };
+  searchParams: { assignment?: string };
 };
 
-export default async function TestPage({ params }: PathParams) {
+export default async function TestPage({ params, searchParams }: PathParams) {
   const test = await findTestById(params.testId);
 
   if (!test) {
     notFound();
   }
+
+  const query = searchParams.assignment ? `?assignment=${encodeURIComponent(searchParams.assignment)}` : "";
 
   return (
     <IntroCard
@@ -22,8 +23,8 @@ export default async function TestPage({ params }: PathParams) {
       instruction={test.instruction}
       questionCount={JSON.parse(test.questions).length}
       minutes={test.ttc}
-      backHref="/tests"
-      startHref={`/tests/${test.id}/run`}
+      backHref="/assessments"
+      startHref={`/tests/${test.id}/run${query}`}
     />
   );
 }

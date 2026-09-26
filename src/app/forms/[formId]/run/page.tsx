@@ -3,12 +3,11 @@ import { FormRunner } from "@/components/form-runner";
 import { notFound } from "next/navigation";
 
 type PathParams = {
-  params: {
-    formId: string;
-  };
+  params: { formId: string };
+  searchParams: { assignment?: string };
 };
 
-export default async function Page({ params }: PathParams) {
+export default async function Page({ params, searchParams }: PathParams) {
   const form = await findFormById(params.formId);
 
   if (!form) {
@@ -17,7 +16,7 @@ export default async function Page({ params }: PathParams) {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-4 py-6 sm:py-10">
-      <FormRunner form={form} doneHref="/forms?done=1" />
+      <FormRunner form={form} doneHref="/assessments?done=1" assignmentId={searchParams.assignment} />
     </div>
   );
 }

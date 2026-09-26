@@ -3,17 +3,18 @@ import { IntroCard } from "@/components/intro-card";
 import { notFound } from "next/navigation";
 
 type PathParams = {
-  params: {
-    formId: string;
-  };
+  params: { formId: string };
+  searchParams: { assignment?: string };
 };
 
-export default async function Page({ params }: PathParams) {
+export default async function Page({ params, searchParams }: PathParams) {
   const form = await findFormById(params.formId);
 
   if (!form) {
     notFound();
   }
+
+  const query = searchParams.assignment ? `?assignment=${encodeURIComponent(searchParams.assignment)}` : "";
 
   return (
     <IntroCard
@@ -21,8 +22,8 @@ export default async function Page({ params }: PathParams) {
       description={form.description}
       questionCount={JSON.parse(form.questions).length}
       minutes={form.ttc}
-      backHref="/forms"
-      startHref={`/forms/${form.id}/run`}
+      backHref="/assessments"
+      startHref={`/forms/${form.id}/run${query}`}
     />
   );
 }

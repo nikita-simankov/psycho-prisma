@@ -29,6 +29,8 @@ npx prisma migrate deploy
 
 `5_unique_organization_names` makes organization names unique, compared without case or extra spaces. If two organizations already share a name, the older one keeps it and the others get " (2)", " (3)" and so on; rename them in Settings afterwards. An organization whose address is still the placeholder `/default` gets a real one the first time it is renamed.
 
+`6_rounds` adds assessment rounds (`Round`, `Assignment`, `RoundSchedule`), links submissions to the round they answer, and adds `Test.retestDays` and `User.locale`.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -92,6 +94,14 @@ Permissions are defined in `src/utils/roles.ts`. People join through invitation 
 Follow-up flags (`monitoring`, `risk`, `suicide-risk`, `substance-risk`, in `src/utils/flags.ts`) are only visible to owners and psychologists.
 
 Clinical instruments are marked `sensitive` in `prisma/seed-data/tests.json`: members don't see them and HR managers and admins don't see their results. Only Communication and Organizational Tendencies, Analogies, Mental Arithmetic, Leadership Tendency, Pattern Finding and Risk Readiness (Schubert) are unrestricted. Change the flag in that file and re-run the seed to adjust. Check licensing before using HADS, BDI or the Mini-Mult commercially.
+
+## Rounds
+
+Staff send work in rounds (`/[org]/rounds`): chosen tests and questionnaires, a purpose (development, hiring or wellbeing), people or teams, an optional due date and message. Everyone in the round gets an email with a personal link (`/r/<token>`) that signs them in and opens their list at `/assessments`; respondents only see and can answer what was sent to them. Staff can copy a person's link, remind them, add people and close the round. Hiring rounds can include candidates (a `candidate` role that sees nothing else) and never include clinical screens.
+
+A round can repeat every 1, 3, 6 or 12 months. Each cycle goes to the chosen people plus whoever is in the chosen teams at that time. Tests with `retestDays` in `tests.json` (the ability tests, 180 days) are left out for people who took them more recently. The server opens due cycles, sends one reminder two days before the due date and deletes expired invitations every hour (`src/instrumentation.ts`). To run this from an outside scheduler instead, set `DISABLE_SCHEDULER=1` and `POST /api/cron` with `Authorization: Bearer $CRON_SECRET`. Scheduled emails need `APP_URL` for their links and use each person's last chosen language (`MAIL_LOCALE` otherwise).
+
+People can also be invited in bulk from an .xlsx or .csv file on the People page, and open invitations can be sent again with a new link.
 
 ## Access rules
 
