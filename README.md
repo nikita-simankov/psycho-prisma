@@ -75,10 +75,27 @@ The same image runs on any Docker host with a Postgres database: `docker build -
 | --- | --- |
 | `npm run dev` | Development server |
 | `npm run build` / `npm start` | Production build and server |
+| `npm run lint` | ESLint (Next.js core web vitals and TypeScript rules) |
 | `npx tsc --noEmit` | Type check |
-| `npm test` | Scoring unit tests (Vitest, snapshots of every bundled instrument) |
+| `npm test` | Unit tests (Vitest: scoring snapshots of every bundled instrument, the studio schema) |
+| `npm run test:e2e` | End-to-end tests (Playwright, see below) |
 | `npm run db:seed` | Re-run the seed (safe to repeat) |
 | `npm run db:copy-sqlite -- file.db` | Copy an old SQLite database into Postgres (see above) |
+
+## End-to-end tests
+
+`npm run test:e2e` wipes the database in `DATABASE_URL`, loads the library and the fixtures in `e2e/prepare-db.ts` (an owner, a respondent in a Sales team, 55 people with an Analogies result), then drives a production build on port 3100 with Playwright: public pages and search-engine headers, sign-in, the studio, a round from the owner to the respondent, and pagination. It refuses to run unless the database is named `*e2e*` or `*test*`. Build first:
+
+```bash
+docker compose up -d   # or any Postgres
+docker compose exec postgres createdb -U prisma e2e
+export DATABASE_URL=postgresql://prisma:prisma@localhost:5432/e2e
+npm run build && npx playwright install chromium && npm run test:e2e
+```
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `master`: lint, type check, unit tests, a check that the migrations match `schema.prisma`, the build and the end-to-end tests against a Postgres service. A failed run uploads the Playwright report and traces.
 
 ## Search engines
 

@@ -1,5 +1,5 @@
-import { FormData, FormQuestionChoice } from "../constants";
-import { getSheetRows, readWorkbook } from "./workbook";
+import { FormData, FormQuestion, FormQuestionChoice } from "../constants";
+import { getSheetRows, readWorkbook, type SheetRow } from "./workbook";
 
 export async function extractFormQuestions(
   file: File,
@@ -9,7 +9,7 @@ export async function extractFormQuestions(
   const workBook = await readWorkbook(file);
   const fieldsData = getSheetRows(workBook, workBook.sheetNames[0]);
 
-  const parsedFormQuestions = fieldsData.map((column: any) => {
+  const parsedFormQuestions = fieldsData.map((column: SheetRow) => {
     const [questionId, questionText, questionType, questionChoices] = [
       column["№ Вопроса"] as number,
       column["Текст вопроса"] as string,
@@ -36,7 +36,6 @@ export async function extractFormQuestions(
   setFormData({
     ...formData,
 
-    // @ts-ignore
-    questions: parsedFormQuestions,
+    questions: parsedFormQuestions as FormQuestion[],
   });
 }

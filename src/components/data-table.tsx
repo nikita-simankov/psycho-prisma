@@ -47,6 +47,8 @@ export function DataTable<TData, TValue>({
 
   const t = useTranslations("table");
   const pager = useTranslations("common.pager");
+  // TanStack Table returns fresh functions each render; the React Compiler skips memoizing this component, which is fine here.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
