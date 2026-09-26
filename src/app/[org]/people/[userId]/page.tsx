@@ -1,3 +1,4 @@
+import { Section } from "@/components/page-templates";
 import { findAllFormSubmissionsByUserId } from "@/actions/form-submission/find-all-form-submissions-by-user-id-action";
 import { findAllForms } from "@/actions/form/find-all-forms-action";
 import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-all-test-submissions-by-user-id-action";
@@ -13,13 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { LinkList } from "@/components/link-list";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Stat } from "@/components/ui/stat";
 import UserAvatar from "@/components/ui/user-avatar";
 import { ensureMember } from "@/utils/authentication";
 import { assignableRoles, can } from "@/utils/roles";
@@ -160,7 +155,8 @@ export default async function UserProfilePage(props: PathParams) {
   return (
     <>
       <PageHeader
-        title={t("title")}
+        title={formatFullName(user)}
+        eyebrow={[roles(user.role), formatWorkInfo(user)].filter(Boolean).join(" · ")}
         crumb={formatFullName(user)}
         back={{ href: `${base}/people`, label: people("back") }}
         actions={
@@ -210,26 +206,107 @@ export default async function UserProfilePage(props: PathParams) {
           </>
         }
       />
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
-        <Card className="h-fit">
-          <CardHeader className="items-center text-center">
-            <UserAvatar user={user} className="mb-2 h-20 w-20 text-lg" />
-            <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
-            <CardDescription>{formatWorkInfo(user)}</CardDescription>
-            <div className="flex flex-wrap justify-center gap-2 pt-1">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="flex min-w-0 flex-col gap-12">
+          <div className="grid border-y sm:grid-cols-3">
+            {stats.map((stat, index) => (
+              <div key={stat.label} className={index > 0 ? "border-t py-4 sm:border-t-0 sm:border-l sm:pl-5" : "py-4 sm:pr-5"}>
+                <Stat label={stat.label} value={stat.value} hint={stat.hint} />
+              </div>
+            ))}
+          </div>
+          {metrics.tests.map((test) => (
+            <Section
+              key={test.testId}
+              title={test.testName}
+              description={metricsT("resultCount", { count: test.count, date: format.dateTime(test.latestAt, { dateStyle: "medium" }) })}
+            >
+              <div className="flex flex-col gap-6">
+                <section className="flex flex-col gap-2">
+                  <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{metricsT("comparison")}</h3>
+                  <ScaleComparison
+                    rows={test.latest}
+                    team={test.team && { label: metricsT("series.team", { team: test.team.teamName ?? "" }), average: test.team }}
+                    everyone={test.everyone && { label: metricsT("series.everyone"), average: test.everyone }}
+                  />
+                  {!test.team && !test.everyone && <p className="text-xs text-muted-foreground">{metricsT("noGroups", { min: MIN_GROUP })}</p>}
+                </section>
+                {test.count > 1 && (
+                  <section className="flex flex-col gap-2">
+                    <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{metricsT("trends")}</h3>
+                    <TrendCharts trends={test.trends} />
+                  </section>
+                )}
+              </div>
+            </Section>
+          ))}
+          {schedule.open.length > 0 && (
+            <Section title={t("openRounds")}>
+              <div>
+                <LinkList
+                  empty={t("nothingYet")}
+                  items={schedule.open.map((entry) => ({
+                    id: entry.id,
+                    href: can(membership.role, "manageRounds") ? `${base}/rounds/${entry.round.id}` : "#",
+                    title: entry.round.name,
+                    subtitle: `${rounds("partDone", { done: entry.done, total: entry.total })}${
+                      entry.round.dueAt
+                        ? ` · ${rounds("dueOn", { date: format.dateTime(entry.round.dueAt, { dateStyle: "medium" }) })}`
+                        : ""
+                    }`,
+                  }))}
+                />
+              </div>
+            </Section>
+          )}
+          <Section
+            title={t("timeline")}
+            description={
+              !individual && (
+                <span className="flex items-start gap-2">
+                  <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
+                  {t("averagesOnly")}
+                </span>
+              )
+            }
+          >
+            {individual && (
+              <div>
+                <LinkList
+                  empty={t("nothingYet")}
+                  items={timeline.map((item) => ({
+                    id: item.id,
+                    href: item.href,
+                    title: item.name,
+                    subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
+                    leading: (
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-md border bg-card text-muted-foreground">
+                        {icons[item.kind]}
+                      </span>
+                    ),
+                  }))}
+                />
+              </div>
+            )}
+          </Section>
+        </div>
+        <aside className="flex h-fit flex-col gap-4 lg:order-last">
+          <div className="flex items-center gap-3">
+            <UserAvatar user={user} className="size-12" />
+            <div className="flex flex-wrap gap-2">
               <Badge variant="secondary">{roles(user.role)}</Badge>
               <FlagBadge flag={user.flag} />
             </div>
-          </CardHeader>
-          <CardContent>
-            <dl className="divide-y rounded-lg border text-sm">
+          </div>
+          <div>
+            <dl className="divide-y border-y text-sm">
               {details.map((detail) => (
-                <div key={detail.label} className="flex items-center justify-between gap-4 px-3 py-2.5">
+                <div key={detail.label} className="flex items-center justify-between gap-4 py-2.5">
                   <dt className="text-muted-foreground">{detail.label}</dt>
                   <dd className="min-w-0 wrap-break-word text-right font-medium">{detail.value || "—"}</dd>
                 </div>
               ))}
-              <div className="flex items-center justify-between gap-4 px-3 py-2.5">
+              <div className="flex items-center justify-between gap-4 py-2.5">
                 <dt className="text-muted-foreground">{t("fields.manager")}</dt>
                 <dd className="min-w-0 text-right font-medium">
                   {manager ? (
@@ -252,7 +329,7 @@ export default async function UserProfilePage(props: PathParams) {
               </div>
             )}
             {can(membership.role, "viewSensitive") && (
-              <div className="mt-4 rounded-lg border border-dashed p-3">
+              <div className="mt-4 rounded-lg border bg-card p-3">
                 <FlagSelect userId={user.id} flag={user.flag} />
               </div>
             )}
@@ -261,97 +338,8 @@ export default async function UserProfilePage(props: PathParams) {
                 <RemoveMemberButton userId={user.id} name={formatFullName(user)} organization={organization.name} />
               </div>
             )}
-          </CardContent>
-        </Card>
-        <div className="flex min-w-0 flex-col gap-6">
-          <dl className="grid gap-3 sm:grid-cols-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-0.5 rounded-xl border bg-card p-4">
-                <dt className="text-sm text-muted-foreground">{stat.label}</dt>
-                <dd className="font-heading text-xl font-semibold tabular-nums">{stat.value}</dd>
-                <dd className="text-xs text-muted-foreground">{stat.hint}</dd>
-              </div>
-            ))}
-          </dl>
-          {metrics.tests.map((test) => (
-            <Card key={test.testId}>
-              <CardHeader>
-                <CardTitle className="text-lg">{test.testName}</CardTitle>
-                <CardDescription>
-                  {metricsT("resultCount", { count: test.count, date: format.dateTime(test.latestAt, { dateStyle: "medium" }) })}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-6">
-                <section className="flex flex-col gap-2">
-                  <h3 className="text-sm font-semibold">{metricsT("comparison")}</h3>
-                  <ScaleComparison
-                    rows={test.latest}
-                    team={test.team && { label: metricsT("series.team", { team: test.team.teamName ?? "" }), average: test.team }}
-                    everyone={test.everyone && { label: metricsT("series.everyone"), average: test.everyone }}
-                  />
-                  {!test.team && !test.everyone && <p className="text-xs text-muted-foreground">{metricsT("noGroups", { min: MIN_GROUP })}</p>}
-                </section>
-                {test.count > 1 && (
-                  <section className="flex flex-col gap-2">
-                    <h3 className="text-sm font-semibold">{metricsT("trends")}</h3>
-                    <TrendCharts trends={test.trends} />
-                  </section>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-          {schedule.open.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">{t("openRounds")}</CardTitle>
-              </CardHeader>
-              <CardContent className="px-2 sm:px-4">
-                <LinkList
-                  empty={t("nothingYet")}
-                  items={schedule.open.map((entry) => ({
-                    id: entry.id,
-                    href: can(membership.role, "manageRounds") ? `${base}/rounds/${entry.round.id}` : "#",
-                    title: entry.round.name,
-                    subtitle: `${rounds("partDone", { done: entry.done, total: entry.total })}${
-                      entry.round.dueAt
-                        ? ` · ${rounds("dueOn", { date: format.dateTime(entry.round.dueAt, { dateStyle: "medium" }) })}`
-                        : ""
-                    }`,
-                  }))}
-                />
-              </CardContent>
-            </Card>
-          )}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("timeline")}</CardTitle>
-              {!individual && (
-                <CardDescription className="flex items-start gap-2">
-                  <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                  {t("averagesOnly")}
-                </CardDescription>
-              )}
-            </CardHeader>
-            {individual && (
-              <CardContent className="px-2 sm:px-4">
-                <LinkList
-                  empty={t("nothingYet")}
-                  items={timeline.map((item) => ({
-                    id: item.id,
-                    href: item.href,
-                    title: item.name,
-                    subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
-                    leading: (
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                        {icons[item.kind]}
-                      </span>
-                    ),
-                  }))}
-                />
-              </CardContent>
-            )}
-          </Card>
-        </div>
+          </div>
+        </aside>
       </div>
     </>
   );

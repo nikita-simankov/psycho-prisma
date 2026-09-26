@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/page-header";
 import { CopyInstrumentButton } from "@/components/studio/studio-buttons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/page-templates";
 import { ensureMember } from "@/utils/authentication";
 import { organizationBase } from "@/utils/organization-path";
 import { can } from "@/utils/roles";
@@ -68,20 +68,13 @@ export default async function FormPage(props: { params: Promise<{ formId: string
         {editable && <Badge variant="outline">{studio("versions.version", { version: form.version })}</Badge>}
         {editable && form.draft && <Badge variant="outline">{studio("drafts.unpublishedChanges")}</Badge>}
       </div>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         {form.description && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{studio("details.description")}</CardTitle>
-            </CardHeader>
-            <CardContent className="whitespace-pre-line text-muted-foreground">{form.description}</CardContent>
-          </Card>
+          <Section title={studio("details.description")}>
+            <p className="max-w-[68ch] whitespace-pre-line leading-relaxed">{form.description}</p>
+          </Section>
         )}
-        <Card className={form.description ? "" : "lg:col-span-2"}>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("questions")}</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <Section title={t("questions")} className={form.description ? "" : "lg:col-span-2"}>
             <ol className="flex list-decimal flex-col gap-1.5 pl-5 text-sm">
               {questions.map((question) => (
                 <li key={question.id}>
@@ -90,8 +83,7 @@ export default async function FormPage(props: { params: Promise<{ formId: string
                 </li>
               ))}
             </ol>
-          </CardContent>
-        </Card>
+        </Section>
       </div>
     </>
   );

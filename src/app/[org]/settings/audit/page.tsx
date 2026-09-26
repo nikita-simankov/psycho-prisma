@@ -1,5 +1,3 @@
-import { PageHeader } from "@/components/page-header";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -142,12 +140,10 @@ export default async function AuditPage(
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader
-        title={t("title")}
-        description={t("description", { months: AUDIT_RETENTION_MONTHS })}
-        back={{ href: `${base}/settings`, label: t("back") }}
-        className="mb-0"
-      />
+      <div className="flex flex-col gap-1 border-t border-foreground/80 pt-4">
+        <h2 className="text-xl font-medium">{t("title")}</h2>
+        <p className="text-sm text-muted-foreground">{t("description", { months: AUDIT_RETENTION_MONTHS })}</p>
+      </div>
       <AuditFilters
         action={action}
         person={person}
@@ -159,8 +155,8 @@ export default async function AuditPage(
           .map(([id, name]) => ({ id, name }))
           .sort((a, b) => a.name.localeCompare(b.name))}
       />
-      <Card>
-        <CardContent className="p-0">
+      <div className="overflow-hidden rounded-lg border bg-card">
+        <div>
           {events.length === 0 ? (
             <p className="p-6 text-muted-foreground">{t("empty")}</p>
           ) : (
@@ -217,8 +213,8 @@ export default async function AuditPage(
               </Table>
             </>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       <Pager
         page={page}
         pages={pages}

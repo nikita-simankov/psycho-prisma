@@ -2,7 +2,7 @@ import { findTestById } from "@/actions/test/find-test-by-id-action";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/page-templates";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -70,22 +70,16 @@ export default async function TestPage(props: PathParams) {
         {editable && <Badge variant="outline">{studio("versions.version", { version: test.version })}</Badge>}
         {editable && test.draft && <Badge variant="outline">{studio("drafts.unpublishedChanges")}</Badge>}
       </div>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         {test.description && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("about")}</CardTitle>
-            </CardHeader>
-            <CardContent className="whitespace-pre-line text-muted-foreground">{test.description}</CardContent>
-          </Card>
+          <Section title={t("about")}>
+            <p className="max-w-[68ch] whitespace-pre-line leading-relaxed">{test.description}</p>
+          </Section>
         )}
         {test.instruction && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("instruction")}</CardTitle>
-            </CardHeader>
-            <CardContent className="whitespace-pre-line text-muted-foreground">{test.instruction}</CardContent>
-          </Card>
+          <Section title={t("instruction")}>
+            <p className="max-w-[68ch] whitespace-pre-line leading-relaxed">{test.instruction}</p>
+          </Section>
         )}
       </div>
     </>

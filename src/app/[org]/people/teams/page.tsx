@@ -1,3 +1,4 @@
+import { EmptyState } from "@/components/empty-state";
 import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { PageHeader } from "@/components/page-header";
@@ -31,17 +32,19 @@ export default async function TeamsPage() {
         actions={can(membership.role, "manageMembers") && <TeamDialog />}
       />
       {teams.length === 0 ? (
-        <Card className="flex flex-col items-center gap-3 p-10 text-center">
-          <Layers className="h-8 w-8 text-muted-foreground" />
-          <p className="font-medium">{t("emptyTitle")}</p>
-          <p className="max-w-sm text-sm text-muted-foreground">{t("emptyText")}</p>
-        </Card>
+        <EmptyState
+          icon={Layers}
+          title={t("emptyTitle")}
+          description={t("emptyText")}
+          className="border-t border-foreground/80"
+          action={can(membership.role, "manageMembers") && <TeamDialog />}
+        />
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {teams.map((team) => (
             <Link key={team.id} href={`${base}/people/teams/${team.id}`} className="group">
-              <Card className="flex items-center gap-4 p-5 transition-colors group-hover:border-primary/40">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent font-heading font-bold text-accent-foreground">
+              <Card className="flex items-center gap-4 p-5 transition-colors group-hover:border-foreground/30">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-foreground font-heading font-medium text-background">
                   {team.name.slice(0, 1).toUpperCase()}
                 </span>
                 <div className="min-w-0 flex-1">

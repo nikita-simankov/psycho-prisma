@@ -8,7 +8,18 @@ import { ANALOGIES, ORG } from "./fixtures";
 test.describe("signed in", () => {
   test.use({ storageState: "e2e/.auth/owner.json" });
 
-  for (const path of ["/design", `/${ORG}`, `/${ORG}/people`, `/${ORG}/analytics`, `/${ORG}/settings`]) {
+  for (const path of [
+    "/design",
+    `/${ORG}`,
+    `/${ORG}/people`,
+    `/${ORG}/people/teams`,
+    `/${ORG}/rounds`,
+    `/${ORG}/analytics`,
+    `/${ORG}/settings`,
+    `/${ORG}/settings/members`,
+    `/${ORG}/settings/privacy`,
+    `/${ORG}/settings/billing`,
+  ]) {
     for (const theme of ["light", "dark"] as const) {
       test(`${path} in the ${theme} theme has no serious accessibility issues`, async ({ page }) => {
         await page.addInitScript((value) => localStorage.setItem("theme", value), theme);

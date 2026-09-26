@@ -1,8 +1,8 @@
+import { Section } from "@/components/page-templates";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
@@ -43,7 +43,7 @@ export default async function RoundsPage(props: { searchParams: Promise<{ page?:
     const stats = progress.get(round.id) ?? { people: 0, completed: 0, started: 0, overdue: 0 };
     return (
       <li key={round.id}>
-        <Link href={`${base}/rounds/${round.id}`} className="flex items-center gap-4 px-4 py-3 hover:bg-muted/50">
+        <Link href={`${base}/rounds/${round.id}`} className="-mx-2 flex items-center gap-4 rounded-md px-2 py-3 hover:bg-card">
           <div className="flex min-w-0 flex-1 flex-col gap-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-medium">{round.name}</span>
@@ -76,7 +76,7 @@ export default async function RoundsPage(props: { searchParams: Promise<{ page?:
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <PageHeader
         title={t("title")}
         description={t("description")}
@@ -91,13 +91,10 @@ export default async function RoundsPage(props: { searchParams: Promise<{ page?:
         }
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("open")}</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0 pb-2">
+      <Section title={t("open")}>
+        <div>
           {open.length ? (
-            <ul className="divide-y border-t">{open.map(row)}</ul>
+            <ul className="divide-y border-y">{open.map(row)}</ul>
           ) : (
             <EmptyState
               icon={Send}
@@ -110,19 +107,15 @@ export default async function RoundsPage(props: { searchParams: Promise<{ page?:
               }
             />
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </Section>
 
       {schedules.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("recurring")}</CardTitle>
-            <CardDescription>{t("recurringText")}</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0 pb-2">
-            <ul className="divide-y border-t">
+        <Section title={t("recurring")} description={t("recurringText")}>
+          <div>
+            <ul className="divide-y border-y">
               {schedules.map((schedule) => (
-                <li key={schedule.id} className="flex flex-wrap items-center gap-3 px-4 py-3">
+                <li key={schedule.id} className="flex flex-wrap items-center gap-3 py-3">
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-medium">{schedule.name}</span>
@@ -139,19 +132,16 @@ export default async function RoundsPage(props: { searchParams: Promise<{ page?:
                 </li>
               ))}
             </ul>
-          </CardContent>
-        </Card>
+          </div>
+        </Section>
       )}
 
       {closedTotal > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("closed")}</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0 pb-2">
-            <ul className="divide-y border-t">{closed.map(row)}</ul>
-          </CardContent>
-        </Card>
+        <Section title={t("closed")}>
+          <div>
+            <ul className="divide-y border-y">{closed.map(row)}</ul>
+          </div>
+        </Section>
       )}
       <Pager page={page} pages={pageCount(closedTotal)} path={`${base}/rounds`} />
     </div>

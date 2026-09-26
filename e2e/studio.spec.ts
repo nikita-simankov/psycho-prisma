@@ -18,6 +18,10 @@ test("an owner builds, publishes and takes a new test", async ({ page }) => {
   await page.getByRole("button", { name: "Add choice" }).first().click();
   await page.getByLabel("Choice 1 of question 1").fill("Yes");
   await page.getByLabel("Choice 2 of question 1").fill("No");
+  // The preview beside the editor shows the question as respondents will see it.
+  const preview = page.locator("#studio-preview");
+  await expect(preview.getByRole("heading", { name: "I have the energy I need at work" })).toBeVisible();
+  await expect(preview.getByRole("radio", { name: /Yes/ })).toBeVisible();
 
   await page.getByRole("tab", { name: /Scoring/ }).click();
   await page.getByRole("button", { name: "Add scale" }).click();

@@ -13,9 +13,20 @@ export type LinkListItem = {
 };
 
 // Rows that each open a detail page: people, results, archived reports.
-export function LinkList({ items, empty, className }: { items: LinkListItem[]; empty: React.ReactNode; className?: string }) {
+export function LinkList({
+  items,
+  empty,
+  emptyText,
+  className,
+}: {
+  items: LinkListItem[];
+  empty: React.ReactNode;
+  // What to do to fill the list, under the empty title.
+  emptyText?: React.ReactNode;
+  className?: string;
+}) {
   if (items.length === 0) {
-    return <EmptyState title={empty} className="py-6" />;
+    return <EmptyState title={empty} description={emptyText} className="py-6" />;
   }
 
   return (

@@ -17,11 +17,14 @@ export function QuestionList<Q extends EditableQuestion>({
   questions,
   onChange,
   withTypes = false,
+  onFocusQuestion,
 }: {
   questions: Q[];
   onChange: (questions: Q[]) => void;
   // Questionnaires can have free-text questions; tests always offer choices.
   withTypes?: boolean;
+  // Called with a question's position when anything inside it gets focus, so a preview can follow.
+  onFocusQuestion?: (index: number) => void;
 }) {
   const t = useTranslations("studio.questions");
 
@@ -46,7 +49,9 @@ export function QuestionList<Q extends EditableQuestion>({
     <div className="flex flex-col gap-3">
       {questions.length === 0 && <p className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">{t("empty")}</p>}
       {questions.map((question, index) => (
-        <section key={question.id} className="flex flex-col gap-3 rounded-lg border bg-card p-3 sm:p-4" aria-label={t("number", { number: index + 1 })}>
+        <section key={question.id} className="flex flex-col gap-3 rounded-lg border bg-card p-3 sm:p-4" aria-label={t("number", { number: index + 1 })}
+          onFocusCapture={() => onFocusQuestion?.(index)}
+        >
           <div className="flex items-start gap-2">
             <span className="mt-2 w-7 shrink-0 text-sm font-semibold tabular-nums text-muted-foreground">{index + 1}.</span>
             <Textarea

@@ -35,6 +35,7 @@ export default async function FollowUpPage() {
       <Card className="p-2 sm:p-4">
         <LinkList
           empty={t("empty")}
+          emptyText={t("emptyText")}
           items={users.map((user) => ({
             id: user.id,
             href: `${base}/people/${user.id}`,
