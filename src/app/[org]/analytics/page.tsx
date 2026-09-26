@@ -20,7 +20,10 @@ export async function generateMetadata() {
   return { title: t("analytics") };
 }
 
-export default async function AnalyticsPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+export default async function AnalyticsPage(
+  props: { searchParams: Promise<Record<string, string | string[] | undefined>> }
+) {
+  const searchParams = await props.searchParams;
   const context = await ensureMember("viewDashboard");
   const t = await getTranslations("analytics");
   const chart = await getTranslations("profileChart");

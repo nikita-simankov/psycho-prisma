@@ -26,7 +26,7 @@ export type InvitationResult = { link: string; emailed: boolean } | { error: "al
 type Inviter = Awaited<ReturnType<typeof requireMember>>;
 
 async function mailInvitation(organization: string, email: string, token: string) {
-  const link = absoluteUrl(`/invite/${token}`);
+  const link = await absoluteUrl(`/invite/${token}`);
   const t = await getTranslations("mail.invitation");
   const emailed = await sendMail({
     to: email,

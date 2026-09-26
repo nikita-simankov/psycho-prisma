@@ -19,15 +19,16 @@ import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     testId: string;
     submissionId: string;
-  };
+  }>;
 };
 
-export default async function SubmissionPage({ params }: PathParams) {
+export default async function SubmissionPage(props: PathParams) {
+  const params = await props.params;
   const context = await ensureMember("viewIndividualResults");
-  const base = organizationBase();
+  const base = await organizationBase();
   const results = await getTranslations("results");
   const profile = await getTranslations("profile");
   const [test, submission] = await Promise.all([

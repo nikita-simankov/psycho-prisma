@@ -1,7 +1,7 @@
 export const COOKIE_NAME = "auth_cookie";
 // Which of the signed-in person's organizations the dashboard shows.
 export const ORGANIZATION_COOKIE = "active_org";
-// Set by the middleware on requests under /[org] to the slug in the URL.
+// Set by the proxy (src/proxy.ts) on requests under /[org] to the slug in the URL.
 export const ORGANIZATION_HEADER = "x-organization";
 // Top-level paths that can never be an organization's slug.
 export const RESERVED_SLUGS = new Set([

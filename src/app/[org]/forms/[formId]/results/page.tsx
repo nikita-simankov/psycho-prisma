@@ -1,6 +1,8 @@
-import { findAllFormSubmissionsByFormId } from "@/actions/form-submission/find-all-form-submissions-by-form-id-action";
+import { findFormSubmissionsPage } from "@/actions/form-submission/find-form-submissions-page-action";
+import { Pager } from "@/components/pager";
+import { pageCount, pageFrom } from "@/utils/pagination";
 import { findFormById } from "@/actions/form/find-form-by-id-action";
-import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { findUsersByIds } from "@/actions/user/find-all-users-action";
 import { SubmissionList } from "@/components/submission-list";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
@@ -13,25 +15,28 @@ import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     formId: string;
-  };
+  }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
-export default async function FormResultsPage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function FormResultsPage(props: PathParams) {
+  const params = await props.params;
+  const page = pageFrom((await props.searchParams).page);
+  const base = await organizationBase();
   const t = await getTranslations("results");
   const section = await getTranslations("dashboard.forms");
-  const [form, submissions, users] = await Promise.all([
+  const [form, { items: submissions, total }] = await Promise.all([
     findFormById(params.formId),
-    findAllFormSubmissionsByFormId(params.formId),
-    findAllUsers(),
+    findFormSubmissionsPage(params.formId, page),
   ]);
 
   if (!form) {
     notFound();
   }
 
+  const users = await findUsersByIds([...new Set(submissions.map((submission) => submission.userId))]);
   const usersById = new Map(users.map((user) => [user.id, user]));
   const { membership } = await ensureMember("viewDashboard");
 
@@ -50,7 +55,7 @@ export default async function FormResultsPage({ params }: PathParams) {
     <>
       <PageHeader
         title={form.name}
-        description={t("count", { count: submissions.length })}
+        description={t("count", { count: total })}
         back={{ href: `${base}/forms`, label: section("back") }}
       />
       <SubmissionList
@@ -69,6 +74,7 @@ export default async function FormResultsPage({ params }: PathParams) {
             : [];
         })}
       />
+      <Pager page={page} pages={pageCount(total)} path={`${base}/forms/${form.id}/results`} />
     </>
   );
 }

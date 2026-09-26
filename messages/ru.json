@@ -41,7 +41,13 @@
     "menu": "Меню",
     "privacy": "Конфиденциальность",
     "done": "Готово",
-    "skipToContent": "Перейти к содержимому"
+    "skipToContent": "Перейти к содержимому",
+    "pager": {
+      "label": "Страницы",
+      "previous": "Назад",
+      "next": "Дальше",
+      "page": "Страница {page} из {pages}"
+    }
   },
   "validation": {
     "required": "Обязательное поле",

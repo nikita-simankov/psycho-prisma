@@ -26,7 +26,7 @@ export function useDraft({
   const timings = useRef<Record<string, number>>(initial?.timings ?? {});
   const answersRef = useRef(answers);
   const mark = useRef(Date.now());
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const dirty = useRef(false);
 
   const flush = useCallback(async () => {

@@ -33,7 +33,7 @@ export class AuthorizationError extends Error {
 
 // Resolves the signed-in user once per request. Never returns the password hash.
 export const getCurrentUser = cache(async (): Promise<PublicUser | null> => {
-  const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+  const sessionId = (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
 
   if (!sessionId) {
     return null;
@@ -45,12 +45,12 @@ export const getCurrentUser = cache(async (): Promise<PublicUser | null> => {
   try {
     if (session?.fresh) {
       const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+      (await cookies()).set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
     }
 
     if (!session) {
       const sessionCookie = lucia.createBlankSessionCookie();
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+      (await cookies()).set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
     }
   } catch {}
 
@@ -93,8 +93,8 @@ export const getContext = cache(async (): Promise<Context | NoOrganization | nul
     orderBy: { createdAt: "asc" },
   });
 
-  const requestedSlug = headers().get(ORGANIZATION_HEADER);
-  const remembered = cookies().get(ORGANIZATION_COOKIE)?.value;
+  const requestedSlug = (await headers()).get(ORGANIZATION_HEADER);
+  const remembered = (await cookies()).get(ORGANIZATION_COOKIE)?.value;
   const membership = requestedSlug
     ? memberships.find((m) => m.organization.slug === requestedSlug)
     : memberships.find((m) => m.organization.slug === remembered || m.organizationId === remembered) ?? memberships[0];

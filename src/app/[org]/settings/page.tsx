@@ -38,7 +38,7 @@ export default async function SettingsPage() {
         actions={
           can(membership.role, "viewAudit") && (
             <Button variant="outline" asChild>
-              <Link href={`${organizationBase()}/settings/audit`}>
+              <Link href={`${await organizationBase()}/settings/audit`}>
                 <ScrollText className="mr-2 h-4 w-4" />
                 {t("auditLog")}
               </Link>

@@ -17,7 +17,7 @@ export async function generateMetadata() {
 
 export default async function NewRoundPage() {
   const { membership } = await ensureMember("manageRounds");
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("rounds");
   const form = await getTranslations("rounds.form");
   const sensitive = can(membership.role, "viewSensitive");

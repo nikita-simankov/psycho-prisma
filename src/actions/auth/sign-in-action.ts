@@ -24,7 +24,7 @@ export async function signIn(
   const where = identifier.includes("@")
     ? { email: identifier.toLowerCase() }
     : { phoneNumber: normalizePhone(identifier) };
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (
     !consumeRateLimit(`sign-in:account:${Object.values(where)[0]}`, 5, 15 * 60_000) ||
@@ -53,7 +53,7 @@ export async function signIn(
   const [membership] = existingUser.memberships;
 
   if (membership) {
-    rememberOrganization(membership.organization.slug);
+    await rememberOrganization(membership.organization.slug);
   }
 
   return { redirectTo: homePath(membership ?? null) };

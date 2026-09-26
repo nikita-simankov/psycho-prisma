@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Category, Form } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { organizationBase } from "@/utils/organization-path";
 
 type Properties = {
+  // The organization path, "/acme".
+  base: string;
   form: Form & { categories?: Category[] };
 };
 
-export function FormCard({ form }: Properties) {
-  const base = organizationBase();
+export function FormCard({ form, base }: Properties) {
   const t = useTranslations("dashboard.forms");
   const common = useTranslations("common");
   const respondent = useTranslations("respondent");

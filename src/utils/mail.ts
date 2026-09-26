@@ -34,14 +34,14 @@ export async function sendMail({ to, subject, text }: Mail): Promise<boolean> {
 
 // Absolute URL for links in emails. APP_URL wins; otherwise the request's own host.
 // Scheduled jobs run outside a request, so they need APP_URL to produce working links.
-export function absoluteUrl(path: string) {
+export async function absoluteUrl(path: string) {
   if (process.env.APP_URL) {
     return new URL(path, process.env.APP_URL).toString();
   }
 
-  let requestHeaders: ReturnType<typeof headers> | null = null;
+  let requestHeaders: Awaited<ReturnType<typeof headers>> | null = null;
   try {
-    requestHeaders = headers();
+    requestHeaders = await headers();
   } catch {
     // Not inside a request.
   }

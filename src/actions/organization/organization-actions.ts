@@ -23,7 +23,7 @@ export async function createOrganization(name: string): Promise<{ slug: string }
 
   try {
     const organization = await createOwnedOrganization(user.id, organizationName);
-    rememberOrganization(organization.slug);
+    await rememberOrganization(organization.slug);
     return { slug: organization.slug };
   } catch (error) {
     if (error instanceof OrganizationNameTakenError) {
@@ -87,7 +87,7 @@ export async function updateOrganizationSettings(
   });
 
   if (slug !== organization.slug) {
-    rememberOrganization(slug);
+    await rememberOrganization(slug);
   }
 
   await audit(organization.id, user.id, "changeSettings", {

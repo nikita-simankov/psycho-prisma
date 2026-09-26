@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Category, Test } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { organizationBase } from "@/utils/organization-path";
 
 type Properties = {
+  // The organization path, "/acme".
+  base: string;
   test: Test & { categories?: Category[] };
 };
 
-export function TestCard({ test }: Properties) {
-  const base = organizationBase();
+export function TestCard({ test, base }: Properties) {
   const t = useTranslations("dashboard.tests");
   const common = useTranslations("common");
   const respondent = useTranslations("respondent");

@@ -13,7 +13,7 @@ type SignUpError = "rateLimited" | "invalidInput" | "emailTaken" | "organization
 
 // Creates an account and the organization it owns, then signs the person in.
 export async function signUp(data: unknown): Promise<{ redirectTo: string } | { error: SignUpError }> {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (!consumeRateLimit(`sign-up:ip:${ip}`, 10, 60 * 60_000)) {
     return { error: "rateLimited" };
@@ -42,7 +42,7 @@ export async function signUp(data: unknown): Promise<{ redirectTo: string } | { 
   const created = await createOwnedOrganization(user.id, organization);
 
   await startSession(user.id);
-  rememberOrganization(created.slug);
+  await rememberOrganization(created.slug);
 
   return { redirectTo: `/${created.slug}` };
 }

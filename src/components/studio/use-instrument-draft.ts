@@ -15,7 +15,7 @@ export function useInstrumentDraft<T>(kind: InstrumentKind, id: string, initial:
   const [hasDraft, setHasDraft] = useState(initiallyDirty);
   const latest = useRef(content);
   const dirty = useRef(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const flush = useCallback(async () => {
     clearTimeout(timer.current);

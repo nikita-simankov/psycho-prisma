@@ -10,7 +10,7 @@ export async function setLocale(locale: string) {
     throw new Error("Unsupported locale");
   }
 
-  cookies().set(LOCALE_COOKIE, locale, {
+  (await cookies()).set(LOCALE_COOKIE, locale, {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",

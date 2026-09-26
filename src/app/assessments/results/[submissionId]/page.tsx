@@ -17,7 +17,8 @@ export async function generateMetadata() {
 
 // A person's own results, when their organization shares them for this test. Validity and
 // answer-quality checks stay with the specialists.
-export default async function FeedbackPage({ params }: { params: { submissionId: string } }) {
+export default async function FeedbackPage(props: { params: Promise<{ submissionId: string }> }) {
+  const params = await props.params;
   const { user, organization } = await ensureMember();
   const t = await getTranslations("feedback");
   const respondent = await getTranslations("respondent");

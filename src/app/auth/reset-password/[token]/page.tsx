@@ -10,7 +10,8 @@ export async function generateMetadata() {
   return { title: t("metaTitle") }
 }
 
-export default async function ResetPasswordPage({ params }: { params: { token: string } }) {
+export default async function ResetPasswordPage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const t = await getTranslations("auth.reset")
 
   if (!(await findPasswordReset(params.token))) {

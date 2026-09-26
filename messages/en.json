@@ -41,7 +41,13 @@
     "menu": "Menu",
     "privacy": "Privacy",
     "done": "Done",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "pager": {
+      "label": "Pages",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {pages}"
+    }
   },
   "validation": {
     "required": "Required",

@@ -13,13 +13,14 @@ import { can } from "@/utils/roles";
 import { canEdit } from "@/utils/studio-access";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     testId: string;
-  };
+  }>;
 };
 
-export default async function TestPage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function TestPage(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("dashboard.tests");
   const respondent = await getTranslations("respondent");
   const common = await getTranslations("common");

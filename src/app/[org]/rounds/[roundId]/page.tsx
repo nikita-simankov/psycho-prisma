@@ -19,9 +19,10 @@ import { AddPeopleDialog, AssignmentMenu, RoundStateButton } from "./round-contr
 type Status = "finished" | "started" | "notStarted" | "overdue";
 const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: "outline", overdue: "destructive" } as const;
 
-export default async function RoundPage({ params }: { params: { roundId: string } }) {
+export default async function RoundPage(props: { params: Promise<{ roundId: string }> }) {
+  const params = await props.params;
   const { organization } = await ensureMember("manageRounds");
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("rounds");
   const format = await getFormatter();
   const locale = await getLocale();

@@ -18,7 +18,8 @@ export async function generateMetadata() {
 }
 
 // The respondent's home: what was sent to them and what they have finished.
-export default async function AssessmentsPage({ searchParams }: { searchParams: { done?: string } }) {
+export default async function AssessmentsPage(props: { searchParams: Promise<{ done?: string }> }) {
+  const searchParams = await props.searchParams;
   const { user, organization } = await ensureMember();
   const t = await getTranslations("assessments");
   const respondent = await getTranslations("respondent");

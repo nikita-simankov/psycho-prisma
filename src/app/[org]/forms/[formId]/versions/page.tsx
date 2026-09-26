@@ -11,11 +11,12 @@ export async function generateMetadata() {
   return { title: t("title") };
 }
 
-export default async function VersionsPage({ params }: { params: { formId: string } }) {
+export default async function VersionsPage(props: { params: Promise<{ formId: string }> }) {
+  const params = await props.params;
   const { row } = await loadEditableForm(params.formId);
   const t = await getTranslations("studio");
   const common = await getTranslations("common");
-  const base = organizationBase();
+  const base = await organizationBase();
 
   return (
     <>

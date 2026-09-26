@@ -56,7 +56,7 @@ export async function acceptInvitation(
   token: string,
   data?: unknown
 ): Promise<{ redirectTo: string } | { error: AcceptError }> {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
 
   if (!consumeRateLimit(`invite:ip:${ip}`, 20, 60 * 60_000)) {
     return { error: "rateLimited" };
@@ -120,7 +120,7 @@ export async function acceptInvitation(
     await startSession(userId);
   }
 
-  rememberOrganization(membership.organization.slug);
+  await rememberOrganization(membership.organization.slug);
 
   return { redirectTo: homePath(membership) };
 }

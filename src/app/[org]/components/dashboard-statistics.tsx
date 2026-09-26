@@ -12,7 +12,7 @@ import Link from "next/link";
 import { organizationBase } from "@/utils/organization-path";
 
 export async function DashboardStatistics() {
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("dashboard.stats");
   const [users, forms, tests, teams, context] = await Promise.all([
     findAllUsers(),

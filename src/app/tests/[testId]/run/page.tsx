@@ -6,11 +6,13 @@ import { notFound } from "next/navigation";
 import { TestRunner } from "../components/test-runner";
 
 type PathParams = {
-  params: { testId: string };
-  searchParams: { assignment?: string };
+  params: Promise<{ testId: string }>;
+  searchParams: Promise<{ assignment?: string }>;
 };
 
-export default async function Page({ params, searchParams }: PathParams) {
+export default async function Page(props: PathParams) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const test = await findTestById(params.testId);
 
   if (!test) {

@@ -15,7 +15,7 @@ const RESET_MINUTES = 60;
 
 // Always reports success so the form does not reveal which emails have accounts.
 export async function requestPasswordReset(email: unknown): Promise<{ ok: true } | { error: "rateLimited" }> {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
   const parsed = emailSchema.safeParse(email);
 
   if (!consumeRateLimit(`reset:ip:${ip}`, 10, 60 * 60_000)) {
@@ -36,7 +36,7 @@ export async function requestPasswordReset(email: unknown): Promise<{ ok: true }
     });
 
     const t = await getTranslations("mail.passwordReset");
-    const link = absoluteUrl(`/auth/reset-password/${token}`);
+    const link = await absoluteUrl(`/auth/reset-password/${token}`);
 
     await sendMail({ to: parsed.data, subject: t("subject"), text: t("text", { link, minutes: RESET_MINUTES }) });
   }
@@ -81,7 +81,7 @@ export async function resetPassword(
   });
 
   if (membership) {
-    rememberOrganization(membership.organization.slug);
+    await rememberOrganization(membership.organization.slug);
   }
 
   return { redirectTo: homePath(membership) };

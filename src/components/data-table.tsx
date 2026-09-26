@@ -1,5 +1,6 @@
 "use client";
 
+import { PAGE_SIZE } from "@/utils/pagination";
 import { useTranslations } from "next-intl";
 import {
   ColumnDef,
@@ -45,7 +46,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const t = useTranslations("table");
-  const common = useTranslations("common");
+  const pager = useTranslations("common.pager");
   const table = useReactTable({
     data,
     columns,
@@ -56,6 +57,7 @@ export function DataTable<TData, TValue>({
       ? getPaginationRowModel()
       : undefined,
 
+    initialState: { pagination: { pageSize: PAGE_SIZE } },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     state: {
@@ -130,25 +132,18 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {enablePagination && (
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {common("back")}
+      {enablePagination && table.getPageCount() > 1 && (
+        <nav className="flex items-center justify-between gap-2 py-4" aria-label={pager("label")}>
+          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            {pager("previous")}
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {common("next")}
+          <span className="text-sm text-muted-foreground">
+            {pager("page", { page: table.getState().pagination.pageIndex + 1, pages: table.getPageCount() })}
+          </span>
+          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            {pager("next")}
           </Button>
-        </div>
+        </nav>
       )}
     </div>
   );

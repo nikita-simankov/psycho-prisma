@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { siteUrl } from "@/utils/site";
 
 const FEATURES = [
   { key: "library", icon: BookOpen },
@@ -30,11 +31,26 @@ const TRUST = [
 const STEPS = ["import", "invite", "review"] as const;
 const TRUST_POINTS = ["private", "languages", "mobile"] as const;
 
+export const metadata = { alternates: { canonical: "/" } };
+
 export default async function LandingPage() {
   const t = await getTranslations("landing");
+  const meta = await getTranslations("metadata");
+  // Describes the product to search engines.
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: meta("appName"),
+    description: meta("description"),
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: siteUrl().toString(),
+    inLanguage: ["en", "ru"],
+  };
 
   return (
     <div className="flex min-h-dvh flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <SiteHeader />
 
       <main id="main" className="flex flex-1 flex-col">

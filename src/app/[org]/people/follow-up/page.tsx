@@ -18,7 +18,7 @@ export async function generateMetadata() {
 
 // People with a restricted follow-up flag, most urgent first. Psychologists and owners only.
 export default async function FollowUpPage() {
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("followUp");
   await ensureMember("viewSensitive");
   const users = (await findAllUsers())

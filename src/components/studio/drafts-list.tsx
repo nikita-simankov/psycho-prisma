@@ -11,7 +11,7 @@ export async function DraftsList({ kind, drafts }: { kind: InstrumentKind; draft
   if (drafts.length === 0) return null;
   const t = await getTranslations("studio.drafts");
   const format = await getFormatter();
-  const base = organizationBase();
+  const base = await organizationBase();
 
   return (
     <section className="mb-8" aria-labelledby="drafts-title">
