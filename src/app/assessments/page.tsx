@@ -1,6 +1,7 @@
 import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
@@ -65,24 +66,24 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
   const now = new Date();
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6 sm:py-10">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-8 sm:py-14">
       {searchParams.done === "1" && (
-        <div role="status" className="flex items-start gap-3 rounded-xl border border-success/30 bg-success/10 p-4">
-          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+        <div role="status" className="flex items-start gap-3 border-l-2 border-success bg-card py-3 pl-4 pr-3">
+          <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-success" aria-hidden />
           <div>
             <p className="font-medium">{respondent("savedTitle")}</p>
             <p className="text-sm text-muted-foreground">{open.length ? t("savedMore") : t("savedAll")}</p>
           </div>
         </div>
       )}
-      <div className="flex flex-col gap-1">
-        <p className="text-sm text-muted-foreground">{respondent("greeting", { name: user.name })}</p>
-        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
-        <p className="max-w-2xl text-muted-foreground">{t("intro", { organization: organization.name })}</p>
-      </div>
+      <header className="flex flex-col gap-3">
+        <Eyebrow>{respondent("greeting", { name: user.name })}</Eyebrow>
+        <h1 className="text-4xl font-medium leading-[1.1] sm:text-5xl">{t("title")}</h1>
+        <p className="max-w-2xl text-lg text-muted-foreground">{t("intro", { organization: organization.name })}</p>
+      </header>
 
-      <section className="flex flex-col gap-3" aria-labelledby="todo-heading">
-        <h2 id="todo-heading" className="text-lg font-semibold">
+      <section className="flex flex-col gap-4 border-t border-foreground/80 pt-4" aria-labelledby="todo-heading">
+        <h2 id="todo-heading" className="text-xl font-medium">
           {t("todo")}
         </h2>
         {open.length === 0 && (
@@ -102,25 +103,25 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
             <Card key={assignment.id}>
               <CardHeader className="gap-1 pb-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <CardTitle className="text-lg">{assignment.round.name}</CardTitle>
+                  <CardTitle className="text-xl">{assignment.round.name}</CardTitle>
                   {assignment.round.dueAt && (
                     <Badge variant={overdue ? "destructive" : "secondary"} className="gap-1">
-                      <Clock className="h-3 w-3" />
+                      <Clock className="size-3" aria-hidden />
                       {t(overdue ? "overdue" : "due", {
                         date: format.dateTime(assignment.round.dueAt, { dateStyle: "medium" }),
                       })}
                     </Badge>
                   )}
                 </div>
-                <CardDescription>
+                <CardDescription className="font-mono text-xs">
                   {t("progress", { done: finishedKeys.size, total: items.length })}
                 </CardDescription>
                 {assignment.round.message && (
-                  <p className="whitespace-pre-line rounded-lg bg-muted p-3 text-sm">{assignment.round.message}</p>
+                  <p className="mt-2 whitespace-pre-line border-l-2 pl-3 font-heading text-base italic text-muted-foreground">{assignment.round.message}</p>
                 )}
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
-                <ul className="divide-y rounded-lg border">
+                <ul className="divide-y border-y">
                   {items.map((item) => {
                     const key = itemKey(item);
                     const complete = finishedKeys.has(key);
@@ -150,9 +151,9 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
                     return (
                       <li key={key}>
                         {complete ? (
-                          <div className="flex items-center gap-3 p-3">{content}</div>
+                          <div className="flex items-center gap-3 py-3">{content}</div>
                         ) : (
-                          <Link href={href(item)} className="flex items-center gap-3 p-3 hover:bg-muted/50">
+                          <Link href={href(item)} className="-mx-2 flex items-center gap-3 rounded-md px-2 py-3 hover:bg-muted">
                             {content}
                           </Link>
                         )}
@@ -172,8 +173,8 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
       </section>
 
       {finished.length > 0 && (
-        <section className="flex flex-col gap-3" aria-labelledby="done-heading">
-          <h2 id="done-heading" className="text-lg font-semibold">
+        <section className="flex flex-col gap-4 border-t border-foreground/80 pt-4" aria-labelledby="done-heading">
+          <h2 id="done-heading" className="text-xl font-medium">
             {t("done")}
           </h2>
           <Card>
@@ -183,7 +184,7 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
                   <CircleCheck className="h-5 w-5 shrink-0 text-success" aria-hidden />
                   <span className="min-w-0 flex-1">
                     <span className="block font-medium">{assignment.round.name}</span>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-xs text-muted-foreground">
                       {t("finishedOn", { date: format.dateTime(assignment.completedAt!, { dateStyle: "medium" }) })}
                     </span>
                   </span>
@@ -195,15 +196,15 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
       )}
 
       {latestResults.length > 0 && (
-        <section className="flex flex-col gap-3" aria-labelledby="results-heading">
-          <h2 id="results-heading" className="text-lg font-semibold">
+        <section className="flex flex-col gap-4 border-t border-foreground/80 pt-4" aria-labelledby="results-heading">
+          <h2 id="results-heading" className="text-xl font-medium">
             {t("yourResults")}
           </h2>
           <Card>
             <ul className="divide-y">
               {latestResults.map((result) => (
                 <li key={result.id}>
-                  <Link href={`/assessments/results/${result.id}`} className="flex items-center gap-3 p-4 hover:bg-muted/50">
+                  <Link href={`/assessments/results/${result.id}`} className="flex items-center gap-3 p-4 hover:bg-muted">
                     <BarChart3 className="h-5 w-5 shrink-0 text-primary" aria-hidden />
                     <span className="min-w-0 flex-1">
                       <span className="block font-medium">{resultName(result.testId)}</span>

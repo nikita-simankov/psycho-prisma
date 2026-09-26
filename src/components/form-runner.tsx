@@ -122,7 +122,7 @@ export function FormRunner({ form, doneHref, pauseHref, assignmentId, initialDra
         <Textarea
           autoFocus
           rows={3}
-          className="rounded-xl text-base"
+          className="text-base"
           value={value}
           aria-label={question.text}
           onChange={(event) => draft.answer(question.id, event.target.value)}

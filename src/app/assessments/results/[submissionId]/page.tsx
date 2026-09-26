@@ -1,3 +1,4 @@
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { ScaleProfile } from "@/components/results/scale-profile";
 import { ensureMember } from "@/utils/authentication";
 import { localizeTest } from "@/utils/content-translation";
@@ -40,38 +41,39 @@ export default async function FeedbackPage(props: { params: Promise<{ submission
   const findings = [...result.keyFindings, ...result.otherFindings].filter((row) => row.summary);
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6 sm:py-10">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:py-14">
       <Link href="/assessments" className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ChevronLeft className="h-4 w-4" />
         {respondent("home")}
       </Link>
-      <div className="flex flex-col gap-1">
-        <p className="text-sm text-muted-foreground">{t("title")}</p>
-        <h1 className="text-2xl font-bold sm:text-3xl">{result.testName}</h1>
-        <p className="text-sm text-muted-foreground">{format.dateTime(result.createdAt, { dateStyle: "long" })}</p>
-      </div>
-      <p className="flex items-start gap-2 rounded-lg bg-muted p-3 text-sm">
+      <header className="flex flex-col gap-3">
+        <Eyebrow>
+          {t("title")} · {format.dateTime(result.createdAt, { dateStyle: "long" })}
+        </Eyebrow>
+        <h1 className="text-4xl font-medium leading-[1.1]">{result.testName}</h1>
+      </header>
+      <p className="flex items-start gap-2 border-l-2 border-primary bg-card py-3 pl-4 pr-3 text-sm">
         <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
         {t("note")}
       </p>
       {result.rows.length > 0 && (
-        <section className="flex flex-col gap-2" aria-labelledby="profile-heading">
-          <h2 id="profile-heading" className="text-lg font-semibold">
+        <section className="flex flex-col gap-3 border-t border-foreground/80 pt-4" aria-labelledby="profile-heading">
+          <h2 id="profile-heading" className="text-xl font-medium">
             {t("profile")}
           </h2>
           <ScaleProfile rows={result.rows} />
         </section>
       )}
       {findings.length > 0 && (
-        <section className="flex flex-col gap-3" aria-labelledby="reading-heading">
-          <h2 id="reading-heading" className="text-lg font-semibold">
+        <section className="flex flex-col gap-3 border-t border-foreground/80 pt-4" aria-labelledby="reading-heading">
+          <h2 id="reading-heading" className="text-xl font-medium">
             {t("reading")}
           </h2>
           <dl className="flex flex-col gap-3">
             {findings.map((row) => (
-              <div key={row.scaleId} className="rounded-lg border bg-card p-4">
+              <div key={row.scaleId} className="border-b pb-3 last:border-b-0">
                 <dt className="font-medium">{row.scaleName}</dt>
-                <dd className="mt-1 whitespace-pre-line text-sm text-muted-foreground">{row.summary}</dd>
+                <dd className="mt-1 whitespace-pre-line leading-relaxed text-muted-foreground">{row.summary}</dd>
               </div>
             ))}
           </dl>

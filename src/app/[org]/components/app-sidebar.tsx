@@ -1,5 +1,6 @@
 "use client";
 
+import { OrganizationMark } from "@/components/organization-mark";
 import { useOrganization } from "@/components/organization-provider";
 import {
   DropdownMenu,
@@ -34,14 +35,6 @@ import { usePathname } from "next/navigation";
 import { NAVIGATION, visibleGroups } from "./navigation";
 
 type OrganizationOption = { slug: string; name: string; role: string };
-
-function OrganizationMark({ name }: { name: string }) {
-  return (
-    <span className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-md bg-foreground font-heading text-sm font-medium text-background">
-      {name.slice(0, 1).toUpperCase()}
-    </span>
-  );
-}
 
 function OrganizationSwitcher({ organizations }: { organizations: OrganizationOption[] }) {
   const t = useTranslations("organizations");

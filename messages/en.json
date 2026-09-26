@@ -410,6 +410,7 @@
   },
   "runner": {
     "progress": "Question {current} of {total}",
+    "allAnswered": "Every question answered",
     "answerPlaceholder": "Your answer",
     "doneTitle": "All done!",
     "formDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",

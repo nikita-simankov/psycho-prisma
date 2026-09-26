@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Check, CloudOff, Loader2, Pause } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { SaveStatus } from "./use-draft";
@@ -25,44 +26,46 @@ export function RunnerHeader({
   const percent = total ? Math.round((answered / total) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
-        <span>{label}</span>
-        <Button variant="ghost" size="sm" className="-mr-2 h-8 shrink-0 gap-1 px-2" onClick={onPause}>
-          <Pause className="h-3.5 w-3.5" />
-          {t("pause")}
-        </Button>
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <Eyebrow>{label}</Eyebrow>
+        <div className="flex items-center gap-3">
+          <p className="flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-muted-foreground" aria-live="polite">
+            {status === "saving" && (
+              <>
+                <Loader2 className="size-3 animate-spin" aria-hidden /> {t("saving")}
+              </>
+            )}
+            {status === "saved" && (
+              <>
+                <Check className="size-3 text-success" aria-hidden /> {t("saved")}
+              </>
+            )}
+            {status === "error" && (
+              <span className="flex items-center gap-1.5 text-destructive">
+                <CloudOff className="size-3" aria-hidden /> {t("notSaved")}
+              </span>
+            )}
+          </p>
+          <Button variant="ghost" size="sm" className="-mr-2 gap-1.5 px-2 text-muted-foreground" onClick={onPause}>
+            <Pause className="size-3.5" />
+            {t("pause")}
+          </Button>
+        </div>
       </div>
       <div
-        className="h-1.5 w-full overflow-hidden rounded-full bg-muted"
+        className="h-0.5 w-full bg-border"
         role="progressbar"
         aria-label={t("answeredOf", { answered, total })}
         aria-valuemin={0}
         aria-valuemax={total}
         aria-valuenow={answered}
       >
-        <div className="h-full rounded-full bg-primary transition-all duration-300" style={{ width: `${percent}%` }} />
+        <div className="h-full bg-foreground transition-[width] duration-500 ease-calm" style={{ width: `${percent}%` }} />
       </div>
-      <div className="flex min-h-4 items-center justify-between gap-2 text-xs text-muted-foreground">
-        <p className="flex items-center gap-1" aria-live="polite">
-          {status === "saving" && (
-            <>
-              <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> {t("saving")}
-            </>
-          )}
-          {status === "saved" && (
-            <>
-              <Check className="h-3 w-3" aria-hidden /> {t("saved")}
-            </>
-          )}
-          {status === "error" && (
-            <span className="flex items-center gap-1 text-destructive">
-              <CloudOff className="h-3 w-3" aria-hidden /> {t("notSaved")}
-            </span>
-          )}
-        </p>
-        <span className="tabular-nums">{minutesLeft > 0 ? t("minutesLeft", { count: minutesLeft }) : t("almostDone")}</span>
-      </div>
+      <p className="text-right font-mono text-xs tabular-nums text-muted-foreground">
+        {minutesLeft > 0 ? t("minutesLeft", { count: minutesLeft }) : t("almostDone")}
+      </p>
     </div>
   );
 }

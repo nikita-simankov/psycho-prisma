@@ -204,7 +204,7 @@ function SingleQuestion({
       )}
       {question.type === SINGLE_CHOICE_WITH_OTHER && (
         <Input
-          className="h-12 rounded-xl"
+          className="h-12"
           value={otherValue}
           onFocus={() => onAnswer(otherChoiceId)}
           onChange={(event) => setOtherValue(event.target.value)}

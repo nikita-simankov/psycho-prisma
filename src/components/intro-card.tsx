@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ArrowRight, ChevronLeft, Clock, HelpCircle, Lock } from "lucide-react";
+import { Eyebrow } from "@/components/ui/eyebrow";
+import { ArrowRight, ChevronLeft, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -29,53 +29,46 @@ export function IntroCard({
   const common = useTranslations("common");
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 py-6 sm:py-10">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 py-8 sm:py-14">
       <Link href={backHref} className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="size-4" />
         {t("home")}
       </Link>
-      <div className="flex flex-col gap-3">
-        <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{name}</h1>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <HelpCircle className="h-4 w-4" />
-            {t("questionCount", { count: questionCount })}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Clock className="h-4 w-4" />
-            {common("minutes", { count: minutes })}
-          </span>
-        </div>
-      </div>
-      {(description || instruction) && (
-        <Card className="flex flex-col gap-4 p-5">
-          {description && (
-            <section className="flex flex-col gap-1">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t("about")}</h2>
-              <p className="whitespace-pre-line leading-relaxed">{description.trim()}</p>
-            </section>
-          )}
-          {instruction && (
-            <section className="flex flex-col gap-1">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t("instruction")}</h2>
-              <p className="whitespace-pre-line leading-relaxed">{instruction.trim()}</p>
-            </section>
-          )}
-        </Card>
+      <header className="flex flex-col gap-3">
+        <Eyebrow>
+          {t("questionCount", { count: questionCount })} · {common("minutes", { count: minutes })}
+        </Eyebrow>
+        <h1 className="text-4xl font-medium leading-[1.1] sm:text-5xl">{name}</h1>
+      </header>
+      {description && (
+        <section className="flex flex-col gap-2 border-t border-foreground/80 pt-4">
+          <h2 className="font-sans">
+            <Eyebrow>{t("about")}</Eyebrow>
+          </h2>
+          <p className="whitespace-pre-line text-lg leading-relaxed">{description.trim()}</p>
+        </section>
+      )}
+      {instruction && (
+        <section className="flex flex-col gap-2 border-t pt-4">
+          <h2 className="font-sans">
+            <Eyebrow>{t("instruction")}</Eyebrow>
+          </h2>
+          <p className="whitespace-pre-line leading-relaxed">{instruction.trim()}</p>
+        </section>
       )}
       <p className="flex items-start gap-2 text-sm text-muted-foreground">
-        <Lock className="mt-0.5 h-4 w-4 shrink-0" />
+        <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
         {t("privacyNote")}
       </p>
       {answered > 0 && (
-        <p role="status" className="rounded-lg bg-muted p-3 text-sm">
+        <p role="status" className="border-l-2 border-primary bg-card py-3 pl-4 pr-3 text-sm">
           {t("resumeNote", { answered, total: questionCount })}
         </p>
       )}
       <Button size="lg" asChild className="w-full sm:w-fit">
         <Link href={startHref}>
           {answered > 0 ? t("continue") : t("start")}
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <ArrowRight className="size-4" />
         </Link>
       </Button>
     </div>

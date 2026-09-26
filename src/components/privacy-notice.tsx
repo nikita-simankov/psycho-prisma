@@ -22,7 +22,7 @@ export function PrivacyNotice({ organization, contact }: { organization?: string
             <Icon className="h-4 w-4" />
           </span>
           <div className="flex flex-col gap-1">
-            <h2 className="font-heading font-semibold">{t(`sections.${key}.title`)}</h2>
+            <h2 className="text-lg font-medium">{t(`sections.${key}.title`)}</h2>
             <p className="text-sm leading-relaxed text-muted-foreground">{t(`sections.${key}.text`)}</p>
           </div>
         </section>
