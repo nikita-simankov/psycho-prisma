@@ -25,7 +25,8 @@ export function useDraft({
   const [status, setStatus] = useState<SaveStatus>("idle");
   const timings = useRef<Record<string, number>>(initial?.timings ?? {});
   const answersRef = useRef(answers);
-  const mark = useRef(Date.now());
+  // When the current question was shown; set on mount, then on every answer or page change.
+  const mark = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const dirty = useRef(false);
 
@@ -48,6 +49,10 @@ export function useDraft({
     clearTimeout(timer.current);
     timer.current = setTimeout(flush, SAVE_DELAY);
   }, [flush]);
+
+  useEffect(() => {
+    mark.current = Date.now();
+  }, []);
 
   // Starts the clock for a newly shown question or page.
   const restartClock = useCallback(() => {

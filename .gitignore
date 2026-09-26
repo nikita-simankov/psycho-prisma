@@ -44,3 +44,8 @@ next-env.d.ts
 
 # local scratch
 .scratch/
+
+# end-to-end runs
+/e2e/.auth/
+/playwright-report/
+/test-results/

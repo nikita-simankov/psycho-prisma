@@ -12,7 +12,10 @@ type Handlers = {
 // Keyboard answering. Keys typed into a text field, or with a modifier held, are left alone.
 export function useRunnerKeys(handlers: Handlers) {
   const ref = useRef(handlers);
-  ref.current = handlers;
+  // Always call the latest handlers without re-attaching the listener.
+  useEffect(() => {
+    ref.current = handlers;
+  });
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

@@ -8,7 +8,7 @@ import {
   TestScaleKey,
   TGradeTableRow,
 } from "../constants";
-import { getSheetRows, readWorkbook, Workbook } from "./workbook";
+import { getSheetRows, readWorkbook, Workbook, type SheetRow } from "./workbook";
 
 export async function extractTestData(
   file: File,
@@ -30,7 +30,7 @@ export async function extractTestData(
 function extractScales(workBook: Workbook) {
   const scales = getSheetRows(workBook, "Обработка");
 
-  const parsedScales: TestScale[] = scales.map((entry: any) => {
+  const parsedScales: TestScale[] = scales.map((entry: SheetRow) => {
     const [
       scaleId,
       scaleName,
@@ -82,7 +82,7 @@ function extractScales(workBook: Workbook) {
 function extractQuestions(workBook: Workbook): TestQuestion[] {
   const questions = getSheetRows(workBook, "Список вопросов");
 
-  const parsedQuestions: TestQuestion[] = questions.map((entry: any) => {
+  const parsedQuestions: TestQuestion[] = questions.map((entry: SheetRow) => {
     const [
       questionId,
       questionText,
@@ -98,7 +98,7 @@ function extractQuestions(workBook: Workbook): TestQuestion[] {
     return {
       id: Number(questionId),
       text: questionText as string,
-      type: questionChoiceType,
+      type: questionChoiceType as string,
       choices: (questionChoicesString as string)
         .split("; ")
         .map((choice, index) => {
@@ -116,7 +116,7 @@ function extractQuestions(workBook: Workbook): TestQuestion[] {
 function extractStanTable(workBook: Workbook): StanTableRow[] {
   const tableData = getSheetRows(workBook, "Таблица перевода в СТЭН");
 
-  const parsedRows: StanTableRow[] = tableData.map((entry: any) => {
+  const parsedRows: StanTableRow[] = tableData.map((entry: SheetRow) => {
     const [scaleId, minGrade, maxGrade, convertedGrade] = [
       entry["ID Шкалы"],
       entry["Минимальный балл"],
@@ -138,7 +138,7 @@ function extractStanTable(workBook: Workbook): StanTableRow[] {
 function extractTGradeTable(workBook: Workbook): TGradeTableRow[] {
   const tableData = getSheetRows(workBook, "Таблица перевода в Т-баллы");
 
-  const parsedRows: TGradeTableRow[] = tableData.map((entry: any) => {
+  const parsedRows: TGradeTableRow[] = tableData.map((entry: SheetRow) => {
     const [scaleId, rawGrade, convertedGrade] = [
       entry["ID Шкалы"],
       entry["Сырой балл"],
@@ -158,7 +158,7 @@ function extractTGradeTable(workBook: Workbook): TGradeTableRow[] {
 function extractSummaryTable(workBook: Workbook): SummaryTableRow[] {
   const tableData = getSheetRows(workBook, "Характеристика");
 
-  const parsedRows: SummaryTableRow[] = tableData.map((entry: any) => {
+  const parsedRows: SummaryTableRow[] = tableData.map((entry: SheetRow) => {
     const [
       scaleId,
       strategy,
