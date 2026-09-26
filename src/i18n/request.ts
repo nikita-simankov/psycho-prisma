@@ -28,7 +28,11 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages: {
+      ...(await import(`../../messages/${locale}.json`)).default,
+      // Legal documents are long, so they live in their own file under the "legal" namespace.
+      legal: (await import(`../../messages/legal/${locale}.json`)).default,
+    },
   };
 });
 

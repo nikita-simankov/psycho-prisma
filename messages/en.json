@@ -60,86 +60,106 @@
   },
   "landing": {
     "hero": {
-      "eyebrow": "For HR teams and workplace psychologists",
-      "title": "Understand your people, not just their CVs",
-      "subtitle": "Run established psychological tests and questionnaires online. Scores are calculated the moment someone finishes, and every result lands in one private workspace.",
-      "cta": "Create a workspace account",
-      "secondary": "Sign in",
-      "trust": {
-        "private": "Visible only to your admins",
-        "languages": "English and Russian",
-        "mobile": "Works on any phone"
-      }
+      "eyebrow": "Psychological assessment for HR teams",
+      "title": "Assessment your people can trust",
+      "lead": "Run established tests and questionnaires as rounds, get scored reports the moment people finish, and see how teams compare. Consent, privacy and a psychologist's judgement are built in, not bolted on.",
+      "cta": "Start a 14-day free trial",
+      "secondary": "See pricing",
+      "note": "No card needed. You move to the Free plan when the trial ends, and keep your data."
     },
-    "preview": {
-      "person": "Jane Doe",
-      "role": "Account manager, Sales",
-      "test": "State–Trait Anxiety Inventory",
-      "scaleA": "State anxiety",
-      "scaleB": "Trait anxiety",
-      "summary": "Moderate trait anxiety",
-      "badge": "Scored instantly"
+    "figure": {
+      "caption": "Fig. 1. One person's profile against the average band and their team's mean.",
+      "label": "Report excerpt",
+      "person": "Olga Petrova",
+      "role": "Product design · submitted 12 September",
+      "test": "Work style profile",
+      "scales": {
+        "a": "Communication",
+        "b": "Organisation",
+        "c": "Leadership",
+        "d": "Readiness to take risks"
+      },
+      "sten": "Sten {value}",
+      "person_legend": "Person",
+      "band_legend": "Average band, 4 to 7",
+      "team_legend": "Team mean",
+      "note": "Scored on submit. The psychologist adds context and a conclusion before anyone acts on it."
     },
     "features": {
-      "title": "Everything an assessment day needs",
-      "subtitle": "From the first invitation to the final report, without paper forms or spreadsheets.",
+      "title": "What Calibre does",
+      "lead": "Everything between choosing an instrument and reading the result, without paper forms or spreadsheets.",
       "library": {
-        "title": "Ready-made library",
-        "text": "19 established tests and 3 questionnaires, from anxiety and depression screening to leadership and cognitive ability, in English and Russian."
+        "title": "A validated library",
+        "text": "Ability tests, personality questionnaires and clinical screens in English and Russian, ready to send. Build your own in the studio."
       },
-      "scoring": {
-        "title": "Automatic scoring",
-        "text": "Raw scores, T-scores and stens are calculated on submit, with an interpretation for every scale."
+      "rounds": {
+        "title": "Rounds, not links",
+        "text": "Send a set of instruments to a team with a due date. Calibre sends the invitations and reminders, and people sign in with a one-time link."
       },
       "reports": {
-        "title": "Per-person reports",
-        "text": "See all of a person's results side by side, add background and a conclusion, then print or archive."
+        "title": "Reports that read like documents",
+        "text": "Raw scores, T-scores and stens with an interpretation for every scale. Add background and a conclusion, then print or export."
       },
-      "groups": {
-        "title": "Teams and follow-up",
-        "text": "Organise people by team, and let psychologists privately flag anyone who may need support."
-      }
+      "analytics": {
+        "title": "Team analytics",
+        "text": "Compare a person with their team and the organization, follow change between rounds, and save the views you use."
+      },
+      "link": "Tour the product"
     },
     "trust": {
       "title": "Built for sensitive data",
-      "subtitle": "Psychological results deserve more care than an ordinary HR form.",
+      "lead": "Psychological results deserve more care than an ordinary HR form.",
       "consent": {
         "title": "Consent first",
-        "text": "People read a plain-language privacy notice and agree to it before their first test."
+        "text": "People read a plain-language privacy notice and agree to it before their first assessment."
       },
       "access": {
         "title": "Private by default",
-        "text": "Only workspace admins see answers and scores. Colleagues never do."
+        "text": "Only the staff you choose see answers and scores. Colleagues never do."
       },
       "judgement": {
         "title": "Support, not diagnosis",
         "text": "Results inform a qualified specialist's judgement and never replace it."
-      }
+      },
+      "clinical": {
+        "title": "Clinical screens stay clinical",
+        "text": "Depression, anxiety and similar screens, and their results, are visible only to psychologists and the workspace owner."
+      },
+      "retention": {
+        "title": "Kept only as long as needed",
+        "text": "Set how long results are kept. Every view and change is written to an audit log."
+      },
+      "link": "How we protect your data"
     },
     "steps": {
-      "title": "How it works",
-      "label": "Step {number}",
-      "import": {
-        "title": "Pick or import instruments",
-        "text": "Use the built-in library or upload your own tests and questionnaires from an Excel template."
+      "title": "How a round works",
+      "pick": {
+        "title": "Choose instruments",
+        "text": "Pick from the library or build your own, and choose the people or teams to assess."
       },
-      "invite": {
+      "send": {
         "title": "People take them online",
-        "text": "Employees and candidates sign up and complete assessments from any browser, at their own pace."
+        "text": "Invitations and reminders go out by email. Answers save as people go, on any phone or computer."
       },
-      "review": {
-        "title": "Review results",
-        "text": "Scores and interpretations are ready in the dashboard as soon as someone finishes."
+      "read": {
+        "title": "Read the results",
+        "text": "Reports are ready the moment someone finishes, and the round shows who is still to go."
       }
     },
-    "cta": {
-      "title": "Ready to run your first assessment?",
-      "text": "Sign up takes a minute. Your administrator can then assign tests and questionnaires.",
-      "button": "Get started"
+    "library": {
+      "title": "From the library",
+      "lead": "A few of the instruments you can send on day one. Each page explains what it measures and when to use it.",
+      "all": "All instruments"
     },
-    "footer": {
-      "tagline": "Calibre · psychological assessment for HR teams",
-      "disclaimer": "Results support, and never replace, a qualified psychologist's judgement."
+    "plans": {
+      "title": "Priced by the people you assess",
+      "lead": "Every plan includes staff seats. You pay for the number of people who take an assessment in a year.",
+      "link": "Compare plans"
+    },
+    "cta": {
+      "title": "Run your first round this week",
+      "text": "Create a workspace, invite a colleague and send a first assessment in a few minutes.",
+      "button": "Start free trial"
     }
   },
   "auth": {
@@ -560,7 +580,7 @@
       },
       "access": {
         "title": "Who can see it",
-        "text": "Only people your organization authorises, such as HR specialists and psychologists. Results of clinical and wellbeing screens are visible only to psychologists. Other employees cannot see your answers or results."
+        "text": "Only people your organization authorises, such as HR specialists and psychologists. Results of clinical and wellbeing screens are visible only to psychologists and the organization’s owner. Other employees cannot see your answers or results."
       },
       "storage": {
         "title": "How long it is kept",
@@ -1373,6 +1393,255 @@
       "next": "Next",
       "notSaved": "This is how respondents see it. Answers picked here are not saved.",
       "empty": "Add a question to see how respondents will see it."
+    }
+  },
+  "site": {
+    "nav": {
+      "label": "Main",
+      "menu": "Menu",
+      "product": "Product",
+      "instruments": "Instruments",
+      "pricing": "Pricing",
+      "security": "Security"
+    },
+    "trial": "Start free trial",
+    "footer": {
+      "tagline": "Psychological assessment for HR teams.",
+      "productTitle": "Product",
+      "companyTitle": "Trust",
+      "legal": "Legal",
+      "privacy": "Privacy notice",
+      "disclaimer": "Results support, and never replace, a qualified psychologist's judgement.",
+      "copyright": "© {year} Calibre"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Pricing",
+    "metaDescription": "Calibre plans for HR teams: Free, Team, Business and Enterprise, priced by the number of people you assess each year. 14-day free trial, no card needed.",
+    "eyebrow": "Pricing",
+    "title": "Pay for the people you assess, not for seats",
+    "lead": "Start with a 14-day trial of Business. When it ends you move to Free and keep everything, unless you choose a plan.",
+    "perMonth": "per month, billed yearly",
+    "free": "Free",
+    "custom": "Custom",
+    "trialBadge": "14-day free trial",
+    "respondents": "{count} respondents a year",
+    "unlimitedRespondents": "Unlimited respondents",
+    "seats": "{count, plural, one {# staff seat} other {# staff seats}}",
+    "unlimitedSeats": "Unlimited staff seats",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "tagline": "Try it with a small team",
+        "cta": "Start free"
+      },
+      "team": {
+        "name": "Team",
+        "tagline": "For one HR team",
+        "cta": "Choose Team"
+      },
+      "business": {
+        "name": "Business",
+        "tagline": "For a whole company",
+        "cta": "Start free trial"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "tagline": "For large or regulated organizations",
+        "cta": "Talk to us"
+      }
+    },
+    "compare": {
+      "title": "Compare plans",
+      "feature": "Feature",
+      "respondents": "Respondents a year",
+      "seats": "Staff seats",
+      "unlimited": "Unlimited",
+      "included": "Included",
+      "notIncluded": "Not included"
+    },
+    "features": {
+      "library": "Instrument library and scoring",
+      "reports": "Individual reports",
+      "rounds": "Rounds with reminders and schedules",
+      "export": "CSV export",
+      "analytics": "Team analytics and saved views",
+      "studio": "Studio for your own instruments",
+      "clinical": "Clinical instruments for psychologists",
+      "audit": "Audit log and retention settings",
+      "branding": "Your logo for respondents",
+      "sso": "Single sign-on (SAML) and SCIM",
+      "invoicing": "Invoicing, DPA negotiation and SLA"
+    },
+    "levels": {
+      "basic": "Basic",
+      "copy": "Copies only",
+      "logo": "Logo",
+      "full": "Full white label"
+    },
+    "note": "Prices are in euros and exclude VAT. Our reseller Paddle handles payment, tax and invoices.",
+    "faq": {
+      "title": "Questions",
+      "items": {
+        "respondent": {
+          "q": "Who counts as a respondent?",
+          "a": "Anyone who submits at least one test or questionnaire in your billing year, counted once however many assessments they take. Staff who only review results don't count."
+        },
+        "limit": {
+          "q": "What happens if we go over our limit?",
+          "a": "A round that is already running is never cut off. When you reach your limit we let you know, and you can upgrade or wait for the next billing year."
+        },
+        "trial": {
+          "q": "How does the trial work?",
+          "a": "Every new workspace gets 14 days of Business without a card. When it ends you move to Free unless you choose a plan, and nothing is deleted."
+        },
+        "billing": {
+          "q": "Who bills us?",
+          "a": "Our orders are processed by Paddle, who act as the reseller and merchant of record. Paddle handles payment, VAT and sales tax, and sends the invoices."
+        },
+        "cancel": {
+          "q": "Can we cancel or get a refund?",
+          "a": "You can cancel at any time and keep your plan to the end of the period you paid for. Our refund policy explains when you can get your money back."
+        },
+        "privacy": {
+          "q": "Are privacy features behind a paywall?",
+          "a": "No. Consent, data export, erasure and withdrawal of consent work on every plan, including Free."
+        }
+      },
+      "refunds": "Refund policy"
+    }
+  },
+  "product": {
+    "metaTitle": "Product",
+    "metaDescription": "How Calibre runs psychological assessment for HR teams: rounds, a calm respondent experience, scored reports, team analytics, a studio for your own instruments and privacy controls.",
+    "eyebrow": "Product",
+    "title": "From the first invitation to the final report",
+    "lead": "A tour of Calibre, in the order you'll use it.",
+    "contents": "On this page",
+    "sections": {
+      "rounds": {
+        "title": "Rounds",
+        "lead": "An assessment is a round: a set of instruments, the people who take them and a due date.",
+        "points": [
+          "Send to people or whole teams, and add candidates by email.",
+          "Invitations and reminders go out on their own. Nobody needs a password.",
+          "The round shows who has finished, who is late and what needs checking."
+        ]
+      },
+      "respondents": {
+        "title": "For the person taking it",
+        "lead": "Answering should feel calm, private and quick, on any device.",
+        "points": [
+          "One question at a time, in large type, with keyboard shortcuts.",
+          "Answers save as people go, so they can stop and come back.",
+          "They see your organization's name, not ours, and a clear privacy notice before they start."
+        ]
+      },
+      "reports": {
+        "title": "Reports",
+        "lead": "Scores arrive the moment someone finishes, laid out like a document you can hand to a manager.",
+        "points": [
+          "Raw scores, T-scores and stens with an interpretation for every scale.",
+          "Background, conclusion and recommendations written by your psychologist.",
+          "Prints cleanly on A4 or Letter, and exports to CSV."
+        ]
+      },
+      "analytics": {
+        "title": "Analytics",
+        "lead": "See patterns across people without losing sight of the person.",
+        "points": [
+          "Compare a person with their team and the whole organization on the same scale.",
+          "Follow change between rounds and spot large shifts.",
+          "Save the filters you use, and hide groups too small to stay anonymous."
+        ]
+      },
+      "studio": {
+        "title": "Studio",
+        "lead": "Build your own tests and questionnaires, or adapt a copy of one from the library.",
+        "points": [
+          "Write questions, choices and scoring keys, and preview them as respondents will see them.",
+          "Import from an Excel template.",
+          "Publish versions, so results always match the questions that were asked."
+        ]
+      },
+      "privacy": {
+        "title": "Privacy and control",
+        "lead": "Psychological data is sensitive, so the controls are part of the product, not an add-on.",
+        "points": [
+          "Roles decide who sees what. Clinical screens are for psychologists and the owner only.",
+          "Consent before the first assessment, and export or erasure on request.",
+          "Retention periods and an audit log of every view and change."
+        ]
+      }
+    }
+  },
+  "instruments": {
+    "metaTitle": "Instruments",
+    "metaDescription": "The psychological tests and questionnaires in the Calibre library: what each one measures, how long it takes and when HR teams use it.",
+    "eyebrow": "Library",
+    "title": "Instruments",
+    "lead": "Established tests and questionnaires you can send from Calibre, scored automatically and interpreted scale by scale.",
+    "kinds": {
+      "ability": "Ability test",
+      "personality": "Questionnaire"
+    },
+    "questions": "{count} questions",
+    "minutes": "About {count} min",
+    "measures": "What it measures",
+    "use": "When to use it",
+    "format": "Format",
+    "kind": "Type",
+    "length": "Length",
+    "time": "Time",
+    "languages": "Languages",
+    "languagesValue": "English, Russian",
+    "scoring": "Scoring",
+    "scoringValue": "Automatic, with stens and an interpretation",
+    "itemsNote": "We don't publish the questions, so the instrument stays valid for the people who take it.",
+    "clinicalNote": "The library also includes clinical screens, such as anxiety and depression scales. They are available to psychologists on the Business plan and are not listed publicly.",
+    "all": "All instruments",
+    "cta": {
+      "title": "Send it to your team",
+      "text": "Start a free trial and send this instrument in a round today.",
+      "button": "Start free trial"
+    },
+    "items": {
+      "analogies": {
+        "name": "Analogies",
+        "summary": "A verbal reasoning test: find the pair of words linked in the same way as an example pair.",
+        "measures": "Logical thinking with words: seeing how concepts relate, and applying the same relation to new ones. It is a quick measure of general reasoning ability.",
+        "use": "Selection and development for roles where people reason with information, such as analysts, specialists and managers. Use it alongside other evidence, never on its own."
+      },
+      "arithmetic": {
+        "name": "Arithmetic",
+        "summary": "A timed test of mental arithmetic: adding, subtracting, multiplying and dividing without a calculator.",
+        "measures": "Speed and accuracy with numbers, and the ability to stay focused under time pressure.",
+        "use": "Roles that work with figures every day, such as finance, operations, sales and customer service. Retesting is limited so repeated attempts don't inflate the score."
+      },
+      "patterns": {
+        "name": "Patterns",
+        "summary": "Find the words that follow a given rule about their order and number of letters.",
+        "measures": "Attention, concentration and the ability to spot rules and regularities quickly.",
+        "use": "Roles that need careful, accurate work with detail, such as administration, quality control and data entry."
+      },
+      "communication-and-organisation": {
+        "name": "Communication and organisation",
+        "summary": "A questionnaire on how readily someone makes contact with people and takes charge of organizing them.",
+        "measures": "Two scales: communicative tendencies (making and keeping contact, ease in groups) and organizational tendencies (taking initiative, organizing others, making decisions).",
+        "use": "Teams, roles with a lot of contact with people, and early spotting of future team leads."
+      },
+      "leadership": {
+        "name": "Leadership",
+        "summary": "A short questionnaire on the personal qualities that make leading others come naturally.",
+        "measures": "The tendency to take the lead: confidence, initiative, the wish to influence others and to take responsibility for a group.",
+        "use": "Leadership programs, succession planning and conversations about career direction."
+      },
+      "risk-readiness": {
+        "name": "Readiness to take risks",
+        "summary": "Schubert's questionnaire on how willing someone is to take risks in everyday and work situations.",
+        "measures": "Where someone sits between caution and boldness when a situation is uncertain.",
+        "use": "Roles where the balance between caution and initiative matters, such as sales, safety and leadership, and team conversations about decision styles."
+      }
     }
   }
 }
