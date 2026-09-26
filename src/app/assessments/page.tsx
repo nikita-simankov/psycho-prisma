@@ -5,8 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { describeItems, itemKey, parseItems, submittedItems } from "@/utils/rounds";
+import { feedbackTestIds } from "@/utils/feedback";
+import { localizeTest } from "@/utils/content-translation";
 import { cn } from "@/utils/utils";
-import { CheckCircle2, ChevronRight, CircleCheck, Circle, Clock, ListChecks } from "lucide-react";
+import { BarChart3, CheckCircle2, ChevronRight, CircleCheck, Circle, Clock, ListChecks } from "lucide-react";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -41,6 +43,24 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
     // Soonest due first; rounds without a due date last.
     .sort((a, b) => (a.round.dueAt?.getTime() ?? Infinity) - (b.round.dueAt?.getTime() ?? Infinity));
   const finished = assignments.filter((assignment) => assignment.completedAt);
+
+  // Results the organization shares back with the person, latest per test.
+  const shared = await feedbackTestIds(organization.id);
+  const ownResults = shared.size
+    ? await prisma.testSubmission.findMany({
+        where: { userId: user.id, organizationId: organization.id, testId: { in: Array.from(shared) } },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, testId: true, createdAt: true },
+      })
+    : [];
+  const latestResults = ownResults.filter((result, index) => ownResults.findIndex((other) => other.testId === result.testId) === index);
+  const resultTests = await prisma.test.findMany({
+    where: { id: { in: latestResults.map((result) => result.testId) } },
+  });
+  const resultName = (testId: string) => {
+    const test = resultTests.find((entry) => entry.id === testId);
+    return test ? localizeTest(test, locale).name : "";
+  };
   const now = new Date();
 
   return (
@@ -166,6 +186,32 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
                       {t("finishedOn", { date: format.dateTime(assignment.completedAt!, { dateStyle: "medium" }) })}
                     </span>
                   </span>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
+      )}
+
+      {latestResults.length > 0 && (
+        <section className="flex flex-col gap-3" aria-labelledby="results-heading">
+          <h2 id="results-heading" className="text-lg font-semibold">
+            {t("yourResults")}
+          </h2>
+          <Card>
+            <ul className="divide-y">
+              {latestResults.map((result) => (
+                <li key={result.id}>
+                  <Link href={`/assessments/results/${result.id}`} className="flex items-center gap-3 p-4 hover:bg-muted/50">
+                    <BarChart3 className="h-5 w-5 shrink-0 text-primary" aria-hidden />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-medium">{resultName(result.testId)}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {format.dateTime(result.createdAt, { dateStyle: "medium" })}
+                      </span>
+                    </span>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </Link>
                 </li>
               ))}
             </ul>

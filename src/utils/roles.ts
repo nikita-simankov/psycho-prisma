@@ -22,6 +22,8 @@ const PERMISSIONS = {
   manageRounds: STAFF_ROLES,
   // Use the dashboard: people, results and reports.
   viewDashboard: STAFF_ROLES,
+  // Open one person's answers and scores. HR managers see team averages instead.
+  viewIndividualResults: ["owner", "admin", "psychologist"],
   // Results of clinical and wellbeing screens, and the restricted follow-up flag.
   viewSensitive: ["owner", "psychologist"],
   // Write and archive a person's conclusion.

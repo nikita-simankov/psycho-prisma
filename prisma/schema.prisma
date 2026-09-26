@@ -42,6 +42,8 @@ model Organization {
 
   // Whether respondents may see their own results (shown from phase 8 on).
   respondentFeedback Boolean @default(false)
+  // JSON array of test ids whose feedback page respondents may open, when respondentFeedback is on.
+  feedbackTestIds    String  @default("[]")
   // Who respondents contact about their data; shown in the privacy notice.
   privacyContact     String  @default("")
 
@@ -212,11 +214,14 @@ model TestSubmission {
   assignmentId   String?
   // JSON: { "<questionId>": milliseconds spent answering }, for answer-quality checks.
   timings        String  @default("{}")
+  // Interface language when answered; the norms are Russian, so other languages get a warning.
+  locale         String  @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// The working draft of a person's report: background and conclusion, saved as they are typed.
 model UserSummary {
   id              String   @id @default(uuid())
   organizationId  String
@@ -228,6 +233,23 @@ model UserSummary {
   updatedAt       DateTime @updatedAt
 
   @@unique([userId, organizationId])
+}
+
+// A saved, numbered copy of a person's report. Later edits never change it.
+model ReportVersion {
+  id             String   @id @default(uuid())
+  organizationId String
+  userId         String
+  version        Int
+  background     String
+  conclusion     String
+  // JSON array of the test submission ids the report covered.
+  submissionIds  String
+  createdById    String
+  createdAt      DateTime @default(now())
+
+  @@unique([organizationId, userId, version])
+  @@index([organizationId, userId])
 }
 
 // A set of instruments sent to people with a purpose and a due date.

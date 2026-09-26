@@ -222,13 +222,14 @@
     "updateError": "The profile was not saved.",
     "photoHint": "JPEG up to 1.8 MB",
     "openReport": "Open report",
-    "formsTaken": "Completed questionnaires",
-    "testsTaken": "Completed tests",
     "nothingYet": "Nothing yet.",
     "viewResult": "View result",
     "details": "Details",
     "nextDue": "Next due",
-    "openRounds": "Open rounds"
+    "openRounds": "Open rounds",
+    "reportVersion": "Report version {version}",
+    "timeline": "Timeline",
+    "averagesOnly": "Individual results are visible to psychologists, admins and owners. Your role sees team averages on each test's results page."
   },
   "dashboard": {
     "nav": {
@@ -237,7 +238,6 @@
       "tests": "Tests",
       "people": "People",
       "reports": "Reports",
-      "archive": "Archive",
       "teams": "Teams",
       "followUp": "Follow-up",
       "settings": "Settings",
@@ -328,7 +328,6 @@
       "teams": "Teams",
       "followUp": "Follow-up",
       "reports": "Reports",
-      "archive": "Archive",
       "settings": "Settings",
       "results": "Results",
       "run": "Run",
@@ -337,7 +336,7 @@
     },
     "work": {
       "review": "Waiting for review",
-      "reviewText": "People with results newer than their conclusion.",
+      "reviewText": "People with results newer than their last saved report.",
       "reviewEmpty": "Everything is reviewed.",
       "overdue": "Overdue",
       "overdueText": "People who haven't finished a round past its due date.",
@@ -366,7 +365,10 @@
       "answer": "Answer"
     },
     "title": "Results",
-    "count": "{count, plural, one {# submission} other {# submissions}}"
+    "count": "{count, plural, one {# submission} other {# submissions}}",
+    "averagesTitle": "Team averages",
+    "restrictedTitle": "Individual answers are private",
+    "restrictedText": "Questionnaire answers are visible to psychologists, admins and owners."
   },
   "runner": {
     "progress": "Question {current} of {total}",
@@ -490,30 +492,10 @@
   },
   "reports": {
     "title": "Reports",
-    "reportTitle": "Psychological profile",
-    "tabs": {
-      "report": "Report",
-      "answers": "Answers",
-      "scales": "Scale scores"
-    },
     "background": "Background",
     "conclusion": "Conclusion",
     "noResults": "This person has not taken any tests yet.",
-    "archive": "Save to archive",
-    "archivedTitle": "Saved",
-    "archivedText": "The report was saved to the archive.",
-    "archiveError": "The report was not saved. A person can have one archived report; delete the old one first.",
     "description": "Open a person's report to see all their results and write a conclusion."
-  },
-  "archive": {
-    "title": "Report archive",
-    "empty": "The archive is empty.",
-    "open": "Open",
-    "viewReport": "View report",
-    "viewProfile": "View profile",
-    "deletedTitle": "Deleted",
-    "deletedText": "The report was removed from the archive.",
-    "description": "Reports saved with their background and conclusion."
   },
   "privacy": {
     "metaTitle": "Privacy notice",
@@ -679,7 +661,9 @@
       "deleteConfirmText": "All people's answers, results and reports in this organization will be deleted permanently.",
       "typeName": "Type {name} to confirm",
       "nameMismatch": "The name doesn't match."
-    }
+    },
+    "feedbackTests": "Tests people can see",
+    "feedbackTestsText": "Each person sees their own profile and the interpretation for the tests you tick. Validity checks stay private. Clinical screens are never shared."
   },
   "validity": {
     "title": "Response validity",
@@ -889,6 +873,77 @@
       "text": "It has expired, the round was closed, or you've already finished. Sign in to see what's left.",
       "signIn": "Sign in",
       "forgot": "Set a password"
+    },
+    "yourResults": "Your results"
+  },
+  "profileChart": {
+    "aria": "{scale}: {kind} {value}, {band}",
+    "kind": {
+      "sten": "sten",
+      "t": "T-score"
+    },
+    "band": {
+      "low": "Low",
+      "average": "Average",
+      "high": "High"
+    },
+    "noNorms": "No norms, raw score",
+    "legend": {
+      "sten": "Stens run from 1 to 10; the shaded band (4–7) is the average range.",
+      "t": "T-scores run from 20 to 80; the shaded band (40–60) is the average range."
     }
+  },
+  "quality": {
+    "title": "Check how these answers were given",
+    "sameAnswer": "{share}% of the answers are the same choice.",
+    "tooFast": "Answered in about {seconds} s per question, faster than the statements can be read.",
+    "missing": "{count, plural, one {# question was} other {# questions were}} not answered.",
+    "language": "Answered in {language}. The norms were collected in Russian, so scores may shift.",
+    "languages": {
+      "en": "English",
+      "other": "another language"
+    }
+  },
+  "report": {
+    "keyFindings": "Key findings",
+    "findings": "Findings",
+    "allAverage": "Every scale is within the average range.",
+    "otherScales": "{count, plural, one {# more scale in the average range} other {# more scales in the average range}}",
+    "profile": "Profile",
+    "notScored": "This result could not be scored.",
+    "answers": "{count, plural, one {Show # answer} other {Show # answers}}",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "notSaved": "Not saved yet, will retry",
+    "background": "Background",
+    "backgroundHint": "Why the person was assessed, what they told you, anything that frames the results.",
+    "conclusion": "Conclusion",
+    "conclusionHint": "Your reading of the results and what you recommend.",
+    "saveVersion": "Save version",
+    "versionSaved": "Version {version} saved",
+    "versionError": "The version was not saved. Try again.",
+    "outline": "On this page",
+    "covers": "{count, plural, =0 {No test results yet} one {# test result} other {# test results}}",
+    "rounds": "Rounds: {names}",
+    "changedSince": "Changed since version {version}",
+    "versionOn": "Version {version}, {date}",
+    "noVersion": "No saved version yet",
+    "printedOn": "Printed {date}",
+    "versions": "Saved versions",
+    "versionLabel": "Version {version}",
+    "empty": "Nothing written.",
+    "current": "Current report"
+  },
+  "averages": {
+    "note": "Averages of each person's latest result. Groups of fewer than {min} people are hidden so no one can be singled out.",
+    "tooFew": "Fewer than {min} people have taken this test, so there is nothing to show yet.",
+    "everyone": "Whole organization",
+    "people": "{count, plural, one {# person} other {# people}}"
+  },
+  "feedback": {
+    "title": "Your results",
+    "note": "This is a short summary for you. A specialist reads your results with more context, and no single test defines a person.",
+    "profile": "Your profile",
+    "reading": "What it means"
   }
 }

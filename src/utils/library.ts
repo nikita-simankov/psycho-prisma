@@ -9,9 +9,13 @@ export function libraryWhere(organizationId: string) {
   return { OR: [{ organizationId: null }, { organizationId }] };
 }
 
-// Filter for test submissions this person may see. Sensitive screens are left out
-// unless their role may view them.
+// Filter for test submissions this person may see: none for roles limited to team averages,
+// and sensitive screens only for roles that may view them.
 export async function allowedSubmissionWhere(context: Context) {
+  if (!can(context.membership.role, "viewIndividualResults")) {
+    return { organizationId: context.organization.id, id: { in: [] as string[] } };
+  }
+
   if (can(context.membership.role, "viewSensitive")) {
     return { organizationId: context.organization.id };
   }
@@ -22,4 +26,11 @@ export async function allowedSubmissionWhere(context: Context) {
     organizationId: context.organization.id,
     testId: { notIn: sensitive.map((test) => test.id) },
   };
+}
+
+// Filter for questionnaire answers this person may see; roles limited to team averages see none.
+export function allowedFormSubmissionWhere(context: Context) {
+  return can(context.membership.role, "viewIndividualResults")
+    ? { organizationId: context.organization.id }
+    : { organizationId: context.organization.id, id: { in: [] as string[] } };
 }

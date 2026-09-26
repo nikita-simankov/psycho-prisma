@@ -36,12 +36,14 @@ export async function DashboardWork() {
             where: await allowedSubmissionWhere(context),
             _max: { createdAt: true },
           }),
-          prisma.userSummary.findMany({
+          prisma.reportVersion.groupBy({
+            by: ["userId"],
             where: { organizationId: organization.id },
-            select: { userId: true, updatedAt: true },
+            _max: { createdAt: true },
           }),
         ]);
-        const reviewed = new Map(summaries.map((summary) => [summary.userId, summary.updatedAt]));
+        // Reviewed means a report version saved after the latest result.
+        const reviewed = new Map(summaries.map((summary) => [summary.userId, summary._max.createdAt]));
         const pending = latest
           .filter((row) => row._max.createdAt && !(reviewed.get(row.userId)! >= row._max.createdAt))
           .sort((a, b) => b._max.createdAt!.getTime() - a._max.createdAt!.getTime());

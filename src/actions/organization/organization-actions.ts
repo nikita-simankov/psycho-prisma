@@ -36,6 +36,7 @@ const settingsSchema = z
     name: nameSchema,
     privacyContact: z.string().trim().max(300),
     respondentFeedback: z.boolean(),
+    feedbackTestIds: z.array(z.string()).max(500),
   })
   .partial()
   .strict();
@@ -48,7 +49,7 @@ export async function updateOrganizationSettings(
   data: unknown
 ): Promise<{ ok: true; slug: string } | { error: "nameTaken" }> {
   const { organization } = await requireMember("manageSettings");
-  const { name, ...rest } = settingsSchema.parse(data);
+  const { name, feedbackTestIds, ...rest } = settingsSchema.parse(data);
 
   if (name !== undefined && (await isOrganizationNameTaken(name, organization.id))) {
     return { error: "nameTaken" };
@@ -60,7 +61,20 @@ export async function updateOrganizationSettings(
 
   await prisma.organization.update({
     where: { id: organization.id },
-    data: { ...rest, slug, ...(cleanName && { name: cleanName, nameKey: organizationNameKey(cleanName) }) },
+    data: {
+      ...rest,
+      // Only tests this organization can use, and never clinical screens.
+      ...(feedbackTestIds && {
+        feedbackTestIds: JSON.stringify(
+          (
+            await prisma.test.findMany({
+              where: { id: { in: feedbackTestIds }, sensitive: false, OR: [{ organizationId: null }, { organizationId: organization.id }] },
+              select: { id: true },
+            })
+          ).map((test) => test.id)
+        ),
+      }),
+      slug, ...(cleanName && { name: cleanName, nameKey: organizationNameKey(cleanName) }) },
   });
 
   if (slug !== organization.slug) {

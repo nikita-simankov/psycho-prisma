@@ -7,6 +7,7 @@ import { can } from "@/utils/roles";
 import { completeIfDone, openAssignmentFor } from "@/utils/rounds";
 import { scoreSubmission } from "@/utils/scoring";
 import { cleanTimings, deleteDraft } from "@/utils/drafts";
+import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
 const responsesSchema = z
@@ -39,6 +40,7 @@ export async function uploadTestSubmission(testId: string, submission: unknown, 
       testId: test.id,
       assignmentId: assignment?.id,
       timings: cleanTimings(timings),
+      locale: await getLocale(),
       summary: score ? JSON.stringify(score.result) : "",
       submission: JSON.stringify(responses),
     },
