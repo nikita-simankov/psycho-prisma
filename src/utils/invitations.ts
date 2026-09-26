@@ -38,11 +38,13 @@ type InvitationMail = {
   role: string;
   inviter: string;
   locale: string;
+  // An automatic nudge a few days later, with the same content and a reminder heading.
+  reminder?: boolean;
 };
 
 // The invitation email, in the language the inviter chose. It says who invited the person, with
 // which role, and what that role can do, so a new psychologist isn't told they'll "take tests".
-export async function mailInvitation({ organization, email, token, role, inviter, locale }: InvitationMail) {
+export async function mailInvitation({ organization, email, token, role, inviter, locale, reminder = false }: InvitationMail) {
   const chosen: Locale = isLocale(locale) ? locale : DEFAULT_LOCALE;
   const t = createTranslator({
     locale: chosen,
@@ -56,12 +58,13 @@ export async function mailInvitation({ organization, email, token, role, inviter
   const content = await renderEmail({
     preview: t("preview", { organization, inviter }),
     sender: organization,
-    heading: t("heading", { organization }),
+    heading: reminder ? t("reminderHeading", { organization }) : t("heading", { organization }),
     paragraphs: [t("body", { organization, inviter, role: roleName }), roleText],
     action: { label: t("action"), url: link },
     notes: [t("expires", { days: INVITATION_DAYS }), t("ignore")],
   });
-  const emailed = await sendMail({ to: email, subject: t("subject", { organization, inviter }), ...content });
+  const subject = reminder ? t("reminderSubject", { organization, inviter }) : t("subject", { organization, inviter });
+  const emailed = await sendMail({ to: email, subject, ...content });
   return { link, emailed };
 }
 
@@ -152,7 +155,7 @@ export async function sendHeldInvitations(userId: string) {
     const { token, tokenHash } = createToken();
     await prisma.invitation.update({
       where: { id: invitation.id },
-      data: { tokenHash, held: false, expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000) },
+      data: { tokenHash, held: false, sentAt: new Date(), expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000) },
     });
     await mailInvitation({
       organization: invitation.organization.name,
@@ -165,3 +168,64 @@ export async function sendHeldInvitations(userId: string) {
   }
 }
 
+
+const DAY = 24 * 60 * 60_000;
+// Automatic reminders: the first 3 days after the invitation, the second a week after that (day 10).
+export const REMINDER_GAPS_DAYS = [3, 7] as const;
+
+// Nudges people who haven't accepted yet. Each reminder has a new link, and the link from the
+// first email keeps working too, so whichever email they open, it works.
+export async function sendInvitationReminders(now = new Date()) {
+  const due = await prisma.invitation.findMany({
+    where: {
+      acceptedAt: null,
+      held: false,
+      expiresAt: { gt: now },
+      OR: REMINDER_GAPS_DAYS.map((days, sent) => ({
+        remindersSent: sent,
+        sentAt: { lt: new Date(now.getTime() - days * DAY) },
+      })),
+    },
+    include: { organization: { select: { name: true } } },
+  });
+
+  for (const invitation of due) {
+    const inviter = await prisma.user.findUnique({
+      where: { id: invitation.invitedById },
+      select: { name: true, lastName: true, email: true },
+    });
+    const { token, tokenHash } = createToken();
+    // Claim it first, so two runs never remind twice.
+    const claimed = await prisma.invitation.updateMany({
+      where: { id: invitation.id, remindersSent: invitation.remindersSent },
+      data: {
+        tokenHash,
+        previousTokenHash: invitation.previousTokenHash ?? invitation.tokenHash,
+        remindersSent: invitation.remindersSent + 1,
+        sentAt: now,
+      },
+    });
+    if (!claimed.count) {
+      continue;
+    }
+    await mailInvitation({
+      organization: invitation.organization.name,
+      email: invitation.email,
+      token,
+      role: invitation.role,
+      inviter: inviter ? inviterName(inviter) : invitation.organization.name,
+      locale: invitation.locale,
+      reminder: true,
+    });
+  }
+
+  return due.length;
+}
+
+// The open invitation a link points to, from any email that was sent for it.
+export function invitationByToken(tokenHash: string) {
+  return prisma.invitation.findFirst({
+    where: { OR: [{ tokenHash }, { previousTokenHash: tokenHash }] },
+    include: { organization: { select: { id: true, name: true, slug: true } } },
+  });
+}

@@ -10,7 +10,8 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function NewOrganizationForm() {
+// The first organization opens the welcome steps; later ones go straight to their workspace.
+export function NewOrganizationForm({ first = false }: { first?: boolean }) {
   const t = useTranslations("organizations.new");
   const common = useTranslations("common");
   const router = useRouter();
@@ -21,7 +22,7 @@ export function NewOrganizationForm() {
       return (await createOrganization(name)).slug;
     },
     onSuccess: (slug) => {
-      router.push(`/${slug}`);
+      router.push(first ? "/start" : `/${slug}`);
       router.refresh();
     },
     onError: (error) =>

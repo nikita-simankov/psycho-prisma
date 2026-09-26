@@ -32,6 +32,7 @@ model User {
   assignments        Assignment[]
   passwordResets     PasswordReset[]
   summaries          UserSummary[]
+  oauthAccounts      OAuthAccount[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 }
@@ -60,6 +61,7 @@ model Organization {
 
   memberships      Membership[]
   invitations      Invitation[]
+  joinLinks        JoinLink[]
   teams            Team[]
   rounds           Round[]
   schedules        RoundSchedule[]
@@ -114,32 +116,38 @@ model Team {
   organizationId String
   memberships    Membership[]
   invitations    Invitation[]
+  joinLinks      JoinLink[]
   createdAt      DateTime     @default(now())
 
   @@unique([organizationId, name])
 }
 
 model Invitation {
-  id             String       @id @default(uuid())
+  id                String       @id @default(uuid())
   // SHA-256 of the token in the link; the token itself is never stored.
-  tokenHash      String       @unique
-  email          String
-  name           String       @default("")
-  lastName       String       @default("")
-  role           String       @default("member")
-  position       String       @default("")
+  tokenHash         String       @unique
+  email             String
+  name              String       @default("")
+  lastName          String       @default("")
+  role              String       @default("member")
+  position          String       @default("")
   // Language of the invitation email, chosen by the inviter; "" means the inviter's language.
-  locale         String       @default("")
+  locale            String       @default("")
   // Saved before the inviter confirmed their email; sent when they do.
-  held           Boolean      @default(false)
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String
-  team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
-  teamId         String?
-  invitedById    String
-  expiresAt      DateTime
-  acceptedAt     DateTime?
-  createdAt      DateTime     @default(now())
+  held              Boolean      @default(false)
+  // The link from the first email keeps working after a reminder brings a new one.
+  previousTokenHash String?      @unique
+  // When the latest email went out, and how many automatic reminders followed it.
+  sentAt            DateTime     @default(now())
+  remindersSent     Int          @default(0)
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId    String
+  team              Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  teamId            String?
+  invitedById       String
+  expiresAt         DateTime
+  acceptedAt        DateTime?
+  createdAt         DateTime     @default(now())
 }
 
 model PasswordReset {
@@ -339,7 +347,20 @@ model Round {
   cycle          Int            @default(1)
   createdById    String
   assignments    Assignment[]
+  invitees       RoundInvitee[]
   createdAt      DateTime       @default(now())
+}
+
+// Someone invited to the organization but not yet joined, added to a round. They get their
+// assignment when they accept the invitation.
+model RoundInvitee {
+  round     Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  roundId   String
+  email     String
+  createdAt DateTime @default(now())
+
+  @@id([roundId, email])
+  @@index([email])
 }
 
 // One person's part in a round.
@@ -488,4 +509,38 @@ model BillingEvent {
   processedAt    DateTime?
   error          String    @default("")
   createdAt      DateTime  @default(now())
+}
+
+// A shareable link that lets anyone with it join as an employee, within its limits.
+model JoinLink {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  // Stored as is, unlike invitation tokens: the link is meant to be posted where the whole
+  // team can see it, and admins copy it again later.
+  token          String       @unique
+  team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  teamId         String?
+  expiresAt      DateTime
+  // null means no limit.
+  maxUses        Int?
+  uses           Int          @default(0)
+  revokedAt      DateTime?
+  createdById    String
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId])
+}
+
+// A Google or Microsoft identity someone signs in with.
+model OAuthAccount {
+  provider       String
+  providerUserId String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  email          String   @default("")
+  createdAt      DateTime @default(now())
+
+  @@id([provider, providerUserId])
+  @@index([userId])
 }

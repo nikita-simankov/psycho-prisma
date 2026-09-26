@@ -6,16 +6,15 @@ import { prisma } from "@/utils/database";
 import { consumeRateLimit } from "@/utils/rate-limit";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hashToken } from "@/utils/tokens";
+import { invitationByToken } from "@/utils/invitations";
+import { assignPendingRounds } from "@/utils/rounds";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { getLocale } from "next-intl/server";
 import { headers } from "next/headers";
 
 async function openInvitation(token: string) {
-  const invitation = await prisma.invitation.findUnique({
-    where: { tokenHash: hashToken(token) },
-    include: { organization: { select: { id: true, name: true } } },
-  });
+  const invitation = await invitationByToken(hashToken(token));
 
   return invitation && !invitation.acceptedAt && invitation.expiresAt > new Date() ? invitation : null;
 }
@@ -23,10 +22,7 @@ async function openInvitation(token: string) {
 // What the invitation page needs to decide what to show. Expired and already-used links get
 // their own explanation instead of one generic error.
 export async function findInvitation(token: string) {
-  const found = await prisma.invitation.findUnique({
-    where: { tokenHash: hashToken(token) },
-    include: { organization: { select: { name: true } } },
-  });
+  const found = await invitationByToken(hashToken(token));
 
   if (!found) {
     return null;
@@ -150,6 +146,8 @@ export async function acceptInvitation(
     await startSession(userId);
   }
 
+  // Rounds they were added to while the invitation was open.
+  await assignPendingRounds(invitation.organizationId, userId, invitation.email);
   await rememberOrganization(membership.organization.slug);
 
   return { redirectTo: homePath(membership) };

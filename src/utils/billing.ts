@@ -75,6 +75,12 @@ export async function seatsUsed(organizationId: string, exceptEmail?: string) {
   return members + invitations;
 }
 
+// Staff seats in use and the plan's limit (null for unlimited), for the invite panel's meter.
+export async function staffSeats(organizationId: string) {
+  const { plan } = await getPlan(organizationId);
+  return { used: await seatsUsed(organizationId), limit: planById(plan).staffSeats };
+}
+
 export async function getUsage(organizationId: string) {
   const { subscription, plan } = await getPlan(organizationId);
   const since = usagePeriodStart(subscription);

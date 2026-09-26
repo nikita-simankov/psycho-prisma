@@ -24,7 +24,7 @@ export default async function NewOrganizationPage() {
 
   return (
     <AuthShell title={t("title")} subtitle={first ? t("subtitleFirst") : t("subtitle")}>
-      <NewOrganizationForm />
+      <NewOrganizationForm first={first} />
       {first && (
         <form action={logout}>
           <Button variant="ghost" className="w-full">

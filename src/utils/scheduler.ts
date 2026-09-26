@@ -5,7 +5,7 @@ const HOUR = 60 * 60_000;
 async function tick() {
   try {
     const result = await runMaintenance();
-    if (result.schedules || result.reminders || result.invitations) {
+    if (result.schedules || result.reminders || result.invitations || result.invitationReminders) {
       console.info("[scheduler]", result);
     }
   } catch (error) {

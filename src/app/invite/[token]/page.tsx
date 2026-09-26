@@ -1,6 +1,7 @@
 import { findInvitation } from "@/actions/invitation/accept-invitation-action"
 import { logout } from "@/actions/auth/logout.action"
 import { AuthShell } from "@/components/auth-shell"
+import { OAuthButtons } from "@/components/auth/oauth-buttons"
 import { Button } from "@/components/ui/button"
 import { getTranslations } from "next-intl/server"
 import Link from "next/link"
@@ -60,6 +61,7 @@ export default async function InvitePage(props: { params: Promise<{ token: strin
     case "new":
       return (
         <AuthShell title={title} subtitle={t("createAccount")}>
+          <OAuthButtons next={`/invite/${params.token}`} />
           <AcceptInvitationForm token={params.token} invitation={invitation} />
         </AuthShell>
       )
@@ -72,6 +74,7 @@ export default async function InvitePage(props: { params: Promise<{ token: strin
     case "existing":
       return (
         <AuthShell title={title} subtitle={t("existing", { email: invitation.email })}>
+          <OAuthButtons next={`/invite/${params.token}`} />
           <Button asChild size="lg">
             <Link href={`/auth/sign-in?next=/invite/${params.token}`}>{common("signIn")}</Link>
           </Button>

@@ -137,3 +137,10 @@ export async function withdrawConsent(organizationId: unknown): Promise<{ ok: tr
 
   return { ok: true };
 }
+
+// Stops signing in with Google or Microsoft. The password (or "Forgot password") still works.
+export async function disconnectProvider(provider: unknown): Promise<{ ok: true }> {
+  const user = await requireFullSession();
+  await prisma.oAuthAccount.deleteMany({ where: { userId: user.id, provider: z.string().parse(provider) } });
+  return { ok: true };
+}

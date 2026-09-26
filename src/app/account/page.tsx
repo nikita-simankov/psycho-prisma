@@ -5,23 +5,30 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/utils/database";
 import { getTranslations } from "next-intl/server";
 import { EmailForm, OrganizationList, PasswordForm, ProfileForm, YourData } from "./account-forms";
+import { ConnectedAccounts } from "./connected-accounts";
+import { enabledProviders } from "@/utils/oauth";
 
 export async function generateMetadata() {
   const t = await getTranslations("account");
   return { title: t("title") };
 }
 
-export default async function AccountPage() {
+export default async function AccountPage(props: { searchParams: Promise<{ oauth?: string }> }) {
+  const { oauth } = await props.searchParams;
   const user = await ensureUser();
   if (await isLinkSession()) {
     redirect("/auth/sign-in?reason=link&next=/account");
   }
   const t = await getTranslations("account");
-  const memberships = await prisma.membership.findMany({
+  const [memberships, connected] = await Promise.all([
+    prisma.membership.findMany({
     where: { userId: user.id },
     include: { organization: { select: { id: true, name: true, slug: true } } },
-    orderBy: { createdAt: "asc" },
-  });
+      orderBy: { createdAt: "asc" },
+    }),
+    prisma.oAuthAccount.findMany({ where: { userId: user.id }, select: { provider: true, email: true } }),
+  ]);
+  const providers = enabledProviders();
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -38,6 +45,13 @@ export default async function AccountPage() {
         />
         <EmailForm email={user.email ?? ""} />
         <PasswordForm />
+        {(providers.length > 0 || connected.length > 0) && (
+          <ConnectedAccounts
+            available={providers}
+            connected={connected}
+            notice={oauth === "connected" || oauth === "taken" ? oauth : null}
+          />
+        )}
         <OrganizationList
           organizations={memberships.map((membership) => ({
             id: membership.organization.id,
