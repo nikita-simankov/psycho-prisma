@@ -3,6 +3,7 @@
 import { emailSchema, passwordSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { homePath, lucia } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
+import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "@/utils/mail";
 import { consumeRateLimit } from "@/utils/rate-limit";
 import { rememberOrganization, startSession } from "@/utils/session";
@@ -38,7 +39,15 @@ export async function requestPasswordReset(email: unknown): Promise<{ ok: true }
     const t = await getTranslations("mail.passwordReset");
     const link = await absoluteUrl(`/auth/reset-password/${token}`);
 
-    await sendMail({ to: parsed.data, subject: t("subject"), text: t("text", { link, minutes: RESET_MINUTES }) });
+    const content = await renderEmail({
+      preview: t("preview"),
+      sender: "Calibre",
+      heading: t("heading"),
+      paragraphs: [t("body")],
+      action: { label: t("action"), url: link },
+      notes: [t("expires", { minutes: RESET_MINUTES }), t("ignore")],
+    });
+    await sendMail({ to: parsed.data, subject: t("subject"), ...content });
   }
 
   return { ok: true };

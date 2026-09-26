@@ -1,4 +1,4 @@
-# Prisma
+# Calibre
 
 Web app for HR teams to run psychological questionnaires and test instruments, score them, and review results. The interface is available in English and Russian.
 

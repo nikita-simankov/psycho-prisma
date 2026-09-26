@@ -1,6 +1,6 @@
 "use client";
 
-// Adapted from the shadcn/ui Sidebar block, trimmed to the parts Prisma uses.
+// Adapted from the shadcn/ui Sidebar block, trimmed to the parts Calibre uses.
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";
