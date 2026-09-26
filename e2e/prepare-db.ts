@@ -25,7 +25,7 @@ async function main() {
   const sales = await prisma.team.create({ data: { name: "Sales", organizationId: organization.id } });
 
   const member = await prisma.user.create({
-    data: { id: randomUUID(), email: MEMBER, name: "Ann", lastName: "Tester", password: owner.password },
+    data: { id: randomUUID(), email: MEMBER, name: "Ann", lastName: "Tester", password: owner.password, emailVerifiedAt: new Date() },
   });
   await prisma.membership.create({
     data: { userId: member.id, organizationId: organization.id, role: "member", teamId: sales.id, consentedAt: new Date() },
@@ -44,6 +44,7 @@ async function main() {
         name: `Bulk${i}`,
         lastName: `Person${String(i).padStart(2, "0")}`,
         password: owner.password,
+        emailVerifiedAt: new Date(),
       },
     });
     await prisma.membership.create({

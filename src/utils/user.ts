@@ -13,6 +13,8 @@ export const publicUserSelect = {
   imageURL: true,
   dateOfBirth: true,
   firstTimer: true,
+  emailVerifiedAt: true,
+  locale: true,
   createdAt: true,
   updatedAt: true,
 } satisfies Prisma.UserSelect;

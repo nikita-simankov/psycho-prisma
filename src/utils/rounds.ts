@@ -384,8 +384,12 @@ export async function sendReminder(assignment: {
   return { link, emailed };
 }
 
+// Expired invitations stay listed for a month so admins can see them and resend.
+const EXPIRED_INVITATION_DAYS = 30;
+
 export async function cleanupInvitations(now = new Date()) {
-  const { count } = await prisma.invitation.deleteMany({ where: { acceptedAt: null, expiresAt: { lt: now } } });
+  const cutoff = new Date(now.getTime() - EXPIRED_INVITATION_DAYS * DAY);
+  const { count } = await prisma.invitation.deleteMany({ where: { acceptedAt: null, expiresAt: { lt: cutoff } } });
   return count;
 }
 

@@ -76,7 +76,11 @@ export async function resetPassword(
   }
 
   await prisma.$transaction([
-    prisma.user.update({ where: { id: reset.userId }, data: { password: await hash(parsedPassword.data, 10) } }),
+    // The reset link reached this inbox, which confirms the address.
+    prisma.user.update({
+      where: { id: reset.userId },
+      data: { password: await hash(parsedPassword.data, 10), emailVerifiedAt: new Date() },
+    }),
     prisma.passwordReset.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
   ]);
 

@@ -111,6 +111,8 @@ async function main() {
       lastName: "Admin",
       email,
       password: await hash(password, 10),
+      // The operator chose this address in the environment, so it counts as confirmed.
+      emailVerifiedAt: new Date(),
     },
     update: {},
   });

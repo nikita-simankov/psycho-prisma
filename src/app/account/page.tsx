@@ -1,6 +1,7 @@
 import { RespondentHeader } from "@/components/respondent-header";
 import { PageHeader } from "@/components/page-header";
-import { ensureUser } from "@/utils/authentication";
+import { ensureUser, isLinkSession } from "@/utils/authentication";
+import { redirect } from "next/navigation";
 import { prisma } from "@/utils/database";
 import { getTranslations } from "next-intl/server";
 import { EmailForm, OrganizationList, PasswordForm, ProfileForm, YourData } from "./account-forms";
@@ -12,6 +13,9 @@ export async function generateMetadata() {
 
 export default async function AccountPage() {
   const user = await ensureUser();
+  if (await isLinkSession()) {
+    redirect("/auth/sign-in?reason=link&next=/account");
+  }
   const t = await getTranslations("account");
   const memberships = await prisma.membership.findMany({
     where: { userId: user.id },

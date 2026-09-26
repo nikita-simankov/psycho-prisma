@@ -32,7 +32,8 @@ import { toast } from "@/hooks/use-toast";
 import { FLAGS } from "@/utils/flags";
 import { useMutation } from "@tanstack/react-query";
 import { Check, Copy, Mail, Trash2, UserPlus, UserRoundCog } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { LOCALES } from "@/i18n/config";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOrganizationBase } from "@/components/organization-provider";
@@ -80,6 +81,30 @@ function RoleField({ roles, value, onChange }: { roles: string[]; value: string;
   );
 }
 
+// The invitee may not read the inviter's language, so the email language is chosen per invitation.
+function LanguageField({ value, onChange }: { value: string; onChange: (locale: string) => void }) {
+  const t = useTranslations("people.invite");
+  const common = useTranslations("common");
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Label htmlFor="invite-language">{t("language")}</Label>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger id="invite-language">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {LOCALES.map((locale) => (
+            <SelectItem key={locale} value={locale}>
+              {common(`locales.${locale}`)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 function TeamField({ teams, value, onChange }: { teams: Team[]; value: string | null; onChange: (id: string | null) => void }) {
   const t = useTranslations("teams");
 
@@ -109,7 +134,9 @@ export function InviteDialog({ roles, teams }: { roles: string[]; teams: Team[] 
   const fields = useTranslations("profile.fields");
   const common = useTranslations("common");
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState({ email: "", name: "", lastName: "", position: "", role: "member", teamId: null as string | null });
+  const currentLocale = useLocale();
+  const empty = { email: "", name: "", lastName: "", position: "", role: "member", teamId: null as string | null, locale: currentLocale };
+  const [values, setValues] = useState(empty);
   const [result, setResult] = useState<{ link: string; emailed: boolean } | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -127,7 +154,7 @@ export function InviteDialog({ roles, teams }: { roles: string[]; teams: Team[] 
     if (!next) {
       setResult(null);
       setCopied(false);
-      setValues({ email: "", name: "", lastName: "", position: "", role: "member", teamId: null });
+      setValues(empty);
     }
   };
 
@@ -200,6 +227,7 @@ export function InviteDialog({ roles, teams }: { roles: string[]; teams: Team[] 
               <TeamField teams={teams} value={values.teamId} onChange={(teamId) => setValues({ ...values, teamId })} />
               {text("position")}
             </div>
+            <LanguageField value={values.locale} onChange={(locale) => setValues({ ...values, locale })} />
             <DialogFooter>
               <Button type="submit" disabled={mutation.isPending}>
                 <Mail className="mr-2 h-4 w-4" />
