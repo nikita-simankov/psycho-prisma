@@ -1,6 +1,7 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
 import { assignableRoles } from "@/utils/roles";
 import { z } from "zod";
@@ -16,7 +17,7 @@ const membershipSchema = z
 
 // Role, team and position of a person in the active organization.
 export async function updateMembership(userId: string, data: unknown) {
-  const { membership, organization } = await requireMember("manageMembers");
+  const { membership, organization, user } = await requireMember("manageMembers");
   const changes = membershipSchema.parse(data);
 
   const target = await prisma.membership.findUniqueOrThrow({
@@ -46,4 +47,8 @@ export async function updateMembership(userId: string, data: unknown) {
   }
 
   await prisma.membership.update({ where: { id: target.id }, data: changes });
+  await audit(organization.id, user.id, "changeMembership", {
+    subjectId: target.userId,
+    detail: { ...(changes.role !== undefined && { from: target.role, role: changes.role }), ...(changes.teamId !== undefined && { teamId: changes.teamId }) },
+  });
 }

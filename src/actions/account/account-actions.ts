@@ -2,7 +2,9 @@
 
 import { emailSchema, passwordSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { lucia, requireUser } from "@/utils/authentication";
+import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
+import { eraseInOrganization } from "@/utils/erasure";
 import { consumeRateLimit } from "@/utils/rate-limit";
 import { normalizePhone } from "@/utils/session";
 import { compare, hash } from "bcryptjs";
@@ -115,13 +117,23 @@ export async function leaveOrganization(organizationId: unknown): Promise<{ ok: 
     }
   }
 
-  const scope = { userId: user.id, organizationId: id };
-  await prisma.$transaction([
-    prisma.testSubmission.deleteMany({ where: scope }),
-    prisma.formSubmission.deleteMany({ where: scope }),
-    prisma.userSummary.deleteMany({ where: scope }),
-    prisma.membership.delete({ where: { id: membership.id } }),
-  ]);
+  await prisma.$transaction([...eraseInOrganization(user.id, id), prisma.membership.delete({ where: { id: membership.id } })]);
+  await audit(id, user.id, "leaveOrganization", { subjectId: user.id });
+
+  return { ok: true };
+}
+
+// Withdraws agreement to an organization's privacy notice. Nothing new can be taken there until
+// the person agrees again; to have their answers deleted as well, they leave the organization.
+export async function withdrawConsent(organizationId: unknown): Promise<{ ok: true }> {
+  const user = await requireUser();
+  const id = z.string().parse(organizationId);
+
+  await prisma.membership.update({
+    where: { userId_organizationId: { userId: user.id, organizationId: id } },
+    data: { consentedAt: null },
+  });
+  await audit(id, user.id, "withdrawConsent", { subjectId: user.id });
 
   return { ok: true };
 }

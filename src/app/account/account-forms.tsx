@@ -1,6 +1,7 @@
 "use client";
 
-import { changeEmail, changePassword, leaveOrganization, updateProfile } from "@/actions/account/account-actions";
+import { changeEmail, changePassword, leaveOrganization, updateProfile, withdrawConsent } from "@/actions/account/account-actions";
+import { Download } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -230,13 +231,14 @@ export function PasswordForm() {
   );
 }
 
-type Organization = { id: string; name: string; slug: string; role: string };
+type Organization = { id: string; name: string; slug: string; role: string; consented: boolean };
 
 export function OrganizationList({ organizations }: { organizations: Organization[] }) {
   const t = useTranslations("account");
   const roles = useTranslations("roles");
   const common = useTranslations("common");
   const leave = useAccountAction(leaveOrganization);
+  const withdraw = useAccountAction(withdrawConsent);
 
   return (
     <Card>
@@ -257,6 +259,25 @@ export function OrganizationList({ organizations }: { organizations: Organizatio
                 {common("open")}
               </Link>
             </Button>
+            {organization.consented && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    {t("withdraw")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t("withdrawTitle", { name: organization.name })}</AlertDialogTitle>
+                    <AlertDialogDescription>{t("withdrawText")}</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{common("cancel")}</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => withdraw.mutate(organization.id)}>{t("withdraw")}</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
@@ -286,6 +307,28 @@ export function OrganizationList({ organizations }: { organizations: Organizatio
             <Link href="/organizations/new">{t("createOrganization")}</Link>
           </Button>
         </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// A copy of everything held about the person, and what they can do about it.
+export function YourData() {
+  const t = useTranslations("account.data");
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">{t("title")}</CardTitle>
+        <CardDescription>{t("text")}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Button variant="outline" asChild>
+          <a href="/account/export" download>
+            <Download className="mr-2 h-4 w-4" />
+            {t("download")}
+          </a>
+        </Button>
       </CardContent>
     </Card>
   );

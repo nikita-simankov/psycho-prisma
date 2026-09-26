@@ -1,6 +1,7 @@
 "use server";
 
 import { AuthorizationError, requireMember } from "@/utils/authentication";
+import { assertConsented } from "@/utils/consent";
 import { prisma } from "@/utils/database";
 import { libraryWhere } from "@/utils/library";
 import { can } from "@/utils/roles";
@@ -14,6 +15,7 @@ const responsesSchema = z
 
 export async function uploadFormSubmission(formId: string, submission: unknown, assignmentId?: string, timings?: unknown) {
   const { user, membership, organization } = await requireMember();
+  assertConsented(membership);
   const responses = responsesSchema.parse(submission);
   const id = z.string().parse(formId);
   const staff = can(membership.role, "viewDashboard");

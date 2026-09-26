@@ -10,6 +10,8 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { FormResponseTable } from "./form-response-table";
 import { organizationBase } from "@/utils/organization-path";
+import { auditAs } from "@/utils/audit";
+import { ensureMember } from "@/utils/authentication";
 
 type PathParams = {
   params: {
@@ -36,6 +38,11 @@ export default async function ViewFormResult({ params }: PathParams) {
   if (!form) {
     notFound();
   }
+
+  await auditAs(await ensureMember("viewDashboard"), "viewFormResult", {
+    subjectId: result.userId,
+    detail: { formId: form.id, submissionId: result.id },
+  });
 
   const questions = JSON.parse(form.questions) as FormQuestion[];
   const responses = JSON.parse(result.submission) as FormQuestionResponse[];

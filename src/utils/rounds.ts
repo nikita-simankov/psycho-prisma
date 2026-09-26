@@ -10,6 +10,7 @@ import { libraryWhere } from "./library";
 import { absoluteUrl, sendMail } from "./mail";
 import { can } from "./roles";
 import { createToken } from "./tokens";
+import { runRetention } from "./retention";
 
 export const PURPOSES = ["development", "hiring", "wellbeing"] as const;
 export type Purpose = (typeof PURPOSES)[number];
@@ -395,7 +396,8 @@ export async function runMaintenance(now = new Date()) {
   const schedules = await runSchedules(now);
   const reminders = await sendReminders(now);
   const invitations = await cleanupInvitations(now);
-  return { schedules, reminders, invitations };
+  const retention = await runRetention(now);
+  return { schedules, reminders, invitations, retention };
 }
 
 export type ItemInfo = { name: string; minutes: number; questionCount: number; sensitive: boolean };

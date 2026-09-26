@@ -246,7 +246,8 @@
       "partTime": "Part-time",
       "contract": "Contract",
       "intern": "Intern"
-    }
+    },
+    "accessHistory": "Access history"
   },
   "dashboard": {
     "nav": {
@@ -351,7 +352,8 @@
       "run": "Run",
       "rounds": "Rounds",
       "new": "New",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "audit": "Audit log"
     },
     "work": {
       "review": "Waiting for review",
@@ -535,11 +537,11 @@
       },
       "storage": {
         "title": "How long it is kept",
-        "text": "Until you leave the organization or an administrator removes you. Removing you deletes your answers and results in that organization."
+        "text": "Until your organization's retention period ends, you leave the organization or an administrator removes you; then your answers, results and reports there are deleted. Who opened your results is recorded and kept for two years."
       },
       "rights": {
         "title": "Your choices",
-        "text": "Taking part is voluntary. You can stop any questionnaire or test before finishing it, and you can ask your HR team to show, correct or delete your data."
+        "text": "Taking part is voluntary. You can stop any questionnaire or test before finishing it, download a copy of your data or withdraw your consent from your account page, and ask your HR team to correct or delete your data."
       }
     },
     "controller": "Your organization is responsible for how this data is used. Contact your HR team with any questions.",
@@ -698,6 +700,17 @@
       "remove": "Remove {label}",
       "options": "Choices",
       "optionsHint": "Comma-separated, e.g. A, B, C"
+    },
+    "auditLog": "Audit log",
+    "retention": {
+      "title": "Data retention",
+      "text": "How long results are kept. Older data is deleted automatically every hour and the clean-up is recorded in the audit log.",
+      "retentionMonths": "Test and questionnaire results",
+      "retentionMonthsHint": "Answers, scores, drafts and saved report versions older than this are deleted.",
+      "candidateRetentionMonths": "Candidates",
+      "candidateRetentionMonthsHint": "Candidates are removed with all their data this long after their last hiring round closed.",
+      "keep": "Keep until deleted",
+      "months": "{count, plural, one {# month} other {# months}}"
     }
   },
   "validity": {
@@ -758,6 +771,14 @@
       "wrongPassword": "The current password is wrong.",
       "rateLimited": "Too many attempts. Try again later.",
       "lastOwner": "You're the only owner. Transfer ownership in the organization's settings first."
+    },
+    "withdraw": "Withdraw consent",
+    "withdrawTitle": "Withdraw consent for {name}?",
+    "withdrawText": "You won't be able to take tests or questionnaires there until you agree to the privacy notice again. Your earlier answers stay; to have them deleted, leave the organization instead.",
+    "data": {
+      "title": "Your data",
+      "text": "Download a copy of everything held about you: your account, your details in each organization, your answers with the questions, your scores and saved reports about you.",
+      "download": "Download my data"
     }
   },
   "errors": {
@@ -1057,6 +1078,46 @@
       "value": "Value",
       "people": "People",
       "completed": "Completed, %"
+    }
+  },
+  "audit": {
+    "title": "Audit log",
+    "back": "Settings",
+    "description": "Who opened results or changed people's data, and when. Events are kept for {months} months.",
+    "person": "Person",
+    "everyone": "Everyone",
+    "action": "Event",
+    "allActions": "All events",
+    "when": "When",
+    "who": "Who",
+    "what": "What",
+    "whose": "About",
+    "system": "Automatic",
+    "formerMember": "Former member",
+    "empty": "Nothing recorded yet.",
+    "version": "Version {version}",
+    "roleChange": "New role: {role}",
+    "deleted": "{count, plural, one {# record deleted} other {# records deleted}}",
+    "candidateErased": "Candidate erased",
+    "pagination": "Pages",
+    "newer": "Newer",
+    "older": "Older",
+    "page": "Page {page} of {pages}",
+    "actions": {
+      "viewTestResult": "Opened a test result",
+      "viewFormResult": "Opened questionnaire answers",
+      "viewReport": "Opened a report",
+      "viewReportVersion": "Opened a saved report",
+      "saveReportVersion": "Saved a report version",
+      "changeMembership": "Changed role or team",
+      "changeFlag": "Changed the follow-up flag",
+      "removeMember": "Removed from the organization",
+      "leaveOrganization": "Left the organization",
+      "transferOwnership": "Transferred ownership",
+      "changeSettings": "Changed settings",
+      "exportPersonalData": "Downloaded their data",
+      "withdrawConsent": "Withdrew consent",
+      "retentionCleanup": "Retention clean-up"
     }
   }
 }

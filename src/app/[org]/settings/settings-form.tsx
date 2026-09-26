@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CUSTOM_FIELD_TYPES, fieldKey, type CustomField } from "@/utils/profile-fields";
+import { CANDIDATE_RETENTION_OPTIONS, RETENTION_OPTIONS } from "@/utils/retention-rules";
 import { Plus, Trash2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,8 @@ type Settings = {
   respondentFeedback: boolean;
   feedbackTestIds: string[];
   customFields: CustomField[];
+  retentionMonths: number;
+  candidateRetentionMonths: number;
 };
 
 // One of the organization's own profile fields: its label, type and, for lists, the choices.
@@ -189,6 +192,37 @@ export function SettingsForm({ initial, tests }: { initial: Settings; tests: { i
               </div>
             </fieldset>
           )}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">{t("retention.title")}</CardTitle>
+          <CardDescription>{t("retention.text")}</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 sm:grid-cols-2">
+          {(
+            [
+              ["retentionMonths", RETENTION_OPTIONS],
+              ["candidateRetentionMonths", CANDIDATE_RETENTION_OPTIONS],
+            ] as const
+          ).map(([key, options]) => (
+            <div key={key} className="flex flex-col gap-1.5">
+              <Label htmlFor={key}>{t(`retention.${key}`)}</Label>
+              <Select value={String(values[key])} onValueChange={(value) => setValues({ ...values, [key]: Number(value) })}>
+                <SelectTrigger id={key}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {options.map((months) => (
+                    <SelectItem key={months} value={String(months)}>
+                      {months === 0 ? t("retention.keep") : t("retention.months", { count: months })}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">{t(`retention.${key}Hint`)}</p>
+            </div>
+          ))}
         </CardContent>
       </Card>
       <Card>

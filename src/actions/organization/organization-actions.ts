@@ -11,6 +11,7 @@ import {
 } from "@/utils/organizations";
 import { rememberOrganization } from "@/utils/session";
 import { customFieldsSchema } from "@/utils/profile-fields";
+import { audit } from "@/utils/audit";
 import { z } from "zod";
 
 const nameSchema = z.string().trim().min(2).max(100);
@@ -39,6 +40,8 @@ const settingsSchema = z
     respondentFeedback: z.boolean(),
     feedbackTestIds: z.array(z.string()).max(500),
     customFields: customFieldsSchema,
+    retentionMonths: z.number().int().min(0).max(120),
+    candidateRetentionMonths: z.number().int().min(0).max(120),
   })
   .partial()
   .strict();
@@ -50,8 +53,9 @@ const PLACEHOLDER_SLUG = "default";
 export async function updateOrganizationSettings(
   data: unknown
 ): Promise<{ ok: true; slug: string } | { error: "nameTaken" }> {
-  const { organization } = await requireMember("manageSettings");
-  const { name, feedbackTestIds, customFields, ...rest } = settingsSchema.parse(data);
+  const { organization, user } = await requireMember("manageSettings");
+  const parsed = settingsSchema.parse(data);
+  const { name, feedbackTestIds, customFields, ...rest } = parsed;
 
   if (name !== undefined && (await isOrganizationNameTaken(name, organization.id))) {
     return { error: "nameTaken" };
@@ -86,6 +90,10 @@ export async function updateOrganizationSettings(
     rememberOrganization(slug);
   }
 
+  await audit(organization.id, user.id, "changeSettings", {
+    detail: { fields: Object.keys(parsed).join(","), retentionMonths: parsed.retentionMonths ?? null, candidateRetentionMonths: parsed.candidateRetentionMonths ?? null },
+  });
+
   return { ok: true, slug };
 }
 
@@ -118,6 +126,7 @@ export async function transferOwnership(userId: unknown) {
       data: { role: "admin" },
     }),
   ]);
+  await audit(organization.id, user.id, "transferOwnership", { subjectId: id });
 }
 
 // Deletes the organization with its people's memberships, results, conclusions, teams,
@@ -134,6 +143,10 @@ export async function deleteOrganization(confirmation: unknown): Promise<{ ok: t
     prisma.testSubmission.deleteMany({ where: scope }),
     prisma.formSubmission.deleteMany({ where: scope }),
     prisma.userSummary.deleteMany({ where: scope }),
+    prisma.reportVersion.deleteMany({ where: scope }),
+    prisma.draft.deleteMany({ where: scope }),
+    prisma.analyticsView.deleteMany({ where: scope }),
+    prisma.auditEvent.deleteMany({ where: scope }),
     prisma.test.deleteMany({ where: scope }),
     prisma.form.deleteMany({ where: scope }),
     prisma.organization.delete({ where: { id: organization.id } }),

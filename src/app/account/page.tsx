@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/page-header";
 import { ensureUser } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { getTranslations } from "next-intl/server";
-import { EmailForm, OrganizationList, PasswordForm, ProfileForm } from "./account-forms";
+import { EmailForm, OrganizationList, PasswordForm, ProfileForm, YourData } from "./account-forms";
 
 export async function generateMetadata() {
   const t = await getTranslations("account");
@@ -40,8 +40,10 @@ export default async function AccountPage() {
             name: membership.organization.name,
             slug: membership.organization.slug,
             role: membership.role,
+            consented: membership.consentedAt !== null,
           }))}
         />
+        <YourData />
       </main>
     </div>
   );

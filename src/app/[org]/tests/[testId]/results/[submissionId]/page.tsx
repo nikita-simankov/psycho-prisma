@@ -8,6 +8,7 @@ import { TestResultSection } from "@/components/results/test-result-section";
 import { Button } from "@/components/ui/button";
 import { ensureMember } from "@/utils/authentication";
 import { buildTestResult } from "@/utils/results";
+import { auditAs } from "@/utils/audit";
 import { formatFullName } from "@/utils/user";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -22,7 +23,7 @@ type PathParams = {
 };
 
 export default async function SubmissionPage({ params }: PathParams) {
-  await ensureMember("viewIndividualResults");
+  const context = await ensureMember("viewIndividualResults");
   const base = organizationBase();
   const results = await getTranslations("results");
   const profile = await getTranslations("profile");
@@ -36,6 +37,7 @@ export default async function SubmissionPage({ params }: PathParams) {
   }
 
   const user = await findUserById(submission.userId);
+  await auditAs(context, "viewTestResult", { subjectId: submission.userId, detail: { testId: test.id, submissionId: submission.id } });
 
   return (
     <div className="flex max-w-4xl flex-col gap-4">

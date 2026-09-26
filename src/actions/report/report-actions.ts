@@ -1,6 +1,7 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { auditAs } from "@/utils/audit";
 import { prisma } from "@/utils/database";
 import { allowedSubmissionWhere } from "@/utils/library";
 import { z } from "zod";
@@ -62,6 +63,8 @@ export async function saveReportVersion(userId: unknown) {
       createdById: context.user.id,
     },
   });
+
+  await auditAs(context, "saveReportVersion", { subjectId: id, detail: { version: version.version } });
 
   return { version: version.version };
 }

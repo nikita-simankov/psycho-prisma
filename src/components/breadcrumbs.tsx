@@ -25,6 +25,7 @@ const SEGMENT_LABELS = {
   reports: "reports",
   analytics: "analytics",
   settings: "settings",
+  audit: "audit",
   results: "results",
   run: "run",
 } as const;

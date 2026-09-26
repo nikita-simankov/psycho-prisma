@@ -37,6 +37,8 @@ npx prisma migrate deploy
 
 `9_profiles` adds work details to `Membership` (manager, start date, location, employment type, tags, custom field values), `Organization.customFields` and `AnalyticsView` (saved analytics filters).
 
+`9a_privacy` adds `AuditEvent` and the retention settings on `Organization`. Migration folders sort as text, so later ones continue `9b_`, `9c_` and so on.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -114,6 +116,13 @@ People can also be invited in bulk from an .xlsx or .csv file on the People page
 Each profile shows work details (manager, start date, employment, location, tags and the organization's own fields from Settings), completion of assigned rounds, when the person was last assessed and next due. Roles that see individual results also get, per test, the latest scores beside the team and organization averages and a small trend chart per scale; a change of 2 stens or 10 T-points or more is marked as beyond ordinary measurement error.
 
 `/[org]/analytics` shows completion by round and team, a team-by-scale heatmap, score distributions and quarterly averages, filtered by test, team, position, round and dates. Filters live in the address, can be saved as named views and exported as CSV. Every figure is a group figure: groups under 5 people are hidden, and restricted instruments only appear for roles that may see them.
+
+## Privacy
+
+- **Audit log.** Opening a test result, questionnaire answers or a report, saving a report version, changing someone's role, team or follow-up flag, removing people, changing settings, transferring ownership, data downloads and consent withdrawals are recorded in `AuditEvent` (`src/utils/audit.ts`), without answers or scores. Owners read it at `/[org]/settings/audit` or from a person's profile (Access history). Events are kept for 24 months.
+- **Retention.** Settings has two periods: results (answers, scores, drafts and report versions) and candidates (erased with all their data after their last hiring round closed). The hourly maintenance job applies them (`src/utils/retention.ts`).
+- **Erasure.** Removing someone, leaving an organization and retention all use `eraseInOrganization` (`src/utils/erasure.ts`), which also deletes drafts, report versions, round assignments and saved views.
+- **People's own rights.** The account page offers a JSON download of everything held about the person (`/account/export`) and consent withdrawal per organization. Without consent, respondents can't open or submit anything; this is checked in the submit and draft actions, not only in the interface.
 
 ## Access rules
 
