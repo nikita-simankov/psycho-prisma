@@ -119,3 +119,47 @@ export function heatStep(kind: NormScale, value: number) {
   const share = (Math.min(max, Math.max(min, value)) - min) / (max - min);
   return Math.min(7, Math.floor(share * 7) + 1);
 }
+
+export type BalanceGroup = {
+  key: string;
+  // Null for everyone in view.
+  teamName: string | null;
+  people: number;
+  // Too few people to show anything.
+  hidden: boolean;
+  scales: { scaleId: number; scaleName: string; low: number; average: number; high: number; total: number }[];
+};
+
+// How many people in each group score low, average and high on each normed scale, from each
+// person's latest result. Groups and scales with fewer than MIN_GROUP people carry no counts.
+export function teamBalance(latest: AnalyticsEntry[], teams: { id: string; name: string }[]): BalanceGroup[] {
+  const balance = (members: AnalyticsEntry[], key: string, teamName: string | null): BalanceGroup => {
+    if (members.length < MIN_GROUP) return { key, teamName, people: members.length, hidden: true, scales: [] };
+    const scales = new Map<number, BalanceGroup["scales"][number]>();
+    for (const member of members) {
+      for (const row of member.rows) {
+        const position = normPosition(row);
+        if (!position) continue;
+        const scale = scales.get(row.scaleId) ?? { scaleId: row.scaleId, scaleName: row.scaleName, low: 0, average: 0, high: 0, total: 0 };
+        scale[position.band] += 1;
+        scale.total += 1;
+        scales.set(row.scaleId, scale);
+      }
+    }
+    return {
+      key,
+      teamName,
+      people: members.length,
+      hidden: false,
+      scales: Array.from(scales.values()).filter((scale) => scale.total >= MIN_GROUP),
+    };
+  };
+
+  return [
+    balance(latest, "all", null),
+    ...teams.flatMap((team) => {
+      const members = latest.filter((entry) => entry.teamId === team.id);
+      return members.length ? [balance(members, team.id, team.name)] : [];
+    }),
+  ];
+}

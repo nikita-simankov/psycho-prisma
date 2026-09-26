@@ -44,3 +44,37 @@ export function answerQuality(
 
   return warnings;
 }
+
+export type QualityScore = {
+  // 100 when nothing looks off; each warning takes points away according to how serious it is.
+  score: number;
+  band: "good" | "fair" | "poor";
+};
+
+// Points each warning costs. Uniform or implausibly fast answering can make a result
+// meaningless, so they cost most; missing answers cost in proportion to how many are missing;
+// answering outside the norms' language only shifts scores a little.
+const PENALTY = {
+  sameAnswer: (share: number) => 40 + Math.max(0, share - 90) * 2,
+  tooFast: (seconds: number) => Math.min(50, 30 + Math.max(0, 1.5 - seconds) * 20),
+  missing: (count: number, total: number) => Math.min(40, Math.ceil((count / Math.max(total, 1)) * 100)),
+  language: () => 10,
+};
+
+// One 0–100 figure for how far a submission's answers can be trusted, from its warnings.
+export function qualityScore(warnings: QualityWarning[], questionCount: number): QualityScore {
+  const lost = warnings.reduce((sum, warning) => {
+    switch (warning.kind) {
+      case "sameAnswer":
+        return sum + PENALTY.sameAnswer(warning.share);
+      case "tooFast":
+        return sum + PENALTY.tooFast(warning.secondsPerAnswer);
+      case "missing":
+        return sum + PENALTY.missing(warning.count, questionCount);
+      case "language":
+        return sum + PENALTY.language();
+    }
+  }, 0);
+  const score = Math.max(0, Math.min(100, Math.round(100 - lost)));
+  return { score, band: score >= 80 ? "good" : score >= 50 ? "fair" : "poor" };
+}

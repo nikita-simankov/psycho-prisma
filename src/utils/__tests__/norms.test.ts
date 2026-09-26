@@ -106,14 +106,26 @@ describe("scaleTrends", () => {
     { scaleId: 2, scaleName: "Lie", rawGrade: 1, correctedGrade: null, tGrade: t, stan: null, summary: null },
   ];
 
-  it("orders points by date and marks changes beyond measurement error", () => {
+  it("orders points by date and marks reliable changes", () => {
     const trends = scaleTrends([
       { createdAt: new Date("2026-06-01"), rows: rows(7, 62) },
       { createdAt: new Date("2026-01-01"), rows: rows(4, 55) },
     ]);
     expect(trends[0].points.map((point) => point.value)).toEqual([4, 7]);
-    expect(trends[0].change).toEqual({ delta: 3, meaningful: true });
-    expect(trends[1].change).toEqual({ delta: 7, meaningful: false });
+    // Stens at the default reliability: SEdiff ≈ 1.26, so 3 stens is a reliable change.
+    expect(trends[0].change).toEqual({ delta: 3, rci: 2.37, reliable: true, direction: "up" });
+    expect(trends[0]).toMatchObject({ reliability: 0.8, assumed: true });
+    // Seven T-points is within the ≈ 12.6-point error of the difference.
+    expect(trends[1].change).toMatchObject({ delta: 7, reliable: false, direction: "none" });
+  });
+
+  it("uses a scale's stated reliability", () => {
+    const info = { 1: { reliability: 0.95, assumed: false } };
+    const trends = scaleTrends([
+      { createdAt: new Date("2026-01-01"), rows: rows(5), info },
+      { createdAt: new Date("2026-06-01"), rows: rows(7), info },
+    ]);
+    expect(trends[0]).toMatchObject({ reliability: 0.95, assumed: false, change: { delta: 2, reliable: true } });
   });
 
   it("has no change with a single result", () => {

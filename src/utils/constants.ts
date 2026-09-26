@@ -60,6 +60,11 @@ export type TestScale = {
   resultCalculationFormula: string;
   // Set on lie, sincerity and other validity scales; see src/utils/validity.ts.
   validity?: ValidityRule;
+  // What the scale measures, shown beside the score in results.
+  description?: string;
+  // Internal consistency (e.g. Cronbach's alpha) the scale's publisher reports; used for the
+  // score's error band and for telling real change from noise. See src/utils/psychometrics.ts.
+  reliability?: number;
 };
 
 export type ValidityRule = {
