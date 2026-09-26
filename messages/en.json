@@ -257,7 +257,7 @@
   },
   "dashboard": {
     "nav": {
-      "home": "Dashboard",
+      "home": "Today",
       "forms": "Questionnaires",
       "tests": "Tests",
       "people": "People",
@@ -266,17 +266,25 @@
       "followUp": "Follow-up",
       "settings": "Settings",
       "rounds": "Rounds",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "library": "Library"
     },
     "search": {
       "placeholder": "Search",
       "dialogPlaceholder": "Search people, tests and questionnaires",
       "empty": "No results.",
-      "navigation": "Navigation"
+      "navigation": "Navigation",
+      "actions": "Actions",
+      "newRound": "Start a round",
+      "account": "Your account",
+      "lightTheme": "Switch to the light theme",
+      "darkTheme": "Switch to the dark theme"
     },
     "home": {
       "title": "Dashboard",
-      "description": "People, assessments and the latest results at a glance."
+      "description": "What needs your attention in {organization} today.",
+      "greeting": "Hello, {name}",
+      "statsLabel": "Summary"
     },
     "stats": {
       "people": "People",
@@ -338,7 +346,7 @@
       "about": "About this test"
     },
     "navGroups": {
-      "assessments": "Assessments",
+      "assessments": "Assess",
       "people": "People",
       "reports": "Insights",
       "organization": "Organization"
@@ -346,7 +354,7 @@
     "menu": "Menu",
     "toggleSidebar": "Toggle sidebar",
     "crumbs": {
-      "home": "Dashboard",
+      "home": "Today",
       "forms": "Questionnaires",
       "tests": "Tests",
       "people": "People",
@@ -375,7 +383,8 @@
       "roundsText": "How many people have finished.",
       "roundsEmpty": "No rounds are open.",
       "newRound": "Send a round"
-    }
+    },
+    "libraryLabel": "Library sections"
   },
   "table": {
     "search": "Search...",

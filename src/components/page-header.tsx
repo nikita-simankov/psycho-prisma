@@ -1,10 +1,13 @@
 import { BreadcrumbTitle } from "@/components/breadcrumbs";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/utils/utils";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 interface Properties {
   title: React.ReactNode;
+  // A short mono label above the title: a date, a status, the kind of page.
+  eyebrow?: React.ReactNode;
   description?: React.ReactNode;
   actions?: React.ReactNode;
   back?: { href: string; label: string };
@@ -13,13 +16,13 @@ interface Properties {
   crumb?: string;
 }
 
-export function PageHeader({ title, description, actions, back, className, crumb }: Properties) {
+export function PageHeader({ title, eyebrow, description, actions, back, className, crumb }: Properties) {
   const crumbTitle = crumb ?? (typeof title === "string" ? title : null);
 
   return (
-    <div className={cn("mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
+    <div className={cn("mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
       {crumbTitle && <BreadcrumbTitle title={crumbTitle} />}
-      <div className="flex min-w-0 flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-2">
         {back && (
           <Link
             href={back.href}
@@ -29,8 +32,9 @@ export function PageHeader({ title, description, actions, back, className, crumb
             {back.label}
           </Link>
         )}
-        <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
-        {description && <div className="text-muted-foreground">{description}</div>}
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <h1 className="text-3xl font-medium leading-tight sm:text-4xl">{title}</h1>
+        {description && <div className="max-w-2xl text-muted-foreground">{description}</div>}
       </div>
       {actions && <div className="print:hidden flex flex-wrap items-center gap-2">{actions}</div>}
     </div>

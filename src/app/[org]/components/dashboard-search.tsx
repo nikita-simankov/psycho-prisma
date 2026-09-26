@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/command";
 import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo, type Member } from "@/utils/user";
-import { FlaskConical, Layers, NotepadText, Search, UserIcon } from "lucide-react";
+import { CircleUser, FlaskConical, Layers, Moon, NotepadText, Plus, Search, Sun, UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { visibleGroups } from "./navigation";
@@ -35,6 +36,7 @@ export default function DashboardSearch({ users, forms, tests, teams }: Readonly
   const base = `/${slug}`;
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -77,6 +79,29 @@ export default function DashboardSearch({ users, forms, tests, teams }: Readonly
                 <span>{nav(key)}</span>
               </CommandItem>
             ))}
+          </CommandGroup>
+          <CommandGroup heading={t("actions")}>
+            {can(role, "manageRounds") && (
+              <CommandItem value={`action ${t("newRound")}`} onSelect={() => go(`${base}/rounds/new`)} className="gap-2">
+                <Plus className="size-4" />
+                <span>{t("newRound")}</span>
+              </CommandItem>
+            )}
+            <CommandItem value={`action ${t("account")}`} onSelect={() => go("/account")} className="gap-2">
+              <CircleUser className="size-4" />
+              <span>{t("account")}</span>
+            </CommandItem>
+            <CommandItem
+              value={`action theme ${resolvedTheme === "dark" ? t("lightTheme") : t("darkTheme")}`}
+              onSelect={() => {
+                setTheme(resolvedTheme === "dark" ? "light" : "dark");
+                setOpen(false);
+              }}
+              className="gap-2"
+            >
+              {resolvedTheme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+              <span>{resolvedTheme === "dark" ? t("lightTheme") : t("darkTheme")}</span>
+            </CommandItem>
           </CommandGroup>
           <CommandGroup heading={nav("people")}>
             {users.map((user) => (
