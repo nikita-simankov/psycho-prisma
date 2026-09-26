@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/utils";
+import { Kbd } from "@/components/ui/kbd";
 
 type Choice = { id: number; text: string };
 
@@ -43,9 +44,9 @@ export function ChoiceList({
             </span>
             <span className="flex-1 whitespace-pre-line">{choice.text.trim()}</span>
             {index < 9 && (
-              <kbd aria-hidden className="hidden font-mono text-xs text-muted-foreground sm:inline">
+              <Kbd aria-hidden className="hidden sm:inline-flex">
                 {index + 1}
-              </kbd>
+              </Kbd>
             )}
           </button>
         );

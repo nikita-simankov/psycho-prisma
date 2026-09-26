@@ -11,9 +11,9 @@ export function Progress({ value, max, className, label }: { value: number; max:
       aria-valuemax={max}
       aria-valuenow={value}
       aria-label={label}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-muted", className)}
+      className={cn("h-1.5 w-full overflow-hidden rounded-full bg-muted", className)}
     >
-      <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${percent}%` }} />
+      <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-calm" style={{ width: `${percent}%` }} />
     </div>
   );
 }

@@ -111,14 +111,14 @@ export default async function LandingPage() {
           <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_2fr]">
             <div>
               <h2 className="text-3xl font-bold sm:text-4xl">{t("trust.title")}</h2>
-              <p className="mt-3 text-lg opacity-70">{t("trust.subtitle")}</p>
+              <p className="mt-3 text-lg opacity-85">{t("trust.subtitle")}</p>
             </div>
             <ul className="grid gap-6 sm:grid-cols-3">
               {TRUST.map(({ key, icon: Icon }) => (
                 <li key={key} className="flex flex-col gap-3">
                   <Icon className="h-6 w-6 text-primary dark:text-primary" />
                   <h3 className="text-lg font-semibold">{t(`trust.${key}.title`)}</h3>
-                  <p className="text-sm leading-relaxed opacity-70">{t(`trust.${key}.text`)}</p>
+                  <p className="text-sm leading-relaxed opacity-85">{t(`trust.${key}.text`)}</p>
                 </li>
               ))}
             </ul>

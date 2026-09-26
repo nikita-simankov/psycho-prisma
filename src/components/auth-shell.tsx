@@ -63,7 +63,7 @@ export async function AuthShell({ title, subtitle, children }: Properties) {
             ))}
           </ul>
         </div>
-        <p className="relative text-sm opacity-70">{t("landing.footer.disclaimer")}</p>
+        <p className="relative text-sm opacity-85">{t("landing.footer.disclaimer")}</p>
       </aside>
     </main>
   );

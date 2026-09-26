@@ -2,6 +2,7 @@ import type { Distribution } from "@/utils/analytics";
 import { cn } from "@/utils/utils";
 import { useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
+import { ChartPanel } from "./chart-panel";
 
 const AVERAGE = { sten: [4, 7], t: [40, 59] } as const;
 
@@ -16,11 +17,11 @@ export function DistributionCharts({ scales }: { scales: Distribution[] }) {
         const max = Math.max(1, ...scale.bins.map((bin) => bin.count));
         const [averageFrom, averageTo] = AVERAGE[scale.kind];
         return (
-          <figure key={scale.scaleId} className="flex flex-col gap-2 rounded-lg border p-3">
-            <figcaption className="flex items-start justify-between gap-2 text-sm">
-              <span className="leading-snug">{scale.scaleName}</span>
-              <span className="shrink-0 text-xs text-muted-foreground">{t("people", { count: scale.people })}</span>
-            </figcaption>
+          <ChartPanel
+            key={scale.scaleId}
+            title={scale.scaleName}
+            aside={<span className="text-xs text-muted-foreground">{t("people", { count: scale.people })}</span>}
+          >
             <div className="flex h-20 items-end gap-0.5">
               {scale.bins.map((bin) => (
                 <div
@@ -45,7 +46,7 @@ export function DistributionCharts({ scales }: { scales: Distribution[] }) {
                 </span>
               ))}
             </div>
-          </figure>
+          </ChartPanel>
         );
       })}
     </div>
