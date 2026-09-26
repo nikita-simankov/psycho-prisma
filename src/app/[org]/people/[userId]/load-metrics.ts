@@ -4,6 +4,7 @@ import type { Context } from "@/utils/authentication";
 import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
 import { latestGroupAverages } from "@/utils/group-averages";
+import { localizedTestsAsAnswered } from "@/utils/instrument-versions";
 import { allowedSubmissionWhere, libraryWhere } from "@/utils/library";
 import { completionRate, scaleTrends } from "@/utils/metrics";
 import { buildTestResult, type GroupAverage } from "@/utils/results";
@@ -58,16 +59,18 @@ export async function loadPersonMetrics(context: Context, userId: string, teamId
     where: { id: { in: Array.from(new Set(submissions.map((submission) => submission.testId))) }, AND: [libraryWhere(organizationId)] },
   });
 
+  const testFor = await localizedTestsAsAnswered(tests, submissions, locale);
+
   const metrics = await Promise.all(
     tests.map(async (row): Promise<TestMetrics | null> => {
       const test = localizeTest(row, locale);
       const results = submissions
         .filter((submission) => submission.testId === test.id)
-        .map((submission) => buildTestResult(test, submission));
+        .map((submission) => buildTestResult(testFor(submission) ?? test, submission));
       const latest = results[results.length - 1];
       if (!latest) return null;
 
-      const groups = await latestGroupAverages(organizationId, test);
+      const groups = await latestGroupAverages(organizationId, row, locale);
       return {
         testId: test.id,
         testName: test.name,

@@ -39,6 +39,8 @@ npx prisma migrate deploy
 
 `9a_privacy` adds `AuditEvent` and the retention settings on `Organization`. Migration folders sort as text, so later ones continue `9b_`, `9c_` and so on.
 
+`9b_studio` adds `version`, `draft` and `copiedFromId` to `Test` and `Form`, the version answered to `TestSubmission` and `FormSubmission`, and `InstrumentVersion`. It drops the global unique index on test and questionnaire names: names are now unique among what one organization sees (the shared library and its own instruments), checked when publishing. Existing rows become version 1.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -123,6 +125,14 @@ Each profile shows work details (manager, start date, employment, location, tags
 - **Retention.** Settings has two periods: results (answers, scores, drafts and report versions) and candidates (erased with all their data after their last hiring round closed). The hourly maintenance job applies them (`src/utils/retention.ts`).
 - **Erasure.** Removing someone, leaving an organization and retention all use `eraseInOrganization` (`src/utils/erasure.ts`), which also deletes drafts, report versions, round assignments and saved views.
 - **People's own rights.** The account page offers a JSON download of everything held about the person (`/account/export`) and consent withdrawal per organization. Without consent, respondents can't open or submit anything; this is checked in the submit and draft actions, not only in the interface.
+
+## Instrument studio
+
+People who manage the library (owner, admin, psychologist) can create tests and questionnaires in the browser, copy a shared library one to adapt it, and edit their organization's own. The editor (`src/components/studio`) covers details, questions and choices, scales with points per answer and formulas, sten norms or T-score tables, and interpretations. It saves a draft as you type (`draft` column), lists what still blocks publishing, and publishes the draft as a new numbered version with an optional note (`src/actions/studio/studio-actions.ts`). Nothing respondents see changes until then. New instruments are version 0 and stay out of the library until first published.
+
+Every published version is kept in `InstrumentVersion` as a snapshot of its content and translations. Submissions record the version answered, and results, reports, metrics, analytics and data exports score and show them with that version (`src/utils/instrument-versions.ts`), so editing a test never changes results already given. The Versions page lists each version with its note, author and number of results, and can restore an earlier one into the draft. Translation overlays for questions and scales that were removed or reworded are dropped on publish, so the other language falls back to the new text rather than showing the old one.
+
+The sensitive flag and retest interval are settings, applied straight away. The Mini-Mult K-correction is still tied to scale ids 3 (K) and 4, 7, 9, 10 and 11 in any T-score test (`src/utils/scoring.ts`); it only has an effect when a scale has a `correction` factor, which the studio doesn't set, so studio-made tests are unaffected and copies of the Mini-Mult keep working.
 
 ## Access rules
 

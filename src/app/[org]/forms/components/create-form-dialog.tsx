@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Upload } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ export const CreateFormDialog: React.FC = () => {
   const router = useRouter();
   const t = useTranslations("dashboard.forms");
   const common = useTranslations("common");
+  const studio = useTranslations("studio");
   const [formData, setFormData] = useState<FormData>({
     name: "",
     questions: [],
@@ -55,9 +56,9 @@ export const CreateFormDialog: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          {t("add")}
+        <Button variant="outline">
+          <Upload className="mr-2 h-4 w-4" />
+          {studio("import")}
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-4">

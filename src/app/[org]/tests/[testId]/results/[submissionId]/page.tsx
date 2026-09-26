@@ -8,9 +8,12 @@ import { TestResultSection } from "@/components/results/test-result-section";
 import { Button } from "@/components/ui/button";
 import { ensureMember } from "@/utils/authentication";
 import { buildTestResult } from "@/utils/results";
+import { testAsAnswered } from "@/utils/instrument-versions";
+import { localizeTest } from "@/utils/content-translation";
+import { prisma } from "@/utils/database";
 import { auditAs } from "@/utils/audit";
 import { formatFullName } from "@/utils/user";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
@@ -37,6 +40,7 @@ export default async function SubmissionPage({ params }: PathParams) {
   }
 
   const user = await findUserById(submission.userId);
+  const rawTest = await prisma.test.findUniqueOrThrow({ where: { id: test.id } });
   await auditAs(context, "viewTestResult", { subjectId: submission.userId, detail: { testId: test.id, submissionId: submission.id } });
 
   return (
@@ -59,7 +63,7 @@ export default async function SubmissionPage({ params }: PathParams) {
           </>
         }
       />
-      <TestResultSection result={buildTestResult(test, submission)} />
+      <TestResultSection result={buildTestResult(localizeTest(await testAsAnswered(rawTest, submission), await getLocale()), submission)} />
     </div>
   );
 }

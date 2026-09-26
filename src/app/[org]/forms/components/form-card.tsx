@@ -27,20 +27,14 @@ export function FormCard({ form }: Properties) {
       badges={badges}
       meta={[respondent("questionCount", { count: questionCount }), common("minutes", { count: form.ttc })]}
       actions={
-        form.adminOnly ? (
-          <>
-            <Button variant="outline" asChild>
-              <Link href={`${base}/forms/${form.id}/run`}>{t("run")}</Link>
-            </Button>
-            <Button asChild>
-              <Link href={`${base}/forms/${form.id}/results`}>{t("results")}</Link>
-            </Button>
-          </>
-        ) : (
-          <Button asChild className="col-span-2">
+        <>
+          <Button variant="outline" asChild>
+            <Link href={`${base}/forms/${form.id}`}>{common("open")}</Link>
+          </Button>
+          <Button asChild>
             <Link href={`${base}/forms/${form.id}/results`}>{t("results")}</Link>
           </Button>
-        )
+        </>
       }
     />
   );

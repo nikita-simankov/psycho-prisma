@@ -1,7 +1,6 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
-import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
 import { latestGroupAverages } from "@/utils/group-averages";
 import { libraryWhere } from "@/utils/library";
@@ -20,5 +19,5 @@ export async function findGroupAverages(testId: unknown) {
     return null;
   }
 
-  return latestGroupAverages(organization.id, localizeTest(test, await getLocale()));
+  return latestGroupAverages(organization.id, test, await getLocale());
 }

@@ -28,6 +28,8 @@ const SEGMENT_LABELS = {
   audit: "audit",
   results: "results",
   run: "run",
+  edit: "edit",
+  versions: "versions",
 } as const;
 
 type Segment = keyof typeof SEGMENT_LABELS;

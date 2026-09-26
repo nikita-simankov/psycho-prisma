@@ -5,7 +5,7 @@ import { byNotability, isNotable } from "./norms";
 import { scoreSubmission, toScaleRows } from "./scoring";
 import { assessValidity, validityScaleIds } from "./validity";
 
-type ResultTest = Pick<Test, "id" | "name" | "strategy" | "scales" | "stanTable" | "tGradeTable" | "summaryTable" | "questions">;
+type ResultTest = Pick<Test, "id" | "name" | "strategy" | "scales" | "stanTable" | "tGradeTable" | "summaryTable" | "questions" | "organizationId" | "copiedFromId">;
 type ResultSubmission = Pick<TestSubmission, "id" | "submission" | "summary" | "timings" | "locale" | "createdAt">;
 
 function parseTimings(value: string): Record<string, number> {
@@ -36,7 +36,9 @@ export function buildTestResult(test: ResultTest, submission: ResultSubmission) 
     questions,
     responses,
     validity: assessValidity(scales, responses, rows),
-    warnings: answerQuality(questions, responses, parseTimings(submission.timings), submission.locale),
+    // The shared library's norms (and copies of them) come from Russian samples; tests an
+    // organization wrote itself make no such assumption.
+    warnings: answerQuality(questions, responses, parseTimings(submission.timings), test.organizationId === null || test.copiedFromId ? submission.locale : ""),
     // Scale rows in the test's own order, for the profile.
     rows: scaleRows,
     // Scales outside the average band, most extreme first; then the rest.
