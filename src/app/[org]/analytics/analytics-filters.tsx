@@ -42,7 +42,7 @@ export function AnalyticsFilters({
     <div className="flex flex-wrap items-end gap-3" aria-busy={pending}>
       {options.tests.length > 0 && (
         <div className="flex min-w-48 flex-1 flex-col gap-1.5 sm:max-w-64">
-          <Label htmlFor="filter-test">{t("test")}</Label>
+          <Label className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground" htmlFor="filter-test">{t("test")}</Label>
           <Select value={filters.test ?? ""} onValueChange={(value) => set("test", value)}>
             <SelectTrigger id="filter-test">
               <SelectValue placeholder={t("mostTaken")} />
@@ -59,7 +59,7 @@ export function AnalyticsFilters({
       )}
       {selects.map((select) => (
         <div key={select.key} className="flex min-w-40 flex-1 flex-col gap-1.5 sm:max-w-56">
-          <Label htmlFor={`filter-${select.key}`}>{select.label}</Label>
+          <Label className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground" htmlFor={`filter-${select.key}`}>{select.label}</Label>
           <Select value={filters[select.key] ?? ALL} onValueChange={(value) => set(select.key, value)}>
             <SelectTrigger id={`filter-${select.key}`}>
               <SelectValue />
@@ -76,11 +76,11 @@ export function AnalyticsFilters({
         </div>
       ))}
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="filter-from">{t("from")}</Label>
+        <Label className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground" htmlFor="filter-from">{t("from")}</Label>
         <Input id="filter-from" type="date" className="w-40" value={filters.from ?? ""} max={filters.to} onChange={(event) => set("from", event.target.value)} />
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="filter-to">{t("to")}</Label>
+        <Label className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground" htmlFor="filter-to">{t("to")}</Label>
         <Input id="filter-to" type="date" className="w-40" value={filters.to ?? ""} min={filters.from} onChange={(event) => set("to", event.target.value)} />
       </div>
       {Object.keys(filters).length > 0 && (

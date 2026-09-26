@@ -3,7 +3,7 @@ import { Heatmap } from "@/components/metrics/heatmap";
 import { ParticipationBars } from "@/components/metrics/participation-bars";
 import { QuarterTrends } from "@/components/metrics/quarter-trends";
 import { PageHeader } from "@/components/page-header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/page-templates";
 import { filtersToQuery, parseFilters } from "@/utils/analytics-filters";
 import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
@@ -55,81 +55,51 @@ export default async function AnalyticsPage(
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <PageHeader
         title={t("title")}
         description={t("description")}
         className="mb-0"
         actions={<ExportButton rows={csv.length > 1 ? csv : []} filename={`analytics-${context.organization.slug}-${new Date().toISOString().slice(0, 10)}.csv`} />}
       />
-      <div className="flex flex-col gap-4 rounded-xl border bg-card p-4">
-        <AnalyticsFilters filters={filters} options={data.options} />
+      <div className="-mt-4 flex flex-col gap-4 border-y py-4 print:hidden">
         <SavedViews views={views} query={filtersToQuery(filters)} />
+        <AnalyticsFilters filters={filters} options={data.options} />
+        <p className="flex items-start gap-2 text-xs text-muted-foreground">
+          <Users className="size-3.5 shrink-0" aria-hidden />
+          {t("privacy", { min: MIN_GROUP })}
+        </p>
       </div>
-      <p className="flex items-start gap-2 text-sm text-muted-foreground">
-        <Users className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-        {t("privacy", { min: MIN_GROUP })}
-      </p>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("byRound")}</CardTitle>
-            <CardDescription>{t("byRoundText")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+      <div className="grid gap-10 lg:grid-cols-2">
+        <Section title={t("byRound")} description={t("byRoundText")}>
             <ParticipationBars bars={data.participation.byRound} />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">{t("byTeam")}</CardTitle>
-            <CardDescription>{t("byTeamText")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+          </Section>
+        <Section title={t("byTeam")} description={t("byTeamText")}>
             <ParticipationBars bars={data.participation.byTeam} />
-          </CardContent>
-        </Card>
+          </Section>
       </div>
       {data.test ? (
         <>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("heatmap")}</CardTitle>
-              <CardDescription>{t("heatmapText", { test: data.test.name })}</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <Section title={t("heatmap")} description={t("heatmapText", { test: data.test.name })}>
               <Heatmap groups={data.heatmap} everyoneLabel={everyone} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("distributions")}</CardTitle>
-              <CardDescription>{t("distributionsText", { test: data.test.name, count: data.test.people })}</CardDescription>
-            </CardHeader>
-            <CardContent>
+          </Section>
+          <Section title={t("distributions")} description={t("distributionsText", { test: data.test.name, count: data.test.people })}>
               {data.distributions.length > 0 ? (
                 <DistributionCharts scales={data.distributions} />
               ) : (
                 <p className="text-sm text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>
               )}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t("quarters")}</CardTitle>
-              <CardDescription>{t("quartersText", { test: data.test.name })}</CardDescription>
-            </CardHeader>
-            <CardContent>
+          </Section>
+          <Section title={t("quarters")} description={t("quartersText", { test: data.test.name })}>
               {data.quarters.length > 0 ? (
                 <QuarterTrends series={data.quarters} />
               ) : (
                 <p className="text-sm text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>
               )}
-            </CardContent>
-          </Card>
+          </Section>
         </>
       ) : (
-        <p className="rounded-xl border bg-card p-6 text-muted-foreground">{t("noResults")}</p>
+        <p className="border-t border-foreground/80 pt-4 text-muted-foreground">{t("noResults")}</p>
       )}
     </div>
   );

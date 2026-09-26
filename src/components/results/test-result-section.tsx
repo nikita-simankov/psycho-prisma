@@ -1,3 +1,4 @@
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { ValidityPanel } from "@/components/validity-panel";
 import type { TestResult } from "@/utils/results";
 import type { ScaleRow } from "@/utils/scoring";
@@ -9,9 +10,9 @@ import { ScaleProfile } from "./scale-profile";
 
 function Finding({ row, muted }: { row: ScaleRow; muted?: boolean }) {
   return (
-    <div className="break-inside-avoid border-l-2 border-primary/40 pl-3">
+    <div className="break-inside-avoid border-l-2 border-primary pl-4 print:border-gray-800">
       <dt className={cn("font-medium", muted && "text-muted-foreground")}>{row.scaleName}</dt>
-      {row.summary && <dd className="whitespace-pre-line text-sm text-muted-foreground">{row.summary}</dd>}
+      {row.summary && <dd className="mt-0.5 max-w-[68ch] whitespace-pre-line leading-relaxed text-muted-foreground">{row.summary}</dd>}
     </div>
   );
 }
@@ -33,15 +34,15 @@ export function TestResultSection({
   const findings = [...result.keyFindings, ...result.otherFindings];
 
   return (
-    <section id={`result-${result.id}`} aria-labelledby={`result-${result.id}-title`} className="flex scroll-mt-20 flex-col gap-4 rounded-xl border bg-card p-4 sm:p-6 print:break-before-page print:border-0 print:p-0">
-      <header className="flex flex-col gap-0.5">
-        <h2 id={`result-${result.id}-title`} className="text-lg font-semibold leading-snug sm:text-xl">
-          {result.testName}
-        </h2>
-        <p className="text-sm text-muted-foreground">
+    <section id={`result-${result.id}`} aria-labelledby={`result-${result.id}-title`} className="flex scroll-mt-20 flex-col gap-6 border-t border-foreground/80 pt-5 print:break-before-page print:border-gray-800">
+      <header className="flex flex-col gap-2">
+        <Eyebrow>
           {format.dateTime(result.createdAt, { dateStyle: "medium" })}
           {subtitle && ` · ${subtitle}`}
-        </p>
+        </Eyebrow>
+        <h2 id={`result-${result.id}-title`} className="text-2xl font-medium leading-tight sm:text-[1.75rem]">
+          {result.testName}
+        </h2>
       </header>
 
       {result.validity && <ValidityPanel validity={result.validity} />}
@@ -49,7 +50,7 @@ export function TestResultSection({
 
       {findings.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             {result.keyFindings.length ? t("keyFindings") : t("findings")}
           </h3>
           {result.keyFindings.length === 0 && result.rows.some((row) => row.stan !== null || row.tGrade !== null) && (
@@ -78,7 +79,7 @@ export function TestResultSection({
 
       {result.rows.length > 0 ? (
         <div className="flex flex-col gap-2">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t("profile")}</h3>
+          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{t("profile")}</h3>
           <ScaleProfile rows={result.rows} />
         </div>
       ) : (
@@ -93,7 +94,7 @@ export function TestResultSection({
           </summary>
           <div className="mt-3 overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="text-left text-xs text-muted-foreground">
+              <thead className="text-left font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-muted-foreground">
                 <tr className="border-b">
                   <th className="w-12 py-1.5 pr-2 font-medium">{table("number")}</th>
                   <th className="py-1.5 pr-2 font-medium">{table("question")}</th>

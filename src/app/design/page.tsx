@@ -16,9 +16,29 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ChartLegend, ChartPanel } from "@/components/metrics/chart-panel";
+import { ScaleComparison } from "@/components/metrics/scale-comparison";
+import type { GroupAverage } from "@/utils/results";
 import { ensureUser } from "@/utils/authentication";
 import { cn } from "@/utils/utils";
 import type { Metadata } from "next";
+
+// Sample person / team / organization scores for the comparison figure.
+const COMPARISON = [
+  { id: 1, scale: "Warmth", value: 8, t: false },
+  { id: 2, scale: "Dominance", value: 3, t: false },
+  { id: 3, scale: "Anxiety", value: 62, t: true },
+];
+const averages = (key: string, teamName: string | null, shift: number): GroupAverage => ({
+  key,
+  teamName,
+  people: 12,
+  scales: COMPARISON.map(({ id, scale, value, t }) => ({
+    scaleId: id,
+    scaleName: scale,
+    kind: t ? "t" : "sten",
+    average: t ? value - 6 * shift - 4 : Math.min(10, Math.max(1, value - 2 * shift + 0.4)),
+  })),
+});
 
 // Internal design-system gallery: every token and base component, in the light and the dark theme side by side.
 // Screenshot tests (e2e/design.spec.ts) compare it on every change, so the look can't drift by accident.
@@ -216,6 +236,21 @@ function Showcase({ theme }: { theme: "light" | "dark" }) {
             ))}
           </div>
         </ChartPanel>
+        <div data-testid="comparison">
+          <ScaleComparison
+            rows={COMPARISON.map(({ id, scale, value, t }) => ({
+              scaleId: id,
+              scaleName: scale,
+              rawGrade: null,
+              correctedGrade: null,
+              tGrade: t ? value : null,
+              stan: t ? null : value,
+              summary: null,
+            }))}
+            team={{ label: "Design team", average: averages("team", "Design team", 1) }}
+            everyone={{ label: "Acme Ltd", average: averages("org", null, -1) }}
+          />
+        </div>
         <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
           <Eyebrow>Keys</Eyebrow> Answer with <Kbd>1</Kbd>–<Kbd>5</Kbd>, next with <Kbd>Enter</Kbd>, search with <Kbd>Ctrl K</Kbd>
         </p>
