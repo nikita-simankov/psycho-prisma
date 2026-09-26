@@ -29,6 +29,8 @@ type Properties = {
   questions: TestQuestion[];
   assignmentId?: string;
   pauseHref: string;
+  // Where to go after submitting: the round's next item, or back home.
+  doneHref?: string;
   initialDraft?: { answers: Record<string, Answer>; timings: Record<string, number> } | null;
 };
 
@@ -42,7 +44,7 @@ function sharedChoices(questions: TestQuestion[]) {
     : null;
 }
 
-export function TestRunner({ test, questions, assignmentId, pauseHref, initialDraft }: Properties) {
+export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref, initialDraft }: Properties) {
   const t = useTranslations("runner");
   const common = useTranslations("common");
   const router = useRouter();
@@ -81,7 +83,7 @@ export function TestRunner({ test, questions, assignmentId, pauseHref, initialDr
         draft.timings.current
       );
     },
-    onSuccess: () => router.push(pauseHref === "/assessments" ? "/assessments?done=1" : pauseHref),
+    onSuccess: () => router.push(doneHref ?? (pauseHref === "/assessments" ? "/assessments?done=1" : pauseHref)),
     onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });
 

@@ -14,6 +14,8 @@ export function IntroCard({
   startHref,
   backHref,
   answered = 0,
+  journey,
+  promise,
 }: {
   name: string;
   description: string;
@@ -24,6 +26,10 @@ export function IntroCard({
   backHref: string;
   // Questions already answered in a saved draft.
   answered?: number;
+  // Where this sits in a round, "Onboarding check · 2 of 3".
+  journey?: { round: string; position: number; total: number } | null;
+  // What happens to the answers; replaces the short privacy note.
+  promise?: React.ReactNode;
 }) {
   const t = useTranslations("respondent");
   const common = useTranslations("common");
@@ -35,6 +41,9 @@ export function IntroCard({
         {t("home")}
       </Link>
       <header className="flex flex-col gap-3">
+        {journey && journey.position > 0 && journey.total > 1 && (
+          <p className="text-sm text-muted-foreground">{t("journey", { round: journey.round, position: journey.position, total: journey.total })}</p>
+        )}
         <Eyebrow>
           {t("questionCount", { count: questionCount })} · {common("minutes", { count: minutes })}
         </Eyebrow>
@@ -56,10 +65,12 @@ export function IntroCard({
           <p className="whitespace-pre-line leading-relaxed">{instruction.trim()}</p>
         </section>
       )}
-      <p className="flex items-start gap-2 text-sm text-muted-foreground">
-        <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
-        {t("privacyNote")}
-      </p>
+      {promise ?? (
+        <p className="flex items-start gap-2 text-sm text-muted-foreground">
+          <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
+          {t("privacyNote")}
+        </p>
+      )}
       {answered > 0 && (
         <p role="status" className="border-l-2 border-primary bg-card py-3 pl-4 pr-3 text-sm">
           {t("resumeNote", { answered, total: questionCount })}

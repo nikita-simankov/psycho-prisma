@@ -13,6 +13,8 @@ import { can } from "./roles";
 import { createToken } from "./tokens";
 import { runRetention } from "./retention";
 import { sendInvitationReminders } from "./invitations";
+import { lifecycleDue, type LifecycleTrigger } from "./lifecycle";
+import { sendTime } from "./quiet-hours";
 
 export const PURPOSES = ["development", "hiring", "wellbeing"] as const;
 export type Purpose = (typeof PURPOSES)[number];
@@ -97,17 +99,14 @@ export async function issueLink(assignmentId: string, dueAt: Date | null) {
   return absoluteUrl(`/r/${token}`);
 }
 
-async function mailAssignment(
+// The round email as it will be sent: subject, text and HTML in the recipient's language.
+export async function roundEmail(
   kind: "invite" | "reminder",
-  recipient: Recipient,
+  recipient: { name: string; locale: string },
   organization: string,
   round: { name: string; message: string; dueAt: Date | null },
   link: string
 ) {
-  if (!recipient.email) {
-    return false;
-  }
-
   const { locale, t } = translatorFor(recipient.locale);
   const due = round.dueAt ? new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(round.dueAt) : null;
   const values = { organization, round: round.name, name: recipient.name, link };
@@ -121,8 +120,20 @@ async function mailAssignment(
     action: { label: t("action"), url: link },
     notes: [t("personal"), t("ignore")],
   });
+  return { subject: t(invite ? "inviteSubject" : "reminderSubject", values), ...content };
+}
 
-  return sendMail({ to: recipient.email, subject: t(invite ? "inviteSubject" : "reminderSubject", values), ...content });
+async function mailAssignment(
+  kind: "invite" | "reminder",
+  recipient: Recipient,
+  organization: string,
+  round: { name: string; message: string; dueAt: Date | null },
+  link: string
+) {
+  if (!recipient.email) {
+    return false;
+  }
+  return sendMail({ to: recipient.email, ...(await roundEmail(kind, recipient, organization, round, link)) });
 }
 
 // Latest submission date per person and test, for retest intervals.
@@ -158,6 +169,8 @@ export type OpenRoundInput = {
 export type OpenRoundResult = {
   roundId: string;
   sent: { userId: string; link: string; emailed: boolean }[];
+  // People whose email waits for their working hours (quiet hours).
+  queued: string[];
   // People who took a test too recently; they get the rest of the round, or nothing.
   skipped: { userId: string; testIds: string[] }[];
 };
@@ -190,12 +203,16 @@ export async function assignPeople(
   const now = Date.now();
   const items = parseItems(round.items);
   const existing = await prisma.assignment.findMany({ where: { roundId: round.id }, select: { userId: true } });
+  const settings = await prisma.organization.findUnique({
+    where: { id: organization.id },
+    select: { quietHours: true, timeZone: true },
+  });
   const members = await prisma.membership.findMany({
     where: {
       organizationId: organization.id,
       userId: { in: userIds, notIn: existing.map((assignment) => assignment.userId) },
     },
-    include: { user: { select: { id: true, email: true, name: true, locale: true } } },
+    include: { user: { select: { id: true, email: true, name: true, locale: true, timeZone: true } } },
   });
 
   const retest = await prisma.test.findMany({
@@ -206,7 +223,7 @@ export async function assignPeople(
     ? await recentTests(organization.id, members.map((member) => member.userId), retest.map((test) => test.id))
     : new Map<string, Date>();
 
-  const result: Omit<OpenRoundResult, "roundId"> = { sent: [], skipped: [] };
+  const result: Omit<OpenRoundResult, "roundId"> = { sent: [], skipped: [], queued: [] };
 
   for (const member of members) {
     const tooSoon = retest
@@ -222,6 +239,15 @@ export async function assignPeople(
       result.skipped.push({ userId: member.userId, testIds: tooSoon });
     }
     if (!own.length) {
+      continue;
+    }
+
+    const later = sendTime(new Date(), settings?.quietHours ?? false, member.user.timeZone || settings?.timeZone);
+    if (later) {
+      await prisma.assignment.create({
+        data: { roundId: round.id, userId: member.userId, items: JSON.stringify(own), sendAt: later },
+      });
+      result.queued.push(member.userId);
       continue;
     }
 
@@ -334,7 +360,7 @@ export async function scheduleUserIds(schedule: { organizationId: string; teamId
 // Opens the next cycle of every schedule that is due.
 export async function runSchedules(now = new Date()) {
   const due = await prisma.roundSchedule.findMany({
-    where: { active: true, nextRunAt: { lte: now } },
+    where: { active: true, trigger: "interval", nextRunAt: { lte: now } },
     include: { organization: { select: { id: true, name: true } }, _count: { select: { rounds: true } } },
   });
 
@@ -380,16 +406,22 @@ export async function sendReminders(now = new Date()) {
       round: { closedAt: null, dueAt: { not: null, lte: new Date(now.getTime() + REMINDER_DAYS * DAY) } },
     },
     include: {
-      user: { select: { id: true, email: true, name: true, locale: true } },
-      round: { include: { organization: { select: { name: true } } } },
+      user: { select: { id: true, email: true, name: true, locale: true, timeZone: true } },
+      round: { include: { organization: { select: { name: true, quietHours: true, timeZone: true } } } },
     },
   });
 
+  let sent = 0;
   for (const assignment of assignments) {
+    // Outside working hours the reminder waits for a later run.
+    if (sendTime(now, assignment.round.organization.quietHours, assignment.user.timeZone || assignment.round.organization.timeZone)) {
+      continue;
+    }
     await sendReminder(assignment);
+    sent += 1;
   }
 
-  return assignments.length;
+  return sent;
 }
 
 export async function sendReminder(assignment: {
@@ -401,6 +433,108 @@ export async function sendReminder(assignment: {
   const emailed = await mailAssignment("reminder", assignment.user, assignment.round.organization.name, assignment.round, link);
   await prisma.assignment.update({ where: { id: assignment.id }, data: { remindedAt: new Date() } });
   return { link, emailed };
+}
+
+// A new link for someone whose link expired: every open round they are in, one email each. Reminders
+// the scheduler sends later are unaffected.
+export async function resendOpenLinks(userId: string) {
+  const assignments = await prisma.assignment.findMany({
+    where: { userId, completedAt: null, invitedAt: { not: null }, round: { closedAt: null } },
+    include: {
+      user: { select: { id: true, email: true, name: true, locale: true } },
+      round: { include: { organization: { select: { name: true } } } },
+    },
+  });
+  for (const assignment of assignments) {
+    const link = await issueLink(assignment.id, assignment.round.dueAt);
+    await mailAssignment("reminder", assignment.user, assignment.round.organization.name, assignment.round, link);
+  }
+  return assignments.length;
+}
+
+// A later due date keeps the round's links working until then.
+export async function extendLinks(roundId: string, dueAt: Date) {
+  await prisma.assignment.updateMany({
+    where: { roundId, tokenHash: { not: null }, tokenExpiresAt: { lt: new Date(dueAt.getTime() + LINK_GRACE_DAYS * DAY) } },
+    data: { tokenExpiresAt: new Date(dueAt.getTime() + LINK_GRACE_DAYS * DAY) },
+  });
+}
+
+// Sends round invitations that waited for the person's working hours.
+export async function sendQueuedAssignments(now = new Date()) {
+  const queued = await prisma.assignment.findMany({
+    where: { invitedAt: null, sendAt: { lte: now }, completedAt: null, round: { closedAt: null } },
+    include: {
+      user: { select: { id: true, email: true, name: true, locale: true } },
+      round: { include: { organization: { select: { name: true } } } },
+    },
+  });
+
+  for (const assignment of queued) {
+    // Claim it first, so two runs never send twice.
+    const claimed = await prisma.assignment.updateMany({
+      where: { id: assignment.id, invitedAt: null },
+      data: { invitedAt: now, sendAt: null },
+    });
+    if (!claimed.count) continue;
+    const link = await issueLink(assignment.id, assignment.round.dueAt);
+    await mailAssignment("invite", assignment.user, assignment.round.organization.name, assignment.round, link);
+  }
+
+  return queued.length;
+}
+
+// Opens rounds for people whose start date (or work anniversary) has come, one round per rule
+// per run with everyone due, and remembers who got it.
+export async function runLifecycle(now = new Date()) {
+  const rules = await prisma.roundSchedule.findMany({
+    where: { active: true, trigger: { in: ["startDate", "anniversary"] } },
+    include: { organization: { select: { id: true, name: true } } },
+  });
+  let opened = 0;
+
+  for (const rule of rules) {
+    const teams: string[] = JSON.parse(rule.teamIds);
+    const fixed: string[] = JSON.parse(rule.userIds);
+    const members = await prisma.membership.findMany({
+      where: {
+        organizationId: rule.organizationId,
+        role: { not: "candidate" },
+        startDate: { not: "" },
+        ...(teams.length || fixed.length ? { OR: [{ teamId: { in: teams } }, { userId: { in: fixed } }] } : {}),
+      },
+      select: { userId: true, startDate: true },
+    });
+
+    const due = members.flatMap((member) => {
+      const when = lifecycleDue(rule.trigger as LifecycleTrigger, rule.offsetDays, member.startDate, now);
+      return when ? [{ userId: member.userId, cycle: when.cycle }] : [];
+    });
+    if (!due.length) continue;
+
+    const already = await prisma.lifecycleSent.findMany({
+      where: { scheduleId: rule.id, OR: due.map((entry) => ({ userId: entry.userId, cycle: entry.cycle })) },
+      select: { userId: true, cycle: true },
+    });
+    const fresh = due.filter((entry) => !already.some((sent) => sent.userId === entry.userId && sent.cycle === entry.cycle));
+    if (!fresh.length) continue;
+
+    await prisma.lifecycleSent.createMany({ data: fresh.map((entry) => ({ scheduleId: rule.id, ...entry })), skipDuplicates: true });
+    await openRound({
+      organization: rule.organization,
+      name: rule.name,
+      purpose: rule.purpose as Purpose,
+      message: rule.message,
+      items: parseItems(rule.items),
+      dueAt: new Date(now.getTime() + rule.dueDays * DAY),
+      userIds: fresh.map((entry) => entry.userId),
+      createdById: rule.createdById,
+      scheduleId: rule.id,
+    });
+    opened += 1;
+  }
+
+  return opened;
 }
 
 // Expired invitations stay listed for a month so admins can see them and resend.
@@ -415,11 +549,13 @@ export async function cleanupInvitations(now = new Date()) {
 // Everything that happens on a timer. Runs hourly in the server process and from /api/cron.
 export async function runMaintenance(now = new Date()) {
   const schedules = await runSchedules(now);
+  const lifecycle = await runLifecycle(now);
+  const queued = await sendQueuedAssignments(now);
   const reminders = await sendReminders(now);
   const invitations = await cleanupInvitations(now);
   const invitationReminders = await sendInvitationReminders(now);
   const retention = await runRetention(now);
-  return { schedules, reminders, invitations, invitationReminders, retention };
+  return { schedules, lifecycle, queued, reminders, invitations, invitationReminders, retention };
 }
 
 export type ItemInfo = { name: string; minutes: number; questionCount: number; sensitive: boolean };

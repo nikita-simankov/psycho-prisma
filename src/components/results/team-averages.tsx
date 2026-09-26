@@ -1,11 +1,13 @@
-import type { GroupAverage } from "@/utils/results";
+import { PrivacyMask } from "@/components/metrics/privacy-mask";
+import type { GroupAverage, HiddenGroup } from "@/utils/results";
 import { MIN_GROUP } from "@/utils/results";
 import { Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ScaleProfile } from "./scale-profile";
 
-// Averages for the organization and each team large enough to keep people anonymous.
-export function TeamAverages({ groups }: { groups: GroupAverage[] }) {
+// Averages for the organization and each team large enough to keep people anonymous; smaller
+// teams are listed with the privacy mask in place of their figures.
+export function TeamAverages({ groups, hidden = [] }: { groups: GroupAverage[]; hidden?: HiddenGroup[] }) {
   const t = useTranslations("averages");
 
   return (
@@ -14,7 +16,7 @@ export function TeamAverages({ groups }: { groups: GroupAverage[] }) {
         <Users className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
         {t("note", { min: MIN_GROUP })}
       </p>
-      {groups.length === 0 && <p className="border-t border-foreground/80 pt-4 text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>}
+      {groups.length === 0 && hidden.length === 0 && <p className="border-t border-foreground/80 pt-4 text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>}
       {groups.map((group) => (
         <section key={group.key} className="flex flex-col gap-3 border-t border-foreground/80 pt-4">
           <header>
@@ -22,6 +24,7 @@ export function TeamAverages({ groups }: { groups: GroupAverage[] }) {
             <p className="font-mono text-xs text-muted-foreground">{t("people", { count: group.people })}</p>
           </header>
           <ScaleProfile
+            errorBand={false}
             rows={group.scales.map((scale) => ({
               scaleId: scale.scaleId,
               scaleName: scale.scaleName,
@@ -32,6 +35,12 @@ export function TeamAverages({ groups }: { groups: GroupAverage[] }) {
               summary: null,
             }))}
           />
+        </section>
+      ))}
+      {hidden.map((group) => (
+        <section key={group.key} className="flex flex-col gap-3 border-t border-foreground/80 pt-4">
+          <h2 className="text-xl font-medium">{group.teamName ?? t("everyone")}</h2>
+          <PrivacyMask label={group.teamName ?? t("everyone")} />
         </section>
       ))}
     </div>

@@ -38,7 +38,11 @@ test("a round goes from the owner to the respondent and back", async ({ browser 
   await owner.getByLabel("Search tests and questionnaires").fill("Hobbies");
   await owner.getByLabel(/Hobbies/).check();
   await owner.getByLabel("Search tests and questionnaires").fill("");
+  await owner.getByRole("button", { name: "Continue" }).click();
   await owner.getByText("Sales", { exact: true }).click();
+  await owner.getByRole("button", { name: "Continue" }).click();
+  await owner.getByRole("button", { name: "Continue" }).click();
+  await expect(owner.getByRole("heading", { name: "Check before sending" })).toBeVisible();
   await owner.getByRole("button", { name: /^Send to 1 person/ }).click();
   await owner.getByRole("button", { name: "Open the round" }).click();
   await owner.waitForURL(/rounds\/[0-9a-f-]{36}$/);

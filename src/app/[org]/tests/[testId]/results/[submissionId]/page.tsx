@@ -4,10 +4,13 @@ import { findUserById } from "@/actions/user/find-user-by-id-action";
 import { PageHeader } from "@/components/page-header";
 import PrintButton from "@/app/[org]/components/print-button";
 import { PrintExpander } from "@/components/results/print-expander";
+import { NormsToggle } from "@/components/results/norms-toggle";
 import { TestResultSection } from "@/components/results/test-result-section";
 import { Button } from "@/components/ui/button";
 import { ensureMember } from "@/utils/authentication";
-import { buildTestResult } from "@/utils/results";
+import { hasOrgNorms } from "@/utils/norms";
+import { loadOrgNorms } from "@/utils/org-norms";
+import { buildTestResult, withOrgNorms } from "@/utils/results";
 import { testAsAnswered } from "@/utils/instrument-versions";
 import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
@@ -23,6 +26,7 @@ type PathParams = {
     testId: string;
     submissionId: string;
   }>;
+  searchParams: Promise<{ norms?: string }>;
 };
 
 export default async function SubmissionPage(props: PathParams) {
@@ -42,6 +46,10 @@ export default async function SubmissionPage(props: PathParams) {
 
   const user = await findUserById(submission.userId);
   const rawTest = await prisma.test.findUniqueOrThrow({ where: { id: test.id } });
+  const norms = await loadOrgNorms(context.organization.id, rawTest);
+  const source = (await props.searchParams).norms === "org" && hasOrgNorms(norms) ? "org" : "published";
+  const result = buildTestResult(localizeTest(await testAsAnswered(rawTest, submission), await getLocale()), submission);
+  const path = `${base}/tests/${test.id}/results/${submission.id}`;
   await auditAs(context, "viewTestResult", { subjectId: submission.userId, detail: { testId: test.id, submissionId: submission.id } });
 
   return (
@@ -64,7 +72,8 @@ export default async function SubmissionPage(props: PathParams) {
           </>
         }
       />
-      <TestResultSection result={buildTestResult(localizeTest(await testAsAnswered(rawTest, submission), await getLocale()), submission)} />
+      <NormsToggle current={source} norms={norms} hrefs={{ published: path, org: `${path}?norms=org` }} />
+      <TestResultSection result={source === "org" ? withOrgNorms(result, norms) : result} />
     </div>
   );
 }

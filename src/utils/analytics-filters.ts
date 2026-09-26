@@ -1,5 +1,6 @@
 // The analytics page's filters, read from and written to its query string.
-export const FILTER_KEYS = ["team", "position", "round", "test", "from", "to"] as const;
+// "norms" is "org" to read scores against the organization's own norms instead of the published ones.
+export const FILTER_KEYS = ["team", "position", "round", "test", "from", "to", "norms"] as const;
 export type FilterKey = (typeof FILTER_KEYS)[number];
 export type Filters = Partial<Record<FilterKey, string>>;
 
@@ -13,7 +14,7 @@ export function parseFilters(params: Record<string, string | string[] | undefine
   const filters: Filters = {};
   for (const key of FILTER_KEYS) {
     const value = get(key);
-    if (value === undefined || ((key === "from" || key === "to") && !DATE.test(value))) continue;
+    if (value === undefined || ((key === "from" || key === "to") && !DATE.test(value)) || (key === "norms" && value !== "org")) continue;
     filters[key] = value;
   }
   return filters;

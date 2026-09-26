@@ -9,6 +9,7 @@ import { BillingBanner } from "@/components/billing/billing-banner";
 import { BreadcrumbProvider } from "@/components/breadcrumbs";
 import { OrganizationProvider } from "@/components/organization-provider";
 import { SIDEBAR_COOKIE_NAME, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { TimeZoneSync } from "@/components/time-zone-sync";
 import { ensureMember } from "@/utils/authentication";
 import { cookies } from "next/headers";
 import React from "react";
@@ -30,6 +31,7 @@ export default async function OrganizationLayout({ children }: { children: React
   return (
     <OrganizationProvider value={{ slug: organization.slug, name: organization.name, role: membership.role }}>
       <BreadcrumbProvider>
+        <TimeZoneSync />
         <SidebarProvider defaultOpen={(await cookies()).get(SIDEBAR_COOKIE_NAME)?.value !== "false"}>
           <AppSidebar
             user={user}

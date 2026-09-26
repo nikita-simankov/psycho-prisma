@@ -2,6 +2,7 @@ import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { FlagBadge } from "@/components/flag-badge";
 import { LinkList } from "@/components/link-list";
+import { SendInRound } from "@/components/rounds/send-in-round";
 import { PageHeader } from "@/components/page-header";
 import { Card } from "@/components/ui/card";
 import UserAvatar from "@/components/ui/user-avatar";
@@ -35,12 +36,15 @@ export default async function TeamPage(props: { params: Promise<{ teamId: string
         description={common("people", { count: members.length })}
         back={{ href: `${base}/people/teams`, label: t("title") }}
         actions={
-          can(membership.role, "manageMembers") && (
+          <>
+            {can(membership.role, "manageRounds") && <SendInRound href={`${base}/rounds/new?team=${team.id}`} />}
+            {can(membership.role, "manageMembers") && (
             <>
               <DeleteTeamButton team={team} />
               <TeamDialog team={team} />
             </>
-          )
+            )}
+          </>
         }
       />
       <Card className="p-2 sm:p-4">

@@ -1,5 +1,5 @@
 import { lucia } from "@/utils/authentication";
-import { findLinkAssignment, markLinkUserVerified } from "@/utils/round-links";
+import { findLinkAssignment, linkDestination, markLinkUserVerified } from "@/utils/round-links";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -31,5 +31,5 @@ export async function POST(request: Request, props: { params: Promise<{ token: s
   await markLinkUserVerified(assignment.user);
   await rememberOrganization(assignment.round.organization.slug);
 
-  return NextResponse.redirect(new URL("/assessments", request.url), 303);
+  return NextResponse.redirect(new URL(await linkDestination(assignment), request.url), 303);
 }

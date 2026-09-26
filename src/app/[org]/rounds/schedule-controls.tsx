@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSchedule, setScheduleActive } from "@/actions/round/round-actions";
+import { deleteRoundDraft, deleteSchedule, setScheduleActive } from "@/actions/round/round-actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -50,5 +50,28 @@ export function ScheduleControls({ id, active, name }: { id: string; active: boo
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+export function DeleteDraftButton({ id, name }: { id: string; name: string }) {
+  const t = useTranslations("rounds");
+  const common = useTranslations("common");
+  const router = useRouter();
+  const remove = useMutation({
+    mutationFn: () => deleteRoundDraft(id),
+    onSuccess: () => router.refresh(),
+    onError: () => toast({ title: common("error"), variant: "destructive" }),
+  });
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="text-muted-foreground"
+      aria-label={t("deleteDraft", { name })}
+      disabled={remove.isPending}
+      onClick={() => remove.mutate()}
+    >
+      {common("delete")}
+    </Button>
   );
 }

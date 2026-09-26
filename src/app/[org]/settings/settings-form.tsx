@@ -26,7 +26,18 @@ type Settings = {
   customFields: CustomField[];
   retentionMonths: number;
   candidateRetentionMonths: number;
+  quietHours: boolean;
+  timeZone: string;
 };
+
+// Every time zone the browser knows, for the organization's default.
+function timeZones() {
+  try {
+    return Intl.supportedValuesOf("timeZone");
+  } catch {
+    return ["UTC"];
+  }
+}
 
 // One of the organization's own profile fields: its label, type and, for lists, the choices.
 function CustomFieldRow({
@@ -83,7 +94,7 @@ function CustomFieldRow({
   );
 }
 
-export type SettingsPart = "general" | "privacy" | "retention" | "fields";
+export type SettingsPart = "general" | "sending" | "privacy" | "retention" | "fields";
 
 // The organization's settings, one settings section at a time. Every part saves the whole set, so
 // the parts not shown keep their values.
@@ -138,6 +149,40 @@ export function SettingsForm({
               value={values.name}
               onChange={(event) => setValues({ ...values, name: event.target.value })}
             />
+          </div>
+        </Section>
+      )}
+      {parts.includes("sending") && (
+        <Section title={t("sending.title")} description={t("sending.text")}>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-start justify-between gap-4 rounded-lg border bg-card p-4">
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="quiet-hours">{t("sending.quietHours")}</Label>
+                <p className="text-sm text-muted-foreground">{t("sending.quietHoursText")}</p>
+              </div>
+              <Switch
+                id="quiet-hours"
+                checked={values.quietHours}
+                onCheckedChange={(checked) => setValues({ ...values, quietHours: checked })}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="time-zone">{t("sending.timeZone")}</Label>
+              <Select value={values.timeZone || "auto"} onValueChange={(value) => setValues({ ...values, timeZone: value === "auto" ? "" : value })}>
+                <SelectTrigger id="time-zone">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">{t("sending.serverTime")}</SelectItem>
+                  {timeZones().map((zone) => (
+                    <SelectItem key={zone} value={zone}>
+                      {zone.replace(/_/g, " ")}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">{t("sending.timeZoneHint")}</p>
+            </div>
           </div>
         </Section>
       )}

@@ -7,7 +7,7 @@ import { latestGroupAverages } from "@/utils/group-averages";
 import { localizedTestsAsAnswered } from "@/utils/instrument-versions";
 import { allowedSubmissionWhere, libraryWhere } from "@/utils/library";
 import { completionRate, scaleTrends } from "@/utils/metrics";
-import { buildTestResult, type GroupAverage } from "@/utils/results";
+import { buildTestResult, type GroupAverage, type ScaleInfo } from "@/utils/results";
 import { can } from "@/utils/roles";
 import type { ScaleRow } from "@/utils/scoring";
 import { getLocale } from "next-intl/server";
@@ -18,6 +18,7 @@ export type TestMetrics = {
   count: number;
   latestAt: Date;
   latest: ScaleRow[];
+  info: Record<number, ScaleInfo>;
   trends: ReturnType<typeof scaleTrends>;
   team: GroupAverage | null;
   everyone: GroupAverage | null;
@@ -77,6 +78,7 @@ export async function loadPersonMetrics(context: Context, userId: string, teamId
         count: results.length,
         latestAt: latest.createdAt,
         latest: latest.rows,
+        info: latest.info,
         trends: scaleTrends(results),
         team: (teamId && groups.find((group) => group.key === teamId)) || null,
         everyone: groups.find((group) => group.key === "all") ?? null,

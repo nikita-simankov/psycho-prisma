@@ -1,4 +1,5 @@
 import { findFormById } from "@/actions/form/find-form-by-id-action";
+import { SendInRound } from "@/components/rounds/send-in-round";
 import { PageHeader } from "@/components/page-header";
 import { CopyInstrumentButton } from "@/components/studio/studio-buttons";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,7 @@ export default async function FormPage(props: { params: Promise<{ formId: string
               </>
             )}
             {copyable && <CopyInstrumentButton kind="form" id={form.id} />}
+            {!form.adminOnly && can(context.membership.role, "manageRounds") && <SendInRound href={`${base}/rounds/new?form=${form.id}`} />}
             {form.adminOnly && (
               <Button variant="outline" asChild>
                 <Link href={`${base}/forms/${form.id}/run`}>{t("run")}</Link>

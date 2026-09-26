@@ -1,7 +1,8 @@
 "use server";
 
 import { emailSchema, passwordSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
-import { lucia, requireFullSession } from "@/utils/authentication";
+import { getCurrentUser, lucia, requireFullSession } from "@/utils/authentication";
+import { isTimeZone } from "@/utils/quiet-hours";
 import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
 import { eraseInOrganization } from "@/utils/erasure";
@@ -143,4 +144,12 @@ export async function disconnectProvider(provider: unknown): Promise<{ ok: true 
   const user = await requireFullSession();
   await prisma.oAuthAccount.deleteMany({ where: { userId: user.id, provider: z.string().parse(provider) } });
   return { ok: true };
+}
+
+// Remembers the browser's time zone, so round emails with quiet hours arrive in working hours.
+export async function syncTimeZone(timeZone: unknown) {
+  const user = await getCurrentUser();
+  const zone = z.string().max(64).safeParse(timeZone);
+  if (!user || !zone.success || !isTimeZone(zone.data)) return;
+  await prisma.user.updateMany({ where: { id: user.id, NOT: { timeZone: zone.data } }, data: { timeZone: zone.data } });
 }

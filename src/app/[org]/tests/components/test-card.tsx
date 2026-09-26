@@ -8,10 +8,13 @@ type Properties = {
   // The organization path, "/acme".
   base: string;
   test: Test & { categories?: Category[] };
+  // Whether to offer sending the test in a round.
+  rounds?: boolean;
 };
 
-export function TestCard({ test, base }: Properties) {
+export function TestCard({ test, base, rounds }: Properties) {
   const t = useTranslations("dashboard.tests");
+  const round = useTranslations("rounds");
   const common = useTranslations("common");
   const respondent = useTranslations("respondent");
   const questionCount = (JSON.parse(test.questions) as unknown[]).length;
@@ -27,6 +30,13 @@ export function TestCard({ test, base }: Properties) {
           <Button variant="outline" asChild>
             <Link href={`${base}/tests/${test.id}`}>{common("open")}</Link>
           </Button>
+          {rounds && (
+            <Button variant="outline" asChild>
+              <Link href={`${base}/rounds/new?test=${test.id}`} aria-label={round("sendNamedInRound", { name: test.name })}>
+                {round("sendInRoundShort")}
+              </Link>
+            </Button>
+          )}
           <Button asChild>
             <Link href={`${base}/tests/${test.id}/results`}>{t("results")}</Link>
           </Button>

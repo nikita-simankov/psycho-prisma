@@ -26,6 +26,8 @@ export const testContentSchema = z.object({
         correction: number,
         resultCalculationFormula: text(500),
         validity: z.object({ measure: z.enum(["grade", "stan", "tGrade"]), max: number.optional() }).optional(),
+        description: text(2000).optional(),
+        reliability: z.number().finite().gt(0).lt(1).optional(),
       })
     )
     .max(100),

@@ -1,4 +1,5 @@
 import { RespondentHeader } from "@/components/respondent-header";
+import { TimeZoneSync } from "@/components/time-zone-sync";
 import { ensureMember } from "@/utils/authentication";
 import { can } from "@/utils/roles";
 import { redirect } from "next/navigation";
@@ -13,6 +14,7 @@ export async function RespondentLayout({ children }: { children: React.ReactNode
 
   return (
     <div className="flex min-h-dvh flex-col">
+      <TimeZoneSync />
       <RespondentHeader />
       <main id="main" tabIndex={-1} className="flex-1 outline-hidden">{children}</main>
     </div>

@@ -6,6 +6,7 @@ import { createOwnedOrganization, organizationDeletion, organizationNameKey, uni
 import { rememberOrganization } from "@/utils/session";
 import { customFieldsSchema } from "@/utils/profile-fields";
 import { audit } from "@/utils/audit";
+import { isTimeZone } from "@/utils/quiet-hours";
 import { z } from "zod";
 
 const nameSchema = z.string().trim().min(2).max(100);
@@ -27,6 +28,8 @@ const settingsSchema = z
     customFields: customFieldsSchema,
     retentionMonths: z.number().int().min(0).max(120),
     candidateRetentionMonths: z.number().int().min(0).max(120),
+    quietHours: z.boolean(),
+    timeZone: z.string().max(64).refine((value) => value === "" || isTimeZone(value)),
   })
   .partial()
   .strict();
