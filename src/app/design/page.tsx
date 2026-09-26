@@ -3,14 +3,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { Input } from "@/components/ui/input";
+import { Kbd } from "@/components/ui/kbd";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Stat } from "@/components/ui/stat";
+import { StenAxis, StenScale } from "@/components/ui/sten-scale";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { ChartLegend, ChartPanel } from "@/components/metrics/chart-panel";
 import { ensureUser } from "@/utils/authentication";
 import { cn } from "@/utils/utils";
 import type { Metadata } from "next";
@@ -42,10 +47,10 @@ const SERIES = ["series-1", "series-2", "series-3"];
 const SEQUENTIAL = ["seq-100", "seq-200", "seq-300", "seq-400", "seq-500", "seq-600", "seq-700"];
 const RADII = ["rounded-sm", "rounded-md", "rounded-lg", "rounded-xl"] as const;
 const PROFILE = [
-  { scale: "Warmth", value: 8 },
-  { scale: "Emotional stability", value: 6 },
-  { scale: "Dominance", value: 3 },
-  { scale: "Rule-consciousness", value: 9 },
+  { scale: "Warmth", value: 8, team: 5 },
+  { scale: "Emotional stability", value: 6, team: 6 },
+  { scale: "Dominance", value: 3, team: 6 },
+  { scale: "Rule-consciousness", value: 9, team: 6 },
 ];
 
 export default async function DesignPage() {
@@ -178,6 +183,8 @@ function Showcase({ theme }: { theme: "light" | "dark" }) {
           <Badge>Open</Badge>
           <Badge variant="secondary">Draft</Badge>
           <Badge variant="outline">v3</Badge>
+          <Badge variant="success">Valid</Badge>
+          <Badge variant="warning">Closes in 2d</Badge>
           <Badge variant="destructive">Flagged</Badge>
         </div>
         <Progress value={31} max={48} label="31 of 48 done" />
@@ -185,10 +192,33 @@ function Showcase({ theme }: { theme: "light" | "dark" }) {
           <AlertTitle>Change since March</AlertTitle>
           <AlertDescription>Dominance moved by 3 sten, so it is flagged for follow-up.</AlertDescription>
         </Alert>
-        <Alert variant="destructive">
+        <Alert variant="warning">
           <AlertTitle>Answers to check</AlertTitle>
           <AlertDescription>Two submissions were completed faster than the minimum reading time.</AlertDescription>
         </Alert>
+        <Alert variant="destructive">
+          <AlertTitle>Round not sent</AlertTitle>
+          <AlertDescription>Three addresses bounced. Fix them in People, then send again.</AlertDescription>
+        </Alert>
+      </Group>
+
+      <Group title="Figures">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          <Stat label="People" value="56" hint="Take assessments" />
+          <Stat label="Done" value="31/48" hint="Q3 round" />
+          <Stat label="To check" value="2" tone="attention" hint="Answer quality" />
+          <Stat label="Respondents" value="212" hint="of 1,500 this year" />
+        </div>
+        <ChartPanel title="Emotional stability" aside="6.4">
+          <div className="flex h-16 items-end gap-0.5">
+            {[2, 4, 7, 11, 14, 12, 9, 5, 3, 1].map((count, index) => (
+              <span key={index} className="flex-1 rounded-t-[3px] bg-series-1" style={{ height: `${(count / 14) * 100}%` }} />
+            ))}
+          </div>
+        </ChartPanel>
+        <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <Eyebrow>Keys</Eyebrow> Answer with <Kbd>1</Kbd>–<Kbd>5</Kbd>, next with <Kbd>Enter</Kbd>, search with <Kbd>Ctrl K</Kbd>
+        </p>
       </Group>
 
       <Group title="Containers">
@@ -198,25 +228,26 @@ function Showcase({ theme }: { theme: "light" | "dark" }) {
             <CardDescription>Closes on 3 October · 48 people</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
-            {PROFILE.map(({ scale, value }) => (
+            <div className="grid grid-cols-[9rem_1fr_2rem] gap-3">
+              <span />
+              <StenAxis />
+              <span />
+            </div>
+            {PROFILE.map(({ scale, value, team }) => (
               <div key={scale} className="grid grid-cols-[9rem_1fr_2rem] items-center gap-3 text-sm">
                 <span>{scale}</span>
-                <span className="grid grid-cols-10 gap-0.5">
-                  {Array.from({ length: 10 }, (_, index) => (
-                    <span
-                      key={index}
-                      className={cn(
-                        "h-4 border",
-                        index + 1 === value ? "border-primary bg-primary" : index >= 3 && index <= 6 ? "bg-accent" : "bg-muted",
-                      )}
-                    />
-                  ))}
-                </span>
+                <StenScale value={value} comparison={team} label={`${scale}: sten ${value}, team ${team}`} />
                 <span className="text-right font-mono" data-numeric>
                   {value}
                 </span>
               </div>
             ))}
+            <ChartLegend
+              items={[
+                { series: "person", label: "Person" },
+                { series: "team", label: "Team mean" },
+              ]}
+            />
           </CardContent>
         </Card>
         <Tabs defaultValue="people">

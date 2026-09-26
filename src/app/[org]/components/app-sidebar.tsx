@@ -58,7 +58,7 @@ function OrganizationSwitcher({ organizations }: { organizations: OrganizationOp
               <OrganizationMark name={current.name} />
               <span className="grid flex-1 text-left leading-tight">
                 <span className="truncate font-semibold">{current.name}</span>
-                <span className="truncate text-xs text-sidebar-foreground/70">{roles(current.role)}</span>
+                <span className="truncate text-xs text-muted-foreground">{roles(current.role)}</span>
               </span>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -151,7 +151,7 @@ export function AppSidebar({ organizations, user }: { organizations: Organizatio
                   <UserAvatar user={user} className="h-8 w-8 rounded-lg" />
                   <span className="grid flex-1 text-left leading-tight">
                     <span className="truncate font-medium">{formatFullName(user)}</span>
-                    <span className="truncate text-xs text-sidebar-foreground/70">{user.email ?? user.phoneNumber}</span>
+                    <span className="truncate text-xs text-muted-foreground">{user.email ?? user.phoneNumber}</span>
                   </span>
                   <ChevronsUpDown className="ml-auto" />
                 </SidebarMenuButton>

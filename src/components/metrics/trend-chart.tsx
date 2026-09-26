@@ -3,6 +3,7 @@ import { cn } from "@/utils/utils";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
+import { ChartPanel } from "./chart-panel";
 
 const RANGE = { sten: { min: 1, max: 10, averageFrom: 4, averageTo: 7 }, t: { min: 20, max: 80, averageFrom: 40, averageTo: 60 } } as const;
 
@@ -27,11 +28,12 @@ export function TrendCharts({ trends }: { trends: ScaleTrend[] }) {
         const change = trend.change;
 
         return (
-          <figure key={trend.scaleId} className="flex flex-col gap-2 rounded-lg border p-3">
-            <figcaption className="flex items-start justify-between gap-2">
-              <span className="text-sm leading-snug">{trend.scaleName}</span>
-              <span className="flex shrink-0 items-baseline gap-1.5">
-                <span className="font-heading font-semibold tabular-nums">{latest.value}</span>
+          <ChartPanel
+            key={trend.scaleId}
+            title={trend.scaleName}
+            aside={
+              <>
+                <span>{latest.value}</span>
                 {change && change.delta !== 0 && (
                   <span
                     className={cn(
@@ -44,8 +46,9 @@ export function TrendCharts({ trends }: { trends: ScaleTrend[] }) {
                     {change.delta > 0 ? `+${change.delta}` : change.delta}
                   </span>
                 )}
-              </span>
-            </figcaption>
+              </>
+            }
+          >
             <div className="relative h-16">
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
                 <rect x="0" width="100" y={y(range.averageTo)} height={y(range.averageFrom) - y(range.averageTo)} className="fill-muted" />
@@ -72,7 +75,7 @@ export function TrendCharts({ trends }: { trends: ScaleTrend[] }) {
               <span>{format.dateTime(latest.date, { month: "short", year: "numeric" })}</span>
             </div>
             {change?.meaningful && <p className="text-xs text-muted-foreground">{t("meaningful")}</p>}
-          </figure>
+          </ChartPanel>
         );
       })}
     </div>

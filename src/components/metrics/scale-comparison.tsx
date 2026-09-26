@@ -5,6 +5,7 @@ import { cn } from "@/utils/utils";
 import { useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
 import { SeriesMark, seriesShape, type Series } from "./series-mark";
+import { ChartLegend } from "./chart-panel";
 
 type Group = { label: string; average: GroupAverage };
 
@@ -36,17 +37,8 @@ export function ScaleComparison({ rows, team, everyone }: { rows: ScaleRow[]; te
 
   return (
     <figure className="flex flex-col gap-3">
-      {legend.length > 1 && (
-        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          {legend.map((entry) => (
-            <li key={entry.series} className="flex items-center gap-1.5">
-              <SeriesMark series={entry.series} />
-              {entry.label}
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="flex flex-col divide-y rounded-lg border">
+      {legend.length > 1 && <ChartLegend items={legend} />}
+      <div className="flex flex-col divide-y rounded-lg border bg-card">
         {positioned.map(({ row, position }) => {
           const percent = (value: number) => ((Math.min(position.max, Math.max(position.min, value)) - position.min) / (position.max - position.min)) * 100;
           const marks: { series: Series; label: string; value: number }[] = [

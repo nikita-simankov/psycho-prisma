@@ -1,5 +1,6 @@
 "use client";
 
+import { Kbd } from "@/components/ui/kbd";
 import { useOrganization } from "@/components/organization-provider";
 import {
   CommandDialog,
@@ -63,7 +64,7 @@ export default function DashboardSearch({ users, forms, tests, teams }: Readonly
       >
         <Search className="h-4 w-4 shrink-0" />
         <span className="sr-only sm:not-sr-only sm:flex-1 sm:truncate sm:text-left">{t("placeholder")}</span>
-        <kbd className="hidden rounded border bg-muted px-1.5 font-mono text-[10px] sm:inline">Ctrl K</kbd>
+        <Kbd className="hidden sm:inline-flex">Ctrl K</Kbd>
       </button>
       <CommandDialog open={isOpen} onOpenChange={setOpen}>
         <CommandInput placeholder={t("dialogPlaceholder")} />

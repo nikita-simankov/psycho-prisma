@@ -1,6 +1,7 @@
 import type { QuarterSeries } from "@/utils/analytics";
 import { useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
+import { ChartPanel } from "./chart-panel";
 
 const RANGE = { sten: { min: 1, max: 10, averageFrom: 4, averageTo: 7 }, t: { min: 20, max: 80, averageFrom: 40, averageTo: 60 } } as const;
 
@@ -20,11 +21,7 @@ export function QuarterTrends({ series }: { series: QuarterSeries[] }) {
         const last = scale.points[count - 1];
 
         return (
-          <figure key={scale.scaleId} className="flex flex-col gap-2 rounded-lg border p-3">
-            <figcaption className="flex items-start justify-between gap-2 text-sm">
-              <span className="leading-snug">{scale.scaleName}</span>
-              <span className="font-heading font-semibold tabular-nums">{last.average}</span>
-            </figcaption>
+          <ChartPanel key={scale.scaleId} title={scale.scaleName} aside={last.average}>
             <div className="relative h-16">
               <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
                 <rect x="0" width="100" y={y(range.averageTo)} height={y(range.averageFrom) - y(range.averageTo)} className="fill-muted" />
@@ -52,7 +49,7 @@ export function QuarterTrends({ series }: { series: QuarterSeries[] }) {
               <span>{quarter(scale.points[0])}</span>
               {count > 1 && <span>{quarter(last)}</span>}
             </div>
-          </figure>
+          </ChartPanel>
         );
       })}
     </div>
