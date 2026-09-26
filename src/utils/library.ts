@@ -4,9 +4,10 @@ import type { Context } from "./authentication";
 import { prisma } from "./database";
 import { can } from "./roles";
 
-// Instruments an organization can use: the shared library plus its own uploads.
+// Instruments an organization can use: the shared library plus its own published ones.
+// New instruments stay at version 0, out of the library, until first published in the studio.
 export function libraryWhere(organizationId: string) {
-  return { OR: [{ organizationId: null }, { organizationId }] };
+  return { version: { gt: 0 }, OR: [{ organizationId: null }, { organizationId }] };
 }
 
 // Filter for test submissions this person may see: none for roles limited to team averages,

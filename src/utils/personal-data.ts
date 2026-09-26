@@ -4,6 +4,7 @@ import { audit } from "./audit";
 import type { FormQuestion, FormQuestionResponse, TestQuestion, TestQuestionResponse } from "./constants";
 import { localizeForm, localizeTest } from "./content-translation";
 import { prisma } from "./database";
+import { formsAsAnswered, testsAsAnswered } from "./instrument-versions";
 import { publicUserSelect, type PublicUser } from "./user";
 
 function parse<T>(value: string, fallback: T): T {
@@ -37,8 +38,15 @@ export async function collectPersonalData(userId: string, locale: string) {
     prisma.test.findMany({ where: { id: { in: Array.from(new Set(testSubmissions.map((submission) => submission.testId))) } } }),
     prisma.form.findMany({ where: { id: { in: Array.from(new Set(formSubmissions.map((submission) => submission.formId))) } } }),
   ]);
-  const testsById = new Map(tests.map((test) => [test.id, localizeTest(test, locale)]));
-  const formsById = new Map(forms.map((form) => [form.id, localizeForm(form, locale)]));
+  const [testFor, formFor] = await Promise.all([testsAsAnswered(tests, testSubmissions), formsAsAnswered(forms, formSubmissions)]);
+  const testOf = (submission: (typeof testSubmissions)[number]) => {
+    const test = testFor(submission);
+    return test && localizeTest(test, locale);
+  };
+  const formOf = (submission: (typeof formSubmissions)[number]) => {
+    const form = formFor(submission);
+    return form && localizeForm(form, locale);
+  };
   const organizationName = new Map(memberships.map((membership) => [membership.organization.id, membership.organization.name]));
 
   return {
@@ -58,7 +66,7 @@ export async function collectPersonalData(userId: string, locale: string) {
       otherDetails: parse<Record<string, string>>(membership.customValues, {}),
     })),
     tests: testSubmissions.map((submission) => {
-      const test = testsById.get(submission.testId);
+      const test = testOf(submission);
       const questions = test ? parse<TestQuestion[]>(test.questions, []) : [];
       return {
         organization: organizationName.get(submission.organizationId) ?? null,
@@ -75,7 +83,7 @@ export async function collectPersonalData(userId: string, locale: string) {
       };
     }),
     questionnaires: formSubmissions.map((submission) => {
-      const form = formsById.get(submission.formId);
+      const form = formOf(submission);
       const questions = form ? parse<FormQuestion[]>(form.questions, []) : [];
       return {
         organization: organizationName.get(submission.organizationId) ?? null,

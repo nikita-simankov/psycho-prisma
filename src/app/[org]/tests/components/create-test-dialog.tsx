@@ -25,7 +25,7 @@ import { TestData } from "@/utils/constants";
 import { extractTestData } from "@/utils/sheet/test";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useOrganizationBase } from "@/components/organization-provider";
@@ -35,6 +35,7 @@ export const CreateTestDialog: React.FC = () => {
   const router = useRouter();
   const t = useTranslations("dashboard.tests");
   const common = useTranslations("common");
+  const studio = useTranslations("studio");
   const [testData, setTestData] = useState<TestData>({
     name: "",
     strategy: "",
@@ -87,9 +88,9 @@ export const CreateTestDialog: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          {t("add")}
+        <Button variant="outline">
+          <Upload className="mr-2 h-4 w-4" />
+          {studio("import")}
         </Button>
       </DialogTrigger>
       <DialogContent>

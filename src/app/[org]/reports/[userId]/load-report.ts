@@ -6,6 +6,7 @@ import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
 import { allowedSubmissionWhere, libraryWhere } from "@/utils/library";
 import { buildTestResult } from "@/utils/results";
+import { testsAsAnswered } from "@/utils/instrument-versions";
 import { getLocale } from "next-intl/server";
 
 // A person's test results for their report, oldest first, with the round each answered.
@@ -37,10 +38,11 @@ export async function loadReport(userId: string, submissionIds?: string[]) {
     }),
   ]);
 
-  const testsById = new Map(tests.map((test) => [test.id, localizeTest(test, locale)]));
+  const testFor = await testsAsAnswered(tests, submissions);
   const roundByAssignment = new Map(assignments.map((assignment) => [assignment.id, assignment.round]));
   const results = submissions.flatMap((submission) => {
-    const test = testsById.get(submission.testId);
+    const answered = testFor(submission);
+    const test = answered && localizeTest(answered, locale);
     return test
       ? [{ ...buildTestResult(test, submission), round: submission.assignmentId ? roundByAssignment.get(submission.assignmentId) ?? null : null }]
       : [];

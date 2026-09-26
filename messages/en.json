@@ -353,7 +353,9 @@
       "rounds": "Rounds",
       "new": "New",
       "analytics": "Analytics",
-      "audit": "Audit log"
+      "audit": "Audit log",
+      "edit": "Edit",
+      "versions": "Versions"
     },
     "work": {
       "review": "Waiting for review",
@@ -1117,7 +1119,177 @@
       "changeSettings": "Changed settings",
       "exportPersonalData": "Downloaded their data",
       "withdrawConsent": "Withdrew consent",
-      "retentionCleanup": "Retention clean-up"
+      "retentionCleanup": "Retention clean-up",
+      "publishInstrument": "Published a test or questionnaire"
     }
+  },
+  "studio": {
+    "import": "Import from Excel",
+    "copy": "Make a copy",
+    "editTest": "Edit test",
+    "editForm": "Edit questionnaire",
+    "unpublished": "Not published yet",
+    "editingVersion": "Editing version {version}",
+    "ready": "Ready to publish.",
+    "issuesTitle": "{count, plural, one {# thing to fix before publishing} other {# things to fix before publishing}}",
+    "moreIssues": "{count, plural, one {and # more} other {and # more}}",
+    "deleteDraft": "Delete draft",
+    "deleteDraftTitle": "Delete this draft?",
+    "deleteDraftText": "It has never been published, so it will be removed completely.",
+    "discard": "Discard changes",
+    "discardTitle": "Discard unpublished changes?",
+    "discardText": "The editor goes back to the published version. People keep seeing the published version either way.",
+    "publish": "Publish",
+    "publishTitle": "Publish version {version}",
+    "publishFirstText": "It joins your library and can be sent in rounds.",
+    "publishText": "People answer this version from now on. Results already given keep the scoring of the version they answered.",
+    "note": "What changed",
+    "notePlaceholder": "Optional, shown in the version history",
+    "published": "Version {version} published",
+    "settingsError": "The setting was not saved",
+    "errors": {
+      "invalid": "Fix the listed problems first.",
+      "nameTaken": "Another test or questionnaire in your library already has this name.",
+      "noChanges": "There are no changes to publish."
+    },
+    "tabs": {
+      "details": "Details",
+      "questions": "Questions",
+      "scoring": "Scoring",
+      "norms": "Norms",
+      "interpretations": "Interpretations"
+    },
+    "details": {
+      "name": "Name",
+      "description": "Description",
+      "instruction": "Instruction for respondents",
+      "minutes": "Minutes to complete",
+      "adminOnly": "Filled in by staff only",
+      "adminOnlyHint": "For interviews: a psychologist or admin fills it in about someone."
+    },
+    "settings": {
+      "title": "Settings",
+      "hint": "These apply straight away, without publishing.",
+      "retestDays": "Days before a retest",
+      "retestHint": "Rounds skip people who took this test more recently. 0 means no limit.",
+      "sensitive": "Sensitive screen",
+      "sensitiveHint": "Only psychologists and the owner see this test and its results."
+    },
+    "issues": {
+      "name": "Give it a name.",
+      "noQuestions": "Add at least one question.",
+      "questionText": "Question {question} has no text.",
+      "fewChoices": "Question {question} needs at least two answer choices.",
+      "choiceText": "Choice {choice} of question {question} has no text.",
+      "noScales": "Add at least one scale on the Scoring tab.",
+      "scaleName": "Scale {scale} has no name.",
+      "noKeys": "Scale {scale} gives no points for any answer and has no formula.",
+      "unknownKey": "Scale {scale} gives points for an answer that no longer exists.",
+      "formula": "The formula of scale {scale} is not valid.",
+      "noNorms": "Scale {scale} has no sten norms.",
+      "normRange": "Norm row {row} of scale {scale} is out of range.",
+      "normOverlap": "Norm row {row} of scale {scale} overlaps the row before it.",
+      "noTTable": "Scale {scale} has no T-score table.",
+      "summaryRange": "Interpretation {row} needs text and a range where from is not above to.",
+      "unknownScale": "A norm or interpretation refers to a scale that was removed."
+    },
+    "questions": {
+      "empty": "No questions yet.",
+      "number": "Question {number}",
+      "text": "Text of question {number}",
+      "textPlaceholder": "Question text",
+      "up": "Move up",
+      "down": "Move down",
+      "remove": "Remove question {number}",
+      "type": "Answer type",
+      "types": {
+        "List": "Choices",
+        "Text": "Free text"
+      },
+      "choice": "Choice {number} of question {question}",
+      "removeChoice": "Remove choice {number}",
+      "addChoice": "Add choice",
+      "add": "Add question"
+    },
+    "scoring": {
+      "strategy": "Scoring",
+      "strategies": {
+        "grade": "Raw points",
+        "standard-ten": "Stens (1 to 10)",
+        "t-grade": "T-scores"
+      },
+      "strategyHints": {
+        "grade": "Each scale shows the sum of its points.",
+        "standard-ten": "Each scale's points are converted to stens with the norms.",
+        "t-grade": "Each scale's points are converted to T-scores with a table."
+      },
+      "scaleName": "Scale {number}",
+      "formula": "Formula",
+      "formulaPlaceholder": "e.g. $1 + $2",
+      "removeScale": "Remove scale {name}",
+      "validity": "Validity scale",
+      "validityMax": "Doubtful above",
+      "keys": "Points for answers ({count} of {total} questions)",
+      "keysHint": "Points each answer adds to this scale. Leave empty for none.",
+      "pointsFor": "Points for “{choice}” in question {question} on {scale}",
+      "addScale": "Add scale"
+    },
+    "norms": {
+      "notNeeded": "Raw points need no norms.",
+      "stenHint": "Point ranges and the sten each range converts to.",
+      "tHint": "Each raw score and the T-score it converts to.",
+      "scale": "Scale {number}",
+      "from": "From",
+      "to": "To",
+      "sten": "Sten",
+      "raw": "Points",
+      "tScore": "T-score",
+      "removeRow": "Remove row {number}",
+      "addRow": "Add row"
+    },
+    "interpretations": {
+      "hint": {
+        "grade": "Text shown for a range of points on a scale.",
+        "stan": "Text shown for a range of stens on a scale.",
+        "t": "Text shown for a range of T-scores on a scale."
+      },
+      "scale": "Scale",
+      "from": "From",
+      "to": "To",
+      "text": "Interpretation",
+      "textPlaceholder": "What this result means",
+      "remove": "Remove interpretation {number}",
+      "add": "Add interpretation"
+    },
+    "new": {
+      "text": "It starts as a draft only you and your colleagues can see, until it is published.",
+      "name": "Name",
+      "create": "Create and edit",
+      "test": {
+        "button": "New test",
+        "title": "New test"
+      },
+      "form": {
+        "button": "New questionnaire",
+        "title": "New questionnaire"
+      }
+    },
+    "drafts": {
+      "title": "Drafts",
+      "new": "Not published",
+      "changes": "Changes to version {version}",
+      "edited": "edited {when}",
+      "unpublishedChanges": "Unpublished changes"
+    },
+    "versions": {
+      "title": "Versions",
+      "description": "Each publication is kept. Results always use the version that was answered.",
+      "version": "Version {version}",
+      "current": "Current",
+      "results": "{count, plural, =0 {no results} one {# result} other {# results}}",
+      "restore": "Restore",
+      "none": "Not published yet."
+    },
+    "copyName": "{name} (copy)"
   }
 }

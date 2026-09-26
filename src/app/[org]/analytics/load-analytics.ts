@@ -15,6 +15,7 @@ import { libraryWhere } from "@/utils/library";
 import { buildTestResult, groupAverages } from "@/utils/results";
 import { can } from "@/utils/roles";
 import { getLocale } from "next-intl/server";
+import { localizedTestsAsAnswered } from "@/utils/instrument-versions";
 
 const DAY = 24 * 60 * 60 * 1000;
 const ROUND_LIMIT = 12;
@@ -92,14 +93,15 @@ export async function loadAnalytics(context: Context, filters: Filters) {
     available.slice().sort((a, b) => (counts.get(b.id) ?? 0) - (counts.get(a.id) ?? 0))[0] ??
     null;
 
+  const chosen = test ? submissions.filter((submission) => submission.testId === test.id) : [];
+  const raw = tests.filter((entry) => entry.id === test?.id);
+  const testFor = await localizedTestsAsAnswered(raw, chosen, locale);
   const entries: AnalyticsEntry[] = test
-    ? submissions
-        .filter((submission) => submission.testId === test.id)
-        .map((submission) => ({
+    ? chosen.map((submission) => ({
           userId: submission.userId,
           teamId: teamOf.get(submission.userId) ?? null,
           createdAt: submission.createdAt,
-          rows: buildTestResult(test, submission).rows,
+          rows: buildTestResult(testFor(submission) ?? test, submission).rows,
         }))
     : [];
   const latest = latestPerPerson(entries);

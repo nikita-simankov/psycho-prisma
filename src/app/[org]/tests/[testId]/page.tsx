@@ -7,6 +7,10 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
+import { CopyInstrumentButton } from "@/components/studio/studio-buttons";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
+import { canEdit } from "@/utils/studio-access";
 
 type PathParams = {
   params: {
@@ -19,11 +23,17 @@ export default async function TestPage({ params }: PathParams) {
   const t = await getTranslations("dashboard.tests");
   const respondent = await getTranslations("respondent");
   const common = await getTranslations("common");
+  const studio = await getTranslations("studio");
+  const context = await ensureMember();
   const test = await findTestById(params.testId);
 
   if (!test) {
     notFound();
   }
+
+  const editable = canEdit(context, test);
+  // Shared library tests are copied to be changed; the organization's own are edited in place.
+  const copyable = test.organizationId === null && can(context.membership.role, "manageLibrary") && (!test.sensitive || can(context.membership.role, "viewSensitive"));
 
   return (
     <>
@@ -32,6 +42,17 @@ export default async function TestPage({ params }: PathParams) {
         back={{ href: `${base}/tests`, label: t("back") }}
         actions={
           <>
+            {editable && (
+              <>
+                <Button variant="outline" asChild>
+                  <Link href={`${base}/tests/${test.id}/versions`}>{studio("versions.title")}</Link>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link href={`${base}/tests/${test.id}/edit`}>{common("edit")}</Link>
+                </Button>
+              </>
+            )}
+            {copyable && <CopyInstrumentButton kind="test" id={test.id} />}
             <Button variant="outline" asChild>
               <Link href={`/tests/${test.id}`}>{t("tryIt")}</Link>
             </Button>
@@ -45,6 +66,8 @@ export default async function TestPage({ params }: PathParams) {
         <Badge variant="secondary">{respondent("questionCount", { count: JSON.parse(test.questions).length })}</Badge>
         <Badge variant="secondary">{common("minutes", { count: test.ttc })}</Badge>
         <Badge variant="secondary">{t(`strategies.${test.strategy}` as "strategies.grade")}</Badge>
+        {editable && <Badge variant="outline">{studio("versions.version", { version: test.version })}</Badge>}
+        {editable && test.draft && <Badge variant="outline">{studio("drafts.unpublishedChanges")}</Badge>}
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         {test.description && (

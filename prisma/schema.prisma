@@ -149,7 +149,8 @@ model Category {
 
 model Form {
   id          String @id @default(uuid())
-  name        String @unique
+  // Unique within what an organization can see (checked in src/actions/studio).
+  name        String
   description String @default("")
 
   ttc       Int     @default(5)
@@ -158,6 +159,12 @@ model Form {
   adminOnly Boolean @default(false)
 
   translations String @default("{}") // see src/utils/content-translation.ts
+
+  // Published version; 0 until first published. Earlier versions are in InstrumentVersion.
+  version      Int     @default(1)
+  // JSON of unpublished edits from the studio, or "" when there are none.
+  draft        String  @default("")
+  copiedFromId String?
 
   // Null for the shared library; otherwise the organization that uploaded it.
   organizationId String?
@@ -174,6 +181,8 @@ model FormSubmission {
   organizationId String
   userId         String
   formId         String
+  // The form's version when answered.
+  formVersion    Int     @default(1)
   submission     String
   // The round assignment this answers, if it was sent as part of one.
   assignmentId   String?
@@ -188,7 +197,8 @@ model Test {
   id String @id @default(uuid())
 
   ttc         Int    @default(5)
-  name        String @unique
+  // Unique within what an organization can see (checked in src/actions/studio).
+  name        String
   description String @default("")
   instruction String @default("")
 
@@ -209,6 +219,12 @@ model Test {
   // Days before the same person may take this test again in a round (ability tests).
   retestDays     Int     @default(0)
 
+  // Published version; 0 until first published. Earlier versions are in InstrumentVersion.
+  version      Int     @default(1)
+  // JSON of unpublished edits from the studio, or "" when there are none.
+  draft        String  @default("")
+  copiedFromId String?
+
   categories Category[]
 
   createdAt DateTime @default(now())
@@ -221,6 +237,8 @@ model TestSubmission {
   organizationId String
   userId         String
   testId         String
+  // The test's version when answered; results are scored and shown with that version.
+  testVersion    Int     @default(1)
   summary        String
   submission     String
   // The round assignment this answers, if it was sent as part of one.
@@ -376,4 +394,21 @@ model AuditEvent {
 
   @@index([organizationId, createdAt])
   @@index([organizationId, subjectId])
+}
+
+// A published version of a test or questionnaire, kept so older answers are shown and scored
+// exactly as they were given.
+model InstrumentVersion {
+  id           String   @id @default(uuid())
+  // "test" or "form"
+  kind         String
+  instrumentId String
+  version      Int
+  // JSON of the content fields (src/utils/instrument-content.ts) plus translations.
+  content      String
+  note         String   @default("")
+  createdById  String?
+  createdAt    DateTime @default(now())
+
+  @@unique([kind, instrumentId, version])
 }

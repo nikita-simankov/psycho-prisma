@@ -21,6 +21,8 @@ export const AUDIT_ACTIONS = [
   "exportPersonalData",
   "withdrawConsent",
   "retentionCleanup",
+  // Library.
+  "publishInstrument",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];

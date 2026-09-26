@@ -33,7 +33,7 @@ export async function uploadFormSubmission(formId: string, submission: unknown, 
 
   const form = await prisma.form.findFirstOrThrow({
     where: { id, AND: [libraryWhere(organization.id), staff ? {} : { adminOnly: false }] },
-    select: { id: true },
+    select: { id: true, version: true },
   });
 
   const created = await prisma.formSubmission.create({
@@ -41,6 +41,7 @@ export async function uploadFormSubmission(formId: string, submission: unknown, 
       organizationId: organization.id,
       userId: user.id,
       formId: form.id,
+      formVersion: form.version,
       assignmentId: assignment?.id,
       timings: cleanTimings(timings),
       submission: JSON.stringify(responses),

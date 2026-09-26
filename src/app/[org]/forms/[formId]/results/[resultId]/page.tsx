@@ -6,11 +6,14 @@ import PrintButton from "@/app/[org]/components/print-button";
 import { Textarea } from "@/components/ui/textarea";
 import { FormQuestion, FormQuestionResponse } from "@/utils/constants";
 import { formatFullName } from "@/utils/user";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { FormResponseTable } from "./form-response-table";
 import { organizationBase } from "@/utils/organization-path";
 import { auditAs } from "@/utils/audit";
+import { formAsAnswered } from "@/utils/instrument-versions";
+import { localizeForm } from "@/utils/content-translation";
+import { prisma } from "@/utils/database";
 import { ensureMember } from "@/utils/authentication";
 
 type PathParams = {
@@ -44,7 +47,11 @@ export default async function ViewFormResult({ params }: PathParams) {
     detail: { formId: form.id, submissionId: result.id },
   });
 
-  const questions = JSON.parse(form.questions) as FormQuestion[];
+  const answered = localizeForm(
+    await formAsAnswered(await prisma.form.findUniqueOrThrow({ where: { id: form.id } }), result),
+    await getLocale()
+  );
+  const questions = JSON.parse(answered.questions) as FormQuestion[];
   const responses = JSON.parse(result.submission) as FormQuestionResponse[];
   const rows = responses.map((response) => ({
     id: response.fieldId,

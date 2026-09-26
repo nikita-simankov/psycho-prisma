@@ -4,6 +4,7 @@ import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
 import { feedbackTestIds } from "@/utils/feedback";
 import { buildTestResult } from "@/utils/results";
+import { testAsAnswered } from "@/utils/instrument-versions";
 import { ChevronLeft, Info } from "lucide-react";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -34,7 +35,7 @@ export default async function FeedbackPage({ params }: { params: { submissionId:
     notFound();
   }
 
-  const result = buildTestResult(localizeTest(test, await getLocale()), submission);
+  const result = buildTestResult(localizeTest(await testAsAnswered(test, submission), await getLocale()), submission);
   const findings = [...result.keyFindings, ...result.otherFindings].filter((row) => row.summary);
 
   return (
