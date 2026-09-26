@@ -507,7 +507,8 @@
       "link": "Invitation link",
       "copy": "Copy link",
       "linkHint": "Anyone with this link can join as the invited person, so send it only to them.",
-      "alreadyMember": "This person is already in your organization."
+      "alreadyMember": "This person is already in your organization.",
+      "planSeats": "Your plan has no staff seats left. Choose a bigger plan in Plan and billing."
     },
     "invitations": {
       "title": "Invitations waiting",
@@ -527,7 +528,8 @@
       "button": "Role and team",
       "title": "Role and team",
       "roleChange": "{name} will change from {from} to {to}. Their access changes as soon as you save.",
-      "confirmRole": "Make {role}"
+      "confirmRole": "Make {role}",
+      "planSeats": "Your plan has no staff seats left. Choose a bigger plan in Plan and billing."
     },
     "remove": {
       "button": "Remove from organization",
@@ -552,7 +554,8 @@
         "alreadyMember": "Already a member",
         "invalidEmail": "Not a valid email",
         "unknownRole": "Unknown role, or one you can't give",
-        "unknownTeam": "No team with this name"
+        "unknownTeam": "No team with this name",
+        "planSeats": "No staff seats left on your plan"
       }
     }
   },
@@ -792,15 +795,30 @@
       "noInvitationsText": "Invite colleagues or respondents by email; their invitations wait here until accepted."
     },
     "billing": {
-      "plan": "Plan",
-      "planText": "Paid plans are on the way. Until then your organization has every feature.",
-      "current": "Current plan",
-      "earlyAccess": "Early access",
-      "earlyAccessHint": "All features, no limits",
+      "plan": "Your plan",
+      "current": "Plan",
       "respondents": "Respondents",
-      "respondentsHint": "People assessed in the last 12 months",
-      "invoices": "Invoices",
-      "invoicesEmpty": "Invoices will appear here once billing starts."
+      "respondentsSince": "People assessed since {date}",
+      "seats": "Staff seats",
+      "seatsHint": "Owners, admins, psychologists and managers, with open invitations",
+      "status": {
+        "trial": "{plan} trial, {count, plural, one {# day} other {# days}} left. You move to Free when it ends and keep all your data.",
+        "pastDue": "The last payment failed. Update your payment details within {count, plural, one {# day} other {# days}} to keep your plan.",
+        "cancels": "Your plan is cancelled and ends on {date}. After that you move to Free.",
+        "renews": "Renews on {date}.",
+        "free": "You're on Free. Choose a plan for more respondents and features."
+      },
+      "notConfigured": "Checkout isn't set up on this server yet, so plans can't be bought here.",
+      "plans": "Plans",
+      "plansText": "Priced by the people you assess in a year. Staff seats are included.",
+      "choose": "Choose {plan}",
+      "switch": "Switch to {plan}",
+      "currentPlan": "Your current plan",
+      "thanks": "Thank you. Your plan changes as soon as Paddle confirms the payment, usually within a minute.",
+      "invoices": "Invoices and payment",
+      "invoicesText": "Invoices, payment details and cancelling are handled by Paddle, our reseller.",
+      "invoicesEmpty": "Invoices appear here once you buy a plan.",
+      "trialHint": "Free during the trial"
     }
   },
   "validity": {
@@ -993,7 +1011,10 @@
         "pastDue": "The due date has already passed.",
         "candidatesNeedHiring": "Candidates can only be added to hiring rounds.",
         "hiringRepeats": "Hiring rounds can't repeat.",
-        "candidateIsStaff": "One of the candidates already works in this organization as staff."
+        "candidateIsStaff": "One of the candidates already works in this organization as staff.",
+        "planSchedules": "Recurring rounds are part of the Team plan and above.",
+        "planClinical": "Clinical instruments are part of the Business plan.",
+        "planRespondents": "This round would take you over your plan's respondent limit. Choose a bigger plan in Plan and billing."
       }
     }
   },
@@ -1210,7 +1231,8 @@
       "exportPersonalData": "Downloaded their data",
       "withdrawConsent": "Withdrew consent",
       "retentionCleanup": "Retention clean-up",
-      "publishInstrument": "Published a test or questionnaire"
+      "publishInstrument": "Published a test or questionnaire",
+      "changePlan": "Plan changed"
     }
   },
   "studio": {
@@ -1463,12 +1485,12 @@
     "features": {
       "library": "Instrument library and scoring",
       "reports": "Individual reports",
-      "rounds": "Rounds with reminders and schedules",
+      "schedules": "Recurring rounds on a schedule",
       "export": "CSV export",
       "analytics": "Team analytics and saved views",
       "studio": "Studio for your own instruments",
       "clinical": "Clinical instruments for psychologists",
-      "audit": "Audit log and retention settings",
+      "audit": "Audit log",
       "branding": "Your logo for respondents",
       "sso": "Single sign-on (SAML) and SCIM",
       "invoicing": "Invoicing, DPA negotiation and SLA"
@@ -1642,6 +1664,31 @@
         "measures": "Where someone sits between caution and boldness when a situation is uncertain.",
         "use": "Roles where the balance between caution and initiative matters, such as sales, safety and leadership, and team conversations about decision styles."
       }
+    }
+  },
+  "billing": {
+    "manage": "Open invoices and payment details",
+    "changeRequested": "Switching to {plan}. The page updates when Paddle confirms.",
+    "changeTitle": "Switch to {plan}?",
+    "changeText": "The change takes effect now. Paddle charges or credits the difference for the rest of your billing period.",
+    "changeConfirm": "Switch to {plan}",
+    "errors": {
+      "noCustomer": "There's no Paddle account for this organization yet.",
+      "unavailable": "Billing isn't available right now. Try again in a moment.",
+      "noSubscription": "There's no active subscription to change.",
+      "samePlan": "You're already on this plan."
+    },
+    "upgrade": {
+      "eyebrow": "{plan} plan",
+      "text": "This is included from the {plan} plan. Your data stays as it is while you decide.",
+      "button": "See plans"
+    },
+    "banner": {
+      "trialEnding": "Your trial ends in {count, plural, one {# day} other {# days}}. Choose a plan to keep every feature.",
+      "trialEnded": "Your trial has ended and you're on Free. Your data is safe.",
+      "pastDue": "A payment failed. Update your payment details within {count, plural, one {# day} other {# days}} to keep your plan.",
+      "pastDueEnded": "A payment failed and your organization has moved to Free.",
+      "action": "Plan and billing"
     }
   }
 }

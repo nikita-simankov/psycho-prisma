@@ -9,6 +9,9 @@ import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/page-templates";
 import { filtersToQuery, parseFilters } from "@/utils/analytics-filters";
 import { ensureMember } from "@/utils/authentication";
+import { getPlan } from "@/utils/billing";
+import { featureLevel, hasFeature } from "@/utils/billing-rules";
+import { UpgradeNotice } from "@/components/billing/upgrade-notice";
 import { prisma } from "@/utils/database";
 import { MIN_GROUP } from "@/utils/results";
 import { BarChart3, Users } from "lucide-react";
@@ -29,6 +32,15 @@ export default async function AnalyticsPage(
   const searchParams = await props.searchParams;
   const context = await ensureMember("viewDashboard");
   const t = await getTranslations("analytics");
+  const { plan } = await getPlan(context.organization.id);
+  if (!hasFeature(plan, "analytics")) {
+    return (
+      <div className="flex flex-col gap-8">
+        <PageHeader title={t("title")} description={t("description")} className="mb-0" />
+        <UpgradeNotice feature="analytics" />
+      </div>
+    );
+  }
   const chart = await getTranslations("profileChart");
   const filters = parseFilters(searchParams);
   const [data, views] = await Promise.all([
@@ -63,10 +75,14 @@ export default async function AnalyticsPage(
         title={t("title")}
         description={t("description")}
         className="mb-0"
-        actions={<ExportButton rows={csv.length > 1 ? csv : []} filename={`analytics-${context.organization.slug}-${new Date().toISOString().slice(0, 10)}.csv`} />}
+        actions={
+          hasFeature(plan, "export") && (
+            <ExportButton rows={csv.length > 1 ? csv : []} filename={`analytics-${context.organization.slug}-${new Date().toISOString().slice(0, 10)}.csv`} />
+          )
+        }
       />
       <div className="-mt-4 flex flex-col gap-4 border-y py-4 print:hidden">
-        <SavedViews views={views} query={filtersToQuery(filters)} />
+        {featureLevel(plan, "analytics") === true && <SavedViews views={views} query={filtersToQuery(filters)} />}
         <AnalyticsFilters filters={filters} options={data.options} />
         <p className="flex items-start gap-2 text-xs text-muted-foreground">
           <Users className="size-3.5 shrink-0" aria-hidden />

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { RESERVED_SLUGS } from "./constants";
+import { trialData } from "./billing";
 import { prisma } from "./database";
 
 // Names are unique regardless of case and spacing: "Acme  Ltd" and "acme ltd" clash.
@@ -62,6 +63,8 @@ export async function createOwnedOrganization(userId: string, name: string) {
       nameKey: organizationNameKey(cleanName),
       slug: await uniqueSlug(cleanName),
       memberships: { create: { userId, role: "owner", consentedAt: new Date() } },
+      // Every new organization starts with a Business trial (src/utils/billing-rules.ts).
+      subscription: { create: trialData() },
     },
   });
 }

@@ -3,7 +3,8 @@
 import { requireMember } from "@/utils/authentication";
 import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
-import { assignableRoles } from "@/utils/roles";
+import { checkSeat } from "@/utils/billing";
+import { assignableRoles, STAFF_ROLES } from "@/utils/roles";
 import { z } from "zod";
 
 const membershipSchema = z
@@ -40,6 +41,11 @@ export async function updateMembership(userId: string, data: unknown) {
         throw new Error("An organization needs at least one owner");
       }
     }
+
+    // Moving someone from a respondent role into a staff one takes a seat.
+    if (!(STAFF_ROLES as readonly string[]).includes(target.role) && !(await checkSeat(organization.id, changes.role))) {
+      return { error: "planSeats" as const };
+    }
   }
 
   if (changes.teamId) {
@@ -51,4 +57,5 @@ export async function updateMembership(userId: string, data: unknown) {
     subjectId: target.userId,
     detail: { ...(changes.role !== undefined && { from: target.role, role: changes.role }), ...(changes.teamId !== undefined && { teamId: changes.teamId }) },
   });
+  return { ok: true as const };
 }

@@ -3,6 +3,8 @@ import { LibraryTabs } from "../components/library-tabs";
 import { DraftsList } from "@/components/studio/drafts-list";
 import { NewInstrumentButton } from "@/components/studio/studio-buttons";
 import { ensureMember } from "@/utils/authentication";
+import { getPlan } from "@/utils/billing";
+import { featureLevel } from "@/utils/billing-rules";
 import { can } from "@/utils/roles";
 import { organizationBase } from "@/utils/organization-path";
 import { findDrafts } from "@/utils/studio-access";
@@ -21,6 +23,8 @@ export default async function Page() {
   const context = await ensureMember();
   const base = await organizationBase();
   const manage = can(context.membership.role, "manageLibrary");
+  // Building or importing your own instruments is part of the studio feature.
+  const studio = featureLevel((await getPlan(context.organization.id)).plan, "studio") === true;
   const [forms, drafts] = await Promise.all([findAllForms(), manage ? findDrafts("form", context) : []]);
 
   return (
@@ -28,8 +32,8 @@ export default async function Page() {
       <PageHeader title={t("title")} description={t("pageDescription")} actions={
           manage && (
             <>
-              <CreateFormDialog />
-              <NewInstrumentButton kind="form" />
+              {studio && <CreateFormDialog />}
+              {studio && <NewInstrumentButton kind="form" />}
             </>
           )
         } />

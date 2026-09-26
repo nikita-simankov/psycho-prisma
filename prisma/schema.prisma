@@ -41,25 +41,26 @@ model Organization {
   slug    String @unique
 
   // Whether respondents may see their own results (shown from phase 8 on).
-  respondentFeedback Boolean @default(false)
+  respondentFeedback       Boolean @default(false)
   // JSON array of test ids whose feedback page respondents may open, when respondentFeedback is on.
-  feedbackTestIds    String  @default("[]")
+  feedbackTestIds          String  @default("[]")
   // JSON array of the organization's own profile fields (src/utils/profile-fields.ts).
-  customFields       String  @default("[]")
+  customFields             String  @default("[]")
   // Who respondents contact about their data; shown in the privacy notice.
-  privacyContact     String  @default("")
+  privacyContact           String  @default("")
   // Results older than this many months are deleted automatically; 0 keeps them.
-  retentionMonths          Int @default(0)
+  retentionMonths          Int     @default(0)
   // Candidates are erased this many months after their last round closed; 0 keeps them.
-  candidateRetentionMonths Int @default(0)
+  candidateRetentionMonths Int     @default(0)
 
-  memberships Membership[]
-  invitations Invitation[]
-  teams       Team[]
-  rounds      Round[]
-  schedules   RoundSchedule[]
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  memberships  Membership[]
+  invitations  Invitation[]
+  teams        Team[]
+  rounds       Round[]
+  schedules    RoundSchedule[]
+  subscription Subscription?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 }
 
 // A person's place in an organization. Role keys are in src/utils/roles.ts.
@@ -411,4 +412,44 @@ model InstrumentVersion {
   createdAt    DateTime @default(now())
 
   @@unique([kind, instrumentId, version])
+}
+
+// An organization's plan. Mirrors its Paddle subscription once it has one; before that it holds the
+// local trial. Plans and what they unlock are in src/utils/plans.ts, the rules in src/utils/billing.ts.
+model Subscription {
+  id                   String       @id @default(uuid())
+  organization         Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId       String       @unique
+  // free, team, business or enterprise
+  plan                 String       @default("free")
+  // trialing, active, past_due, paused or canceled (Paddle's statuses)
+  status               String       @default("trialing")
+  trialEndsAt          DateTime?
+  paddleCustomerId     String?
+  paddleSubscriptionId String?      @unique
+  priceId              String?
+  // month or year
+  interval             String?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  // When a scheduled cancellation takes effect.
+  cancelAt             DateTime?
+  // When the last payment failed; the plan stays usable for a grace period after it.
+  pastDueSince         DateTime?
+  // Time of the last Paddle event applied, so an older event arriving late never overwrites a newer one.
+  paddleUpdatedAt      DateTime?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+}
+
+// Every Paddle webhook received, so each is applied once however often Paddle resends it.
+model BillingEvent {
+  id             String    @id @default(uuid())
+  paddleEventId  String    @unique
+  type           String
+  organizationId String?
+  payload        String
+  processedAt    DateTime?
+  error          String    @default("")
+  createdAt      DateTime  @default(now())
 }

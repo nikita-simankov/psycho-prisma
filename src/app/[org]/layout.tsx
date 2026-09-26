@@ -2,6 +2,7 @@ import { findAllForms } from "@/actions/form/find-all-forms-action";
 import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { BillingBanner } from "@/components/billing/billing-banner";
 import { BreadcrumbProvider } from "@/components/breadcrumbs";
 import { OrganizationProvider } from "@/components/organization-provider";
 import { SIDEBAR_COOKIE_NAME, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -41,6 +42,7 @@ export default async function OrganizationLayout({ children }: { children: React
                 teams: teams.map((team) => ({ id: team.id, name: team.name })),
               }}
             />
+            <BillingBanner organizationId={organization.id} role={membership.role} base={`/${organization.slug}`} />
             <div id="main" tabIndex={-1} className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 outline-hidden sm:px-6 lg:px-8 print:p-0">{children}</div>
           </SidebarInset>
         </SidebarProvider>

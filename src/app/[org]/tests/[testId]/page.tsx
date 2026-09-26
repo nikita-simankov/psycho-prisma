@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
 import { CopyInstrumentButton } from "@/components/studio/studio-buttons";
 import { ensureMember } from "@/utils/authentication";
+import { planHasFeature } from "@/utils/billing";
 import { can } from "@/utils/roles";
 import { canEdit } from "@/utils/studio-access";
 
@@ -34,7 +35,7 @@ export default async function TestPage(props: PathParams) {
 
   const editable = canEdit(context, test);
   // Shared library tests are copied to be changed; the organization's own are edited in place.
-  const copyable = test.organizationId === null && can(context.membership.role, "manageLibrary") && (!test.sensitive || can(context.membership.role, "viewSensitive"));
+  const copyable = test.organizationId === null && can(context.membership.role, "manageLibrary") && (!test.sensitive || can(context.membership.role, "viewSensitive")) && (await planHasFeature(context.organization.id, "studio"));
 
   return (
     <>

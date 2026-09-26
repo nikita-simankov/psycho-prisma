@@ -12,6 +12,8 @@ import {
   type AuditAction,
 } from "@/utils/audit";
 import { ensureMember } from "@/utils/authentication";
+import { planHasFeature } from "@/utils/billing";
+import { UpgradeNotice } from "@/components/billing/upgrade-notice";
 import { prisma } from "@/utils/database";
 import { organizationBase } from "@/utils/organization-path";
 import { formatFullName } from "@/utils/user";
@@ -36,6 +38,9 @@ export default async function AuditPage(
 ) {
   const searchParams = await props.searchParams;
   const { organization } = await ensureMember("viewAudit");
+  if (!(await planHasFeature(organization.id, "audit"))) {
+    return <UpgradeNotice feature="audit" />;
+  }
   const base = await organizationBase();
   const t = await getTranslations("audit");
   const roles = await getTranslations("roles");
