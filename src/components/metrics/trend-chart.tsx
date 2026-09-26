@@ -38,9 +38,9 @@ export function TrendCharts({ trends }: { trends: ScaleTrend[] }) {
                   <span
                     className={cn(
                       "flex items-center text-xs tabular-nums",
-                      change.meaningful ? "font-semibold text-foreground" : "text-muted-foreground"
+                      change.reliable ? "font-semibold text-foreground" : "text-muted-foreground"
                     )}
-                    title={change.meaningful ? t("meaningful") : t("withinError")}
+                    title={change.reliable ? t("reliable", { rci: change.rci }) : t("withinError", { rci: change.rci })}
                   >
                     {change.delta > 0 ? <ArrowUpRight className="h-3.5 w-3.5" aria-hidden /> : <ArrowDownRight className="h-3.5 w-3.5" aria-hidden />}
                     {change.delta > 0 ? `+${change.delta}` : change.delta}
@@ -74,7 +74,7 @@ export function TrendCharts({ trends }: { trends: ScaleTrend[] }) {
               <span>{format.dateTime(trend.points[0].date, { month: "short", year: "numeric" })}</span>
               <span>{format.dateTime(latest.date, { month: "short", year: "numeric" })}</span>
             </div>
-            {change?.meaningful && <p className="text-xs text-muted-foreground">{t("meaningful")}</p>}
+            {change?.reliable && <p className="text-xs text-muted-foreground">{t(change.direction === "up" ? "reliableUp" : "reliableDown")}</p>}
           </ChartPanel>
         );
       })}

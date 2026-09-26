@@ -1,14 +1,16 @@
 import { heatStep } from "@/utils/analytics";
-import type { GroupAverage } from "@/utils/results";
+import type { GroupAverage, HiddenGroup } from "@/utils/results";
 import { cn } from "@/utils/utils";
 import { useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
+import { PrivacyMask } from "./privacy-mask";
 
 const STEPS = [100, 200, 300, 400, 500, 600, 700] as const;
 
 // Average score per group (rows) and scale (columns), shaded light to dark from the low to the
 // high end of each scale. The value is printed in every cell, so colour is never the only cue.
-export function Heatmap({ groups, everyoneLabel }: { groups: GroupAverage[]; everyoneLabel: string }) {
+// Teams too small to show keep their row, masked.
+export function Heatmap({ groups, hidden = [], everyoneLabel }: { groups: GroupAverage[]; hidden?: HiddenGroup[]; everyoneLabel: string }) {
   const t = useTranslations("analytics");
   const chart = useTranslations("profileChart");
   const scales = Array.from(
@@ -46,8 +48,8 @@ export function Heatmap({ groups, everyoneLabel }: { groups: GroupAverage[]; eve
                     const cell = group.scales.find((entry) => entry.scaleId === scale.scaleId);
                     if (!cell || cell.kind === "raw") {
                       return (
-                        <td key={scale.scaleId} className="p-2 text-center text-muted-foreground">
-                          —
+                        <td key={scale.scaleId} className="p-0">
+                          <PrivacyMask variant="cell" label={`${label} · ${scale.scaleName}`} />
                         </td>
                       );
                     }
@@ -67,6 +69,19 @@ export function Heatmap({ groups, everyoneLabel }: { groups: GroupAverage[]; eve
                       </td>
                     );
                   })}
+                </tr>
+              );
+            })}
+            {hidden.map((group) => {
+              const label = group.teamName ?? everyoneLabel;
+              return (
+                <tr key={group.key}>
+                  <th scope="row" className="sticky left-0 z-10 whitespace-nowrap bg-card p-2 text-left font-medium text-muted-foreground">
+                    {label}
+                  </th>
+                  <td colSpan={scales.length} className="p-0">
+                    <PrivacyMask label={label} />
+                  </td>
                 </tr>
               );
             })}

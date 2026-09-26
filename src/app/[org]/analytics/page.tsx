@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
+import { BalanceMap } from "@/components/metrics/balance-map";
 import { DistributionCharts } from "@/components/metrics/distribution-chart";
 import { Heatmap } from "@/components/metrics/heatmap";
 import { ParticipationBars } from "@/components/metrics/participation-bars";
+import { PrivacyMask } from "@/components/metrics/privacy-mask";
+import { NormsToggle } from "@/components/results/norms-toggle";
 import { QuarterTrends } from "@/components/metrics/quarter-trends";
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/page-templates";
@@ -52,6 +55,10 @@ export default async function AnalyticsPage(
     }),
   ]);
   const everyone = filters.team || filters.position ? t("everyoneInView") : t("everyone");
+  const withNorms = (norms: "published" | "org") => {
+    const query = filtersToQuery({ ...filters, norms: norms === "org" ? "org" : undefined });
+    return `/${context.organization.slug}/analytics${query ? `?${query}` : ""}`;
+  };
 
   // The figures shown on the page, one table after another.
   const csv: (string | number | null)[][] = [
@@ -63,6 +70,11 @@ export default async function AnalyticsPage(
     ),
     ...data.heatmap.flatMap((group) =>
       group.scales.filter((scale) => scale.kind !== "raw").map((scale) => [t("heatmap"), group.teamName ?? everyone, scale.scaleName, scale.average, group.people])
+    ),
+    ...data.balance.flatMap((group) =>
+      group.scales.flatMap((scale) =>
+        (["low", "average", "high"] as const).map((band) => [t("balance.title"), group.teamName ?? everyone, `${scale.scaleName}: ${chart(`band.${band}`)}`, scale[band], scale.total])
+      )
     ),
     ...data.quarters.flatMap((scale) =>
       scale.points.map((point) => [t("quarters"), t("quarter", { quarter: point.quarter, year: point.year }), scale.scaleName, point.average, point.people])
@@ -99,21 +111,25 @@ export default async function AnalyticsPage(
       </div>
       {data.test ? (
         <>
+          <NormsToggle current={data.norms.source} norms={data.norms.org} hrefs={{ published: withNorms("published"), org: withNorms("org") }} className="-mt-4" />
           <Section title={t("heatmap")} description={t("heatmapText", { test: data.test.name })}>
-              <Heatmap groups={data.heatmap} everyoneLabel={everyone} />
+              <Heatmap groups={data.heatmap} hidden={data.hidden} everyoneLabel={everyone} />
+          </Section>
+          <Section title={t("balance.title")} description={t("balance.text", { test: data.test.name })}>
+              <BalanceMap groups={data.balance} everyoneLabel={everyone} />
           </Section>
           <Section title={t("distributions")} description={t("distributionsText", { test: data.test.name, count: data.test.people })}>
               {data.distributions.length > 0 ? (
                 <DistributionCharts scales={data.distributions} />
               ) : (
-                <p className="text-sm text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>
+                <PrivacyMask />
               )}
           </Section>
           <Section title={t("quarters")} description={t("quartersText", { test: data.test.name })}>
               {data.quarters.length > 0 ? (
                 <QuarterTrends series={data.quarters} />
               ) : (
-                <p className="text-sm text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>
+                <PrivacyMask />
               )}
           </Section>
         </>

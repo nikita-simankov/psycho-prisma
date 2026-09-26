@@ -1,5 +1,7 @@
+import { ScaleInfoButton } from "@/components/results/scale-info";
 import { normPosition } from "@/utils/norms";
-import type { GroupAverage } from "@/utils/results";
+import { DEFAULT_RELIABILITY, NORM_SD, standardError } from "@/utils/psychometrics";
+import type { GroupAverage, ScaleInfo } from "@/utils/results";
 import type { ScaleRow } from "@/utils/scoring";
 import { cn } from "@/utils/utils";
 import { useTranslations } from "next-intl";
@@ -12,7 +14,17 @@ type Group = { label: string; average: GroupAverage };
 
 // A person's latest score on each normed scale beside their team's and the organization's
 // averages: stens on the ten-cell StenScale with each mean marked beneath, T-scores on a track.
-export function ScaleComparison({ rows, team, everyone }: { rows: ScaleRow[]; team: Group | null; everyone: Group | null }) {
+export function ScaleComparison({
+  rows,
+  info,
+  team,
+  everyone,
+}: {
+  rows: ScaleRow[];
+  info?: Record<number, ScaleInfo>;
+  team: Group | null;
+  everyone: Group | null;
+}) {
   const t = useTranslations("metrics");
   const chart = useTranslations("profileChart");
   const groups = [
@@ -53,12 +65,16 @@ export function ScaleComparison({ rows, team, everyone }: { rows: ScaleRow[]; te
 
           return (
             <div key={row.scaleId} className="grid grid-cols-1 items-center gap-x-4 gap-y-1.5 px-3 py-2.5 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)_auto]">
-              <span className="text-sm leading-snug">{row.scaleName}</span>
+              <span className="flex items-start gap-1 text-sm leading-snug">
+                {row.scaleName}
+                <ScaleInfoButton name={row.scaleName} info={info?.[row.scaleId]} kind={position.kind} />
+              </span>
               {position.kind === "sten" ? (
                 // Stens sit on the same ten cells as the report; each group's mean is marked under them.
                 <div className="flex flex-col gap-1">
                   <StenScale
                     value={position.value}
+                    sem={standardError(NORM_SD.sten, info?.[row.scaleId]?.reliability ?? DEFAULT_RELIABILITY)}
                     label={marks.map((mark) => `${mark.label}: ${mark.value}`).join(", ")}
                   />
                   <div className="relative h-3">

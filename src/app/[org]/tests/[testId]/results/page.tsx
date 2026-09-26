@@ -8,8 +8,11 @@ import { PageHeader } from "@/components/page-header";
 import { findGroupAverages } from "@/actions/test-submission/find-group-averages-action";
 import { TeamAverages } from "@/components/results/team-averages";
 import { ensureMember } from "@/utils/authentication";
+import { prisma } from "@/utils/database";
+import { localizedTestsAsAnswered } from "@/utils/instrument-versions";
+import { buildTestResult } from "@/utils/results";
 import { can } from "@/utils/roles";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
 
@@ -30,14 +33,14 @@ export default async function TestResultsPage(props: PathParams) {
 
   // Roles without access to individual results see team averages instead.
   if (!can(membership.role, "viewIndividualResults")) {
-    const [test, groups] = await Promise.all([findTestById(params.testId), findGroupAverages(params.testId)]);
-    if (!test || !groups) {
+    const [test, averages] = await Promise.all([findTestById(params.testId), findGroupAverages(params.testId)]);
+    if (!test || !averages) {
       notFound();
     }
     return (
       <>
         <PageHeader title={test.name} description={t("averagesTitle")} back={{ href: `${base}/tests`, label: section("back") }} />
-        <TeamAverages groups={groups} />
+        <TeamAverages groups={averages.groups} hidden={averages.hidden} />
       </>
     );
   }
@@ -51,8 +54,14 @@ export default async function TestResultsPage(props: PathParams) {
     notFound();
   }
 
-  const users = await findUsersByIds([...new Set(submissions.map((submission) => submission.userId))]);
+  const [users, rawTest] = await Promise.all([
+    findUsersByIds([...new Set(submissions.map((submission) => submission.userId))]),
+    prisma.test.findUniqueOrThrow({ where: { id: test.id } }),
+  ]);
   const usersById = new Map(users.map((user) => [user.id, user]));
+  // Each result on the page scored with the version it answered, for its profile strip.
+  const testFor = await localizedTestsAsAnswered([rawTest], submissions, await getLocale());
+  const resultOf = (submission: (typeof submissions)[number]) => buildTestResult(testFor(submission) ?? test, submission);
 
   return (
     <>
@@ -64,17 +73,19 @@ export default async function TestResultsPage(props: PathParams) {
       <SubmissionList
         items={submissions.flatMap((submission) => {
           const user = usersById.get(submission.userId);
+          if (!user) return [];
+          const result = resultOf(submission);
 
-          return user
-            ? [
-                {
-                  id: submission.id,
-                  href: `${base}/tests/${test.id}/results/${submission.id}`,
-                  createdAt: submission.createdAt,
-                  user,
-                },
-              ]
-            : [];
+          return [
+            {
+              id: submission.id,
+              href: `${base}/tests/${test.id}/results/${submission.id}`,
+              createdAt: submission.createdAt,
+              user,
+              profile: result.rows,
+              quality: result.quality,
+            },
+          ];
         })}
       />
       <Pager page={page} pages={pageCount(total)} path={`${base}/tests/${test.id}/results`} />

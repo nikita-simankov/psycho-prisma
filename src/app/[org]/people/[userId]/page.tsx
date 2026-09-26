@@ -6,6 +6,8 @@ import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
 import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { PrivacyMask } from "@/components/metrics/privacy-mask";
+import { ProfileOverlay } from "@/components/metrics/profile-overlay";
 import { ScaleComparison } from "@/components/metrics/scale-comparison";
 import { TrendCharts } from "@/components/metrics/trend-chart";
 import { parseCustomFields } from "@/utils/profile-fields";
@@ -28,7 +30,6 @@ import EditUserDialog from "./components/edit-user-dialog";
 import { FlagSelect, MembershipDialog, RemoveMemberButton } from "../components/member-controls";
 import { organizationBase } from "@/utils/organization-path";
 import { personSchedule } from "@/utils/rounds";
-import { MIN_GROUP } from "@/utils/results";
 import { loadPersonMetrics } from "./load-metrics";
 import { ProfileDetailsDialog } from "./components/profile-details-dialog";
 
@@ -226,11 +227,18 @@ export default async function UserProfilePage(props: PathParams) {
                   <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{metricsT("comparison")}</h3>
                   <ScaleComparison
                     rows={test.latest}
+                    info={test.info}
                     team={test.team && { label: metricsT("series.team", { team: test.team.teamName ?? "" }), average: test.team }}
                     everyone={test.everyone && { label: metricsT("series.everyone"), average: test.everyone }}
                   />
-                  {!test.team && !test.everyone && <p className="text-xs text-muted-foreground">{metricsT("noGroups", { min: MIN_GROUP })}</p>}
+                  {!test.team && !test.everyone && <PrivacyMask />}
                 </section>
+                {test.count > 1 && (
+                  <section className="flex flex-col gap-2">
+                    <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{metricsT("overlay.title")}</h3>
+                    <ProfileOverlay trends={test.trends} info={test.info} />
+                  </section>
+                )}
                 {test.count > 1 && (
                   <section className="flex flex-col gap-2">
                     <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{metricsT("trends")}</h3>

@@ -46,7 +46,7 @@ export function TestResultSection({
       </header>
 
       {result.validity && <ValidityPanel validity={result.validity} />}
-      <QualityWarnings warnings={result.warnings} />
+      <QualityWarnings warnings={result.warnings} quality={result.quality} />
 
       {findings.length > 0 && (
         <div className="flex flex-col gap-2">
@@ -80,7 +80,7 @@ export function TestResultSection({
       {result.rows.length > 0 ? (
         <div className="flex flex-col gap-2">
           <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{t("profile")}</h3>
-          <ScaleProfile rows={result.rows} />
+          <ScaleProfile rows={result.rows} info={result.info} />
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">{t("notScored")}</p>
