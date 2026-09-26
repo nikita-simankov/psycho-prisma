@@ -23,9 +23,13 @@ test("the people table pages and filters", async ({ page }) => {
   await page.goto(`/${ORG}/people`);
   const rows = page.locator("tbody tr");
   await expect(rows).toHaveCount(50);
-  await page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: "Next" }).click();
-  // 55 bulk people, the owner and Ann.
-  await expect(rows).toHaveCount(BULK_RESULTS + 2 - 50);
+  // The pager is client-side: a click that lands before the table hydrates does nothing, so click
+  // again until the second page shows. 55 bulk people, the owner and Ann.
+  const next = page.getByRole("navigation", { name: "Pages" }).getByRole("button", { name: "Next" });
+  await expect(async () => {
+    if ((await rows.count()) === 50) await next.click();
+    await expect(rows).toHaveCount(BULK_RESULTS + 2 - 50, { timeout: 1000 });
+  }).toPass();
 
   await page.getByRole("textbox").first().fill("Person05");
   await expect(rows).toHaveCount(1);
