@@ -369,7 +369,11 @@
       "analytics": "Analytics",
       "audit": "Audit log",
       "edit": "Edit",
-      "versions": "Versions"
+      "versions": "Versions",
+      "members": "Members",
+      "privacy": "Privacy",
+      "fields": "Profile fields",
+      "billing": "Plan and billing"
     },
     "work": {
       "review": "Waiting for review",
@@ -382,7 +386,9 @@
       "rounds": "Open rounds",
       "roundsText": "How many people have finished.",
       "roundsEmpty": "No rounds are open.",
-      "newRound": "Send a round"
+      "newRound": "Send a round",
+      "reviewEmptyText": "New results land here until you save a report for them.",
+      "overdueEmptyText": "People who miss a round's due date appear here, so you can nudge them."
     },
     "libraryLabel": "Library sections"
   },
@@ -494,7 +500,8 @@
       "resendFor": "Resend the invitation to {email}",
       "resent": "Invitation sent again to {email}",
       "resentNotEmailed": "Email isn't set up, so nothing was sent. Pass on the new link instead.",
-      "linkCopied": "New link copied"
+      "linkCopied": "New link copied",
+      "pending": "{count, plural, one {# invitation is waiting to be accepted} other {# invitations are waiting to be accepted}}"
     },
     "membership": {
       "button": "Role and team",
@@ -534,7 +541,9 @@
     "background": "Background",
     "conclusion": "Conclusion",
     "noResults": "This person has not taken any tests yet.",
-    "description": "Open a person's report to see all their results and write a conclusion."
+    "description": "Open a person's report to see all their results and write a conclusion.",
+    "noResultsText": "Send them a round; their results and your notes come together here.",
+    "startRound": "Start a round"
   },
   "privacy": {
     "metaTitle": "Privacy notice",
@@ -665,7 +674,8 @@
     "title": "Follow-up",
     "description": "People a psychologist has flagged for support.",
     "restricted": "Only psychologists and owners can see this page and these flags.",
-    "empty": "No one is flagged."
+    "empty": "No one is flagged.",
+    "emptyText": "Flag someone from their profile when a result needs a conversation; they will be listed here."
   },
   "settings": {
     "title": "Settings",
@@ -729,6 +739,32 @@
       "candidateRetentionMonthsHint": "Candidates are removed with all their data this long after their last hiring round closed.",
       "keep": "Keep until deleted",
       "months": "{count, plural, one {# month} other {# months}}"
+    },
+    "sectionsLabel": "Settings sections",
+    "sections": {
+      "general": "General",
+      "members": "Members",
+      "privacy": "Privacy",
+      "fields": "Profile fields",
+      "audit": "Audit log",
+      "billing": "Plan and billing"
+    },
+    "members": {
+      "staff": "Staff",
+      "staffText": "People who work in the dashboard. Open a person to change their role or team.",
+      "noInvitations": "No open invitations",
+      "noInvitationsText": "Invite colleagues or respondents by email; their invitations wait here until accepted."
+    },
+    "billing": {
+      "plan": "Plan",
+      "planText": "Paid plans are on the way. Until then your organization has every feature.",
+      "current": "Current plan",
+      "earlyAccess": "Early access",
+      "earlyAccessHint": "All features, no limits",
+      "respondents": "Respondents",
+      "respondentsHint": "People assessed in the last 12 months",
+      "invoices": "Invoices",
+      "invoicesEmpty": "Invoices will appear here once billing starts."
     }
   },
   "validity": {
@@ -1096,7 +1132,9 @@
       "value": "Value",
       "people": "People",
       "completed": "Completed, %"
-    }
+    },
+    "noResultsText": "Figures appear once at least 5 people have finished a test. Send a round to get started.",
+    "startRound": "Start a round"
   },
   "audit": {
     "title": "Audit log",
@@ -1306,6 +1344,19 @@
       "restore": "Restore",
       "none": "Not published yet."
     },
-    "copyName": "{name} (copy)"
+    "copyName": "{name} (copy)",
+    "preview": {
+      "title": "Preview",
+      "show": "Preview",
+      "hide": "Hide preview",
+      "position": "Preview · Question {number} of {total}",
+      "untitled": "Question without text",
+      "noChoices": "No answer choices yet.",
+      "textPlaceholder": "The answer is typed here",
+      "previous": "Previous",
+      "next": "Next",
+      "notSaved": "This is how respondents see it. Answers picked here are not saved.",
+      "empty": "Add a question to see how respondents will see it."
+    }
   }
 }

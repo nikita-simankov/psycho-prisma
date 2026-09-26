@@ -94,7 +94,7 @@ export async function DashboardWork() {
         >
           <div>
             {waiting.rows.length === 0 ? (
-              <EmptyState icon={ClipboardCheck} title={t("reviewEmpty")} className="py-6" />
+              <EmptyState icon={ClipboardCheck} title={t("reviewEmpty")} description={t("reviewEmptyText")} className="py-6" />
             ) : (
               <ul className="divide-y">
                 {waiting.rows.map(({ user, at }) => (
@@ -125,7 +125,7 @@ export async function DashboardWork() {
       >
         <div>
           {overdue.length === 0 ? (
-            <EmptyState icon={Clock} title={t("overdueEmpty")} className="py-6" />
+            <EmptyState icon={Clock} title={t("overdueEmpty")} description={t("overdueEmptyText")} className="py-6" />
           ) : (
             <ul className="divide-y">
               {overdue.slice(0, LIMIT).map((assignment) => (

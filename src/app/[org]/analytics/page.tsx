@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import { DistributionCharts } from "@/components/metrics/distribution-chart";
 import { Heatmap } from "@/components/metrics/heatmap";
 import { ParticipationBars } from "@/components/metrics/participation-bars";
@@ -8,7 +11,7 @@ import { filtersToQuery, parseFilters } from "@/utils/analytics-filters";
 import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { MIN_GROUP } from "@/utils/results";
-import { Users } from "lucide-react";
+import { BarChart3, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { AnalyticsFilters } from "./analytics-filters";
 import { ExportButton } from "./export-button";
@@ -99,7 +102,17 @@ export default async function AnalyticsPage(
           </Section>
         </>
       ) : (
-        <p className="border-t border-foreground/80 pt-4 text-muted-foreground">{t("noResults")}</p>
+        <EmptyState
+          icon={BarChart3}
+          title={t("noResults")}
+          description={t("noResultsText")}
+          className="border-t border-foreground/80"
+          action={
+            <Button asChild variant="outline">
+              <Link href={`/${context.organization.slug}/rounds/new`}>{t("startRound")}</Link>
+            </Button>
+          }
+        />
       )}
     </div>
   );

@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CUSTOM_FIELD_TYPES, fieldKey, type CustomField } from "@/utils/profile-fields";
 import { CANDIDATE_RETENTION_OPTIONS, RETENTION_OPTIONS } from "@/utils/retention-rules";
 import { Plus, Trash2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Section } from "@/components/page-templates";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -83,7 +83,19 @@ function CustomFieldRow({
   );
 }
 
-export function SettingsForm({ initial, tests }: { initial: Settings; tests: { id: string; name: string }[] }) {
+export type SettingsPart = "general" | "privacy" | "retention" | "fields";
+
+// The organization's settings, one settings section at a time. Every part saves the whole set, so
+// the parts not shown keep their values.
+export function SettingsForm({
+  initial,
+  tests,
+  parts,
+}: {
+  initial: Settings;
+  tests: { id: string; name: string }[];
+  parts: SettingsPart[];
+}) {
   const t = useTranslations("settings");
   const common = useTranslations("common");
   const router = useRouter();
@@ -114,159 +126,152 @@ export function SettingsForm({ initial, tests }: { initial: Settings; tests: { i
 
   return (
     <form
-      className="flex max-w-2xl flex-col gap-6"
+      className="flex max-w-2xl flex-col gap-10"
       onSubmit={(event) => {
         event.preventDefault();
         mutation.mutate();
       }}
     >
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("general")}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          <Label htmlFor="org-name">{t("name")}</Label>
-          <Input
-            id="org-name"
-            required
-            minLength={2}
-            maxLength={100}
-            value={values.name}
-            onChange={(event) => setValues({ ...values, name: event.target.value })}
-          />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("privacy")}</CardTitle>
-          <CardDescription>{t("privacyText")}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-6">
+      {parts.includes("general") && (
+        <Section title={t("general")}>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="privacy-contact">{t("contact")}</Label>
+            <Label htmlFor="org-name">{t("name")}</Label>
             <Input
-              id="privacy-contact"
-              maxLength={300}
-              placeholder={t("contactPlaceholder")}
-              value={values.privacyContact}
-              onChange={(event) => setValues({ ...values, privacyContact: event.target.value })}
+              id="org-name"
+              required
+              minLength={2}
+              maxLength={100}
+              value={values.name}
+              onChange={(event) => setValues({ ...values, name: event.target.value })}
             />
-            <p className="text-xs text-muted-foreground">{t("contactHint")}</p>
           </div>
-          <div className="flex items-start justify-between gap-4 rounded-lg border p-4">
-            <div className="flex flex-col gap-1">
-              <Label htmlFor="respondent-feedback">{t("feedback")}</Label>
-              <p className="text-sm text-muted-foreground">{t("feedbackText")}</p>
+        </Section>
+      )}
+      {parts.includes("privacy") && (
+        <Section title={t("privacy")} description={t("privacyText")}>
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="privacy-contact">{t("contact")}</Label>
+              <Input
+                id="privacy-contact"
+                maxLength={300}
+                placeholder={t("contactPlaceholder")}
+                value={values.privacyContact}
+                onChange={(event) => setValues({ ...values, privacyContact: event.target.value })}
+              />
+              <p className="text-xs text-muted-foreground">{t("contactHint")}</p>
             </div>
-            <Switch
-              id="respondent-feedback"
-              checked={values.respondentFeedback}
-              onCheckedChange={(checked) => setValues({ ...values, respondentFeedback: checked })}
-            />
-          </div>
-          {values.respondentFeedback && (
-            <fieldset className="flex flex-col gap-3">
-              <legend className="mb-1 text-sm font-medium">{t("feedbackTests")}</legend>
-              <p className="text-sm text-muted-foreground">{t("feedbackTestsText")}</p>
-              <div className="grid gap-2 sm:grid-cols-2">
-                {tests.map((test) => {
-                  const checked = values.feedbackTestIds.includes(test.id);
-                  return (
-                    <label key={test.id} className="flex items-start gap-2 rounded-md border p-2.5 text-sm">
-                      <Checkbox
-                        checked={checked}
-                        className="mt-0.5"
-                        onCheckedChange={(value) =>
-                          setValues({
-                            ...values,
-                            feedbackTestIds: value
-                              ? [...values.feedbackTestIds, test.id]
-                              : values.feedbackTestIds.filter((id) => id !== test.id),
-                          })
-                        }
-                      />
-                      <span>{test.name}</span>
-                    </label>
-                  );
-                })}
+            <div className="flex items-start justify-between gap-4 rounded-lg border bg-card p-4">
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="respondent-feedback">{t("feedback")}</Label>
+                <p className="text-sm text-muted-foreground">{t("feedbackText")}</p>
               </div>
-            </fieldset>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("retention.title")}</CardTitle>
-          <CardDescription>{t("retention.text")}</CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-2">
-          {(
-            [
-              ["retentionMonths", RETENTION_OPTIONS],
-              ["candidateRetentionMonths", CANDIDATE_RETENTION_OPTIONS],
-            ] as const
-          ).map(([key, options]) => (
-            <div key={key} className="flex flex-col gap-1.5">
-              <Label htmlFor={key}>{t(`retention.${key}`)}</Label>
-              <Select value={String(values[key])} onValueChange={(value) => setValues({ ...values, [key]: Number(value) })}>
-                <SelectTrigger id={key}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {options.map((months) => (
-                    <SelectItem key={months} value={String(months)}>
-                      {months === 0 ? t("retention.keep") : t("retention.months", { count: months })}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">{t(`retention.${key}Hint`)}</p>
+              <Switch
+                id="respondent-feedback"
+                checked={values.respondentFeedback}
+                onCheckedChange={(checked) => setValues({ ...values, respondentFeedback: checked })}
+              />
             </div>
-          ))}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t("fields.title")}</CardTitle>
-          <CardDescription>{t("fields.text")}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          {values.customFields.map((field, index) => (
-            <CustomFieldRow
-              key={field.key}
-              field={field}
-              onChange={(next) =>
-                setValues({ ...values, customFields: values.customFields.map((entry, i) => (i === index ? next : entry)) })
-              }
-              onRemove={() => setValues({ ...values, customFields: values.customFields.filter((_, i) => i !== index) })}
-            />
-          ))}
-          {values.customFields.length < 20 && (
-            <Button
-              type="button"
-              variant="outline"
-              className="w-fit"
-              onClick={() =>
-                setValues({
-                  ...values,
-                  customFields: [
-                    ...values.customFields,
-                    {
-                      key: fieldKey(`field ${values.customFields.length + 1}`, values.customFields.map((field) => field.key)),
-                      label: "",
-                      type: "text",
-                      options: [],
-                    },
-                  ],
-                })
-              }
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              {t("fields.add")}
-            </Button>
-          )}
-        </CardContent>
-      </Card>
+            {values.respondentFeedback && (
+              <fieldset className="flex flex-col gap-3">
+                <legend className="mb-1 text-sm font-medium">{t("feedbackTests")}</legend>
+                <p className="text-sm text-muted-foreground">{t("feedbackTestsText")}</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {tests.map((test) => {
+                    const checked = values.feedbackTestIds.includes(test.id);
+                    return (
+                      <label key={test.id} className="flex items-start gap-2 rounded-md border bg-card p-2.5 text-sm">
+                        <Checkbox
+                          checked={checked}
+                          className="mt-0.5"
+                          onCheckedChange={(value) =>
+                            setValues({
+                              ...values,
+                              feedbackTestIds: value
+                                ? [...values.feedbackTestIds, test.id]
+                                : values.feedbackTestIds.filter((id) => id !== test.id),
+                            })
+                          }
+                        />
+                        <span>{test.name}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            )}
+          </div>
+        </Section>
+      )}
+      {parts.includes("retention") && (
+        <Section title={t("retention.title")} description={t("retention.text")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {(
+              [
+                ["retentionMonths", RETENTION_OPTIONS],
+                ["candidateRetentionMonths", CANDIDATE_RETENTION_OPTIONS],
+              ] as const
+            ).map(([key, options]) => (
+              <div key={key} className="flex flex-col gap-1.5">
+                <Label htmlFor={key}>{t(`retention.${key}`)}</Label>
+                <Select value={String(values[key])} onValueChange={(value) => setValues({ ...values, [key]: Number(value) })}>
+                  <SelectTrigger id={key}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {options.map((months) => (
+                      <SelectItem key={months} value={String(months)}>
+                        {months === 0 ? t("retention.keep") : t("retention.months", { count: months })}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">{t(`retention.${key}Hint`)}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+      {parts.includes("fields") && (
+        <Section title={t("fields.title")} description={t("fields.text")}>
+          <div className="flex flex-col gap-3">
+            {values.customFields.map((field, index) => (
+              <CustomFieldRow
+                key={field.key}
+                field={field}
+                onChange={(next) =>
+                  setValues({ ...values, customFields: values.customFields.map((entry, i) => (i === index ? next : entry)) })
+                }
+                onRemove={() => setValues({ ...values, customFields: values.customFields.filter((_, i) => i !== index) })}
+              />
+            ))}
+            {values.customFields.length < 20 && (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit"
+                onClick={() =>
+                  setValues({
+                    ...values,
+                    customFields: [
+                      ...values.customFields,
+                      {
+                        key: fieldKey(`field ${values.customFields.length + 1}`, values.customFields.map((field) => field.key)),
+                        label: "",
+                        type: "text",
+                        options: [],
+                      },
+                    ],
+                  })
+                }
+              >
+                <Plus className="size-4" />
+                {t("fields.add")}
+              </Button>
+            )}
+          </div>
+        </Section>
+      )}
       <div>
         <Button type="submit" disabled={!changed || mutation.isPending}>
           {common("save")}

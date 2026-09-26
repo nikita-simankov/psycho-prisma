@@ -1,7 +1,7 @@
+import { Section } from "@/components/page-templates";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import UserAvatar from "@/components/ui/user-avatar";
@@ -95,13 +95,9 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
         }
       />
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle className="text-lg">{t("progressLabel")}</CardTitle>
-            <CardDescription>{t("completedOf", { done: finished, total: round.assignments.length })}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+      <div className="grid gap-10 lg:grid-cols-3">
+        <Section title={t("progressLabel")} description={t("completedOf", { done: finished, total: round.assignments.length })} className="lg:col-span-1">
+          <div className="flex flex-col gap-4">
             <Progress value={finished} max={round.assignments.length} label={t("progressLabel")} />
             <ul className="flex flex-col gap-2 text-sm">
               {items.map((item) => (
@@ -116,16 +112,13 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
               ))}
             </ul>
             {round.message && (
-              <p className="whitespace-pre-line rounded-lg bg-muted p-3 text-sm">{round.message}</p>
+              <p className="whitespace-pre-line border-l-2 pl-3 font-heading italic text-muted-foreground">{round.message}</p>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </Section>
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-lg">{t("peopleTitle")}</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
+        <Section title={t("peopleTitle")} className="lg:col-span-2">
+          <div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -174,8 +167,8 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
                 ))}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
+          </div>
+        </Section>
       </div>
     </div>
   );

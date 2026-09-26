@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { PrintExpander } from "@/components/results/print-expander";
 import { TestResultSection } from "@/components/results/test-result-section";
@@ -6,7 +8,7 @@ import UserAvatar from "@/components/ui/user-avatar";
 import { organizationBase } from "@/utils/organization-path";
 import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
-import { History } from "lucide-react";
+import { History, Send } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -44,7 +46,19 @@ export default async function ReportPage(props: PathParams) {
 
   const sections = (
     <>
-      {results.length === 0 && <p className="border-t border-foreground/80 pt-5 text-muted-foreground">{reports("noResults")}</p>}
+      {results.length === 0 && (
+        <EmptyState
+          icon={Send}
+          title={reports("noResults")}
+          description={reports("noResultsText")}
+          className="border-t border-foreground/80"
+          action={
+            <Button asChild variant="outline" className="print:hidden">
+              <Link href={`${base}/rounds/new`}>{reports("startRound")}</Link>
+            </Button>
+          }
+        />
+      )}
       {results.map((result) => (
         <TestResultSection key={result.id} result={result} subtitle={result.round?.name} />
       ))}

@@ -71,6 +71,7 @@ export function StudioToolbar({
   issues,
   flush,
   backHref,
+  actions,
 }: {
   kind: InstrumentKind;
   id: string;
@@ -80,6 +81,8 @@ export function StudioToolbar({
   issues: Issue[];
   flush: () => Promise<void>;
   backHref: string;
+  // Extra buttons shown before discard and publish, such as the preview toggle.
+  actions?: React.ReactNode;
 }) {
   const t = useTranslations("studio");
   const common = useTranslations("common");
@@ -118,6 +121,7 @@ export function StudioToolbar({
         <SaveStatus status={status} />
       </div>
       <div className="flex flex-wrap gap-2">
+        {actions}
         {(hasDraft || version === 0) && (
           <AlertDialog>
             <AlertDialogTrigger asChild>

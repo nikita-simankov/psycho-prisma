@@ -36,3 +36,16 @@ test("the command palette runs actions", async ({ page }) => {
   await page.getByRole("option", { name: "Start a round" }).click();
   await expect(page).toHaveURL(new RegExp(`/${ORG}/rounds/new$`));
 });
+
+test("settings are split into sections", async ({ page }) => {
+  await page.goto(`/${ORG}/settings`);
+  const sections = page.getByRole("navigation", { name: "Settings sections" });
+  await expect(sections.getByRole("link", { name: "General" })).toHaveAttribute("aria-current", "page");
+  await sections.getByRole("link", { name: "Members" }).click();
+  await expect(page).toHaveURL(new RegExp(`/${ORG}/settings/members$`));
+  await expect(page.getByRole("heading", { name: "Staff" })).toBeVisible();
+  await sections.getByRole("link", { name: "Audit log" }).click();
+  await expect(sections.getByRole("link", { name: "Audit log" })).toHaveAttribute("aria-current", "page");
+  await sections.getByRole("link", { name: "Plan and billing" }).click();
+  await expect(page.getByText("Early access")).toBeVisible();
+});
