@@ -40,8 +40,9 @@ model User {
 model Organization {
   id      String @id @default(uuid())
   name    String
-  // The name lowercased with spaces collapsed, so names are unique regardless of case.
-  nameKey String @unique
+  // The name lowercased with spaces collapsed, for matching names regardless of case. Names are
+  // not unique: two companies can share one, and only the slug tells them apart.
+  nameKey String
   slug    String @unique
 
   // Whether respondents may see their own results (shown from phase 8 on).
@@ -57,14 +58,23 @@ model Organization {
   // Candidates are erased this many months after their last round closed; 0 keeps them.
   candidateRetentionMonths Int     @default(0)
 
-  memberships  Membership[]
-  invitations  Invitation[]
-  teams        Team[]
-  rounds       Round[]
-  schedules    RoundSchedule[]
-  subscription Subscription?
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
+  memberships      Membership[]
+  invitations      Invitation[]
+  teams            Team[]
+  rounds           Round[]
+  schedules        RoundSchedule[]
+  subscription     Subscription?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  // Answers from the /start welcome: what the organization uses Calibre for and how big it is.
+  goal             String          @default("")
+  teamSize         String          @default("")
+  // A demo organization with fictional people, created from /start. Its people are never emailed.
+  isSample         Boolean         @default(false)
+  // When an admin hid the setup checklist on Today.
+  setupDismissedAt DateTime?
+
+  @@index([nameKey])
 }
 
 // A person's place in an organization. Role keys are in src/utils/roles.ts.
@@ -82,6 +92,8 @@ model Membership {
   flag           String       @default("")
   // When the person agreed to this organization's privacy notice.
   consentedAt    DateTime?
+  // When the person closed the card explaining their role, shown on their first visits.
+  welcomedAt     DateTime?
   // Profile details kept per organization.
   managerId      String?
   startDate      String       @default("") // yyyy-mm-dd
@@ -118,6 +130,8 @@ model Invitation {
   position       String       @default("")
   // Language of the invitation email, chosen by the inviter; "" means the inviter's language.
   locale         String       @default("")
+  // Saved before the inviter confirmed their email; sent when they do.
+  held           Boolean      @default(false)
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)

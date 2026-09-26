@@ -18,13 +18,7 @@ export function NewOrganizationForm() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const result = await createOrganization(name);
-
-      if ("error" in result) {
-        throw new Error(t("nameTaken"));
-      }
-
-      return result.slug;
+      return (await createOrganization(name)).slug;
     },
     onSuccess: (slug) => {
       router.push(`/${slug}`);

@@ -1,5 +1,8 @@
 import { PageHeader } from "@/components/page-header";
+import { SetupChecklist } from "@/components/onboarding/setup-checklist";
+import { WelcomeCard } from "@/components/onboarding/welcome-card";
 import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { DashboardRecentSubmissions } from "./components/dashboard-recent-submissions";
 import { DashboardStatistics } from "./components/dashboard-statistics";
@@ -12,7 +15,7 @@ export async function generateMetadata() {
 
 export default async function DashboardPage() {
   // Before the widgets below, which throw rather than redirect for people without access.
-  const { user, organization } = await ensureMember("viewDashboard");
+  const { user, organization, membership } = await ensureMember("viewDashboard");
   const t = await getTranslations("dashboard.home");
   const nav = await getTranslations("dashboard.nav");
   const format = await getFormatter();
@@ -26,6 +29,8 @@ export default async function DashboardPage() {
         crumb={nav("home")}
         className="mb-0"
       />
+      {can(membership.role, "manageSettings") && <SetupChecklist organization={organization} user={user} />}
+      <WelcomeCard membershipId={membership.id} role={membership.role} organization={organization.name} />
       <DashboardStatistics />
       <DashboardWork />
       <DashboardRecentSubmissions />

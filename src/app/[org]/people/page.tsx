@@ -1,3 +1,5 @@
+import { EmptyState } from "@/components/empty-state";
+import { UserPlus } from "lucide-react";
 import { findOpenInvitations } from "@/actions/invitation/invitation-actions";
 import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
@@ -43,7 +45,16 @@ export default async function Page() {
         }
       />
       <div className="flex flex-col gap-6">
-        <UsersTable users={users} />
+        <UsersTable
+          users={users}
+          empty={
+            <EmptyState
+              icon={UserPlus}
+              title={t("empty.title")}
+              description={manage ? t("empty.manage") : t("empty.view")}
+            />
+          }
+        />
         {invitations.length > 0 && (
           <p className="text-sm text-muted-foreground">
             <Link href={`/${organization.slug}/settings/members`} className="font-medium text-primary hover:underline">

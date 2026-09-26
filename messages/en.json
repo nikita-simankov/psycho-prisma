@@ -191,8 +191,7 @@
       "errors": {
         "rateLimited": "Too many attempts. Try again later",
         "invalidInput": "Check the fields and try again",
-        "emailTaken": "An account with this email already exists. Sign in instead.",
-        "organizationTaken": "An organization with this name already exists. Ask its owner for an invitation or choose another name."
+        "emailTaken": "An account with this email already exists. Sign in instead."
       },
       "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment.",
       "organization": "Organization name",
@@ -526,7 +525,8 @@
       "resent": "Invitation sent again to {email}",
       "resentNotEmailed": "Email isn't set up, so nothing was sent. Pass on the new link instead.",
       "linkCopied": "New link copied",
-      "pending": "{count, plural, one {# invitation is waiting to be accepted} other {# invitations are waiting to be accepted}}"
+      "pending": "{count, plural, one {# invitation is waiting to be accepted} other {# invitations are waiting to be accepted}}",
+      "held": "Sends when you confirm your email"
     },
     "membership": {
       "button": "Role and team",
@@ -562,6 +562,11 @@
         "planSeats": "No staff seats left on your plan",
         "emailUnverified": "Confirm your email first"
       }
+    },
+    "empty": {
+      "title": "No one here yet",
+      "manage": "Invite people one by one or import a spreadsheet with Invite people above.",
+      "view": "People appear here once an admin invites them."
     }
   },
   "reports": {
@@ -647,8 +652,7 @@
       "name": "Organization name",
       "namePlaceholder": "e.g. Acme Ltd",
       "submit": "Create organization",
-      "error": "The organization was not created.",
-      "nameTaken": "An organization with this name already exists. Choose another name."
+      "error": "The organization was not created."
     }
   },
   "mail": {
@@ -757,7 +761,6 @@
     "feedbackText": "When on, people will see a short summary of their workplace test results. Clinical screens always stay with the psychologist.",
     "saved": "Settings saved",
     "saveError": "Settings were not saved.",
-    "nameTaken": "Another organization already uses this name.",
     "owner": {
       "title": "Ownership",
       "description": "Only owners see this section.",
@@ -1734,5 +1737,176 @@
     "sent": "We sent a new link. Check your inbox.",
     "notSent": "Email isn't set up on this server, so the link couldn't be sent. Ask your administrator.",
     "rateLimited": "Too many requests. Try again in an hour."
+  },
+  "start": {
+    "metaTitle": "Welcome",
+    "skip": "Skip to the workspace",
+    "continue": "Continue",
+    "minutes": "{count} min",
+    "steps": {
+      "label": "Setup steps",
+      "goal": "Your goal",
+      "invite": "Colleagues",
+      "try": "First look"
+    },
+    "goal": {
+      "title": "Welcome to Calibre",
+      "titleNamed": "Welcome, {name}",
+      "text": "Three quick steps to get {organization} ready. You can skip any of them.",
+      "question": "What will you use Calibre for first?",
+      "options": {
+        "development": {
+          "label": "Development",
+          "text": "Understand strengths and track growth over time."
+        },
+        "hiring": {
+          "label": "Hiring",
+          "text": "Assess candidates the same way, every time."
+        },
+        "wellbeing": {
+          "label": "Wellbeing",
+          "text": "Spot stress and strain early, team by team."
+        }
+      },
+      "teamSize": "How many people work at your organization?",
+      "people": "{size} people",
+      "suggested": "Suggested to start with",
+      "clinical": "Clinical: psychologists only"
+    },
+    "invite": {
+      "title": "Invite your colleagues",
+      "text": "Add the people who will send assessments and read results with you. Employees come later, from People.",
+      "email": "Work email",
+      "role": "Role",
+      "placeholder": "name@company.com",
+      "hint": "Each role sees only what it needs. Managers see team averages, never individual answers.",
+      "held": "Confirm your email to send invitations. Anything you add here is saved and goes out as soon as you confirm.",
+      "send": "Send invitations",
+      "later": "I'll do this later",
+      "nobody": "No one to invite. You can do it later in Settings.",
+      "outcomes": {
+        "sent": "Invitation sent",
+        "notEmailed": "Saved. Email isn't set up, so share the link from Settings",
+        "held": "Goes out when you confirm your email",
+        "alreadyMember": "Already a member",
+        "planSeats": "No staff seats left on your plan",
+        "invalidEmail": "Not a valid email"
+      }
+    },
+    "try": {
+      "title": "See Calibre in action",
+      "text": "The fastest way to understand Calibre is to see it from both sides.",
+      "yourself": "Take a test yourself",
+      "yourselfText": "Answer {test} as your employees would, then open your own report.",
+      "yourselfTextMinutes": "Answer {test} ({count} min) as your employees would, then open your own report.",
+      "sample": "Explore the sample workspace",
+      "sampleLoading": "Setting up the sample workspace…",
+      "sampleText": "40 fictional people with finished rounds, reports and analytics. It's separate from your real data, and you can delete it any time.",
+      "workspace": "Go to your workspace",
+      "workspaceText": "Start with {organization} and follow the checklist on the home page."
+    }
+  },
+  "sample": {
+    "name": "Northwind (sample)",
+    "privacyContact": "privacy@northwind.example",
+    "teams": {
+      "sales": "Sales",
+      "support": "Support",
+      "engineering": "Engineering",
+      "operations": "Operations"
+    },
+    "positions": {
+      "sales": "Account manager",
+      "support": "Support specialist",
+      "engineering": "Software engineer",
+      "operations": "Operations coordinator"
+    },
+    "rounds": {
+      "spring": "Spring development check",
+      "summer": "Summer development check",
+      "reasoning": "Reasoning check"
+    },
+    "banner": "This is a sample workspace with fictional people. Nothing here is real, and nobody is emailed.",
+    "delete": "Delete the sample",
+    "deleteConfirm": "Delete the sample workspace? You can create it again from the welcome page."
+  },
+  "setup": {
+    "eyebrow": "Setup · {done} of {total}",
+    "title": "Get Calibre ready",
+    "dismiss": "Hide the setup checklist",
+    "progress": "Setup progress",
+    "done": "(done)",
+    "todo": "(to do)",
+    "steps": {
+      "confirmEmail": {
+        "label": "Confirm your email",
+        "text": "Use the link we sent you. Invitations and rounds wait for it.",
+        "action": ""
+      },
+      "tryYourself": {
+        "label": "Take a test yourself",
+        "text": "See exactly what your employees will see.",
+        "action": "Try one"
+      },
+      "privacyContact": {
+        "label": "Add a privacy contact",
+        "text": "Employees see it before they agree to take part.",
+        "action": "Add"
+      },
+      "inviteColleague": {
+        "label": "Invite a colleague",
+        "text": "A psychologist or HR manager to work with.",
+        "action": "Invite"
+      },
+      "addPeople": {
+        "label": "Add the people you'll assess",
+        "text": "Invite them one by one or import a spreadsheet.",
+        "action": "Add people"
+      },
+      "sendRound": {
+        "label": "Send your first round",
+        "text": "Pick tests and people, and Calibre does the reminding.",
+        "action": "Start"
+      }
+    }
+  },
+  "welcome": {
+    "title": "You're a {role} at {organization}",
+    "dismiss": "Close",
+    "can": "What you can do",
+    "cannot": "What stays private",
+    "admin": {
+      "can": {
+        "one": "Invite people, set up teams and manage settings",
+        "two": "Send assessment rounds and set up schedules",
+        "three": "Read individual results and reports"
+      },
+      "cannot": {
+        "one": "Clinical screens stay with psychologists",
+        "two": "The audit log is for the owner"
+      }
+    },
+    "psychologist": {
+      "can": {
+        "one": "Send assessments, including clinical screens",
+        "two": "Read individual results and follow-up flags",
+        "three": "Write and archive conclusions"
+      },
+      "cannot": {
+        "one": "Billing and organization settings are for admins",
+        "two": "The audit log is for the owner"
+      }
+    },
+    "manager": {
+      "can": {
+        "one": "Send assessment rounds to your people",
+        "two": "See team averages and participation",
+        "three": "Follow analytics across teams"
+      },
+      "cannot": {
+        "one": "Individual answers and scores, to protect privacy",
+        "two": "Averages for groups smaller than five people"
+      }
+    }
   }
 }

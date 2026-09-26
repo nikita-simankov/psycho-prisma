@@ -1,135 +1,29 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
-import { checkSeat } from "@/utils/billing";
 import { prisma } from "@/utils/database";
-import { renderEmail } from "@/emails/render";
-import { absoluteUrl, sendMail } from "@/utils/mail";
+import { INVITATION_DAYS, invite, inviterName, mailInvitation, type InvitationResult } from "@/utils/invitations";
 import { assignableRoles } from "@/utils/roles";
 import { createToken } from "@/utils/tokens";
-import { DEFAULT_LOCALE, isLocale, LOCALES, type Locale } from "@/i18n/config";
-import { createTranslator } from "next-intl";
-import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import enMessages from "../../../messages/en.json";
 import ruMessages from "../../../messages/ru.json";
 
-const INVITATION_DAYS = 14;
-
-const invitationSchema = z.object({
-  email: z.string().trim().toLowerCase().email().max(254),
-  name: z.string().trim().max(100).default(""),
-  lastName: z.string().trim().max(100).default(""),
-  role: z.string(),
-  teamId: z.string().nullable().default(null),
-  position: z.string().trim().max(200).default(""),
-  // Language of the invitation email; defaults to the inviter's.
-  locale: z.enum(LOCALES).optional(),
-});
-
-export type InvitationResult = { link: string; emailed: boolean } | { error: "alreadyMember" | "planSeats" | "emailUnverified" };
-
-type Inviter = Awaited<ReturnType<typeof requireMember>>;
-
-type InvitationMail = {
-  organization: string;
-  email: string;
-  token: string;
-  role: string;
-  inviter: string;
-  locale: string;
-};
-
-// The invitation email, in the language the inviter chose. It says who invited the person, with
-// which role, and what that role can do, so a new psychologist isn't told they'll "take tests".
-async function mailInvitation({ organization, email, token, role, inviter, locale }: InvitationMail) {
-  const chosen: Locale = isLocale(locale) ? locale : DEFAULT_LOCALE;
-  const t = createTranslator({
-    locale: chosen,
-    messages: chosen === "ru" ? ruMessages : enMessages,
-    namespace: "mail.invitation",
-  });
-  const roleName = (chosen === "ru" ? ruMessages : enMessages).roles[role as keyof typeof enMessages.roles] ?? role;
-  const described = (["owner", "admin", "psychologist", "manager"] as const).find((r) => r === role) ?? "member";
-  const roleText = t(`roles.${described}`, { organization });
-  const link = await absoluteUrl(`/invite/${token}`);
-  const content = await renderEmail({
-    preview: t("preview", { organization, inviter }),
-    sender: organization,
-    heading: t("heading", { organization }),
-    paragraphs: [t("body", { organization, inviter, role: roleName }), roleText],
-    action: { label: t("action"), url: link },
-    notes: [t("expires", { days: INVITATION_DAYS }), t("ignore")],
-  });
-  const emailed = await sendMail({ to: email, subject: t("subject", { organization, inviter }), ...content });
-  return { link, emailed };
-}
-
-function inviterName(user: { name: string; lastName: string; email: string | null }) {
-  return [user.name, user.lastName].filter(Boolean).join(" ") || user.email || "";
-}
-
-async function invite({ user, membership, organization }: Inviter, data: unknown): Promise<InvitationResult> {
-  const invitation = invitationSchema.parse(data);
-
-  // Unconfirmed accounts can't email other people, so a made-up sign-up can't be used to send mail.
-  if (!user.emailVerifiedAt) {
-    return { error: "emailUnverified" };
-  }
-
-  if (!assignableRoles(membership.role).includes(invitation.role as never)) {
-    throw new Error("You cannot give this role");
-  }
-
-  if (invitation.teamId) {
-    await prisma.team.findFirstOrThrow({ where: { id: invitation.teamId, organizationId: organization.id } });
-  }
-
-  const existing = await prisma.membership.findFirst({
-    where: { organizationId: organization.id, user: { email: invitation.email } },
-  });
-
-  if (existing) {
-    return { error: "alreadyMember" };
-  }
-
-  if (!(await checkSeat(organization.id, invitation.role, invitation.email))) {
-    return { error: "planSeats" };
-  }
-
-  // A new invitation replaces any open one for the same address.
-  await prisma.invitation.deleteMany({
-    where: { organizationId: organization.id, email: invitation.email, acceptedAt: null },
-  });
-
-  const { token, tokenHash } = createToken();
-  const locale = invitation.locale ?? (await getLocale());
-
-  await prisma.invitation.create({
-    data: {
-      ...invitation,
-      locale,
-      tokenHash,
-      organizationId: organization.id,
-      invitedById: user.id,
-      expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000),
-    },
-  });
-
-  return mailInvitation({
-    organization: organization.name,
-    email: invitation.email,
-    token,
-    role: invitation.role,
-    inviter: inviterName(user),
-    locale,
-  });
-}
-
 // Creates an invitation and emails its link. The link is also returned so the
 // admin can pass it on when email is not configured.
+export type { InvitationResult };
+
+// Without `holdIfUnverified` an invitation is never held, it is sent or refused.
+async function sendNow(context: Awaited<ReturnType<typeof requireMember>>, data: unknown): Promise<InvitationResult> {
+  const result = await invite(context, data);
+  if ("held" in result) {
+    throw new Error("Unexpected held invitation");
+  }
+  return result;
+}
+
 export async function createInvitation(data: unknown): Promise<InvitationResult> {
-  return invite(await requireMember("manageMembers"), data);
+  return sendNow(await requireMember("manageMembers"), data);
 }
 
 const bulkRowSchema = z.object({
@@ -179,7 +73,7 @@ export async function createInvitations(rows: unknown): Promise<BulkInvitationRe
       continue;
     }
 
-    const result = await invite(context, {
+    const result = await sendNow(context, {
       email,
       name: row.name,
       lastName: row.lastName,
@@ -200,6 +94,10 @@ export async function createInvitations(rows: unknown): Promise<BulkInvitationRe
 // Sends the invitation again with a new link and a fresh expiry date.
 export async function resendInvitation(invitationId: unknown) {
   const { organization, user } = await requireMember("manageMembers");
+  // Held invitations go out with the email confirmation, not before.
+  if (!user.emailVerifiedAt) {
+    throw new Error("Confirm your email first");
+  }
   const invitation = await prisma.invitation.findFirstOrThrow({
     where: { id: z.string().parse(invitationId), organizationId: organization.id, acceptedAt: null },
   });
@@ -207,7 +105,7 @@ export async function resendInvitation(invitationId: unknown) {
 
   await prisma.invitation.update({
     where: { id: invitation.id },
-    data: { tokenHash, expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000) },
+    data: { tokenHash, held: false, expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000) },
   });
 
   return mailInvitation({

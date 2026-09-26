@@ -2,12 +2,20 @@ import "server-only";
 
 import { headers } from "next/headers";
 
+// Addresses under the reserved .invalid top-level domain can never receive mail.
+export const SAMPLE_EMAIL_DOMAIN = "@sample.calibre.invalid";
+
 type Mail = { to: string; subject: string; text: string; html?: string };
 
 // Sends through Resend when RESEND_API_KEY is set. Without it the message is logged,
 // and callers show the link to the admin so it can be passed on by hand.
 export async function sendMail({ to, subject, text, html }: Mail): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
+
+  // The fictional people in a sample workspace (src/utils/sample-workspace.ts) are never emailed.
+  if (to.endsWith(SAMPLE_EMAIL_DOMAIN)) {
+    return false;
+  }
 
   if (!apiKey) {
     console.info(`[mail] RESEND_API_KEY not set; not sending "${subject}" to ${to}:\n${text}`);

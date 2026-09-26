@@ -4,14 +4,14 @@ import { signUpSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { prisma } from "@/utils/database";
 import { consumeRateLimit } from "@/utils/rate-limit";
 import { sendVerificationEmail } from "@/utils/email-verification";
-import { createOwnedOrganization, isOrganizationNameTaken } from "@/utils/organizations";
+import { createOwnedOrganization } from "@/utils/organizations";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { getLocale } from "next-intl/server";
 import { headers } from "next/headers";
 
-type SignUpError = "rateLimited" | "invalidInput" | "emailTaken" | "organizationTaken";
+type SignUpError = "rateLimited" | "invalidInput" | "emailTaken";
 
 // Creates an account and the organization it owns, then signs the person in.
 export async function signUp(data: unknown): Promise<{ redirectTo: string } | { error: SignUpError }> {
@@ -33,10 +33,6 @@ export async function signUp(data: unknown): Promise<{ redirectTo: string } | { 
     return { error: "emailTaken" };
   }
 
-  if (await isOrganizationNameTaken(organization)) {
-    return { error: "organizationTaken" };
-  }
-
   const user = await prisma.user.create({
     data: { ...profile, id: randomUUID(), password: await hash(password, 10), locale: await getLocale() },
   });
@@ -48,5 +44,5 @@ export async function signUp(data: unknown): Promise<{ redirectTo: string } | { 
   await startSession(user.id);
   await rememberOrganization(created.slug);
 
-  return { redirectTo: `/${created.slug}` };
+  return { redirectTo: "/start" };
 }

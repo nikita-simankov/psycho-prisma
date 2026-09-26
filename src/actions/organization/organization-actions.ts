@@ -2,13 +2,7 @@
 
 import { AuthorizationError, requireFullSession, requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import {
-  createOwnedOrganization,
-  isOrganizationNameTaken,
-  organizationNameKey,
-  OrganizationNameTakenError,
-  uniqueSlug,
-} from "@/utils/organizations";
+import { createOwnedOrganization, organizationDeletion, organizationNameKey, uniqueSlug } from "@/utils/organizations";
 import { rememberOrganization } from "@/utils/session";
 import { customFieldsSchema } from "@/utils/profile-fields";
 import { audit } from "@/utils/audit";
@@ -17,20 +11,11 @@ import { z } from "zod";
 const nameSchema = z.string().trim().min(2).max(100);
 
 // Creates an organization owned by the signed-in person; the caller then opens /[slug].
-export async function createOrganization(name: string): Promise<{ slug: string } | { error: "nameTaken" }> {
+export async function createOrganization(name: string): Promise<{ slug: string }> {
   const user = await requireFullSession();
-  const organizationName = nameSchema.parse(name);
-
-  try {
-    const organization = await createOwnedOrganization(user.id, organizationName);
-    await rememberOrganization(organization.slug);
-    return { slug: organization.slug };
-  } catch (error) {
-    if (error instanceof OrganizationNameTakenError) {
-      return { error: "nameTaken" };
-    }
-    throw error;
-  }
+  const organization = await createOwnedOrganization(user.id, nameSchema.parse(name));
+  await rememberOrganization(organization.slug);
+  return { slug: organization.slug };
 }
 
 const settingsSchema = z
@@ -52,14 +37,10 @@ const PLACEHOLDER_SLUG = "default";
 
 export async function updateOrganizationSettings(
   data: unknown
-): Promise<{ ok: true; slug: string } | { error: "nameTaken" }> {
+): Promise<{ ok: true; slug: string }> {
   const { organization, user } = await requireMember("manageSettings");
   const parsed = settingsSchema.parse(data);
   const { name, feedbackTestIds, customFields, ...rest } = parsed;
-
-  if (name !== undefined && (await isOrganizationNameTaken(name, organization.id))) {
-    return { error: "nameTaken" };
-  }
 
   const cleanName = name?.replace(/\s+/g, " ");
   const slug =
@@ -138,19 +119,7 @@ export async function deleteOrganization(confirmation: unknown): Promise<{ ok: t
     return { error: "nameMismatch" };
   }
 
-  const scope = { organizationId: organization.id };
-  await prisma.$transaction([
-    prisma.testSubmission.deleteMany({ where: scope }),
-    prisma.formSubmission.deleteMany({ where: scope }),
-    prisma.userSummary.deleteMany({ where: scope }),
-    prisma.reportVersion.deleteMany({ where: scope }),
-    prisma.draft.deleteMany({ where: scope }),
-    prisma.analyticsView.deleteMany({ where: scope }),
-    prisma.auditEvent.deleteMany({ where: scope }),
-    prisma.test.deleteMany({ where: scope }),
-    prisma.form.deleteMany({ where: scope }),
-    prisma.organization.delete({ where: { id: organization.id } }),
-  ]);
+  await prisma.$transaction(organizationDeletion(organization.id));
 
   return { ok: true };
 }

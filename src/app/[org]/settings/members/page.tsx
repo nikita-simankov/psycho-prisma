@@ -78,7 +78,9 @@ export default async function MembersPage() {
                     </p>
                   </div>
                   <span className={expired ? "font-mono text-xs text-destructive" : "font-mono text-xs text-muted-foreground"}>
-                    {expired
+                    {invitation.held
+                      ? t("invitations.held")
+                      : expired
                       ? t("invitations.expired")
                       : t("invitations.expires", { date: format.dateTime(invitation.expiresAt, { dateStyle: "medium" }) })}
                   </span>

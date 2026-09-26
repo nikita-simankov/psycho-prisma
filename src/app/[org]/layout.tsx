@@ -3,6 +3,8 @@ import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
+import { SampleBanner } from "@/components/onboarding/sample-banner";
+import { prisma } from "@/utils/database";
 import { BillingBanner } from "@/components/billing/billing-banner";
 import { BreadcrumbProvider } from "@/components/breadcrumbs";
 import { OrganizationProvider } from "@/components/organization-provider";
@@ -17,7 +19,13 @@ import { AppSidebar } from "./components/app-sidebar";
 export default async function OrganizationLayout({ children }: { children: React.ReactNode }) {
   const context = await ensureMember("viewDashboard");
   const { organization, membership, memberships, user } = context;
-  const [users, tests, forms, teams] = await Promise.all([findAllUsers(), findAllTests(), findAllForms(), findAllTeams()]);
+  const [users, tests, forms, teams, settings] = await Promise.all([
+    findAllUsers(),
+    findAllTests(),
+    findAllForms(),
+    findAllTeams(),
+    prisma.organization.findUniqueOrThrow({ where: { id: organization.id }, select: { isSample: true } }),
+  ]);
 
   return (
     <OrganizationProvider value={{ slug: organization.slug, name: organization.name, role: membership.role }}>
@@ -43,8 +51,9 @@ export default async function OrganizationLayout({ children }: { children: React
                 teams: teams.map((team) => ({ id: team.id, name: team.name })),
               }}
             />
+            {settings.isSample && <SampleBanner canDelete={membership.role === "owner"} />}
             {!user.emailVerifiedAt && user.email && <VerifyEmailBanner email={user.email} />}
-            <BillingBanner organizationId={organization.id} role={membership.role} base={`/${organization.slug}`} />
+            {!settings.isSample && <BillingBanner organizationId={organization.id} role={membership.role} base={`/${organization.slug}`} />}
             <div id="main" tabIndex={-1} className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 outline-hidden sm:px-6 lg:px-8 print:p-0">{children}</div>
           </SidebarInset>
         </SidebarProvider>
