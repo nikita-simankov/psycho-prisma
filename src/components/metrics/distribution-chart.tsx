@@ -32,7 +32,7 @@ export function DistributionCharts({ scales }: { scales: Distribution[] }) {
                 >
                   <ChartTip
                     label={`${scale.scaleName}\n${chart(`kind.${scale.kind}`)} ${bin.label}: ${t("people", { count: bin.count })}`}
-                    className="relative block w-full rounded-t-[4px] bg-series-1 outline-none before:absolute before:-top-4 before:inset-x-0 before:h-4 before:content-[''] focus-visible:ring-2 focus-visible:ring-ring"
+                    className="relative block w-full rounded-t-[4px] bg-series-1 outline-hidden before:absolute before:-top-4 before:inset-x-0 before:h-4 before:content-[''] focus-visible:ring-2 focus-visible:ring-ring"
                     style={{ height: bin.count === 0 ? 0 : `${Math.max(4, (bin.count / max) * 100)}%` }}
                   />
                 </div>

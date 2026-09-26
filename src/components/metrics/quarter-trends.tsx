@@ -43,7 +43,7 @@ export function QuarterTrends({ series }: { series: QuarterSeries[] }) {
                 <ChartTip
                   key={point.key}
                   label={`${quarter(point)}\n${chart(`kind.${scale.kind}`)} ${point.average} · ${t("people", { count: point.people })}`}
-                  className="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-series-1 outline-none ring-2 ring-card before:absolute before:-inset-2 before:content-[''] focus-visible:ring-ring"
+                  className="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-series-1 outline-hidden ring-2 ring-card before:absolute before:-inset-2 before:content-[''] focus-visible:ring-ring"
                   style={{ left: `${x(index)}%`, top: `${y(point.average)}%` }}
                 />
               ))}

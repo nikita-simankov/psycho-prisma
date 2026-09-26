@@ -24,7 +24,7 @@ export function ParticipationBars({ bars }: { bars: Bar[] }) {
               <div className="relative h-3 rounded-full bg-muted">
                 <ChartTip
                   label={`${bar.name}\n${t("completedOf", bar.value)}`}
-                  className="absolute inset-y-0 left-0 rounded-full bg-series-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="absolute inset-y-0 left-0 rounded-full bg-series-1 outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                   style={{ width: `${Math.max(bar.value.percent, 1)}%` }}
                 />
               </div>

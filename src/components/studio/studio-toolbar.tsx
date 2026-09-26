@@ -112,7 +112,7 @@ export function StudioToolbar({
   });
 
   return (
-    <div className="sticky top-0 z-20 -mx-4 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+    <div className="sticky top-0 z-20 -mx-4 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur-sm sm:-mx-6 sm:px-6">
       <div className="flex items-center gap-3 text-sm">
         <span className="text-muted-foreground">{version === 0 ? t("unpublished") : t("editingVersion", { version })}</span>
         <SaveStatus status={status} />

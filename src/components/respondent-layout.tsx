@@ -14,7 +14,7 @@ export async function RespondentLayout({ children }: { children: React.ReactNode
   return (
     <div className="flex min-h-dvh flex-col">
       <RespondentHeader />
-      <main id="main" tabIndex={-1} className="flex-1 outline-none">{children}</main>
+      <main id="main" tabIndex={-1} className="flex-1 outline-hidden">{children}</main>
     </div>
   );
 }

@@ -57,7 +57,7 @@ export function Heatmap({ groups, everyoneLabel }: { groups: GroupAverage[]; eve
                         <ChartTip
                           label={`${label} · ${scale.scaleName}\n${chart(`kind.${cell.kind}`)} ${cell.average}`}
                           className={cn(
-                            "block rounded-[4px] p-2 text-center tabular-nums outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                            "block rounded-[4px] p-2 text-center tabular-nums outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
                             step >= 5 ? "text-white" : "text-[#0b0b0b]"
                           )}
                           style={{ background: `var(--seq-${STEPS[step - 1]})` }}

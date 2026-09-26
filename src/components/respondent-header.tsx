@@ -15,7 +15,7 @@ export async function RespondentHeader() {
   const context = await getContext();
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 px-4 sm:gap-4">
         <Link href="/assessments" className="shrink-0">
           <Logo withText className="[&>span]:hidden sm:[&>span]:inline" />
@@ -35,7 +35,7 @@ export async function RespondentHeader() {
               trigger={
                 <button
                   type="button"
-                  className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                   aria-label={menu("open")}
                 >
                   <UserAvatar user={context.user} className="h-8 w-8" />

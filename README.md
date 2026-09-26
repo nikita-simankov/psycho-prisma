@@ -113,7 +113,7 @@ Tests and forms retired in the move away from military use are kept in `prisma/s
 
 ## Design
 
-Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are Inter for text and Manrope for headings (`src/app/layout.tsx`), and the logo is `src/components/ui/logo.tsx`. Staff pages live under `src/app/[org]/` inside an inset sidebar (`src/components/ui/sidebar.tsx`, groups in `src/app/[org]/components/navigation.ts`) with breadcrumbs and a Ctrl+K search. They start with `PageHeader`, which also names the last breadcrumb, and share `loading.tsx`, `error.tsx`, `not-found.tsx` and `EmptyState`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
+Styling is Tailwind 4, configured in CSS: design tokens live in `src/app/globals.css` in three layers (primitives, semantic tokens per light/dark theme, and the `@theme` block that generates utilities). Fonts are Onest for the interface, Literata for headings and JetBrains Mono for data (`src/app/layout.tsx`). Signed-in users can open `/design` to see every token and base component in both themes, and the logo is `src/components/ui/logo.tsx`. Staff pages live under `src/app/[org]/` inside an inset sidebar (`src/components/ui/sidebar.tsx`, groups in `src/app/[org]/components/navigation.ts`) with breadcrumbs and a Ctrl+K search. They start with `PageHeader`, which also names the last breadcrumb, and share `loading.tsx`, `error.tsx`, `not-found.tsx` and `EmptyState`; respondent screens are built for phones first, with one question per screen and a Back button (`src/components/runner/`).
 
 ## Organizations and roles
 

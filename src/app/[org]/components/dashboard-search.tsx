@@ -59,7 +59,7 @@ export default function DashboardSearch({ users, forms, tests, teams }: Readonly
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-9 w-9 items-center justify-center gap-2 rounded-lg border bg-card text-sm text-muted-foreground shadow-sm transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-64 sm:justify-start sm:px-3"
+        className="flex h-9 w-9 items-center justify-center gap-2 rounded-lg border bg-card text-sm text-muted-foreground shadow-xs transition-colors hover:border-primary/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring sm:w-64 sm:justify-start sm:px-3"
       >
         <Search className="h-4 w-4 shrink-0" />
         <span className="sr-only sm:not-sr-only sm:flex-1 sm:truncate sm:text-left">{t("placeholder")}</span>

@@ -15,7 +15,7 @@ export function ResultPreview() {
 
   return (
     <div className="relative mx-auto w-full max-w-md" aria-hidden="true">
-      <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/20 via-transparent to-success/20 blur-2xl" />
+      <div className="absolute -inset-6 -z-10 rounded-4xl bg-linear-to-br from-primary/20 via-transparent to-success/20 blur-2xl" />
       <div className="rounded-2xl border bg-card p-5 shadow-xl shadow-primary/5">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">

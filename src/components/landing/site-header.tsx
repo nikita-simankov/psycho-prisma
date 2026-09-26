@@ -10,7 +10,7 @@ export async function SiteHeader() {
   const common = await getTranslations("common");
 
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
         <Link href="/">
           <Logo withText />

@@ -63,7 +63,7 @@ function OrganizationSwitcher({ organizations }: { organizations: OrganizationOp
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width] min-w-60" align="start" side={isMobile ? "bottom" : "right"}>
+          <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width) min-w-60" align="start" side={isMobile ? "bottom" : "right"}>
             <DropdownMenuLabel className="text-xs font-medium text-muted-foreground">{t("yours")}</DropdownMenuLabel>
             {organizations.map((organization) => (
               <DropdownMenuItem key={organization.slug} asChild>
