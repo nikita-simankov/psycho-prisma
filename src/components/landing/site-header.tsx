@@ -3,6 +3,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
 import { Menu } from "lucide-react";
+import { cn } from "@/utils/utils";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -14,18 +15,18 @@ export const SITE_LINKS = [
 ] as const;
 
 // Header for the public site: landing, product, pricing, instruments, security and legal pages.
-export async function SiteHeader() {
+export async function SiteHeader({ wide }: { wide?: boolean } = {}) {
   const t = await getTranslations("site");
   const common = await getTranslations("common");
 
   return (
     <header className="sticky top-0 z-30 border-b bg-background/90 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
+      <div className={cn("mx-auto flex h-16 items-center justify-between gap-4 px-4", wide ? "max-w-[88rem] sm:px-8" : "max-w-6xl")}>
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={common("appName")}>
             <Logo withText />
           </Link>
-          <nav aria-label={t("nav.label")} className="hidden md:block">
+          <nav aria-label={t("nav.label")} className="hidden lg:block">
             <ul className="flex items-center gap-6 text-sm">
               {SITE_LINKS.map(({ key, href }) => (
                 <li key={key}>
@@ -46,7 +47,7 @@ export async function SiteHeader() {
           <Button size="sm" asChild className="hidden sm:inline-flex">
             <Link href="/auth/sign-up">{t("trial")}</Link>
           </Button>
-          <details className="group relative md:hidden">
+          <details className="group relative lg:hidden">
             <summary className="flex size-9 cursor-pointer list-none items-center justify-center rounded-md hover:bg-secondary [&::-webkit-details-marker]:hidden">
               <Menu className="size-4" aria-hidden />
               <span className="sr-only">{t("nav.menu")}</span>

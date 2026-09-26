@@ -61,14 +61,39 @@
   "landing": {
     "hero": {
       "eyebrow": "Psychological assessment for HR teams",
-      "title": "Assessment your people can trust",
-      "lead": "Run established tests and questionnaires as rounds, get scored reports the moment people finish, and see how teams compare. Consent, privacy and a psychologist's judgement are built in, not bolted on.",
+      "languages": "In English and Russian",
+      "title": "Psychological assessment, measured with <em>care</em>",
+      "lead": "Send established tests and questionnaires as rounds, read scored reports the moment people finish, and see each result in the context of a team. Consent, privacy and a psychologist's judgement come built in.",
       "cta": "Start a 14-day free trial",
       "secondary": "See pricing",
-      "note": "No card needed. You move to the Free plan when the trial ends, and keep your data."
+      "note": "No card needed. You move to the Free plan when the trial ends, and keep your data.",
+      "figure": "Fig. 1. Each line is one team's spread of scores. The blue line is a single person, read against everyone else.",
+      "scroll": "Scroll to read on"
+    },
+    "manifesto": {
+      "label": "Why it matters",
+      "text": "An ordinary HR form asks what someone did. A psychological assessment asks how someone thinks, works and copes. An answer like that deserves consent, privacy and a specialist's judgement, every single time."
+    },
+    "specimen": {
+      "label": "The report",
+      "title": "A result you can read, not a number to decode",
+      "notes": {
+        "scored": {
+          "title": "Scored on submit",
+          "text": "Raw scores become stens and T-scores the moment the last answer is saved."
+        },
+        "context": {
+          "title": "Read in context",
+          "text": "The average band and the team's mean sit beside the person, so a 3 means something."
+        },
+        "judgement": {
+          "title": "Closed by a specialist",
+          "text": "A psychologist adds background and a conclusion before anyone acts on it."
+        }
+      }
     },
     "figure": {
-      "caption": "Fig. 1. One person's profile against the average band and their team's mean.",
+      "caption": "Fig. 2. One person's profile against the average band and their team's mean.",
       "label": "Report excerpt",
       "person": "Olga Petrova",
       "role": "Product design · submitted 12 September",
@@ -160,6 +185,16 @@
       "title": "Run your first round this week",
       "text": "Create a workspace, invite a colleague and send a first assessment in a few minutes.",
       "button": "Start free trial"
+    },
+    "facts": {
+      "label": "In numbers",
+      "library": "instruments ready to send on day one",
+      "languages": "languages, English and Russian, for people and content",
+      "group": "people, at least, before any team average is shown",
+      "trial": "days of the Business plan to try, with no card"
+    },
+    "closing": {
+      "title": "Run your first round <em>this week</em>"
     }
   },
   "auth": {
