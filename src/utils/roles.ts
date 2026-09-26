@@ -26,6 +26,8 @@ const PERMISSIONS = {
   viewIndividualResults: ["owner", "admin", "psychologist"],
   // Results of clinical and wellbeing screens, and the restricted follow-up flag.
   viewSensitive: ["owner", "psychologist"],
+  // Read the audit log of who opened or changed personal data.
+  viewAudit: ["owner"],
   // Write and archive a person's conclusion.
   writeConclusions: ["owner", "psychologist"],
 } satisfies Record<string, readonly Role[]>;

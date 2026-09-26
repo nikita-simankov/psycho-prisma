@@ -12,6 +12,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PrintButton from "../../components/print-button";
 import { loadReport } from "./load-report";
+import { auditAs } from "@/utils/audit";
 import { ReportEditor, SaveVersionButton } from "./report-editor";
 import { ReportOutline } from "./report-outline";
 
@@ -27,6 +28,8 @@ export default async function ReportPage({ params }: PathParams) {
   if (!user) {
     notFound();
   }
+
+  await auditAs(context, "viewReport", { subjectId: user.id });
 
   const write = can(context.membership.role, "writeConclusions");
   const latest = versions[0];

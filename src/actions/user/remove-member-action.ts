@@ -1,7 +1,9 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
+import { eraseInOrganization } from "@/utils/erasure";
 import { z } from "zod";
 
 // Removes a person from the active organization together with everything they
@@ -22,12 +24,6 @@ export async function removeMember(userId: string) {
     throw new Error("Only an owner can remove an owner");
   }
 
-  const scope = { userId: id, organizationId: organization.id };
-
-  await prisma.$transaction([
-    prisma.testSubmission.deleteMany({ where: scope }),
-    prisma.formSubmission.deleteMany({ where: scope }),
-    prisma.userSummary.deleteMany({ where: scope }),
-    prisma.membership.delete({ where: { id: target.id } }),
-  ]);
+  await prisma.$transaction([...eraseInOrganization(id, organization.id), prisma.membership.delete({ where: { id: target.id } })]);
+  await audit(organization.id, user.id, "removeMember", { subjectId: id, detail: { role: target.role } });
 }

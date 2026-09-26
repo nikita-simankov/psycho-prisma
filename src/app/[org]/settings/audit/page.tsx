@@ -1,0 +1,279 @@
+import { PageHeader } from "@/components/page-header";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  AUDIT_ACTIONS,
+  AUDIT_RETENTION_MONTHS,
+  type AuditAction,
+} from "@/utils/audit";
+import { ensureMember } from "@/utils/authentication";
+import { prisma } from "@/utils/database";
+import { organizationBase } from "@/utils/organization-path";
+import { formatFullName } from "@/utils/user";
+import { isRole } from "@/utils/roles";
+import { getFormatter, getLocale, getTranslations } from "next-intl/server";
+import { localizeForm, localizeTest } from "@/utils/content-translation";
+import Link from "next/link";
+import { AuditFilters } from "./audit-filters";
+
+const PAGE_SIZE = 50;
+
+export async function generateMetadata() {
+  const t = await getTranslations("audit");
+  return { title: t("title") };
+}
+
+export default async function AuditPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | undefined>;
+}) {
+  const { organization } = await ensureMember("viewAudit");
+  const base = organizationBase();
+  const t = await getTranslations("audit");
+  const roles = await getTranslations("roles");
+  const format = await getFormatter();
+  const page = Math.max(1, Math.floor(Number(searchParams.page)) || 1);
+  const action = AUDIT_ACTIONS.find((entry) => entry === searchParams.action);
+  const person =
+    typeof searchParams.person === "string" ? searchParams.person : undefined;
+  const where = {
+    organizationId: organization.id,
+    ...(action && { action }),
+    ...(person && { OR: [{ subjectId: person }, { actorId: person }] }),
+  };
+
+  const [events, total, memberships] = await Promise.all([
+    prisma.auditEvent.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.auditEvent.count({ where }),
+    prisma.membership.findMany({
+      where: { organizationId: organization.id },
+      select: {
+        userId: true,
+        user: { select: { name: true, middleName: true, lastName: true } },
+      },
+    }),
+  ]);
+
+  // People who left keep their events; their names are gone with their membership.
+  const names = new Map(
+    memberships.map((membership) => [
+      membership.userId,
+      formatFullName(membership.user),
+    ]),
+  );
+  const [tests, forms] = await Promise.all([
+    prisma.test.findMany({
+      where: {
+        id: {
+          in: events.flatMap((event) => detailOf(event.detail).testId ?? []),
+        },
+      },
+    }),
+    prisma.form.findMany({
+      where: {
+        id: {
+          in: events.flatMap((event) => detailOf(event.detail).formId ?? []),
+        },
+      },
+    }),
+  ]);
+  const locale = await getLocale();
+  const instrument = new Map([
+    ...tests.map((test) => [test.id, localizeTest(test, locale).name] as const),
+    ...forms.map((form) => [form.id, localizeForm(form, locale).name] as const),
+  ]);
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const pageHref = (target: number) => {
+    const params = new URLSearchParams({
+      ...(action && { action }),
+      ...(person && { person }),
+      page: String(target),
+    });
+    return `${base}/settings/audit?${params}`;
+  };
+
+  const personCell = (id: string | null, fallback: string) =>
+    id === null ? (
+      <span className="text-muted-foreground">{fallback}</span>
+    ) : names.has(id) ? (
+      <Link
+        href={`${base}/people/${id}`}
+        className="underline-offset-4 hover:underline"
+      >
+        {names.get(id)}
+      </Link>
+    ) : (
+      <span className="text-muted-foreground">{t("formerMember")}</span>
+    );
+
+  const rows = events.map((event) => {
+    const detail = detailOf(event.detail);
+    return {
+      id: event.id,
+      when: format.dateTime(event.createdAt, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
+      actor: personCell(event.actorId, t("system")),
+      subject: personCell(event.subjectId, "—"),
+      action: t(`actions.${event.action as AuditAction}`),
+      about: [
+        detail.testId && instrument.get(detail.testId),
+        detail.formId && instrument.get(detail.formId),
+        detail.version && t("version", { version: detail.version }),
+        detail.role &&
+          t("roleChange", {
+            role: isRole(detail.role) ? roles(detail.role) : detail.role,
+          }),
+        detail.deleted && t("deleted", { count: Number(detail.deleted) }),
+        detail.kind === "candidate" && t("candidateErased"),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    };
+  });
+
+  return (
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        title={t("title")}
+        description={t("description", { months: AUDIT_RETENTION_MONTHS })}
+        back={{ href: `${base}/settings`, label: t("back") }}
+        className="mb-0"
+      />
+      <AuditFilters
+        action={action}
+        person={person}
+        actions={AUDIT_ACTIONS.map((key) => ({
+          key,
+          label: t(`actions.${key}`),
+        }))}
+        people={Array.from(names.entries())
+          .map(([id, name]) => ({ id, name }))
+          .sort((a, b) => a.name.localeCompare(b.name))}
+      />
+      <Card>
+        <CardContent className="p-0">
+          {events.length === 0 ? (
+            <p className="p-6 text-muted-foreground">{t("empty")}</p>
+          ) : (
+            <>
+              <ul className="divide-y sm:hidden">
+                {rows.map((row) => (
+                  <li
+                    key={row.id}
+                    className="flex flex-col gap-0.5 p-4 text-sm"
+                  >
+                    <span className="font-medium">{row.action}</span>
+                    {row.about && (
+                      <span className="text-xs text-muted-foreground">
+                        {row.about}
+                      </span>
+                    )}
+                    <span className="text-muted-foreground">
+                      {row.actor} → {row.subject}
+                    </span>
+                    <span className="text-xs tabular-nums text-muted-foreground">
+                      {row.when}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Table className="hidden sm:table">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{t("when")}</TableHead>
+                    <TableHead>{t("who")}</TableHead>
+                    <TableHead>{t("what")}</TableHead>
+                    <TableHead>{t("whose")}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell className="whitespace-nowrap text-sm tabular-nums">
+                        {row.when}
+                      </TableCell>
+                      <TableCell>{row.actor}</TableCell>
+                      <TableCell>
+                        <span className="font-medium">{row.action}</span>
+                        {row.about && (
+                          <span className="block text-xs text-muted-foreground">
+                            {row.about}
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell>{row.subject}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
+          )}
+        </CardContent>
+      </Card>
+      {pages > 1 && (
+        <nav
+          className="flex items-center justify-between gap-2"
+          aria-label={t("pagination")}
+        >
+          <Button
+            variant="outline"
+            size="sm"
+            asChild={page > 1}
+            disabled={page <= 1}
+          >
+            {page > 1 ? (
+              <Link href={pageHref(page - 1)}>{t("newer")}</Link>
+            ) : (
+              <span>{t("newer")}</span>
+            )}
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            {t("page", { page, pages })}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            asChild={page < pages}
+            disabled={page >= pages}
+          >
+            {page < pages ? (
+              <Link href={pageHref(page + 1)}>{t("older")}</Link>
+            ) : (
+              <span>{t("older")}</span>
+            )}
+          </Button>
+        </nav>
+      )}
+    </div>
+  );
+}
+
+function detailOf(value: string): Record<string, string | undefined> {
+  try {
+    const parsed = JSON.parse(value);
+    return Object.fromEntries(
+      Object.entries(parsed).map(([key, entry]) => [
+        key,
+        entry === null ? undefined : String(entry),
+      ]),
+    );
+  } catch {
+    return {};
+  }
+}

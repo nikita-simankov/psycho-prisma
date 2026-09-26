@@ -1,6 +1,7 @@
 "use server";
 
 import { AuthorizationError, requireMember } from "@/utils/authentication";
+import { assertConsented } from "@/utils/consent";
 import { prisma } from "@/utils/database";
 import { can } from "@/utils/roles";
 import { openAssignmentFor } from "@/utils/rounds";
@@ -17,6 +18,7 @@ const draftSchema = z
 // Keeps answers in progress on the server, so closing the tab or switching devices loses nothing.
 export async function saveDraft(kind: unknown, instrumentId: unknown, data: unknown) {
   const { user, membership, organization } = await requireMember();
+  assertConsented(membership);
   const item = { kind: z.enum(["test", "form"]).parse(kind), id: z.string().parse(instrumentId) };
   const draft = draftSchema.parse(data);
 

@@ -48,6 +48,10 @@ model Organization {
   customFields       String  @default("[]")
   // Who respondents contact about their data; shown in the privacy notice.
   privacyContact     String  @default("")
+  // Results older than this many months are deleted automatically; 0 keeps them.
+  retentionMonths          Int @default(0)
+  // Candidates are erased this many months after their last round closed; 0 keeps them.
+  candidateRetentionMonths Int @default(0)
 
   memberships Membership[]
   invitations Invitation[]
@@ -354,4 +358,22 @@ model AnalyticsView {
   createdAt      DateTime @default(now())
 
   @@index([organizationId, userId])
+}
+
+// Who viewed or changed personal data and when. Details never hold scores or answers.
+model AuditEvent {
+  id             String   @id @default(uuid())
+  organizationId String
+  // Null for automatic jobs such as retention clean-up.
+  actorId        String?
+  // See AUDIT_ACTIONS in src/utils/audit.ts.
+  action         String
+  // The person whose data was involved, if any.
+  subjectId      String?
+  // JSON with a few identifiers, e.g. { "testId": "...", "role": "admin" }.
+  detail         String   @default("{}")
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId, createdAt])
+  @@index([organizationId, subjectId])
 }

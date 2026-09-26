@@ -169,6 +169,11 @@ export default async function UserProfilePage({ params }: PathParams) {
                 <Link href={`${base}/reports/${user.id}`}>{t("openReport")}</Link>
               </Button>
             )}
+            {can(membership.role, "viewAudit") && (
+              <Button variant="ghost" asChild>
+                <Link href={`${base}/settings/audit?person=${user.id}`}>{t("accessHistory")}</Link>
+              </Button>
+            )}
             {manage && <EditUserDialog user={user} />}
             {manage && (
               <ProfileDetailsDialog

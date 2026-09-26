@@ -8,6 +8,7 @@ import { getFormatter, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import PrintButton from "../../../../components/print-button";
 import { loadReport } from "../../load-report";
+import { auditAs } from "@/utils/audit";
 
 type PathParams = { params: { userId: string; version: string } };
 
@@ -34,6 +35,7 @@ export default async function ReportVersionPage({ params }: PathParams) {
     notFound();
   }
 
+  await auditAs(first.context, "viewReportVersion", { subjectId: params.userId, detail: { version: version.version } });
   const ids = JSON.parse(version.submissionIds) as string[];
   const { results } = ids.length ? await loadReport(params.userId, ids) : { results: [] };
   const text = (label: string, value: string) => (
