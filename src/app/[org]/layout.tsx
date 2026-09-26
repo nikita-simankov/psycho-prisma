@@ -41,7 +41,7 @@ export default async function OrganizationLayout({ children }: { children: React
                 teams: teams.map((team) => ({ id: team.id, name: team.name })),
               }}
             />
-            <div className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8 print:p-0">{children}</div>
+            <div id="main" tabIndex={-1} className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8 print:p-0">{children}</div>
           </SidebarInset>
         </SidebarProvider>
       </BreadcrumbProvider>

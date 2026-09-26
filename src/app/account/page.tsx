@@ -22,7 +22,7 @@ export default async function AccountPage() {
   return (
     <div className="flex min-h-dvh flex-col">
       <RespondentHeader />
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
+      <main id="main" className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
         <PageHeader title={t("title")} description={t("description")} />
         <ProfileForm
           initial={{

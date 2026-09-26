@@ -40,7 +40,8 @@
     "fileHint": "Upload an .xlsx file based on the template.",
     "menu": "Menu",
     "privacy": "Privacy",
-    "done": "Done"
+    "done": "Done",
+    "skipToContent": "Skip to content"
   },
   "validation": {
     "required": "Required",
@@ -373,7 +374,18 @@
     "doneTitle": "All done!",
     "formDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
     "testDoneText": "You have answered every question in “{name}”. Press Finish to save your answers.",
-    "saveError": "Your answers were not saved. Try again."
+    "saveError": "Your answers were not saved. Try again.",
+    "minutesLeft": "{count, plural, one {About # minute left} other {About # minutes left}}",
+    "almostDone": "Almost done",
+    "pause": "Pause",
+    "answeredOf": "{answered} of {total} answered",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "notSaved": "Not saved yet, will retry",
+    "statements": "Statements {from}–{to} of {total}",
+    "pageTitle": "Page {page} of {pages}",
+    "pageKeys": "Keys 1–9 answer the next statement, Enter goes on, Backspace goes back.",
+    "questionKeys": "Keys 1–9 pick an answer, Enter goes on, Backspace goes back."
   },
   "respondent": {
     "forms": "Questionnaires",
@@ -391,7 +403,9 @@
     "privacyNote": "Your answers are seen only by the HR specialists and psychologists in your organization.",
     "instruction": "Instruction",
     "about": "About",
-    "home": "My assessments"
+    "home": "My assessments",
+    "continue": "Continue",
+    "resumeNote": "You have answered {answered} of {total}. Your answers are saved, so you can pick up where you left off."
   },
   "scores": {
     "raw": "Raw score",

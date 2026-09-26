@@ -6,13 +6,14 @@ import { libraryWhere } from "@/utils/library";
 import { can } from "@/utils/roles";
 import { completeIfDone, openAssignmentFor } from "@/utils/rounds";
 import { scoreSubmission } from "@/utils/scoring";
+import { cleanTimings, deleteDraft } from "@/utils/drafts";
 import { z } from "zod";
 
 const responsesSchema = z
   .array(z.object({ questionId: z.number(), choiceId: z.number() }))
   .max(2000);
 
-export async function uploadTestSubmission(testId: string, submission: unknown, assignmentId?: string) {
+export async function uploadTestSubmission(testId: string, submission: unknown, assignmentId?: string, timings?: unknown) {
   const { user, membership, organization } = await requireMember();
   const responses = responsesSchema.parse(submission);
   const id = z.string().parse(testId);
@@ -37,10 +38,13 @@ export async function uploadTestSubmission(testId: string, submission: unknown, 
       userId: user.id,
       testId: test.id,
       assignmentId: assignment?.id,
+      timings: cleanTimings(timings),
       summary: score ? JSON.stringify(score.result) : "",
       submission: JSON.stringify(responses),
     },
   });
+
+  await deleteDraft(user.id, organization.id, "test", id);
 
   if (assignment) {
     await completeIfDone(assignment.id);

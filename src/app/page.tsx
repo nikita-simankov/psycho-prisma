@@ -37,7 +37,7 @@ export default async function LandingPage() {
     <div className="flex min-h-dvh flex-col">
       <SiteHeader />
 
-      <main className="flex flex-1 flex-col">
+      <main id="main" className="flex flex-1 flex-col">
         <section className="relative overflow-hidden px-4 py-16 sm:py-24">
           <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-gradient-to-b from-accent/70 to-transparent" />
           <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.1fr_1fr]">
