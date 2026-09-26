@@ -2,13 +2,18 @@ import "server-only";
 
 import { prisma } from "./database";
 import { localizedTestsAsAnswered } from "./instrument-versions";
-import { groupAverages } from "./results";
+import { groupAverages, hiddenGroups } from "./results";
 import { scoreSubmission, toScaleRows } from "./scoring";
 import type { Test } from "@prisma/client";
 
 // Team and organization averages for one test, from each current member's latest result, each
 // scored with the version of the test it answered.
 export async function latestGroupAverages(organizationId: string, test: Test, locale: string) {
+  return (await latestGroups(organizationId, test, locale)).groups;
+}
+
+// As latestGroupAverages, with the teams held back for being too small.
+export async function latestGroups(organizationId: string, test: Test, locale: string) {
   const [submissions, memberships, teams] = await Promise.all([
     prisma.testSubmission.findMany({
       where: { organizationId, testId: test.id },
@@ -32,12 +37,10 @@ export async function latestGroupAverages(organizationId: string, test: Test, lo
 
   const testFor = await localizedTestsAsAnswered([test], latest, locale);
 
-  return groupAverages(
-    latest.map((submission) => ({
-      userId: submission.userId,
-      teamId: teamOf.get(submission.userId) ?? null,
-      rows: toScaleRows(scoreSubmission(testFor(submission) ?? test, JSON.parse(submission.submission))?.result ?? []),
-    })),
-    teams
-  );
+  const results = latest.map((submission) => ({
+    userId: submission.userId,
+    teamId: teamOf.get(submission.userId) ?? null,
+    rows: toScaleRows(scoreSubmission(testFor(submission) ?? test, JSON.parse(submission.submission))?.result ?? []),
+  }));
+  return { groups: groupAverages(results, teams), hidden: hiddenGroups(results, teams) };
 }

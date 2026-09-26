@@ -103,6 +103,8 @@ export function testContentOf(row: TestRow): TestContent {
       multiplier: numberOf(scale.multiplier, 1),
       correction: numberOf(scale.correction),
       resultCalculationFormula: textOf(scale.resultCalculationFormula).trim() || "Нет",
+      description: scale.description ? textOf(scale.description) : undefined,
+      reliability: numberOf(scale.reliability, NaN) > 0 && numberOf(scale.reliability, NaN) < 1 ? numberOf(scale.reliability) : undefined,
     })),
     stanTable: parseArray<Loose>(row.stanTable).map((entry) => ({
       scaleId: numberOf(entry.scaleId),

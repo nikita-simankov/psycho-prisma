@@ -1344,8 +1344,11 @@
     "noNorms": "No norms, raw score",
     "legend": {
       "sten": "Stens run from 1 to 10; the shaded band (4–7) is the average range.",
-      "t": "T-scores run from 20 to 80; the shaded band (40–60) is the average range."
-    }
+      "t": "T-scores run from 20 to 80; the shaded band (40–60) is the average range.",
+      "errorBand": "The thin bar under each score spans ± one standard error of measurement, where the true score most likely lies."
+    },
+    "errorRange": "likely range {from}–{to}",
+    "strip": "Profile: {scales}"
   },
   "quality": {
     "title": "Check how these answers were given",
@@ -1356,7 +1359,17 @@
     "languages": {
       "en": "English",
       "other": "another language"
-    }
+    },
+    "scoreTitle": "Answer quality",
+    "score": "{score}/100",
+    "band": {
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Poor"
+    },
+    "clean": "No signs of careless or patterned answering.",
+    "scoreHint": "The score starts at 100. Choosing one answer for nearly everything or answering faster than the statements can be read takes off the most; unanswered questions and answering in a language the norms weren't made for take off less.",
+    "short": "Quality {score}"
   },
   "report": {
     "keyFindings": "Key findings",
@@ -1415,11 +1428,22 @@
       "team": "Team {team}",
       "everyone": "Whole organization"
     },
-    "noGroups": "Team and organization averages appear once at least {min} people have taken this test.",
     "noNormedScales": "This test has no norms, so there is nothing to compare.",
     "oneResult": "Trends appear after a second result.",
-    "meaningful": "A change this large is beyond ordinary measurement error.",
-    "withinError": "Within ordinary measurement error."
+    "withinError": "Within measurement error (RCI {rci}), not a reliable change.",
+    "reliable": "Reliable change (RCI {rci}): larger than measurement error would explain.",
+    "reliableUp": "Reliable increase since the previous result.",
+    "reliableDown": "Reliable decrease since the previous result.",
+    "overlay": {
+      "title": "Before and after",
+      "before": "Previous · {date}",
+      "after": "Latest · {date}",
+      "up": "Reliable increase",
+      "down": "Reliable decrease",
+      "none": "No reliable change",
+      "caption": "A change counts as reliable when its reliable change index (Jacobson–Truax) is 1.96 or more, that is, larger than measurement error alone would produce.",
+      "assumed": "Some scales state no reliability, so α = {alpha} is assumed for them."
+    }
   },
   "analytics": {
     "title": "Analytics",
@@ -1432,7 +1456,6 @@
     "byTeamText": "Share of assignments finished by each team's members.",
     "completedOf": "{done} of {total} finished ({percent}%)",
     "noAssignments": "No rounds have been sent to these people yet.",
-    "tooFew": "Fewer than {min} people, hidden.",
     "heatmap": "Teams by scale",
     "heatmapText": "Average of each person's latest {test} result. Darker means higher on the scale.",
     "noHeatmap": "No team is large enough to show yet.",
@@ -1478,7 +1501,14 @@
       "completed": "Completed, %"
     },
     "noResultsText": "Figures appear once at least 5 people have finished a test. Send a round to get started.",
-    "startRound": "Start a round"
+    "startRound": "Start a round",
+    "balance": {
+      "title": "Team balance",
+      "text": "How many people in each group score low, average and high on each {test} scale, from each person's latest result.",
+      "caption": "Figures beside each bar: low · average · high.",
+      "empty": "No group is large enough to show yet.",
+      "noScales": "No scale has enough scores in this group yet."
+    }
   },
   "audit": {
     "title": "Audit log",
@@ -1633,7 +1663,11 @@
       "keys": "Points for answers ({count} of {total} questions)",
       "keysHint": "Points each answer adds to this scale. Leave empty for none.",
       "pointsFor": "Points for “{choice}” in question {question} on {scale}",
-      "addScale": "Add scale"
+      "addScale": "Add scale",
+      "reliability": "Reliability α",
+      "reliabilityHint": "Cronbach's alpha from the test's manual. Used for error bands and to tell real change from noise; 0.80 is assumed when empty.",
+      "scaleDescription": "What this scale measures",
+      "scaleDescriptionPlaceholder": "Shown to readers under “What does this mean?”"
     },
     "norms": {
       "notNeeded": "Raw points need no norms.",
@@ -1704,6 +1738,21 @@
       "next": "Next",
       "notSaved": "This is how respondents see it. Answers picked here are not saved.",
       "empty": "Add a question to see how respondents will see it."
+    },
+    "psychometrics": {
+      "title": "Item statistics",
+      "description": "From {count, plural, one {# response} other {# responses}} to published version {version}. Difficulty is the average item score as a share of its maximum; item–total r is the item's correlation with the rest of its scale.",
+      "tooFew": "Item statistics appear once at least {min} people have answered the published version; {count} so far.",
+      "items": "{count, plural, one {# item} other {# items}}",
+      "question": "Question",
+      "difficulty": "Difficulty",
+      "discrimination": "Item–total r",
+      "alpha": {
+        "good": "Good",
+        "acceptable": "Acceptable",
+        "low": "Too low for decisions about individuals"
+      },
+      "legend": "Highlighted: items almost everyone or almost no one scores (difficulty below 10% or above 90%) and items correlating below {weak} with the rest of their scale. Alpha of 0.7 or more is usually needed for decisions about individuals; 0.8 or more is good."
     }
   },
   "site": {
@@ -2189,5 +2238,29 @@
       "signInFirst": "There's already an account with this email. Sign in first, then open the link again.",
       "rateLimited": "Too many attempts. Try again in an hour."
     }
+  },
+  "scaleInfo": {
+    "open": "What does {scale} mean?",
+    "title": "What does this mean?",
+    "noDescription": "The test doesn't describe this scale. Read the score by its range below.",
+    "generic": {
+      "low": "Noticeably lower than most people in the norm group on what this scale measures.",
+      "average": "Within the range where about two-thirds of people score. Not a finding on its own.",
+      "high": "Noticeably higher than most people in the norm group on what this scale measures."
+    },
+    "reliability": "Reliability (α) {alpha}, as stated for this scale.",
+    "reliabilityAssumed": "This scale states no reliability, so error bands assume α = {alpha}."
+  },
+  "privacyMask": {
+    "hidden": "Fewer than {min} people, hidden for privacy"
+  },
+  "norms": {
+    "label": "Norms",
+    "published": "Published",
+    "org": "Our organization",
+    "notEnough": "Your organization's own norms need at least {min} people per scale; {count} so far.",
+    "orgNote": "Scores are compared with the latest results of {count, plural, one {# person} other {# people}} in your organization. Interpretation texts still follow the published norms.",
+    "publishedNote": "Scores are compared with the test's published norm group.",
+    "noSpread": "Scores here barely vary yet, so your organization's own norms can't be built."
   }
 }

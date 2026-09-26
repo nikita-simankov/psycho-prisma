@@ -88,6 +88,16 @@ export function ScoringEditor({ content, onChange }: Props) {
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
+              <div className="flex w-full flex-col gap-1.5">
+                <Label htmlFor={`scale-description-${scale.id}`}>{t("scaleDescription")}</Label>
+                <Input
+                  id={`scale-description-${scale.id}`}
+                  value={scale.description ?? ""}
+                  maxLength={2000}
+                  placeholder={t("scaleDescriptionPlaceholder")}
+                  onChange={(event) => setScale(scale.id, { ...scale, description: event.target.value || undefined })}
+                />
+              </div>
             </div>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t px-3 py-2.5 text-sm sm:px-4">
               <label className="flex items-center gap-2">
@@ -110,6 +120,23 @@ export function ScoringEditor({ content, onChange }: Props) {
                   />
                 </label>
               )}
+              <label className="flex items-center gap-2" title={t("reliabilityHint")}>
+                {t("reliability")}
+                <Input
+                  type="number"
+                  inputMode="decimal"
+                  step="0.01"
+                  min="0.01"
+                  max="0.99"
+                  className="h-8 w-20 tabular-nums"
+                  placeholder="0.80"
+                  defaultValue={scale.reliability ?? ""}
+                  onChange={(event) => {
+                    const value = numberOr(event.target.value, NaN);
+                    setScale(scale.id, { ...scale, reliability: value > 0 && value < 1 ? value : undefined });
+                  }}
+                />
+              </label>
               <CollapsibleTrigger asChild>
                 <Button type="button" variant="ghost" size="sm" className="-ml-3 sm:ml-auto">
                   {t("keys", { count: keyed, total: content.questions.length })}

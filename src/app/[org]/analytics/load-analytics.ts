@@ -5,6 +5,7 @@ import {
   latestPerPerson,
   participation,
   quarterlyAverages,
+  teamBalance,
   type AnalyticsEntry,
 } from "@/utils/analytics";
 import type { Filters } from "@/utils/analytics-filters";
@@ -12,7 +13,9 @@ import type { Context } from "@/utils/authentication";
 import { localizeTest } from "@/utils/content-translation";
 import { prisma } from "@/utils/database";
 import { libraryWhere } from "@/utils/library";
-import { buildTestResult, groupAverages } from "@/utils/results";
+import { applyOrgNorms, hasOrgNorms } from "@/utils/norms";
+import { loadOrgNorms } from "@/utils/org-norms";
+import { buildTestResult, groupAverages, hiddenGroups } from "@/utils/results";
 import { can } from "@/utils/roles";
 import { getLocale } from "next-intl/server";
 import { localizedTestsAsAnswered } from "@/utils/instrument-versions";
@@ -96,13 +99,19 @@ export async function loadAnalytics(context: Context, filters: Filters) {
   const chosen = test ? submissions.filter((submission) => submission.testId === test.id) : [];
   const raw = tests.filter((entry) => entry.id === test?.id);
   const testFor = await localizedTestsAsAnswered(raw, chosen, locale);
+  // The organization's own norms come from everyone who took the test here, whatever the filters.
+  const norms = raw[0] ? await loadOrgNorms(organizationId, raw[0]) : null;
+  const ownNorms = filters.norms === "org" && hasOrgNorms(norms) ? norms : null;
   const entries: AnalyticsEntry[] = test
-    ? chosen.map((submission) => ({
+    ? chosen.map((submission) => {
+        const rows = buildTestResult(testFor(submission) ?? test, submission).rows;
+        return {
           userId: submission.userId,
           teamId: teamOf.get(submission.userId) ?? null,
           createdAt: submission.createdAt,
-          rows: buildTestResult(testFor(submission) ?? test, submission).rows,
-        }))
+          rows: ownNorms ? applyOrgNorms(rows, ownNorms) : rows,
+        };
+      })
     : [];
   const latest = latestPerPerson(entries);
 
@@ -117,6 +126,9 @@ export async function loadAnalytics(context: Context, filters: Filters) {
     participation: { byRound, byTeam, assigned: assignments.length },
     distributions: distributions(entries),
     heatmap: groupAverages(latest, shownTeams),
+    hidden: hiddenGroups(latest, shownTeams),
+    balance: teamBalance(latest, shownTeams),
+    norms: { source: ownNorms ? ("org" as const) : ("published" as const), org: norms },
     quarters: quarterlyAverages(entries),
   };
 }

@@ -1,6 +1,6 @@
-import { MIN_GROUP } from "@/utils/results";
 import { useTranslations } from "next-intl";
 import { ChartTip } from "./chart-tip";
+import { PrivacyMask } from "./privacy-mask";
 
 type Bar = { id: string; name: string; value: { done: number; total: number; percent: number } | null };
 
@@ -36,7 +36,7 @@ export function ParticipationBars({ bars }: { bars: Bar[] }) {
               </span>
             </>
           ) : (
-            <span className="text-xs text-muted-foreground sm:col-span-2">{t("tooFew", { min: MIN_GROUP })}</span>
+            <PrivacyMask variant="block" label={bar.name} className="py-0.5 sm:col-span-2" />
           )}
         </li>
       ))}

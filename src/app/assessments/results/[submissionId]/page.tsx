@@ -61,7 +61,7 @@ export default async function FeedbackPage(props: { params: Promise<{ submission
           <h2 id="profile-heading" className="text-xl font-medium">
             {t("profile")}
           </h2>
-          <ScaleProfile rows={result.rows} />
+          <ScaleProfile rows={result.rows} info={result.info} />
         </section>
       )}
       {findings.length > 0 && (

@@ -2,13 +2,14 @@
 
 import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import { latestGroupAverages } from "@/utils/group-averages";
+import { latestGroups } from "@/utils/group-averages";
 import { libraryWhere } from "@/utils/library";
 import { can } from "@/utils/roles";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
-// Team and organization averages for one test, from each person's latest result.
+// Team and organization averages for one test, from each person's latest result, and the
+// teams too small to show.
 export async function findGroupAverages(testId: unknown) {
   const { membership, organization } = await requireMember("viewDashboard");
   const test = await prisma.test.findFirst({
@@ -19,5 +20,5 @@ export async function findGroupAverages(testId: unknown) {
     return null;
   }
 
-  return latestGroupAverages(organization.id, test, await getLocale());
+  return latestGroups(organization.id, test, await getLocale());
 }
