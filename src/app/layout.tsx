@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { Inter, Manrope } from "next/font/google";
+import { siteUrl } from "@/utils/site";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -12,9 +13,21 @@ const manrope = Manrope({ subsets: ["latin", "cyrillic"], variable: "--font-head
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
 
+  const locale = await getLocale();
+
   return {
+    metadataBase: siteUrl(),
+    applicationName: t("appName"),
     title: { default: t("title"), template: `%s · ${t("appName")}` },
     description: t("description"),
+    openGraph: {
+      type: "website",
+      siteName: t("appName"),
+      title: t("title"),
+      description: t("description"),
+      locale: locale === "ru" ? "ru_RU" : "en_US",
+    },
+    twitter: { card: "summary_large_image", title: t("title"), description: t("description") },
   };
 }
 

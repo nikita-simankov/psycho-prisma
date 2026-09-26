@@ -6,13 +6,14 @@ import { organizationBase } from "@/utils/organization-path";
 import { notFound } from "next/navigation";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     formId: string;
-  };
+  }>;
 };
 
-export default async function RunForm({ params }: PathParams) {
-  const base = organizationBase();
+export default async function RunForm(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const form = await findFormById(params.formId);
 
   if (!form) {

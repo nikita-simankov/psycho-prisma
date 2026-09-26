@@ -16,10 +16,11 @@ import { auditAs } from "@/utils/audit";
 import { ReportEditor, SaveVersionButton } from "./report-editor";
 import { ReportOutline } from "./report-outline";
 
-type PathParams = { params: { userId: string } };
+type PathParams = { params: Promise<{ userId: string }> };
 
-export default async function ReportPage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function ReportPage(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("report");
   const reports = await getTranslations("reports");
   const format = await getFormatter();

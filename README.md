@@ -7,23 +7,29 @@ Web app for HR teams to run psychological questionnaires and test instruments, s
 ```bash
 npm ci
 cp .env.example .env          # then set ADMIN_EMAIL and ADMIN_PASSWORD
-npx prisma migrate deploy     # creates the SQLite database
+docker compose up -d          # local Postgres (or point DATABASE_URL at your own)
+npx prisma migrate deploy     # creates the tables
 npm run db:seed               # loads the bundled tests and forms, creates the owner and organization
 npm run dev
 ```
 
+Node 22 or later is needed (Next 16 needs 20.9, and the SQLite copy script below uses Node's built-in SQLite).
+
 Open http://localhost:3000 and sign in with the owner email and password. Anyone can also sign up, which creates a new organization they own.
 
-### Existing databases
+### Moving from SQLite
 
-Databases created before migrations were added already have every table. Mark the initial migration as applied instead of running it:
+Until this release the app ran on SQLite. The database is now Postgres, with a single fresh migration (`prisma/migrations/0_init`). To bring an existing SQLite database across:
 
-```bash
-npx prisma migrate resolve --applied 0_init
-npx prisma migrate deploy
-```
+1. Back up the SQLite file.
+2. Create an empty Postgres database and apply the schema: `DATABASE_URL=postgresql://... npx prisma migrate deploy`.
+3. Copy the data before the app's first start (which would seed the empty database): `DATABASE_URL=postgresql://... npm run db:copy-sqlite -- /path/to/prisma.db`.
 
-`1_hr_profile` then converts the old profile to the HR one and keeps the data: patronymic becomes middle name, division becomes department, rank becomes position, and Russian group names become group keys. Rank-only, service and address fields are dropped, so back up the database first. Forms and categories already in the database stay as they are; the seed only adds or updates the bundled ones.
+The copy script (`scripts/copy-sqlite-to-postgres.ts`) never changes the SQLite file. It works on a temporary copy, applies any SQLite migrations that copy is missing from `prisma/sqlite-migrations`, then copies every table in one transaction. It stops if Postgres already has data; add `--replace` to empty it first. A database from before migrations existed (no `_prisma_migrations` table) has to be upgraded once with the previous release first. On Railway, run it from your computer against the Postgres service's public URL, or with `railway run`.
+
+The SQLite migrations are kept in `prisma/sqlite-migrations` for that upgrade and as a record of how older databases changed:
+
+`1_hr_profile` converts the old profile to the HR one and keeps the data: patronymic becomes middle name, division becomes department, rank becomes position, and Russian group names become group keys. Rank-only, service and address fields are dropped, so back up the database first. Forms and categories already in the database stay as they are; the seed only adds or updates the bundled ones.
 
 `4_organizations` moves everyone into one organization called "My organization" (rename it in Settings). Former admins become psychologists and the earliest of them becomes the owner; everyone else becomes a member. Departments become teams, groups other than `general` become follow-up flags, and all submissions and conclusions belong to that organization. Accounts keep signing in with their phone number and can add an email later.
 
@@ -37,7 +43,7 @@ npx prisma migrate deploy
 
 `9_profiles` adds work details to `Membership` (manager, start date, location, employment type, tags, custom field values), `Organization.customFields` and `AnalyticsView` (saved analytics filters).
 
-`9a_privacy` adds `AuditEvent` and the retention settings on `Organization`. Migration folders sort as text, so later ones continue `9b_`, `9c_` and so on.
+`9a_privacy` adds `AuditEvent` and the retention settings on `Organization`.
 
 `9b_studio` adds `version`, `draft` and `copiedFromId` to `Test` and `Form`, the version answered to `TestSubmission` and `FormSubmission`, and `InstrumentVersion`. It drops the global unique index on test and questionnaire names: names are now unique among what one organization sees (the shared library and its own instruments), checked when publishing. Existing rows become version 1.
 
@@ -46,12 +52,12 @@ npx prisma migrate deploy
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
 
 1. Create a project from this GitHub repository.
-2. Add a volume to the service, mounted at `/data`. SQLite lives there, so data survives deploys. Keep the service at one replica while the database is SQLite.
-3. Set these variables on the service:
+2. Add a PostgreSQL database to the project (New > Database > PostgreSQL). Keep the app at one replica: the hourly rounds and retention job runs inside it.
+3. Set these variables on the app service:
 
 | Variable | Value |
 | --- | --- |
-| `DATABASE_URL` | `file:/data/prisma.db` |
+| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` (a reference to the database service) |
 | `APP_URL` | The public address, e.g. `https://prisma.up.railway.app` |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first owner, created on the first start |
 | `ORGANIZATION_NAME` | That owner's organization |
@@ -59,9 +65,9 @@ The repository deploys to [Railway](https://railway.com) as is: `railway.json` b
 
 4. Generate a domain under Settings > Networking. Railway serves it over HTTPS, which the session cookie needs in production.
 
-To move an existing database in, upload the file to the volume (for example with `railway ssh`) before the first start, and back it up first.
+An existing deployment on SQLite keeps its data on the volume until you move it. Download the file first (for example with `railway ssh`), then follow [Moving from SQLite](#moving-from-sqlite) against the new Postgres database before switching `DATABASE_URL`. Remove the volume once the data is across.
 
-The same image runs on any Docker host: `docker build -t prisma .` then `docker run -p 3000:3000 -v prisma-data:/data -e DATABASE_URL=file:/data/prisma.db ... prisma`.
+The same image runs on any Docker host with a Postgres database: `docker build -t prisma .` then `docker run -p 3000:3000 -e DATABASE_URL=postgresql://... ... prisma`.
 
 ## Useful commands
 
@@ -72,6 +78,13 @@ The same image runs on any Docker host: `docker build -t prisma .` then `docker 
 | `npx tsc --noEmit` | Type check |
 | `npm test` | Scoring unit tests (Vitest, snapshots of every bundled instrument) |
 | `npm run db:seed` | Re-run the seed (safe to repeat) |
+| `npm run db:copy-sqlite -- file.db` | Copy an old SQLite database into Postgres (see above) |
+
+## Search engines
+
+Only the landing page, the privacy notice, sign-in and sign-up are meant to be found: `robots.txt` and `sitemap.xml` list them (`src/utils/site.ts`), and every other page is sent with `X-Robots-Tag: noindex` by `src/proxy.ts`. Links in the sitemap, canonical tags and the sharing preview (`src/app/opengraph-image.tsx`) use `APP_URL`, so set it in production.
+
+Long lists (test and questionnaire results, closed rounds, the audit log) are paginated on the server, 50 to a page with `?page=`; the people and reports tables page through the organization's members in the browser.
 
 ## Languages
 
@@ -87,7 +100,7 @@ Colours are CSS variables in `src/app/globals.css` (light and dark), fonts are I
 
 ## Organizations and roles
 
-Each organization has its own people, teams, results and uploaded instruments; one account can belong to several and switch between them in the sidebar. Staff pages carry the organization's slug in the address (`/acme-ltd/people`), so a shared link always opens the right organization; the middleware passes the slug to the server in the `x-organization` header and also remembers it in the `active_org` cookie for pages outside the slug, such as `/forms` and `/tests` for respondents. Old `/dashboard/...` links redirect to the matching page. Opening another organization's slug shows "not found". Bundled instruments (`organizationId` null) are shared by every organization.
+Each organization has its own people, teams, results and uploaded instruments; one account can belong to several and switch between them in the sidebar. Staff pages carry the organization's slug in the address (`/acme-ltd/people`), so a shared link always opens the right organization; the proxy (`src/proxy.ts`, formerly middleware) passes the slug to the server in the `x-organization` header and also remembers it in the `active_org` cookie for pages outside the slug, such as `/forms` and `/tests` for respondents. Old `/dashboard/...` links redirect to the matching page. Opening another organization's slug shows "not found". Bundled instruments (`organizationId` null) are shared by every organization.
 
 Organization names are unique regardless of case and spacing (`Organization.nameKey`). Owners can transfer ownership (they become an admin) and delete the organization after typing its name, under Settings. Everyone can change their name, email and password and leave an organization on the account page (`/account`); the last owner has to transfer ownership first.
 
@@ -138,7 +151,7 @@ The sensitive flag and retest interval are settings, applied straight away. The 
 
 - Signed-out visitors can only see the landing page, the privacy notice, sign-in, sign-up, password reset and invitation pages.
 - Members must accept their organization's privacy notice before taking anything; the date is stored on `Membership.consentedAt`.
-- Every server action checks the session and role itself with `requireUser()` or `requireMember(permission)`, and pages use `ensureMember(permission)`, all from `src/utils/authentication.ts`. Queries are always scoped to the active organization, which comes from the slug in the address when there is one. Keep doing this in new actions: the middleware only checks that a cookie exists.
+- Every server action checks the session and role itself with `requireUser()` or `requireMember(permission)`, and pages use `ensureMember(permission)`, all from `src/utils/authentication.ts`. Queries are always scoped to the active organization, which comes from the slug in the address when there is one. Keep doing this in new actions: the proxy only checks that a cookie exists.
 - Data sent to the browser uses `publicUserSelect` from `src/utils/user.ts`, which leaves out the password hash and recovery answer.
 
 ## Scoring

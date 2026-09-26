@@ -38,15 +38,16 @@ import { loadPersonMetrics } from "./load-metrics";
 import { ProfileDetailsDialog } from "./components/profile-details-dialog";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 };
 
 type HistoryItem = { id: string; name: string; date: Date; href: string; kind: "test" | "form" | "report" };
 
-export default async function UserProfilePage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function UserProfilePage(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("profile");
   const people = await getTranslations("people");
   const format = await getFormatter();

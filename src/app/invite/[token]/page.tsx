@@ -11,7 +11,8 @@ export async function generateMetadata() {
   return { title: t("metaTitle") }
 }
 
-export default async function InvitePage({ params }: { params: { token: string } }) {
+export default async function InvitePage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const t = await getTranslations("invite")
   const common = await getTranslations("common")
   const invitation = await findInvitation(params.token)

@@ -20,7 +20,7 @@ export default async function OrganizationLayout({ children }: { children: React
   return (
     <OrganizationProvider value={{ slug: organization.slug, name: organization.name, role: membership.role }}>
       <BreadcrumbProvider>
-        <SidebarProvider defaultOpen={cookies().get(SIDEBAR_COOKIE_NAME)?.value !== "false"}>
+        <SidebarProvider defaultOpen={(await cookies()).get(SIDEBAR_COOKIE_NAME)?.value !== "false"}>
           <AppSidebar
             user={user}
             organizations={memberships.map((m) => ({ slug: m.organization.slug, name: m.organization.name, role: m.role }))}

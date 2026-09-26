@@ -3,14 +3,14 @@ import { cookies, headers } from "next/headers";
 import { DEFAULT_LOCALE, isLocale, Locale, LOCALE_COOKIE, LOCALES } from "./config";
 
 // Locale comes from the language switcher's cookie, then the browser's Accept-Language.
-function resolveLocale(): Locale {
-  const cookieLocale = cookies().get(LOCALE_COOKIE)?.value;
+async function resolveLocale(): Promise<Locale> {
+  const cookieLocale = (await cookies()).get(LOCALE_COOKIE)?.value;
 
   if (isLocale(cookieLocale)) {
     return cookieLocale;
   }
 
-  const accepted = headers().get("accept-language") ?? "";
+  const accepted = (await headers()).get("accept-language") ?? "";
 
   for (const part of accepted.split(",")) {
     const language = part.split(";")[0].trim().slice(0, 2).toLowerCase();
@@ -24,7 +24,7 @@ function resolveLocale(): Locale {
 }
 
 export default getRequestConfig(async () => {
-  const locale = resolveLocale();
+  const locale = await resolveLocale();
 
   return {
     locale,

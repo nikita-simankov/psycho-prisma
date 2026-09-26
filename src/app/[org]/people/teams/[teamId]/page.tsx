@@ -13,8 +13,9 @@ import { notFound } from "next/navigation";
 import { DeleteTeamButton, TeamDialog } from "../team-controls";
 import { organizationBase } from "@/utils/organization-path";
 
-export default async function TeamPage({ params }: { params: { teamId: string } }) {
-  const base = organizationBase();
+export default async function TeamPage(props: { params: Promise<{ teamId: string }> }) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("teams");
   const common = await getTranslations("common");
   const { membership } = await ensureMember("viewDashboard");

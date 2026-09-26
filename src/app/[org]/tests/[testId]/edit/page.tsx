@@ -10,11 +10,12 @@ export async function generateMetadata() {
   return { title: t("editTest") };
 }
 
-export default async function EditTestPage({ params }: { params: { testId: string } }) {
+export default async function EditTestPage(props: { params: Promise<{ testId: string }> }) {
+  const params = await props.params;
   const { context, row, content } = await loadEditableTest(params.testId);
   const t = await getTranslations("studio");
   const common = await getTranslations("common");
-  const base = organizationBase();
+  const base = await organizationBase();
   const backHref = row.version === 0 ? `${base}/tests` : `${base}/tests/${row.id}`;
 
   return (

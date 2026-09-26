@@ -23,7 +23,7 @@ export function useReportDraft(userId: string, initial: { background: string; co
   const [status, setStatus] = useState<Status>("idle");
   const latest = useRef(values);
   const dirty = useRef(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const flush = useCallback(async () => {
     clearTimeout(timer.current);

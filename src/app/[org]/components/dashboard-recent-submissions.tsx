@@ -10,7 +10,7 @@ import Link from "next/link";
 import { organizationBase } from "@/utils/organization-path";
 
 export async function DashboardRecentSubmissions() {
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("dashboard.recent");
   const format = await getFormatter();
   const [submissions, users, tests] = await Promise.all([

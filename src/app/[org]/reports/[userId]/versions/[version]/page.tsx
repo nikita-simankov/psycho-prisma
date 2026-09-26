@@ -10,11 +10,12 @@ import PrintButton from "../../../../components/print-button";
 import { loadReport } from "../../load-report";
 import { auditAs } from "@/utils/audit";
 
-type PathParams = { params: { userId: string; version: string } };
+type PathParams = { params: Promise<{ userId: string; version: string }> };
 
 // A saved version exactly as it was: its text and the results it covered.
-export default async function ReportVersionPage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function ReportVersionPage(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("report");
   const format = await getFormatter();
   const number = Number(params.version);

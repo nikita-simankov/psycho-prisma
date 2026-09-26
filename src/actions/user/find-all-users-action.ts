@@ -16,3 +16,15 @@ export async function findAllUsers() {
 
   return memberships.map((m) => toMember(m, membership.role));
 }
+
+// The given people, if they are in the active organization.
+export async function findUsersByIds(userIds: string[]) {
+  const { membership, organization } = await requireMember("viewDashboard");
+
+  const memberships = await prisma.membership.findMany({
+    where: { organizationId: organization.id, userId: { in: userIds } },
+    include: memberInclude,
+  });
+
+  return memberships.map((m) => toMember(m, membership.role));
+}

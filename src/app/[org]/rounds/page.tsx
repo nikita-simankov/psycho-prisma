@@ -8,6 +8,8 @@ import { ensureMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { organizationBase } from "@/utils/organization-path";
 import { parseItems, roundProgress } from "@/utils/rounds";
+import { Pager } from "@/components/pager";
+import { pageCount, pageFrom, pageWindow } from "@/utils/pagination";
 import { ChevronRight, Plus, Repeat, Send } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import Link from "next/link";
@@ -18,19 +20,23 @@ export async function generateMetadata() {
   return { title: t("title") };
 }
 
-export default async function RoundsPage() {
+export default async function RoundsPage(props: { searchParams: Promise<{ page?: string }> }) {
+  const page = pageFrom((await props.searchParams).page);
   const { organization } = await ensureMember("manageRounds");
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("rounds");
   const format = await getFormatter();
 
-  const [rounds, schedules] = await Promise.all([
-    prisma.round.findMany({ where: { organizationId: organization.id }, orderBy: { createdAt: "desc" }, take: 200 }),
+  // Open rounds are all shown; closed ones, which pile up with recurring schedules, a page at a time.
+  const closedWhere = { organizationId: organization.id, closedAt: { not: null } };
+  const [open, closed, closedTotal, schedules] = await Promise.all([
+    prisma.round.findMany({ where: { organizationId: organization.id, closedAt: null }, orderBy: { createdAt: "desc" } }),
+    prisma.round.findMany({ where: closedWhere, orderBy: [{ closedAt: "desc" }, { id: "asc" }], ...pageWindow(page) }),
+    prisma.round.count({ where: closedWhere }),
     prisma.roundSchedule.findMany({ where: { organizationId: organization.id }, orderBy: { createdAt: "desc" } }),
   ]);
+  const rounds = [...open, ...closed];
   const progress = await roundProgress(rounds.map((round) => round.id));
-  const open = rounds.filter((round) => !round.closedAt);
-  const closed = rounds.filter((round) => round.closedAt);
   const now = new Date();
 
   const row = (round: (typeof rounds)[number]) => {
@@ -137,7 +143,7 @@ export default async function RoundsPage() {
         </Card>
       )}
 
-      {closed.length > 0 && (
+      {closedTotal > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">{t("closed")}</CardTitle>
@@ -147,6 +153,7 @@ export default async function RoundsPage() {
           </CardContent>
         </Card>
       )}
+      <Pager page={page} pages={pageCount(closedTotal)} path={`${base}/rounds`} />
     </div>
   );
 }

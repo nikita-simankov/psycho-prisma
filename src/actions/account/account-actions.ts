@@ -95,7 +95,7 @@ export async function changePassword(
 
   await prisma.user.update({ where: { id: user.id }, data: { password: await hash(parsed.data, 10) } });
 
-  const currentSession = cookies().get(lucia.sessionCookieName)?.value;
+  const currentSession = (await cookies()).get(lucia.sessionCookieName)?.value;
   await prisma.session.deleteMany({ where: { userId: user.id, NOT: { id: currentSession } } });
 
   return { ok: true };

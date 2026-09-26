@@ -1,5 +1,4 @@
 import { PageHeader } from "@/components/page-header";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -22,26 +21,28 @@ import { isRole } from "@/utils/roles";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { localizeForm, localizeTest } from "@/utils/content-translation";
 import Link from "next/link";
+import { Pager } from "@/components/pager";
+import { pageCount, pageFrom, pageWindow } from "@/utils/pagination";
 import { AuditFilters } from "./audit-filters";
 
-const PAGE_SIZE = 50;
 
 export async function generateMetadata() {
   const t = await getTranslations("audit");
   return { title: t("title") };
 }
 
-export default async function AuditPage({
-  searchParams,
-}: {
-  searchParams: Record<string, string | undefined>;
-}) {
+export default async function AuditPage(
+  props: {
+    searchParams: Promise<Record<string, string | undefined>>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const { organization } = await ensureMember("viewAudit");
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("audit");
   const roles = await getTranslations("roles");
   const format = await getFormatter();
-  const page = Math.max(1, Math.floor(Number(searchParams.page)) || 1);
+  const page = pageFrom(searchParams.page);
   const action = AUDIT_ACTIONS.find((entry) => entry === searchParams.action);
   const person =
     typeof searchParams.person === "string" ? searchParams.person : undefined;
@@ -55,8 +56,7 @@ export default async function AuditPage({
     prisma.auditEvent.findMany({
       where,
       orderBy: { createdAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
+      ...pageWindow(page),
     }),
     prisma.auditEvent.count({ where }),
     prisma.membership.findMany({
@@ -96,15 +96,8 @@ export default async function AuditPage({
     ...tests.map((test) => [test.id, localizeTest(test, locale).name] as const),
     ...forms.map((form) => [form.id, localizeForm(form, locale).name] as const),
   ]);
-  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const pageHref = (target: number) => {
-    const params = new URLSearchParams({
-      ...(action && { action }),
-      ...(person && { person }),
-      page: String(target),
-    });
-    return `${base}/settings/audit?${params}`;
-  };
+  const pages = pageCount(total);
+
 
   const personCell = (id: string | null, fallback: string) =>
     id === null ? (
@@ -226,40 +219,13 @@ export default async function AuditPage({
           )}
         </CardContent>
       </Card>
-      {pages > 1 && (
-        <nav
-          className="flex items-center justify-between gap-2"
-          aria-label={t("pagination")}
-        >
-          <Button
-            variant="outline"
-            size="sm"
-            asChild={page > 1}
-            disabled={page <= 1}
-          >
-            {page > 1 ? (
-              <Link href={pageHref(page - 1)}>{t("newer")}</Link>
-            ) : (
-              <span>{t("newer")}</span>
-            )}
-          </Button>
-          <span className="text-sm text-muted-foreground">
-            {t("page", { page, pages })}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            asChild={page < pages}
-            disabled={page >= pages}
-          >
-            {page < pages ? (
-              <Link href={pageHref(page + 1)}>{t("older")}</Link>
-            ) : (
-              <span>{t("older")}</span>
-            )}
-          </Button>
-        </nav>
-      )}
+      <Pager
+        page={page}
+        pages={pages}
+        path={`${base}/settings/audit`}
+        query={{ action, person }}
+        labels={{ previous: t("newer"), next: t("older") }}
+      />
     </div>
   );
 }

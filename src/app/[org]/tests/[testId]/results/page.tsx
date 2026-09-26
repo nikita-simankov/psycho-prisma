@@ -1,6 +1,8 @@
-import { findAllTestSubmissionsByTestId } from "@/actions/test-submission/find-all-test-submissions-by-test-id-action";
+import { findTestSubmissionsPage } from "@/actions/test-submission/find-test-submissions-page-action";
+import { Pager } from "@/components/pager";
+import { pageCount, pageFrom } from "@/utils/pagination";
 import { findTestById } from "@/actions/test/find-test-by-id-action";
-import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { findUsersByIds } from "@/actions/user/find-all-users-action";
 import { SubmissionList } from "@/components/submission-list";
 import { PageHeader } from "@/components/page-header";
 import { findGroupAverages } from "@/actions/test-submission/find-group-averages-action";
@@ -12,13 +14,16 @@ import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     testId: string;
-  };
+  }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
-export default async function TestResultsPage({ params }: PathParams) {
-  const base = organizationBase();
+export default async function TestResultsPage(props: PathParams) {
+  const params = await props.params;
+  const page = pageFrom((await props.searchParams).page);
+  const base = await organizationBase();
   const t = await getTranslations("results");
   const section = await getTranslations("dashboard.tests");
   const { membership } = await ensureMember("viewDashboard");
@@ -37,23 +42,23 @@ export default async function TestResultsPage({ params }: PathParams) {
     );
   }
 
-  const [test, submissions, users] = await Promise.all([
+  const [test, { items: submissions, total }] = await Promise.all([
     findTestById(params.testId),
-    findAllTestSubmissionsByTestId(params.testId),
-    findAllUsers(),
+    findTestSubmissionsPage(params.testId, page),
   ]);
 
   if (!test) {
     notFound();
   }
 
+  const users = await findUsersByIds([...new Set(submissions.map((submission) => submission.userId))]);
   const usersById = new Map(users.map((user) => [user.id, user]));
 
   return (
     <>
       <PageHeader
         title={test.name}
-        description={t("count", { count: submissions.length })}
+        description={t("count", { count: total })}
         back={{ href: `${base}/tests`, label: section("back") }}
       />
       <SubmissionList
@@ -72,6 +77,7 @@ export default async function TestResultsPage({ params }: PathParams) {
             : [];
         })}
       />
+      <Pager page={page} pages={pageCount(total)} path={`${base}/tests/${test.id}/results`} />
     </>
   );
 }

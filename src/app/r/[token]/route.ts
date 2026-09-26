@@ -8,7 +8,8 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 // A round's email link: signs the person in and opens their assessments.
-export async function GET(request: Request, { params }: { params: { token: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const assignment = await prisma.assignment.findUnique({
     where: { tokenHash: hashToken(params.token) },
     include: { round: { include: { organization: { select: { slug: true } } } } },
@@ -22,14 +23,14 @@ export async function GET(request: Request, { params }: { params: { token: strin
 
   if (current?.id !== assignment.userId) {
     // Someone else was signed in on this browser; the link belongs to this person.
-    const sessionId = cookies().get(lucia.sessionCookieName)?.value;
+    const sessionId = (await cookies()).get(lucia.sessionCookieName)?.value;
     if (sessionId) {
       await lucia.invalidateSession(sessionId);
     }
     await startSession(assignment.userId);
   }
 
-  rememberOrganization(assignment.round.organization.slug);
+  await rememberOrganization(assignment.round.organization.slug);
 
   return NextResponse.redirect(new URL("/assessments", request.url));
 }

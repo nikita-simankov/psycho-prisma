@@ -14,8 +14,9 @@ import { notFound } from "next/navigation";
 
 type Question = { id: number; text: string; type: string; choices?: { id: number; text: string }[] };
 
-export default async function FormPage({ params }: { params: { formId: string } }) {
-  const base = organizationBase();
+export default async function FormPage(props: { params: Promise<{ formId: string }> }) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("dashboard.forms");
   const studio = await getTranslations("studio");
   const respondent = await getTranslations("respondent");

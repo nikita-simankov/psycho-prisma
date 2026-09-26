@@ -16,7 +16,7 @@ export async function generateMetadata() {
 }
 
 export default async function TeamsPage() {
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("teams");
   const common = await getTranslations("common");
   const { membership } = await ensureMember("viewDashboard");

@@ -82,5 +82,5 @@ export function UsersTable({ users, mode = "manage" }: { users: Member[]; mode?:
     ];
   }, [base, mode, t, people, roles]);
 
-  return <DataTable columns={columns} data={users} enableFiltering />;
+  return <DataTable columns={columns} data={users} enableFiltering enablePagination />;
 }

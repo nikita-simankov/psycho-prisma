@@ -10,7 +10,8 @@ const RENAMED: [string, string][] = [
   ["archive", "reports/archive"],
 ];
 
-export default async function LegacyDashboardRedirect({ params }: { params: { path?: string[] } }) {
+export default async function LegacyDashboardRedirect(props: { params: Promise<{ path?: string[] }> }) {
+  const params = await props.params;
   const { organization } = await ensureMember("viewDashboard");
   let path = (params.path ?? []).join("/");
 

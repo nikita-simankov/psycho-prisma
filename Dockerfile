@@ -11,8 +11,8 @@ RUN npm ci
 
 COPY . .
 
-# The build doesn't touch the real database; a throwaway file keeps Prisma happy.
-RUN DATABASE_URL="file:/tmp/build.db" npx prisma generate && DATABASE_URL="file:/tmp/build.db" npm run build
+# The build doesn't connect to the database; the placeholder address only has to be valid.
+RUN DATABASE_URL="postgresql://build:build@localhost:5432/build" npx prisma generate && DATABASE_URL="postgresql://build:build@localhost:5432/build" npm run build
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

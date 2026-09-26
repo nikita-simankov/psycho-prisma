@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes/dist/types";
+import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from "next-themes";
 
 export const ReactQueryProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

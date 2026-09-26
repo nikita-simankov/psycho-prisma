@@ -5,11 +5,13 @@ import { findDraft } from "@/utils/drafts";
 import { notFound } from "next/navigation";
 
 type PathParams = {
-  params: { formId: string };
-  searchParams: { assignment?: string };
+  params: Promise<{ formId: string }>;
+  searchParams: Promise<{ assignment?: string }>;
 };
 
-export default async function Page({ params, searchParams }: PathParams) {
+export default async function Page(props: PathParams) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const form = await findFormById(params.formId);
 
   if (!form) {

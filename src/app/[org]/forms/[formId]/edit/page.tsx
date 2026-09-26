@@ -9,11 +9,12 @@ export async function generateMetadata() {
   return { title: t("editForm") };
 }
 
-export default async function EditFormPage({ params }: { params: { formId: string } }) {
+export default async function EditFormPage(props: { params: Promise<{ formId: string }> }) {
+  const params = await props.params;
   const { row, content } = await loadEditableForm(params.formId);
   const t = await getTranslations("studio");
   const common = await getTranslations("common");
-  const base = organizationBase();
+  const base = await organizationBase();
   const backHref = row.version === 0 ? `${base}/forms` : `${base}/forms/${row.id}`;
 
   return (

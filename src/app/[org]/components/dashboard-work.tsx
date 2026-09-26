@@ -20,7 +20,7 @@ const LIMIT = 6;
 export async function DashboardWork() {
   const context = await ensureMember("viewDashboard");
   const { organization, membership } = context;
-  const base = organizationBase();
+  const base = await organizationBase();
   const t = await getTranslations("dashboard.work");
   const format = await getFormatter();
   const now = new Date();

@@ -17,14 +17,15 @@ import { prisma } from "@/utils/database";
 import { ensureMember } from "@/utils/authentication";
 
 type PathParams = {
-  params: {
+  params: Promise<{
     formId: string;
     resultId: string;
-  };
+  }>;
 };
 
-export default async function ViewFormResult({ params }: PathParams) {
-  const base = organizationBase();
+export default async function ViewFormResult(props: PathParams) {
+  const params = await props.params;
+  const base = await organizationBase();
   const t = await getTranslations("results");
   const results = t;
   const result = await findFormSubmissionById(params.resultId);
