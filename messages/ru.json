@@ -410,6 +410,7 @@
   },
   "runner": {
     "progress": "Вопрос {current} из {total}",
+    "allAnswered": "Все вопросы отвечены",
     "answerPlaceholder": "Ваш ответ",
     "doneTitle": "Готово!",
     "formDoneText": "Вы ответили на все вопросы анкеты «{name}». Нажмите «Завершить», чтобы сохранить ответы.",

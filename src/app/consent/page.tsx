@@ -1,6 +1,6 @@
 import { PrivacyNotice } from "@/components/privacy-notice";
 import { Card } from "@/components/ui/card";
-import Logo from "@/components/ui/logo";
+import { OrganizationMark } from "@/components/organization-mark";
 import { ensureMember } from "@/utils/authentication";
 import { can } from "@/utils/roles";
 import { getTranslations } from "next-intl/server";
@@ -23,13 +23,16 @@ export default async function ConsentPage() {
   const t = await getTranslations("consent");
 
   return (
-    <main id="main" className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-6 px-4 py-8 sm:py-14">
-      <Logo withText />
-      <div>
-        <h1 className="text-2xl font-bold sm:text-3xl">{t("title")}</h1>
-        <p className="mt-2 text-muted-foreground">{t("text", { organization: organization.name })}</p>
+    <main id="main" className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-8 px-4 py-8 sm:py-14">
+      <div className="flex items-center gap-2.5">
+        <OrganizationMark name={organization.name} className="size-7" />
+        <span className="font-medium">{organization.name}</span>
       </div>
-      <Card className="p-5 sm:p-6">
+      <header className="flex flex-col gap-3">
+        <h1 className="text-4xl font-medium leading-[1.1]">{t("title")}</h1>
+        <p className="text-lg text-muted-foreground">{t("text", { organization: organization.name })}</p>
+      </header>
+      <Card className="p-5 sm:p-8">
         <PrivacyNotice organization={organization.name} contact={organization.privacyContact} />
       </Card>
       <ConsentActions />

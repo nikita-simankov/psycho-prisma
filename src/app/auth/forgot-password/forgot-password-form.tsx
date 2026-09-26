@@ -29,7 +29,7 @@ export function ForgotPasswordForm() {
 
   if (mutation.isSuccess) {
     return (
-      <div className="flex flex-col gap-4 rounded-xl border bg-card p-5" role="status">
+      <div className="flex flex-col gap-4 rounded-lg border bg-card p-5" role="status">
         <MailCheck className="h-6 w-6 text-success" />
         <div>
           <p className="font-medium">{t("sentTitle")}</p>

@@ -34,10 +34,10 @@ export function QuestionStep({ header, title, stepKey, children, canContinue, on
   }, [stepKey]);
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-8">
       {header}
 
-      <h2 ref={heading} tabIndex={-1} className="font-heading text-xl font-semibold leading-snug outline-hidden sm:text-2xl">
+      <h2 ref={heading} tabIndex={-1} className="font-heading text-2xl font-normal leading-snug text-pretty outline-hidden sm:text-[2rem] sm:leading-tight">
         {title}
       </h2>
 
@@ -56,7 +56,7 @@ export function QuestionStep({ header, title, stepKey, children, canContinue, on
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
-        {hint && <p className="hidden text-center text-xs text-muted-foreground sm:block">{hint}</p>}
+        {hint && <p className="hidden text-xs text-muted-foreground sm:block">{hint}</p>}
       </div>
     </div>
   );
