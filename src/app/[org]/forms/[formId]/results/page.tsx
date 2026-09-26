@@ -3,6 +3,11 @@ import { findFormById } from "@/actions/form/find-form-by-id-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { SubmissionList } from "@/components/submission-list";
 import { PageHeader } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { Card } from "@/components/ui/card";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
+import { Lock } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
@@ -28,6 +33,18 @@ export default async function FormResultsPage({ params }: PathParams) {
   }
 
   const usersById = new Map(users.map((user) => [user.id, user]));
+  const { membership } = await ensureMember("viewDashboard");
+
+  if (!can(membership.role, "viewIndividualResults")) {
+    return (
+      <>
+        <PageHeader title={form.name} back={{ href: `${base}/forms`, label: section("back") }} />
+        <Card>
+          <EmptyState icon={Lock} title={t("restrictedTitle")} description={t("restrictedText")} />
+        </Card>
+      </>
+    );
+  }
 
   return (
     <>

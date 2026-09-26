@@ -1,180 +1,142 @@
-import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-all-test-submissions-by-user-id-action";
-import { findAllTests } from "@/actions/test/find-all-tests-action";
-import { findUserById } from "@/actions/user/find-user-by-id-action";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageHeader } from "@/components/page-header";
+import { PrintExpander } from "@/components/results/print-expander";
+import { TestResultSection } from "@/components/results/test-result-section";
+import { Badge } from "@/components/ui/badge";
 import UserAvatar from "@/components/ui/user-avatar";
-import { TestQuestion, TestQuestionResponse, TestScale } from "@/utils/constants";
-import { localizeResult } from "@/utils/content-translation";
-import { getSubmissionSummary, toScaleRows } from "@/utils/scoring";
-import { assessValidity, validityScaleIds } from "@/utils/validity";
-import { ValidityPanel } from "@/components/validity-panel";
-import { ensureMember } from "@/utils/authentication";
+import { organizationBase } from "@/utils/organization-path";
 import { can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
-import { getFormatter, getLocale, getTranslations } from "next-intl/server";
+import { History } from "lucide-react";
+import { getFormatter, getTranslations } from "next-intl/server";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/page-header";
 import PrintButton from "../../components/print-button";
-import AdditionalNotes from "./additional-notes";
-import AnswerTable from "./answer-table";
-import SaveToArchiveButton from "./save-to-archive-button";
-import ScaleTable from "./scale-table";
-import Verdict from "./verdict";
-import { organizationBase } from "@/utils/organization-path";
+import { loadReport } from "./load-report";
+import { ReportEditor, SaveVersionButton } from "./report-editor";
+import { ReportOutline } from "./report-outline";
 
-interface PathParams {
-  params: {
-    userId: string;
-  };
-}
+type PathParams = { params: { userId: string } };
 
-export default async function UserSummaryPage({ params }: PathParams) {
+export default async function ReportPage({ params }: PathParams) {
   const base = organizationBase();
-  const t = await getTranslations("reports");
+  const t = await getTranslations("report");
+  const reports = await getTranslations("reports");
   const format = await getFormatter();
-  const locale = await getLocale();
-  const { membership } = await ensureMember("viewDashboard");
-  const write = can(membership.role, "writeConclusions");
-  const [user, submissions, tests] = await Promise.all([
-    findUserById(params.userId),
-    findAllTestSubmissionsByUserId(params.userId),
-    findAllTests(),
-  ]);
+  const { context, user, results, rounds, draft, versions } = await loadReport(params.userId);
 
   if (!user) {
     notFound();
   }
 
-  const testsById = new Map(tests.map((test) => [test.id, test]));
-  const results = submissions.flatMap((submission) => {
-    const test = testsById.get(submission.testId);
+  const write = can(context.membership.role, "writeConclusions");
+  const latest = versions[0];
+  const newestResult = results.at(-1)?.createdAt;
+  // Changed when the text or the results moved on after the last saved version.
+  const changed =
+    latest && ((draft && draft.updatedAt > latest.createdAt) || (newestResult && newestResult > latest.createdAt));
+  const date = (value: Date) => format.dateTime(value, { dateStyle: "medium" });
+  const background = draft?.additionalNotes ?? "";
+  const conclusion = draft?.verdict ?? "";
 
-    if (!test) {
-      return [];
-    }
+  const sections = (
+    <>
+      {results.length === 0 && <p className="rounded-xl border bg-card p-6 text-muted-foreground">{reports("noResults")}</p>}
+      {results.map((result) => (
+        <TestResultSection key={result.id} result={result} subtitle={result.round?.name} />
+      ))}
+    </>
+  );
 
-    const scales = JSON.parse(test.scales) as TestScale[];
-    const responses = JSON.parse(submission.submission) as TestQuestionResponse[];
-    const rows = toScaleRows(localizeResult(getSubmissionSummary(test, submission), test, locale));
-    const validityIds = validityScaleIds(scales);
-
-    return [
-      {
-        id: submission.id,
-        testName: test.name,
-        date: format.dateTime(submission.createdAt, { dateStyle: "medium", timeStyle: "short" }),
-        questions: JSON.parse(test.questions) as TestQuestion[],
-        responses,
-        rows,
-        // Validity scales are shown in their own panel, not among the findings.
-        findings: rows.filter((row) => !validityIds.has(row.scaleId)),
-        validity: assessValidity(scales, responses, rows),
-      },
-    ];
-  });
-
-  const resultCard = (result: (typeof results)[number], children: React.ReactNode) => (
-    <Card key={result.id} className="break-inside-avoid print:border-none print:shadow-none">
-      <CardHeader>
-        <CardTitle className="text-lg">{result.testName}</CardTitle>
-        <CardDescription>{result.date}</CardDescription>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
+  const readOnly = (id: string, label: string, text: string) => (
+    <section id={id} className="flex scroll-mt-20 flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:border-0 print:p-0">
+      <h2 className="text-lg font-semibold">{label}</h2>
+      <p className="whitespace-pre-line leading-relaxed text-muted-foreground">{text || t("empty")}</p>
+    </section>
   );
 
   return (
     <>
+      <PrintExpander />
       <PageHeader
-        title={t("reportTitle")}
+        title={formatFullName(user)}
         crumb={formatFullName(user)}
-        back={{ href: `${base}/reports`, label: t("title") }}
+        description={formatWorkInfo(user) || undefined}
+        back={{ href: `${base}/reports`, label: reports("title") }}
         actions={
           <>
-            {write && <SaveToArchiveButton userId={user.id} />}
             <PrintButton />
+            {write && <SaveVersionButton userId={user.id} />}
           </>
         }
       />
-      <Card className="mb-6 print:border-none print:shadow-none">
-        <CardHeader className="flex flex-row items-center gap-4">
-          <UserAvatar user={user} className="h-16 w-16" />
-          <div className="flex flex-col gap-1">
-            <CardTitle className="text-xl">{formatFullName(user)}</CardTitle>
-            <CardDescription>{formatWorkInfo(user)}</CardDescription>
+
+      <div className="mb-6 flex flex-col gap-3 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:gap-4 print:border-0 print:p-0">
+        <UserAvatar user={user} className="h-14 w-14 print:hidden" />
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <p className="text-sm text-muted-foreground">
+            {t("covers", { count: results.length })}
+            {rounds.length > 0 && ` · ${t("rounds", { names: rounds.join(", ") })}`}
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            {latest ? (
+              <Badge variant={changed ? "outline" : "secondary"}>
+                {changed
+                  ? t("changedSince", { version: latest.version })
+                  : t("versionOn", { version: latest.version, date: date(latest.createdAt) })}
+              </Badge>
+            ) : (
+              <Badge variant="outline">{t("noVersion")}</Badge>
+            )}
+            <span className="hidden text-xs text-muted-foreground print:inline">{t("printedOn", { date: date(new Date()) })}</span>
           </div>
-        </CardHeader>
-      </Card>
-      <Tabs defaultValue="report">
-        <TabsList className="mb-2 grid w-full grid-cols-3 print:hidden sm:w-fit">
-          <TabsTrigger value="report">{t("tabs.report")}</TabsTrigger>
-          <TabsTrigger value="answers">{t("tabs.answers")}</TabsTrigger>
-          <TabsTrigger value="scales">{t("tabs.scales")}</TabsTrigger>
-        </TabsList>
+        </div>
+      </div>
 
-        <TabsContent value="report" className="flex flex-col gap-4">
-          <Card className="print:border-none print:shadow-none">
-            <CardHeader>
-              <CardTitle className="text-lg">{t("background")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <AdditionalNotes />
-            </CardContent>
-          </Card>
-          {results.length === 0 && (
-            <p className="text-muted-foreground">{t("noResults")}</p>
+      <div className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <ReportOutline
+          items={[
+            { id: "background", label: t("background") },
+            ...results.map((result) => ({ id: `result-${result.id}`, label: result.testName, hint: date(result.createdAt) })),
+            { id: "conclusion", label: t("conclusion") },
+            ...(versions.length ? [{ id: "versions", label: t("versions") }] : []),
+          ]}
+        />
+        <div className="flex min-w-0 flex-col gap-6">
+          {write ? (
+            <ReportEditor userId={user.id} initial={{ background, conclusion }}>
+              {sections}
+            </ReportEditor>
+          ) : (
+            <>
+              {readOnly("background", t("background"), background)}
+              {sections}
+              {readOnly("conclusion", t("conclusion"), conclusion)}
+            </>
           )}
-          {results.map((result) =>
-            resultCard(
-              result,
-              <div className="flex flex-col gap-3">
-              {result.validity && <ValidityPanel validity={result.validity} />}
-              <dl className="flex flex-col gap-3">
-                {result.findings.map((row) => (
-                  <div key={row.scaleId} className="border-l-2 border-primary/40 pl-3">
-                    <dt className="font-medium">{row.scaleName}</dt>
-                    <dd className="text-sm text-muted-foreground">{row.summary}</dd>
-                  </div>
+
+          {versions.length > 0 && (
+            <section id="versions" className="flex scroll-mt-20 flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:hidden">
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <History className="h-4 w-4" aria-hidden />
+                {t("versions")}
+              </h2>
+              <ul className="divide-y">
+                {versions.map((version) => (
+                  <li key={version.id}>
+                    <Link
+                      href={`${base}/reports/${user.id}/versions/${version.version}`}
+                      className="flex items-center justify-between gap-3 py-2 text-sm hover:text-primary"
+                    >
+                      <span className="font-medium">{t("versionLabel", { version: version.version })}</span>
+                      <span className="text-muted-foreground">{date(version.createdAt)}</span>
+                    </Link>
+                  </li>
                 ))}
-              </dl>
-              </div>
-            )
+              </ul>
+            </section>
           )}
-          <Card className="print:border-none print:shadow-none">
-            <CardHeader>
-              <CardTitle className="text-lg">{t("conclusion")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Verdict />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="answers" className="flex flex-col gap-4">
-          {results.map((result) =>
-            resultCard(result, <AnswerTable questions={result.questions} responses={result.responses} />)
-          )}
-        </TabsContent>
-
-        <TabsContent value="scales" className="flex flex-col gap-4">
-          {results.map((result) =>
-            resultCard(
-              result,
-              <div className="flex flex-col gap-3">
-                {result.validity && <ValidityPanel validity={result.validity} />}
-                <ScaleTable rows={result.rows} />
-              </div>
-            )
-          )}
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
     </>
   );
 }

@@ -21,7 +21,8 @@ import { ensureMember } from "@/utils/authentication";
 import { assignableRoles, can } from "@/utils/roles";
 import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { getFormatter, getTranslations } from "next-intl/server";
-import { FlaskConical, NotepadText } from "lucide-react";
+import { FileText, FlaskConical, Lock, NotepadText } from "lucide-react";
+import { prisma } from "@/utils/database";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EditUserDialog from "./components/edit-user-dialog";
@@ -35,7 +36,7 @@ type PathParams = {
   };
 };
 
-type HistoryItem = { id: string; name: string; date: Date; href: string };
+type HistoryItem = { id: string; name: string; date: Date; href: string; kind: "test" | "form" | "report" };
 
 export default async function UserProfilePage({ params }: PathParams) {
   const base = organizationBase();
@@ -59,6 +60,13 @@ export default async function UserProfilePage({ params }: PathParams) {
   }
 
   const schedule = await personSchedule(organization.id, user.id, user.teamId);
+  const individual = can(membership.role, "viewIndividualResults");
+  const versions = individual
+    ? await prisma.reportVersion.findMany({
+        where: { organizationId: organization.id, userId: user.id },
+        orderBy: { version: "desc" },
+      })
+    : [];
   const rounds = await getTranslations("rounds");
 
   const formNames = new Map(forms.map((form) => [form.id, form.name]));
@@ -69,13 +77,29 @@ export default async function UserProfilePage({ params }: PathParams) {
     name: formNames.get(submission.formId) ?? "—",
     date: submission.createdAt,
     href: `${base}/forms/${submission.formId}/results/${submission.id}`,
+    kind: "form",
   }));
   const testHistory: HistoryItem[] = testSubmissions.map((submission) => ({
     id: submission.id,
     name: testNames.get(submission.testId) ?? "—",
     date: submission.createdAt,
     href: `${base}/tests/${submission.testId}/results/${submission.id}`,
+    kind: "test",
   }));
+  const reportHistory: HistoryItem[] = versions.map((version) => ({
+    id: version.id,
+    name: t("reportVersion", { version: version.version }),
+    date: version.createdAt,
+    href: `${base}/reports/${user.id}/versions/${version.version}`,
+    kind: "report",
+  }));
+  // Everything that happened for this person, newest first.
+  const timeline = [...testHistory, ...formHistory, ...reportHistory].sort((a, b) => b.date.getTime() - a.date.getTime());
+  const icons = {
+    test: <FlaskConical className="h-4 w-4" />,
+    form: <NotepadText className="h-4 w-4" />,
+    report: <FileText className="h-4 w-4" />,
+  };
 
   const details = [
     { label: t("fields.email"), value: user.email },
@@ -93,30 +117,6 @@ export default async function UserProfilePage({ params }: PathParams) {
     },
   ];
 
-  const history = (title: string, items: HistoryItem[], icon: React.ReactNode) => (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="px-2 sm:px-4">
-        <LinkList
-          empty={t("nothingYet")}
-          items={items.map((item) => ({
-            id: item.id,
-            href: item.href,
-            title: item.name,
-            subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
-            leading: (
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                {icon}
-              </span>
-            ),
-          }))}
-        />
-      </CardContent>
-    </Card>
-  );
-
   return (
     <>
       <PageHeader
@@ -125,9 +125,11 @@ export default async function UserProfilePage({ params }: PathParams) {
         back={{ href: `${base}/people`, label: people("back") }}
         actions={
           <>
-            <Button variant="outline" asChild>
-              <Link href={`${base}/reports/${user.id}`}>{t("openReport")}</Link>
-            </Button>
+            {individual && (
+              <Button variant="outline" asChild>
+                <Link href={`${base}/reports/${user.id}`}>{t("openReport")}</Link>
+              </Button>
+            )}
             {manage && <EditUserDialog user={user} />}
             {manage && (
               <MembershipDialog
@@ -200,8 +202,35 @@ export default async function UserProfilePage({ params }: PathParams) {
               </CardContent>
             </Card>
           )}
-          {history(t("testsTaken"), testHistory, <FlaskConical className="h-4 w-4" />)}
-          {history(t("formsTaken"), formHistory, <NotepadText className="h-4 w-4" />)}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">{t("timeline")}</CardTitle>
+              {!individual && (
+                <CardDescription className="flex items-start gap-2">
+                  <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+                  {t("averagesOnly")}
+                </CardDescription>
+              )}
+            </CardHeader>
+            {individual && (
+              <CardContent className="px-2 sm:px-4">
+                <LinkList
+                  empty={t("nothingYet")}
+                  items={timeline.map((item) => ({
+                    id: item.id,
+                    href: item.href,
+                    title: item.name,
+                    subtitle: format.dateTime(item.date, { dateStyle: "medium", timeStyle: "short" }),
+                    leading: (
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+                        {icons[item.kind]}
+                      </span>
+                    ),
+                  }))}
+                />
+              </CardContent>
+            )}
+          </Card>
         </div>
       </div>
     </>

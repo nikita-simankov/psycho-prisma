@@ -3,6 +3,7 @@
 import { updateOrganizationSettings } from "@/actions/organization/organization-actions";
 import { useOrganization } from "@/components/organization-provider";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,9 +14,9 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type Settings = { name: string; privacyContact: string; respondentFeedback: boolean };
+type Settings = { name: string; privacyContact: string; respondentFeedback: boolean; feedbackTestIds: string[] };
 
-export function SettingsForm({ initial }: { initial: Settings }) {
+export function SettingsForm({ initial, tests }: { initial: Settings; tests: { id: string; name: string }[] }) {
   const t = useTranslations("settings");
   const common = useTranslations("common");
   const router = useRouter();
@@ -96,6 +97,34 @@ export function SettingsForm({ initial }: { initial: Settings }) {
               onCheckedChange={(checked) => setValues({ ...values, respondentFeedback: checked })}
             />
           </div>
+          {values.respondentFeedback && (
+            <fieldset className="flex flex-col gap-3">
+              <legend className="mb-1 text-sm font-medium">{t("feedbackTests")}</legend>
+              <p className="text-sm text-muted-foreground">{t("feedbackTestsText")}</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {tests.map((test) => {
+                  const checked = values.feedbackTestIds.includes(test.id);
+                  return (
+                    <label key={test.id} className="flex items-start gap-2 rounded-md border p-2.5 text-sm">
+                      <Checkbox
+                        checked={checked}
+                        className="mt-0.5"
+                        onCheckedChange={(value) =>
+                          setValues({
+                            ...values,
+                            feedbackTestIds: value
+                              ? [...values.feedbackTestIds, test.id]
+                              : values.feedbackTestIds.filter((id) => id !== test.id),
+                          })
+                        }
+                      />
+                      <span>{test.name}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
         </CardContent>
       </Card>
       <div>

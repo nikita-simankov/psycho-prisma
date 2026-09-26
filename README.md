@@ -33,6 +33,8 @@ npx prisma migrate deploy
 
 `7_drafts` adds `Draft`, which keeps answers in progress so people can pause and resume on any device, and a `timings` column on submissions with the milliseconds spent on each answer.
 
+`8_reports` adds `ReportVersion` (numbered, frozen copies of a person's report), `TestSubmission.locale` and `Organization.feedbackTestIds`. Conclusions saved in the old archive become version 1 of each person's report.
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -88,7 +90,7 @@ Organization names are unique regardless of case and spacing (`Organization.name
 | Owner | Everything, including settings and assigning owners |
 | Admin | Manage people, teams, invitations, settings and the instrument library |
 | Psychologist | Manage the library, see restricted instruments and follow-up flags, write conclusions |
-| HR manager | See the dashboard and non-restricted results |
+| HR manager | See the dashboard, send rounds, and team averages for groups of five or more (no individual results) |
 | Member | Take assigned questionnaires and tests |
 
 Permissions are defined in `src/utils/roles.ts`. People join through invitation links (valid 7 days, only a hash of the token is stored). Links are emailed when `RESEND_API_KEY` is set and can always be copied from the People page. Password reset works the same way.

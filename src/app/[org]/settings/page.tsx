@@ -2,6 +2,8 @@ import { PageHeader } from "@/components/page-header";
 import { ensureMember } from "@/utils/authentication";
 import { getTranslations } from "next-intl/server";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { findAllTests } from "@/actions/test/find-all-tests-action";
+import { prisma } from "@/utils/database";
 import { formatFullName } from "@/utils/user";
 import { OwnerControls } from "./owner-controls";
 import { SettingsForm } from "./settings-form";
@@ -16,6 +18,11 @@ export default async function SettingsPage() {
   const { organization, membership, user } = await ensureMember("manageSettings");
   const owner = membership.role === "owner";
   const members = owner ? await findAllUsers() : [];
+  const tests = (await findAllTests()).filter((test) => !test.sensitive).sort((a, b) => a.name.localeCompare(b.name));
+  const { feedbackTestIds } = await prisma.organization.findUniqueOrThrow({
+    where: { id: organization.id },
+    select: { feedbackTestIds: true },
+  });
 
   return (
     <>
@@ -25,7 +32,9 @@ export default async function SettingsPage() {
           name: organization.name,
           privacyContact: organization.privacyContact,
           respondentFeedback: organization.respondentFeedback,
+          feedbackTestIds: JSON.parse(feedbackTestIds) as string[],
         }}
+        tests={tests.map((test) => ({ id: test.id, name: test.name }))}
       />
       {owner && (
         <div className="mt-6">

@@ -3,6 +3,10 @@ import { findTestById } from "@/actions/test/find-test-by-id-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { SubmissionList } from "@/components/submission-list";
 import { PageHeader } from "@/components/page-header";
+import { findGroupAverages } from "@/actions/test-submission/find-group-averages-action";
+import { TeamAverages } from "@/components/results/team-averages";
+import { ensureMember } from "@/utils/authentication";
+import { can } from "@/utils/roles";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
@@ -17,6 +21,22 @@ export default async function TestResultsPage({ params }: PathParams) {
   const base = organizationBase();
   const t = await getTranslations("results");
   const section = await getTranslations("dashboard.tests");
+  const { membership } = await ensureMember("viewDashboard");
+
+  // Roles without access to individual results see team averages instead.
+  if (!can(membership.role, "viewIndividualResults")) {
+    const [test, groups] = await Promise.all([findTestById(params.testId), findGroupAverages(params.testId)]);
+    if (!test || !groups) {
+      notFound();
+    }
+    return (
+      <>
+        <PageHeader title={test.name} description={t("averagesTitle")} back={{ href: `${base}/tests`, label: section("back") }} />
+        <TeamAverages groups={groups} />
+      </>
+    );
+  }
+
   const [test, submissions, users] = await Promise.all([
     findTestById(params.testId),
     findAllTestSubmissionsByTestId(params.testId),

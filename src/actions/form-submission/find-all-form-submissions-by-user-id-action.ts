@@ -2,14 +2,12 @@
 
 import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
+import { allowedFormSubmissionWhere } from "@/utils/library";
 
 export async function findAllFormSubmissionsByUserId(userId: string) {
-  const { organization } = await requireMember("viewDashboard");
+  const context = await requireMember("viewDashboard");
 
   return await prisma.formSubmission.findMany({
-    where: {
-      organizationId: organization.id,
-      userId: userId,
-    },
+    where: { AND: [allowedFormSubmissionWhere(context), { userId: userId }] },
   });
 }
