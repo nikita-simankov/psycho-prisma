@@ -3,15 +3,15 @@ import { cn } from "@/utils/utils";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
-// Page frame for the public site.
-export function MarketingPage({ children }: { children: React.ReactNode }) {
+// Page frame for the public site. `wide` sets the header and footer on the landing's wider measure.
+export function MarketingPage({ children, wide }: { children: React.ReactNode; wide?: boolean }) {
   return (
     <div className="flex min-h-dvh flex-col">
-      <SiteHeader />
-      <main id="main" className="flex flex-1 flex-col pb-20">
+      <SiteHeader wide={wide} />
+      <main id="main" className={cn("flex flex-1 flex-col", !wide && "pb-20")}>
         {children}
       </main>
-      <SiteFooter />
+      <SiteFooter wide={wide} />
     </div>
   );
 }

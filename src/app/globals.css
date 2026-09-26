@@ -89,6 +89,8 @@
     --series-1: #2a78d6;
     --series-2: #eb6834;
     --series-3: #1baf7a;
+    /* The accent on inverted (ink) surfaces, such as the landing's trust section. */
+    --inverse-accent: var(--cobalt-300);
   }
 
   :root {
@@ -144,6 +146,7 @@
     --series-1: #3987e5;
     --series-2: #d95926;
     --series-3: #199e70;
+    --inverse-accent: var(--cobalt-600);
   }
 }
 
@@ -186,6 +189,7 @@
   --color-series-1: var(--series-1);
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
+  --color-inverse-accent: var(--inverse-accent);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -260,6 +264,65 @@
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* The landing page's motion (components/landing/home). html[data-lp-motion] is "pending" from an
+   inline script until the motion component takes over and sets "ready"; without JavaScript or under
+   reduced motion it is absent and everything below shows in its final state. */
+html[data-lp-motion="pending"] [data-hero-word] > [data-word] {
+  transform: translateY(115%);
+  animation: lp-failsafe 0s linear 2.5s forwards;
+}
+html[data-lp-motion="pending"] [data-hero-fade] {
+  clip-path: inset(0% 0% 100% 0%);
+  animation: lp-failsafe 0s linear 2.5s forwards;
+}
+html[data-lp-motion] [data-hero-poster]:not([data-fallback]) {
+  opacity: 0;
+}
+@keyframes lp-failsafe {
+  to {
+    transform: none;
+    clip-path: none;
+  }
+}
+[data-manifesto] > span {
+  transition: color 0.35s var(--ease-calm);
+}
+html[data-lp-motion="ready"] [data-manifesto] > span:not(.is-lit) {
+  color: var(--muted-foreground);
+}
+.specimen-cell {
+  transition:
+    background-color 0.2s var(--ease-calm),
+    border-color 0.2s var(--ease-calm);
+}
+.specimen-cell[data-trail] {
+  background-color: color-mix(in oklab, var(--primary) 22%, transparent);
+}
+.specimen-cell[data-on] {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+.specimen-note h3 {
+  transition: color 0.4s var(--ease-calm);
+}
+[data-specimen][data-animated] .specimen-note:not([data-active]) h3 {
+  color: var(--muted-foreground);
+}
+/* Lenis: native scroll-behavior would fight its interpolation. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* Printing (reports, results). No fixed paper size, so A4 and US Letter both fit: the margins and
