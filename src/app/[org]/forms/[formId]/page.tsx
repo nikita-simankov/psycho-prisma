@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/page-templates";
 import { ensureMember } from "@/utils/authentication";
+import { planHasFeature } from "@/utils/billing";
 import { organizationBase } from "@/utils/organization-path";
 import { can } from "@/utils/roles";
 import { canEdit } from "@/utils/studio-access";
@@ -29,7 +30,7 @@ export default async function FormPage(props: { params: Promise<{ formId: string
   }
 
   const editable = canEdit(context, form);
-  const copyable = form.organizationId === null && can(context.membership.role, "manageLibrary");
+  const copyable = form.organizationId === null && can(context.membership.role, "manageLibrary") && (await planHasFeature(context.organization.id, "studio"));
   const questions = JSON.parse(form.questions) as Question[];
 
   return (

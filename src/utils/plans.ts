@@ -29,10 +29,10 @@ export const TRIAL_PLAN: PlanId = "business";
 // What each plan unlocks. true/false, or a word naming a partial level (a key under pricing.levels).
 export type FeatureLevel = boolean | "basic" | "copy" | "logo" | "full";
 
-export const PLAN_FEATURES: { key: string; levels: Record<PlanId, FeatureLevel> }[] = [
+export const PLAN_FEATURES = [
   { key: "library", levels: { free: true, team: true, business: true, enterprise: true } },
   { key: "reports", levels: { free: true, team: true, business: true, enterprise: true } },
-  { key: "rounds", levels: { free: false, team: true, business: true, enterprise: true } },
+  { key: "schedules", levels: { free: false, team: true, business: true, enterprise: true } },
   { key: "export", levels: { free: false, team: true, business: true, enterprise: true } },
   { key: "analytics", levels: { free: false, team: "basic", business: true, enterprise: true } },
   { key: "studio", levels: { free: false, team: "copy", business: true, enterprise: true } },
@@ -41,4 +41,4 @@ export const PLAN_FEATURES: { key: string; levels: Record<PlanId, FeatureLevel> 
   { key: "branding", levels: { free: false, team: false, business: "logo", enterprise: "full" } },
   { key: "sso", levels: { free: false, team: false, business: false, enterprise: true } },
   { key: "invoicing", levels: { free: false, team: false, business: false, enterprise: true } },
-];
+] as const satisfies readonly { key: string; levels: Record<PlanId, FeatureLevel> }[];

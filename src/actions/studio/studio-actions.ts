@@ -2,6 +2,7 @@
 
 import { auditAs } from "@/utils/audit";
 import { AuthorizationError, requireMember } from "@/utils/authentication";
+import { requireFeature } from "@/utils/billing";
 import { prisma } from "@/utils/database";
 import {
   blankForm,
@@ -96,6 +97,7 @@ function draftOf(kind: Kind, row: Test | Form): TestContent | FormContent {
 export async function createInstrument(kindValue: unknown, nameValue: unknown) {
   const kind = kindSchema.parse(kindValue);
   const { organization } = await requireMember("manageLibrary");
+  await requireFeature(organization.id, "studio", true);
   const name = await freeName(kind, z.string().trim().min(1).max(200).parse(nameValue), organization.id);
   const content = kind === "test" ? blankTest(name) : blankForm(name);
 
@@ -109,6 +111,7 @@ export async function createInstrument(kindValue: unknown, nameValue: unknown) {
 export async function copyInstrument(kindValue: unknown, idValue: unknown) {
   const kind = kindSchema.parse(kindValue);
   const { organization, membership } = await requireMember("manageLibrary");
+  await requireFeature(organization.id, "studio");
   const source = (await table(kind).findFirst({
     where: { id: z.string().parse(idValue), AND: [libraryWhere(organization.id)] },
   })) as (Test | Form) | null;

@@ -1,6 +1,7 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { checkRespondents, planHasFeature } from "@/utils/billing";
 import { prisma } from "@/utils/database";
 import {
   addMonths,
@@ -52,7 +53,7 @@ const roundSchema = z
 
 export type CreateRoundResult =
   | ({ ok: true; emailed: number; links: { name: string; link: string }[]; skippedNames: string[] } & Pick<OpenRoundResult, "roundId">)
-  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" };
+  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" };
 
 // The day's end in the server's time zone, so "due 12 May" includes 12 May.
 function endOfDay(date: string) {
@@ -99,6 +100,16 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
   }
   if (input.purpose === "hiring" && input.repeatMonths) {
     return { error: "hiringRepeats" };
+  }
+  if (input.repeatMonths && !(await planHasFeature(organization.id, "schedules"))) {
+    return { error: "planSchedules" };
+  }
+  const testIds = input.items.filter((item) => item.kind === "test").map((item) => item.id);
+  if (
+    (await prisma.test.count({ where: { id: { in: testIds }, sensitive: true } })) &&
+    !(await planHasFeature(organization.id, "clinical"))
+  ) {
+    return { error: "planClinical" };
   }
   const dueAt = input.dueDate ? endOfDay(input.dueDate) : null;
   if (dueAt && dueAt < new Date()) {
@@ -162,6 +173,10 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
     if (schedule) await prisma.roundSchedule.delete({ where: { id: schedule.id } });
     return { error: "nobody" };
   }
+  if (!(await checkRespondents(organization.id, userIds)).ok) {
+    if (schedule) await prisma.roundSchedule.delete({ where: { id: schedule.id } });
+    return { error: "planRespondents" };
+  }
 
   const result = await openRound({
     organization,
@@ -207,7 +222,11 @@ export async function addPeopleToRound(roundId: unknown, userIds: unknown) {
   if (round.closedAt) {
     throw new Error("The round is closed");
   }
-  const result = await assignPeople(round, organization, z.array(z.string()).max(2000).parse(userIds));
+  const chosen = z.array(z.string()).max(2000).parse(userIds);
+  if (!(await checkRespondents(organization.id, chosen)).ok) {
+    return { error: "planRespondents" as const };
+  }
+  const result = await assignPeople(round, organization, chosen);
   return { added: result.sent.length, links: result.sent.filter((s) => !s.emailed).map((s) => s.link) };
 }
 

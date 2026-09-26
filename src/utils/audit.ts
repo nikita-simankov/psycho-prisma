@@ -23,6 +23,8 @@ export const AUDIT_ACTIONS = [
   "retentionCleanup",
   // Library.
   "publishInstrument",
+  // Plan and billing.
+  "changePlan",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];

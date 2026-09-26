@@ -47,5 +47,5 @@ test("settings are split into sections", async ({ page }) => {
   await sections.getByRole("link", { name: "Audit log" }).click();
   await expect(sections.getByRole("link", { name: "Audit log" })).toHaveAttribute("aria-current", "page");
   await sections.getByRole("link", { name: "Plan and billing" }).click();
-  await expect(page.getByText("Early access")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your plan" })).toBeVisible();
 });

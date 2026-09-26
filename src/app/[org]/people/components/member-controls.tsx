@@ -235,7 +235,14 @@ export function MembershipDialog({
   const [values, setValues] = useState(current);
   const roleChanged = values.role !== current.role;
 
-  const mutation = useRefreshingMutation(() => updateMembership(userId, values), () => setOpen(false));
+  const mutation = useRefreshingMutation(
+    async () => {
+      const result = await updateMembership(userId, values);
+      if ("error" in result) throw new Error(t("planSeats"));
+      return result;
+    },
+    () => setOpen(false)
+  );
 
   return (
     <Dialog

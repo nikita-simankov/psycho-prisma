@@ -1,6 +1,7 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { checkSeat } from "@/utils/billing";
 import { prisma } from "@/utils/database";
 import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "@/utils/mail";
@@ -22,7 +23,7 @@ const invitationSchema = z.object({
   position: z.string().trim().max(200).default(""),
 });
 
-export type InvitationResult = { link: string; emailed: boolean } | { error: "alreadyMember" };
+export type InvitationResult = { link: string; emailed: boolean } | { error: "alreadyMember" | "planSeats" };
 
 type Inviter = Awaited<ReturnType<typeof requireMember>>;
 
@@ -58,6 +59,10 @@ async function invite({ user, membership, organization }: Inviter, data: unknown
 
   if (existing) {
     return { error: "alreadyMember" };
+  }
+
+  if (!(await checkSeat(organization.id, invitation.role))) {
+    return { error: "planSeats" };
   }
 
   // A new invitation replaces any open one for the same address.
@@ -97,7 +102,7 @@ const bulkRowSchema = z.object({
 
 export type BulkInvitationResult = {
   email: string;
-  outcome: "sent" | "notEmailed" | "alreadyMember" | "invalidEmail" | "unknownRole" | "unknownTeam";
+  outcome: "sent" | "notEmailed" | "alreadyMember" | "planSeats" | "invalidEmail" | "unknownRole" | "unknownTeam";
   link?: string;
 };
 
@@ -143,7 +148,7 @@ export async function createInvitations(rows: unknown): Promise<BulkInvitationRe
     });
     results.push(
       "error" in result
-        ? { email, outcome: "alreadyMember" }
+        ? { email, outcome: result.error }
         : { email, outcome: result.emailed ? "sent" : "notEmailed", link: result.link }
     );
   }

@@ -145,7 +145,13 @@ export function AddPeopleDialog({ roundId, people }: { roundId: string; people: 
   const visible = people.filter((person) => person.name.toLowerCase().includes(query.trim().toLowerCase()));
 
   const add = useMutation({
-    mutationFn: () => addPeopleToRound(roundId, chosen),
+    mutationFn: async () => {
+      const result = await addPeopleToRound(roundId, chosen);
+      if ("error" in result) {
+        throw new Error(t(`form.errors.${result.error}`));
+      }
+      return result;
+    },
     onSuccess: ({ added }) => {
       toast({ title: t("added", { count: added }) });
       setOpen(false);

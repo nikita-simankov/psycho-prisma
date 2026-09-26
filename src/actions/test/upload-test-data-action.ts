@@ -1,11 +1,13 @@
 "use server";
 
 import { requireMember } from "@/utils/authentication";
+import { requireFeature } from "@/utils/billing";
 import { prisma } from "@/utils/database";
 import { TestData } from "@/utils/constants";
 
 export async function uploadTestData(data: TestData) {
   const { organization } = await requireMember("manageLibrary");
+  await requireFeature(organization.id, "studio", true);
 
   return await prisma.test.create({
     data: {
