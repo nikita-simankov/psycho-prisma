@@ -4,6 +4,10 @@ import { findAllTestSubmissionsByUserId } from "@/actions/test-submission/find-a
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findUserById } from "@/actions/user/find-user-by-id-action";
 import { findAllTeams } from "@/actions/team/team-actions";
+import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { ScaleComparison } from "@/components/metrics/scale-comparison";
+import { TrendCharts } from "@/components/metrics/trend-chart";
+import { parseCustomFields } from "@/utils/profile-fields";
 import { FlagBadge } from "@/components/flag-badge";
 import { Badge } from "@/components/ui/badge";
 import { LinkList } from "@/components/link-list";
@@ -29,6 +33,9 @@ import EditUserDialog from "./components/edit-user-dialog";
 import { FlagSelect, MembershipDialog, RemoveMemberButton } from "../components/member-controls";
 import { organizationBase } from "@/utils/organization-path";
 import { personSchedule } from "@/utils/rounds";
+import { MIN_GROUP } from "@/utils/results";
+import { loadPersonMetrics } from "./load-metrics";
+import { ProfileDetailsDialog } from "./components/profile-details-dialog";
 
 type PathParams = {
   params: {
@@ -44,22 +51,31 @@ export default async function UserProfilePage({ params }: PathParams) {
   const people = await getTranslations("people");
   const format = await getFormatter();
   const roles = await getTranslations("roles");
-  const { user: viewer, membership, organization } = await ensureMember("viewDashboard");
+  const metricsT = await getTranslations("metrics");
+  const context = await ensureMember("viewDashboard");
+  const { user: viewer, membership, organization } = context;
   const manage = can(membership.role, "manageMembers");
-  const [user, formSubmissions, testSubmissions, forms, tests, teams] = await Promise.all([
+  const [user, formSubmissions, testSubmissions, forms, tests, teams, members, settings] = await Promise.all([
     findUserById(params.userId),
     findAllFormSubmissionsByUserId(params.userId),
     findAllTestSubmissionsByUserId(params.userId),
     findAllForms(),
     findAllTests(),
     findAllTeams(),
+    findAllUsers(),
+    prisma.organization.findUniqueOrThrow({ where: { id: organization.id }, select: { customFields: true } }),
   ]);
 
   if (!user) {
     notFound();
   }
 
-  const schedule = await personSchedule(organization.id, user.id, user.teamId);
+  const [schedule, metrics] = await Promise.all([
+    personSchedule(organization.id, user.id, user.teamId),
+    loadPersonMetrics(context, user.id, user.teamId),
+  ]);
+  const customFields = parseCustomFields(settings.customFields);
+  const manager = user.managerId ? members.find((member) => member.id === user.managerId) : undefined;
   const individual = can(membership.role, "viewIndividualResults");
   const versions = individual
     ? await prisma.reportVersion.findMany({
@@ -111,9 +127,32 @@ export default async function UserProfilePage({ params }: PathParams) {
       label: t("fields.joinedAt"),
       value: format.dateTime(user.joinedAt, { dateStyle: "medium" }),
     },
+    { label: t("fields.startDate"), value: user.startDate ? format.dateTime(new Date(user.startDate), { dateStyle: "medium" }) : "" },
+    { label: t("fields.employmentType"), value: user.employmentType ? t(`employment.${user.employmentType}`) : "" },
+    { label: t("fields.location"), value: user.location },
+    ...customFields.map((field) => {
+      const value = user.customValues[field.key] ?? "";
+      return {
+        label: field.label,
+        value: value && field.type === "date" ? format.dateTime(new Date(value), { dateStyle: "medium" }) : value,
+      };
+    }),
+  ];
+  const stats = [
+    {
+      label: metricsT("completion"),
+      value: metrics.completion ? `${Math.round((metrics.completion.done / metrics.completion.total) * 100)}%` : "—",
+      hint: metrics.completion ? metricsT("completionHint", metrics.completion) : metricsT("noRounds"),
+    },
+    {
+      label: metricsT("lastAssessed"),
+      value: metrics.lastAssessed ? format.dateTime(metrics.lastAssessed, { dateStyle: "medium" }) : "—",
+      hint: metrics.lastAssessed ? format.relativeTime(metrics.lastAssessed) : metricsT("never"),
+    },
     {
       label: t("nextDue"),
-      value: schedule.nextDue ? format.dateTime(schedule.nextDue, { dateStyle: "medium" }) : "",
+      value: schedule.nextDue ? format.dateTime(schedule.nextDue, { dateStyle: "medium" }) : "—",
+      hint: schedule.nextDue ? format.relativeTime(schedule.nextDue) : metricsT("nothingScheduled"),
     },
   ];
 
@@ -131,6 +170,24 @@ export default async function UserProfilePage({ params }: PathParams) {
               </Button>
             )}
             {manage && <EditUserDialog user={user} />}
+            {manage && (
+              <ProfileDetailsDialog
+                userId={user.id}
+                name={formatFullName(user)}
+                current={{
+                  managerId: user.managerId,
+                  startDate: user.startDate,
+                  location: user.location,
+                  employmentType: user.employmentType,
+                  tags: user.tags,
+                  customValues: user.customValues,
+                }}
+                managers={members
+                  .filter((member) => member.id !== user.id && member.role !== "candidate")
+                  .map((member) => ({ id: member.id, name: formatFullName(member) }))}
+                fields={customFields}
+              />
+            )}
             {manage && (
               <MembershipDialog
                 userId={user.id}
@@ -163,10 +220,31 @@ export default async function UserProfilePage({ params }: PathParams) {
               {details.map((detail) => (
                 <div key={detail.label} className="flex items-center justify-between gap-4 px-3 py-2.5">
                   <dt className="text-muted-foreground">{detail.label}</dt>
-                  <dd className="text-right font-medium">{detail.value || "—"}</dd>
+                  <dd className="min-w-0 break-words text-right font-medium">{detail.value || "—"}</dd>
                 </div>
               ))}
+              <div className="flex items-center justify-between gap-4 px-3 py-2.5">
+                <dt className="text-muted-foreground">{t("fields.manager")}</dt>
+                <dd className="min-w-0 text-right font-medium">
+                  {manager ? (
+                    <Link href={`${base}/people/${manager.id}`} className="underline-offset-4 hover:underline">
+                      {formatFullName(manager)}
+                    </Link>
+                  ) : (
+                    "—"
+                  )}
+                </dd>
+              </div>
             </dl>
+            {user.tags.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-1.5" aria-label={t("fields.tags")}>
+                {user.tags.map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
             {can(membership.role, "viewSensitive") && (
               <div className="mt-4 rounded-lg border border-dashed p-3">
                 <FlagSelect userId={user.id} flag={user.flag} />
@@ -180,6 +258,42 @@ export default async function UserProfilePage({ params }: PathParams) {
           </CardContent>
         </Card>
         <div className="flex min-w-0 flex-col gap-6">
+          <dl className="grid gap-3 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-0.5 rounded-xl border bg-card p-4">
+                <dt className="text-sm text-muted-foreground">{stat.label}</dt>
+                <dd className="font-heading text-xl font-semibold tabular-nums">{stat.value}</dd>
+                <dd className="text-xs text-muted-foreground">{stat.hint}</dd>
+              </div>
+            ))}
+          </dl>
+          {metrics.tests.map((test) => (
+            <Card key={test.testId}>
+              <CardHeader>
+                <CardTitle className="text-lg">{test.testName}</CardTitle>
+                <CardDescription>
+                  {metricsT("resultCount", { count: test.count, date: format.dateTime(test.latestAt, { dateStyle: "medium" }) })}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6">
+                <section className="flex flex-col gap-2">
+                  <h3 className="text-sm font-semibold">{metricsT("comparison")}</h3>
+                  <ScaleComparison
+                    rows={test.latest}
+                    team={test.team && { label: metricsT("series.team", { team: test.team.teamName ?? "" }), average: test.team }}
+                    everyone={test.everyone && { label: metricsT("series.everyone"), average: test.everyone }}
+                  />
+                  {!test.team && !test.everyone && <p className="text-xs text-muted-foreground">{metricsT("noGroups", { min: MIN_GROUP })}</p>}
+                </section>
+                {test.count > 1 && (
+                  <section className="flex flex-col gap-2">
+                    <h3 className="text-sm font-semibold">{metricsT("trends")}</h3>
+                    <TrendCharts trends={test.trends} />
+                  </section>
+                )}
+              </CardContent>
+            </Card>
+          ))}
           {schedule.open.length > 0 && (
             <Card>
               <CardHeader>

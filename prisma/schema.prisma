@@ -44,6 +44,8 @@ model Organization {
   respondentFeedback Boolean @default(false)
   // JSON array of test ids whose feedback page respondents may open, when respondentFeedback is on.
   feedbackTestIds    String  @default("[]")
+  // JSON array of the organization's own profile fields (src/utils/profile-fields.ts).
+  customFields       String  @default("[]")
   // Who respondents contact about their data; shown in the privacy notice.
   privacyContact     String  @default("")
 
@@ -71,6 +73,13 @@ model Membership {
   flag           String       @default("")
   // When the person agreed to this organization's privacy notice.
   consentedAt    DateTime?
+  // Profile details kept per organization.
+  managerId      String?
+  startDate      String       @default("") // yyyy-mm-dd
+  location       String       @default("")
+  employmentType String       @default("") // see src/utils/profile-fields.ts
+  tags           String       @default("[]") // JSON array of strings
+  customValues   String       @default("{}") // JSON: { "<field key>": value }
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
@@ -332,4 +341,17 @@ model Draft {
   updatedAt      DateTime @updatedAt
 
   @@unique([userId, organizationId, kind, instrumentId])
+}
+
+// A named set of analytics filters someone saved.
+model AnalyticsView {
+  id             String   @id @default(uuid())
+  organizationId String
+  userId         String
+  name           String
+  // The analytics page's query string, without the leading "?".
+  query          String
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId, userId])
 }

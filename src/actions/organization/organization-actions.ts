@@ -10,6 +10,7 @@ import {
   uniqueSlug,
 } from "@/utils/organizations";
 import { rememberOrganization } from "@/utils/session";
+import { customFieldsSchema } from "@/utils/profile-fields";
 import { z } from "zod";
 
 const nameSchema = z.string().trim().min(2).max(100);
@@ -37,6 +38,7 @@ const settingsSchema = z
     privacyContact: z.string().trim().max(300),
     respondentFeedback: z.boolean(),
     feedbackTestIds: z.array(z.string()).max(500),
+    customFields: customFieldsSchema,
   })
   .partial()
   .strict();
@@ -49,7 +51,7 @@ export async function updateOrganizationSettings(
   data: unknown
 ): Promise<{ ok: true; slug: string } | { error: "nameTaken" }> {
   const { organization } = await requireMember("manageSettings");
-  const { name, feedbackTestIds, ...rest } = settingsSchema.parse(data);
+  const { name, feedbackTestIds, customFields, ...rest } = settingsSchema.parse(data);
 
   if (name !== undefined && (await isOrganizationNameTaken(name, organization.id))) {
     return { error: "nameTaken" };
@@ -74,7 +76,10 @@ export async function updateOrganizationSettings(
           ).map((test) => test.id)
         ),
       }),
-      slug, ...(cleanName && { name: cleanName, nameKey: organizationNameKey(cleanName) }) },
+      ...(customFields && { customFields: JSON.stringify(customFields) }),
+      slug,
+      ...(cleanName && { name: cleanName, nameKey: organizationNameKey(cleanName) }),
+    },
   });
 
   if (slug !== organization.slug) {

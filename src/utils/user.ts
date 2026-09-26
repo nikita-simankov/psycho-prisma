@@ -1,4 +1,5 @@
 import type { Prisma } from "@prisma/client";
+import { parseCustomValues, parseTags } from "./profile-fields";
 import { can } from "./roles";
 
 // Every User column except secrets. Use this for anything that can reach the browser.
@@ -36,6 +37,12 @@ export type Member = PublicUser & {
   flag: string;
   consentedAt: Date | null;
   joinedAt: Date;
+  managerId: string | null;
+  startDate: string;
+  location: string;
+  employmentType: string;
+  tags: string[];
+  customValues: Record<string, string>;
 };
 
 export function toMember(membership: MembershipWithUser, viewerRole: string): Member {
@@ -49,6 +56,12 @@ export function toMember(membership: MembershipWithUser, viewerRole: string): Me
     flag: can(viewerRole, "viewSensitive") ? membership.flag : "",
     consentedAt: membership.consentedAt,
     joinedAt: membership.createdAt,
+    managerId: membership.managerId,
+    startDate: membership.startDate,
+    location: membership.location,
+    employmentType: membership.employmentType,
+    tags: parseTags(membership.tags),
+    customValues: parseCustomValues(membership.customValues),
   };
 }
 

@@ -215,7 +215,12 @@
       "email": "Email",
       "emailPlaceholder": "you@company.com",
       "team": "Team",
-      "joinedAt": "Joined"
+      "joinedAt": "Joined",
+      "manager": "Manager",
+      "startDate": "Start date",
+      "employmentType": "Employment",
+      "location": "Location",
+      "tags": "Tags"
     },
     "title": "Profile",
     "editTitle": "Edit profile",
@@ -224,12 +229,24 @@
     "openReport": "Open report",
     "nothingYet": "Nothing yet.",
     "viewResult": "View result",
-    "details": "Details",
+    "details": {
+      "button": "Work details",
+      "title": "Work details",
+      "noManager": "No manager",
+      "notSet": "Not set",
+      "tagsHint": "Comma-separated, e.g. mentor, remote"
+    },
     "nextDue": "Next due",
     "openRounds": "Open rounds",
     "reportVersion": "Report version {version}",
     "timeline": "Timeline",
-    "averagesOnly": "Individual results are visible to psychologists, admins and owners. Your role sees team averages on each test's results page."
+    "averagesOnly": "Individual results are visible to psychologists, admins and owners. Your role sees team averages on each test's results page.",
+    "employment": {
+      "fullTime": "Full-time",
+      "partTime": "Part-time",
+      "contract": "Contract",
+      "intern": "Intern"
+    }
   },
   "dashboard": {
     "nav": {
@@ -241,7 +258,8 @@
       "teams": "Teams",
       "followUp": "Follow-up",
       "settings": "Settings",
-      "rounds": "Rounds"
+      "rounds": "Rounds",
+      "analytics": "Analytics"
     },
     "search": {
       "placeholder": "Search",
@@ -315,7 +333,7 @@
     "navGroups": {
       "assessments": "Assessments",
       "people": "People",
-      "reports": "Reports",
+      "reports": "Insights",
       "organization": "Organization"
     },
     "menu": "Menu",
@@ -332,7 +350,8 @@
       "results": "Results",
       "run": "Run",
       "rounds": "Rounds",
-      "new": "New"
+      "new": "New",
+      "analytics": "Analytics"
     },
     "work": {
       "review": "Waiting for review",
@@ -663,7 +682,23 @@
       "nameMismatch": "The name doesn't match."
     },
     "feedbackTests": "Tests people can see",
-    "feedbackTestsText": "Each person sees their own profile and the interpretation for the tests you tick. Validity checks stay private. Clinical screens are never shared."
+    "feedbackTestsText": "Each person sees their own profile and the interpretation for the tests you tick. Validity checks stay private. Clinical screens are never shared.",
+    "fields": {
+      "title": "Profile fields",
+      "text": "Extra fields your organization keeps for each person, such as grade or shift. They appear in work details on each profile.",
+      "add": "Add field",
+      "label": "Label",
+      "type": "Type",
+      "types": {
+        "text": "Text",
+        "number": "Number",
+        "date": "Date",
+        "select": "List"
+      },
+      "remove": "Remove {label}",
+      "options": "Choices",
+      "optionsHint": "Comma-separated, e.g. A, B, C"
+    }
   },
   "validity": {
     "title": "Response validity",
@@ -945,5 +980,83 @@
     "note": "This is a short summary for you. A specialist reads your results with more context, and no single test defines a person.",
     "profile": "Your profile",
     "reading": "What it means"
+  },
+  "metrics": {
+    "completion": "Completion",
+    "completionHint": "{done} of {total} assignments finished",
+    "noRounds": "No rounds finished yet",
+    "lastAssessed": "Last assessed",
+    "never": "Not assessed yet",
+    "nothingScheduled": "Nothing scheduled",
+    "resultCount": "{count, plural, one {# result} other {# results}}, latest {date}",
+    "comparison": "Compared with team and organization",
+    "trends": "Change over time",
+    "series": {
+      "person": "This person",
+      "team": "Team {team}",
+      "everyone": "Whole organization"
+    },
+    "noGroups": "Team and organization averages appear once at least {min} people have taken this test.",
+    "noNormedScales": "This test has no norms, so there is nothing to compare.",
+    "oneResult": "Trends appear after a second result.",
+    "meaningful": "A change this large is beyond ordinary measurement error.",
+    "withinError": "Within ordinary measurement error."
+  },
+  "analytics": {
+    "title": "Analytics",
+    "description": "Participation and score patterns across your organization, for groups only.",
+    "privacy": "Every figure here is a group figure. Groups of fewer than {min} people are hidden so no one can be singled out.",
+    "export": "Export CSV",
+    "byRound": "Completion by round",
+    "byRoundText": "Share of assignments finished in each round, most recent last.",
+    "byTeam": "Completion by team",
+    "byTeamText": "Share of assignments finished by each team's members.",
+    "completedOf": "{done} of {total} finished ({percent}%)",
+    "noAssignments": "No rounds have been sent to these people yet.",
+    "tooFew": "Fewer than {min} people, hidden.",
+    "heatmap": "Teams by scale",
+    "heatmapText": "Average of each person's latest {test} result. Darker means higher on the scale.",
+    "noHeatmap": "No team is large enough to show yet.",
+    "heatLow": "Low",
+    "heatHigh": "High",
+    "group": "Group",
+    "everyone": "Whole organization",
+    "everyoneInView": "Everyone in view",
+    "distributions": "Score distributions",
+    "distributionsText": "How the latest {test} scores of {count, plural, one {# person} other {# people}} spread; the shaded columns are the average range.",
+    "quarters": "Quarterly trends",
+    "quartersText": "Average {test} score per quarter, from each person's latest result in that quarter.",
+    "quarter": "Q{quarter} {year}",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "noResults": "No test results match these filters yet.",
+    "filters": {
+      "test": "Test",
+      "mostTaken": "Most taken",
+      "team": "Team",
+      "allTeams": "All teams",
+      "position": "Position",
+      "allPositions": "All positions",
+      "round": "Round",
+      "allRounds": "All rounds",
+      "from": "From",
+      "to": "To",
+      "reset": "Reset"
+    },
+    "views": {
+      "save": "Save view",
+      "name": "View name",
+      "placeholder": "e.g. Sales this year",
+      "saved": "View saved",
+      "tooMany": "You can keep up to 30 views. Delete one first.",
+      "delete": "Delete view {name}"
+    },
+    "csv": {
+      "section": "Section",
+      "group": "Group",
+      "measure": "Measure",
+      "value": "Value",
+      "people": "People",
+      "completed": "Completed, %"
+    }
   }
 }

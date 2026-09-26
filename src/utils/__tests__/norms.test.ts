@@ -97,3 +97,49 @@ describe("groupAverages", () => {
     expect(groupAverages([person("a", null, 5)], [])).toEqual([]);
   });
 });
+
+import { completionRate, quarterOf, scaleTrends } from "../metrics";
+
+describe("scaleTrends", () => {
+  const rows = (stan: number, t: number | null = null) => [
+    { scaleId: 1, scaleName: "Stress", rawGrade: 1, correctedGrade: null, tGrade: null, stan, summary: null },
+    { scaleId: 2, scaleName: "Lie", rawGrade: 1, correctedGrade: null, tGrade: t, stan: null, summary: null },
+  ];
+
+  it("orders points by date and marks changes beyond measurement error", () => {
+    const trends = scaleTrends([
+      { createdAt: new Date("2026-06-01"), rows: rows(7, 62) },
+      { createdAt: new Date("2026-01-01"), rows: rows(4, 55) },
+    ]);
+    expect(trends[0].points.map((point) => point.value)).toEqual([4, 7]);
+    expect(trends[0].change).toEqual({ delta: 3, meaningful: true });
+    expect(trends[1].change).toEqual({ delta: 7, meaningful: false });
+  });
+
+  it("has no change with a single result", () => {
+    expect(scaleTrends([{ createdAt: new Date(), rows: rows(5) }])[0].change).toBeNull();
+  });
+});
+
+describe("quarterOf and completionRate", () => {
+  it("names calendar quarters", () => {
+    expect(quarterOf(new Date("2026-09-30T12:00:00"))).toMatchObject({ key: "2026-3", quarter: 3 });
+  });
+
+  it("counts only assignments that could have been finished", () => {
+    const now = new Date("2026-09-26");
+    const round = (closed: boolean, due: string | null) => ({ closedAt: closed ? now : null, dueAt: due ? new Date(due) : null });
+    expect(
+      completionRate(
+        [
+          { completedAt: now, round: round(false, null) },
+          { completedAt: null, round: round(true, null) },
+          { completedAt: null, round: round(false, "2026-09-01") },
+          { completedAt: null, round: round(false, "2026-12-01") },
+        ],
+        now
+      )
+    ).toEqual({ done: 1, total: 3 });
+    expect(completionRate([], now)).toBeNull();
+  });
+});

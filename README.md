@@ -35,6 +35,8 @@ npx prisma migrate deploy
 
 `8_reports` adds `ReportVersion` (numbered, frozen copies of a person's report), `TestSubmission.locale` and `Organization.feedbackTestIds`. Conclusions saved in the old archive become version 1 of each person's report.
 
+`9_profiles` adds work details to `Membership` (manager, start date, location, employment type, tags, custom field values), `Organization.customFields` and `AnalyticsView` (saved analytics filters).
+
 ## Deploying to Railway
 
 The repository deploys to [Railway](https://railway.com) as is: `railway.json` builds the `Dockerfile` and checks `/api/health` before switching traffic. Each start applies migrations and re-runs the seed, which is safe to repeat.
@@ -106,6 +108,12 @@ Staff send work in rounds (`/[org]/rounds`): chosen tests and questionnaires, a 
 A round can repeat every 1, 3, 6 or 12 months. Each cycle goes to the chosen people plus whoever is in the chosen teams at that time. Tests with `retestDays` in `tests.json` (the ability tests, 180 days) are left out for people who took them more recently. The server opens due cycles, sends one reminder two days before the due date and deletes expired invitations every hour (`src/instrumentation.ts`). To run this from an outside scheduler instead, set `DISABLE_SCHEDULER=1` and `POST /api/cron` with `Authorization: Bearer $CRON_SECRET`. Scheduled emails need `APP_URL` for their links and use each person's last chosen language (`MAIL_LOCALE` otherwise).
 
 People can also be invited in bulk from an .xlsx or .csv file on the People page, and open invitations can be sent again with a new link.
+
+## Profiles and analytics
+
+Each profile shows work details (manager, start date, employment, location, tags and the organization's own fields from Settings), completion of assigned rounds, when the person was last assessed and next due. Roles that see individual results also get, per test, the latest scores beside the team and organization averages and a small trend chart per scale; a change of 2 stens or 10 T-points or more is marked as beyond ordinary measurement error.
+
+`/[org]/analytics` shows completion by round and team, a team-by-scale heatmap, score distributions and quarterly averages, filtered by test, team, position, round and dates. Filters live in the address, can be saved as named views and exported as CSV. Every figure is a group figure: groups under 5 people are hidden, and restricted instruments only appear for roles that may see them.
 
 ## Access rules
 
