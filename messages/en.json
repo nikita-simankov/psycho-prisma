@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "appName": "Prisma",
-    "title": "Prisma · Psychological assessment for HR teams",
+    "appName": "Calibre",
+    "title": "Calibre · Psychological assessment for HR teams",
     "description": "Run validated psychological tests and questionnaires, score them automatically and review results for your team."
   },
   "common": {
-    "appName": "Prisma",
+    "appName": "Calibre",
     "print": "Print",
     "language": "Language",
     "locales": {
@@ -138,7 +138,7 @@
       "button": "Get started"
     },
     "footer": {
-      "tagline": "Prisma · psychological assessment for HR teams",
+      "tagline": "Calibre · psychological assessment for HR teams",
       "disclaimer": "Results support, and never replace, a qualified psychologist's judgement."
     }
   },
@@ -548,7 +548,7 @@
   "privacy": {
     "metaTitle": "Privacy notice",
     "title": "Privacy notice",
-    "lead": "Prisma is used by your organization to run psychological questionnaires and tests. This notice explains what is collected, who can see it and what you can do about it.",
+    "lead": "Calibre is used by your organization to run psychological questionnaires and tests. This notice explains what is collected, who can see it and what you can do about it.",
     "sections": {
       "collect": {
         "title": "What we collect",
@@ -619,21 +619,37 @@
   },
   "mail": {
     "invitation": {
-      "subject": "You're invited to join {organization} on Prisma",
-      "text": "Hello,\n\n{organization} has invited you to Prisma, where you'll complete psychological assessments for your workplace.\n\nAccept the invitation: {link}\n\nThe link works for {days} days. If you weren't expecting this, you can ignore this email."
+      "subject": "You're invited to join {organization} on Calibre",
+      "preview": "{organization} has invited you to Calibre.",
+      "heading": "Join {organization}",
+      "body": "{organization} has invited you to Calibre, where you'll complete psychological assessments for your workplace.",
+      "action": "Accept the invitation",
+      "expires": "The link works for {days} days.",
+      "ignore": "If you weren't expecting this, you can ignore this email."
     },
     "passwordReset": {
-      "subject": "Reset your Prisma password",
-      "text": "Hello,\n\nChoose a new password here: {link}\n\nThe link works once and expires in {minutes} minutes. If you didn't ask for this, you can ignore this email."
+      "subject": "Reset your Calibre password",
+      "preview": "Choose a new password for Calibre.",
+      "heading": "Choose a new password",
+      "body": "Someone asked to reset the password for this email address on Calibre.",
+      "action": "Choose a new password",
+      "expires": "The link works once and expires in {minutes} minutes.",
+      "ignore": "If you didn't ask for this, you can ignore this email; your password stays the same."
     },
     "round": {
       "inviteSubject": "{organization}: please complete {round}",
-      "inviteText": "Hello {name},\n\n{organization} has asked you to complete \"{round}\" on Prisma.",
       "reminderSubject": "Reminder: {round} for {organization}",
-      "reminderText": "Hello {name},\n\nThis is a reminder to finish \"{round}\" for {organization}.",
+      "invitePreview": "{organization} has asked you to complete {round}.",
+      "reminderPreview": "A reminder to finish {round}.",
+      "inviteHeading": "{round}",
+      "reminderHeading": "A reminder: {round}",
+      "greeting": "Hello {name},",
+      "inviteText": "{organization} has asked you to complete “{round}” on Calibre.",
+      "reminderText": "This is a reminder to finish “{round}” for {organization}.",
       "due": "Please finish by {date}.",
-      "open": "Open it here (no password needed): {link}",
-      "footer": "\nThe link is personal, so please don't forward it. If you weren't expecting this, you can ignore this email."
+      "action": "Open it, no password needed",
+      "personal": "The link is personal, so please don't forward it.",
+      "ignore": "If you weren't expecting this, you can ignore this email."
     }
   },
   "roleHints": {

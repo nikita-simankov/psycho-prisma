@@ -7,6 +7,7 @@ import { createTranslator } from "next-intl";
 import { localizeForm, localizeTest } from "./content-translation";
 import { prisma } from "./database";
 import { libraryWhere } from "./library";
+import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "./mail";
 import { can } from "./roles";
 import { createToken } from "./tokens";
@@ -109,21 +110,18 @@ async function mailAssignment(
   const { locale, t } = translatorFor(recipient.locale);
   const due = round.dueAt ? new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(round.dueAt) : null;
   const values = { organization, round: round.name, name: recipient.name, link };
-  const body = [
-    t(kind === "invite" ? "inviteText" : "reminderText", values),
-    round.message ? `\n${round.message}\n` : "",
-    due ? t("due", { date: due }) : "",
-    t("open", { link }),
-    t("footer"),
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  return sendMail({
-    to: recipient.email,
-    subject: t(kind === "invite" ? "inviteSubject" : "reminderSubject", values),
-    text: body,
+  const invite = kind === "invite";
+  const content = await renderEmail({
+    preview: t(invite ? "invitePreview" : "reminderPreview", values),
+    sender: organization,
+    heading: t(invite ? "inviteHeading" : "reminderHeading", values),
+    paragraphs: [t("greeting", values), t(invite ? "inviteText" : "reminderText", values), ...(due ? [t("due", { date: due })] : [])],
+    quote: round.message || undefined,
+    action: { label: t("action"), url: link },
+    notes: [t("personal"), t("ignore")],
   });
+
+  return sendMail({ to: recipient.email, subject: t(invite ? "inviteSubject" : "reminderSubject", values), ...content });
 }
 
 // Latest submission date per person and test, for retest intervals.

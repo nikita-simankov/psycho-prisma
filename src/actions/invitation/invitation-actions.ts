@@ -2,6 +2,7 @@
 
 import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
+import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "@/utils/mail";
 import { assignableRoles } from "@/utils/roles";
 import { createToken } from "@/utils/tokens";
@@ -28,11 +29,15 @@ type Inviter = Awaited<ReturnType<typeof requireMember>>;
 async function mailInvitation(organization: string, email: string, token: string) {
   const link = await absoluteUrl(`/invite/${token}`);
   const t = await getTranslations("mail.invitation");
-  const emailed = await sendMail({
-    to: email,
-    subject: t("subject", { organization }),
-    text: t("text", { organization, link, days: INVITATION_DAYS }),
+  const content = await renderEmail({
+    preview: t("preview", { organization }),
+    sender: organization,
+    heading: t("heading", { organization }),
+    paragraphs: [t("body", { organization })],
+    action: { label: t("action"), url: link },
+    notes: [t("expires", { days: INVITATION_DAYS }), t("ignore")],
   });
+  const emailed = await sendMail({ to: email, subject: t("subject", { organization }), ...content });
   return { link, emailed };
 }
 
