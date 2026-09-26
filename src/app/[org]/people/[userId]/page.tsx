@@ -226,7 +226,7 @@ export default async function UserProfilePage(props: PathParams) {
               {details.map((detail) => (
                 <div key={detail.label} className="flex items-center justify-between gap-4 px-3 py-2.5">
                   <dt className="text-muted-foreground">{detail.label}</dt>
-                  <dd className="min-w-0 break-words text-right font-medium">{detail.value || "—"}</dd>
+                  <dd className="min-w-0 wrap-break-word text-right font-medium">{detail.value || "—"}</dd>
                 </div>
               ))}
               <div className="flex items-center justify-between gap-4 px-3 py-2.5">

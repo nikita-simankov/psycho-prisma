@@ -72,7 +72,7 @@ export function ScaleComparison({ rows, team, everyone }: { rows: ScaleRow[]; te
                     key={mark.series}
                     label={`${row.scaleName}\n${mark.label}: ${mark.value} (${chart(`kind.${position.kind}`)})`}
                     className={cn(
-                      "absolute top-1/2 -translate-x-1/2 -translate-y-1/2 outline-none ring-2 ring-card focus-visible:ring-ring",
+                      "absolute top-1/2 -translate-x-1/2 -translate-y-1/2 outline-hidden ring-2 ring-card focus-visible:ring-ring",
                       mark.series === "person" ? "h-3.5 w-3.5" : "h-3 w-3",
                       seriesShape(mark.series)
                     )}

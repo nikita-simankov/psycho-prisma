@@ -37,13 +37,13 @@ export function QuestionStep({ header, title, stepKey, children, canContinue, on
     <div className="flex w-full flex-col gap-6">
       {header}
 
-      <h2 ref={heading} tabIndex={-1} className="font-heading text-xl font-semibold leading-snug outline-none sm:text-2xl">
+      <h2 ref={heading} tabIndex={-1} className="font-heading text-xl font-semibold leading-snug outline-hidden sm:text-2xl">
         {title}
       </h2>
 
       <div className="flex flex-col gap-2">{children}</div>
 
-      <div className="sticky bottom-0 -mx-4 flex flex-col gap-2 border-t bg-background/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
+      <div className="sticky bottom-0 -mx-4 flex flex-col gap-2 border-t bg-background/95 px-4 py-3 backdrop-blur-sm sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
         <div className="flex gap-2">
           {onBack && (
             <Button variant="outline" size="lg" onClick={onBack} className="px-4">

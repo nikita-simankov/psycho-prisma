@@ -1,43 +1,99 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* .light inside .dark (used by the /design gallery) switches back to the light palette. */
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
+
+/*
+  Calibre design tokens, in three layers:
+  1. Primitives (--paper-*, --ink-*, --cobalt-*, ...): raw values. Components never use them directly.
+  2. Semantic (--background, --primary, --border, ...): what a colour is for. Redefined per theme in .dark.
+  3. Component: Tailwind utilities (bg-primary, border-border, rounded-md) generated from @theme below,
+     which is what components use.
+  The gallery at /design shows every token in both themes.
+*/
 
 @layer base {
   :root {
-    --background: 220 20% 98%;
-    --foreground: 224 32% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 32% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 32% 12%;
-    --primary: 229 56% 48%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 222 24% 94%;
-    --secondary-foreground: 224 32% 16%;
-    --muted: 222 20% 95%;
-    --muted-foreground: 222 10% 44%;
-    --accent: 229 60% 96%;
-    --accent-foreground: 229 56% 36%;
-    --destructive: 0 68% 52%;
-    --destructive-foreground: 0 0% 100%;
-    --success: 158 58% 36%;
-    --warning: 34 90% 46%;
-    --border: 222 18% 89%;
-    --input: 222 18% 86%;
-    --ring: 229 56% 48%;
-    --sidebar-background: 222 24% 95%;
-    --sidebar-foreground: 224 24% 22%;
-    --sidebar-primary: 229 56% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 26% 90%;
-    --sidebar-accent-foreground: 224 32% 12%;
-    --sidebar-border: 222 18% 87%;
-    --sidebar-ring: 229 56% 48%;
-    --radius: 0.75rem;
-    /* Chart series in a fixed order, checked for colour-blind separation: person, team, organization. */
+    /* 1. Primitives */
+    --paper-0: #ffffff;
+    --paper-50: #f6f4ef;
+    --paper-100: #f0ede7;
+    --paper-200: #e8e4dc;
+    --paper-300: #e2ded5;
+    --paper-400: #cfcabf;
+    --ink-400: #9a9da6;
+    --ink-500: #6b6f78;
+    --ink-700: #3f434c;
+    --ink-800: #24262d;
+    --ink-900: #1a1c21;
+    --night-950: #0f1013;
+    --night-900: #131418;
+    --night-850: #1b1d22;
+    --night-800: #1f2127;
+    --night-750: #24262d;
+    --night-700: #2b2e36;
+    --night-600: #3a3e48;
+    --bone-100: #ece9e2;
+    --bone-300: #c9c6bf;
+    --cobalt-50: #e6e9fb;
+    --cobalt-300: #8e9dff;
+    --cobalt-200: #c9d0ff;
+    --cobalt-600: #2b44d6;
+    --cobalt-800: #22369f;
+    --cobalt-950: #232848;
+    --green-600: #1f7a55;
+    --green-400: #5cc49a;
+    --amber-600: #a8620b;
+    --amber-400: #e3a450;
+    --red-600: #b3261e;
+    --red-500: #e5534b;
+  }
+
+  /* 2. Semantic: light (default) */
+  :root,
+  .light {
+    --background: var(--paper-50);
+    --foreground: var(--ink-900);
+    --card: var(--paper-0);
+    --card-foreground: var(--ink-900);
+    --popover: var(--paper-0);
+    --popover-foreground: var(--ink-900);
+    --primary: var(--cobalt-600);
+    --primary-foreground: var(--paper-0);
+    --secondary: var(--paper-200);
+    --secondary-foreground: var(--ink-800);
+    --muted: var(--paper-100);
+    --muted-foreground: var(--ink-500);
+    --accent: var(--cobalt-50);
+    --accent-foreground: var(--cobalt-800);
+    --destructive: var(--red-600);
+    --destructive-foreground: var(--paper-0);
+    --success: var(--green-600);
+    --warning: var(--amber-600);
+    --border: var(--paper-300);
+    --input: var(--paper-400);
+    --ring: var(--cobalt-600);
+    --sidebar-background: var(--paper-100);
+    --sidebar-foreground: var(--ink-700);
+    --sidebar-primary: var(--cobalt-600);
+    --sidebar-primary-foreground: var(--paper-0);
+    --sidebar-accent: var(--paper-200);
+    --sidebar-accent-foreground: var(--ink-900);
+    --sidebar-border: var(--paper-300);
+    --sidebar-ring: var(--cobalt-600);
     --series-1: #2a78d6;
     --series-2: #eb6834;
     --series-3: #1baf7a;
+  }
+
+  :root {
+    /* Shape, density and motion */
+    --radius: 0.375rem;
+    --density-row: 2.75rem;
+
+    /* Chart series (--series-1..3, per theme above) are in a fixed order, checked for colour-blind
+       separation: person, team, organization. */
     /* Sequential blue for magnitude (heatmaps), light to dark in both themes. */
     --seq-100: #cde2fb;
     --seq-200: #9ec5f4;
@@ -49,67 +105,152 @@
   }
 
   .dark {
-    --background: 226 30% 7%;
-    --foreground: 222 20% 94%;
-    --card: 226 26% 10%;
-    --card-foreground: 222 20% 94%;
-    --popover: 226 26% 10%;
-    --popover-foreground: 222 20% 94%;
-    --primary: 229 84% 72%;
-    --primary-foreground: 226 40% 10%;
-    --secondary: 226 20% 16%;
-    --secondary-foreground: 222 20% 94%;
-    --muted: 226 20% 14%;
-    --muted-foreground: 222 12% 64%;
-    --accent: 229 30% 18%;
-    --accent-foreground: 229 84% 82%;
-    --destructive: 0 62% 48%;
-    --destructive-foreground: 0 0% 100%;
-    --success: 158 50% 50%;
-    --warning: 34 90% 60%;
-    --sidebar-background: 226 32% 5%;
-    --sidebar-foreground: 222 16% 80%;
-    --sidebar-primary: 229 84% 72%;
-    --sidebar-primary-foreground: 226 40% 10%;
-    --sidebar-accent: 226 22% 13%;
-    --sidebar-accent-foreground: 222 20% 94%;
-    --sidebar-border: 226 20% 14%;
-    --sidebar-ring: 229 84% 72%;
-    --border: 226 18% 18%;
-    --input: 226 18% 22%;
-    --ring: 229 84% 72%;
+    --background: var(--night-900);
+    --foreground: var(--bone-100);
+    --card: var(--night-850);
+    --card-foreground: var(--bone-100);
+    --popover: var(--night-800);
+    --popover-foreground: var(--bone-100);
+    --primary: var(--cobalt-300);
+    --primary-foreground: var(--night-900);
+    --secondary: var(--night-750);
+    --secondary-foreground: var(--bone-100);
+    --muted: var(--night-800);
+    --muted-foreground: var(--ink-400);
+    --accent: var(--cobalt-950);
+    --accent-foreground: var(--cobalt-200);
+    --destructive: var(--red-500);
+    --destructive-foreground: var(--paper-0);
+    --success: var(--green-400);
+    --warning: var(--amber-400);
+    --border: var(--night-700);
+    --input: var(--night-600);
+    --ring: var(--cobalt-300);
+    --sidebar-background: var(--night-950);
+    --sidebar-foreground: var(--bone-300);
+    --sidebar-primary: var(--cobalt-300);
+    --sidebar-primary-foreground: var(--night-900);
+    --sidebar-accent: var(--night-800);
+    --sidebar-accent-foreground: var(--bone-100);
+    --sidebar-border: var(--night-750);
+    --sidebar-ring: var(--cobalt-300);
     --series-1: #3987e5;
     --series-2: #d95926;
     --series-3: #199e70;
   }
 }
 
+/* 3. Component-facing tokens: every utility (bg-card, text-muted-foreground, font-heading, ...) comes from here. */
+@theme inline {
+  --font-sans: var(--font-onest), "Segoe UI", system-ui, sans-serif;
+  --font-heading: var(--font-literata), "Iowan Old Style", Georgia, serif;
+  --font-serif: var(--font-literata), "Iowan Old Style", Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 2px);
+
+  --spacing-row: var(--density-row);
+
+  --ease-calm: cubic-bezier(0.2, 0, 0, 1);
+
+  --animate-accordion-down: accordion-down 0.2s var(--ease-calm);
+  --animate-accordion-up: accordion-up 0.2s var(--ease-calm);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@utility font-condensed {
+  font-stretch: condensed;
+}
+
 @layer base {
-  * {
-    @apply border-border;
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+  /* Tailwind 4 buttons default to the arrow cursor; keep the pointer shadcn relied on. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
   body {
     @apply bg-background text-foreground antialiased;
   }
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     @apply font-heading tracking-tight;
+    text-wrap: balance;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  :where(table, [data-numeric]) {
+    font-variant-numeric: tabular-nums;
   }
 }
 
 @layer utilities {
-  .font-condensed {
-    font-stretch: condensed;
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

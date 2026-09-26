@@ -45,7 +45,7 @@ export function ScaleProfile({ rows }: { rows: ScaleRow[] }) {
                     />
                     <div
                       className={cn(
-                        "absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background shadow print:border-white",
+                        "absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background shadow-sm print:border-white",
                         BAND_TONE[position.band]
                       )}
                       style={{ left: `${percent(position.value)}%` }}

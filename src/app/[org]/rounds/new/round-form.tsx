@@ -190,7 +190,7 @@ export function RoundForm({
               <label
                 key={value}
                 className={cn(
-                  "flex cursor-pointer flex-col gap-1 rounded-lg border p-3 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
+                  "flex cursor-pointer flex-col gap-1 rounded-lg border p-3 text-sm transition-colors has-focus-visible:ring-2 has-focus-visible:ring-ring",
                   purpose === value ? "border-primary bg-primary/5" : "hover:border-primary/40"
                 )}
               >
