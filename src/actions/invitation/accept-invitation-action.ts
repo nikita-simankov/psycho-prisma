@@ -8,6 +8,7 @@ import { rememberOrganization, startSession } from "@/utils/session";
 import { hashToken } from "@/utils/tokens";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
+import { getLocale } from "next-intl/server";
 import { headers } from "next/headers";
 
 async function openInvitation(token: string) {
@@ -19,20 +20,39 @@ async function openInvitation(token: string) {
   return invitation && !invitation.acceptedAt && invitation.expiresAt > new Date() ? invitation : null;
 }
 
-// What the invitation page needs to decide which form to show.
+// What the invitation page needs to decide what to show. Expired and already-used links get
+// their own explanation instead of one generic error.
 export async function findInvitation(token: string) {
-  const invitation = await openInvitation(token);
+  const found = await prisma.invitation.findUnique({
+    where: { tokenHash: hashToken(token) },
+    include: { organization: { select: { name: true } } },
+  });
 
-  if (!invitation) {
+  if (!found) {
     return null;
   }
 
+  if (found.acceptedAt) {
+    return { status: "used", organization: found.organization.name } as const;
+  }
+
+  if (found.expiresAt <= new Date()) {
+    const inviter = await prisma.user.findUnique({ where: { id: found.invitedById }, select: { name: true, lastName: true } });
+    return {
+      status: "expired",
+      organization: found.organization.name,
+      inviter: inviter ? [inviter.name, inviter.lastName].filter(Boolean).join(" ") : "",
+    } as const;
+  }
+
+  const invitation = found;
   const [user, account] = await Promise.all([
     getCurrentUser(),
     prisma.user.findUnique({ where: { email: invitation.email }, select: { id: true } }),
   ]);
 
   return {
+    status: "open",
     organization: invitation.organization.name,
     email: invitation.email,
     name: invitation.name,
@@ -78,6 +98,10 @@ export async function acceptInvitation(
     }
 
     userId = current.id;
+    // The invitation reached this inbox, which confirms the address.
+    if (!current.emailVerifiedAt) {
+      await prisma.user.update({ where: { id: userId }, data: { emailVerifiedAt: new Date() } });
+    }
   } else {
     if (await prisma.user.findUnique({ where: { email: invitation.email }, select: { id: true } })) {
       return { error: "signInFirst" };
@@ -91,7 +115,13 @@ export async function acceptInvitation(
 
     const { password, consent: _consent, ...profile } = parsed.data;
     const user = await prisma.user.create({
-      data: { ...profile, id: randomUUID(), password: await hash(password, 10) },
+      data: {
+        ...profile,
+        id: randomUUID(),
+        password: await hash(password, 10),
+        locale: await getLocale(),
+        emailVerifiedAt: new Date(),
+      },
     });
 
     userId = user.id;

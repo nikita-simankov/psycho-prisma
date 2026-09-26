@@ -17,6 +17,33 @@ export default async function InvitePage(props: { params: Promise<{ token: strin
   const common = await getTranslations("common")
   const invitation = await findInvitation(params.token)
 
+  if (invitation?.status === "used") {
+    return (
+      <AuthShell title={t("usedTitle")} subtitle={t("usedText", { organization: invitation.organization })}>
+        <Button asChild size="lg">
+          <Link href="/auth/sign-in">{common("signIn")}</Link>
+        </Button>
+      </AuthShell>
+    )
+  }
+
+  if (invitation?.status === "expired") {
+    return (
+      <AuthShell
+        title={t("expiredTitle")}
+        subtitle={
+          invitation.inviter
+            ? t("expiredText", { organization: invitation.organization, inviter: invitation.inviter })
+            : t("expiredTextNoInviter", { organization: invitation.organization })
+        }
+      >
+        <Button asChild variant="outline" size="lg">
+          <Link href="/auth/sign-in">{common("signIn")}</Link>
+        </Button>
+      </AuthShell>
+    )
+  }
+
   if (!invitation) {
     return (
       <AuthShell title={t("invalidTitle")} subtitle={t("invalidText")}>
@@ -54,8 +81,9 @@ export default async function InvitePage(props: { params: Promise<{ token: strin
       return (
         <AuthShell title={title} subtitle={t("otherUser", { email: invitation.email })}>
           <form action={logout}>
+            <input type="hidden" name="next" value={`/invite/${params.token}`} />
             <Button size="lg" variant="outline" className="w-full">
-              {common("signOut")}
+              {t("signOutAndContinue")}
             </Button>
           </form>
         </AuthShell>

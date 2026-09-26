@@ -1,7 +1,7 @@
 "use server";
 
 import { emailSchema, passwordSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
-import { lucia, requireUser } from "@/utils/authentication";
+import { lucia, requireFullSession } from "@/utils/authentication";
 import { audit } from "@/utils/audit";
 import { prisma } from "@/utils/database";
 import { eraseInOrganization } from "@/utils/erasure";
@@ -21,7 +21,7 @@ const profileSchema = z
   .strict();
 
 export async function updateProfile(data: unknown): Promise<{ ok: true } | { error: "phoneTaken" | "invalidInput" }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const parsed = profileSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -55,7 +55,7 @@ export async function changeEmail(
   email: unknown,
   currentPassword: unknown
 ): Promise<{ ok: true } | { error: "wrongPassword" | "rateLimited" | "emailTaken" | "invalidInput" }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const parsed = emailSchema.safeParse(email);
 
   if (!parsed.success) {
@@ -81,7 +81,7 @@ export async function changePassword(
   currentPassword: unknown,
   newPassword: unknown
 ): Promise<{ ok: true } | { error: "wrongPassword" | "rateLimited" | "invalidInput" }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const parsed = passwordSchema.safeParse(newPassword);
 
   if (!parsed.success) {
@@ -104,7 +104,7 @@ export async function changePassword(
 // Leaves an organization. Answers given there are deleted with the membership, as when
 // an admin removes someone. The last owner has to transfer ownership first.
 export async function leaveOrganization(organizationId: unknown): Promise<{ ok: true } | { error: "lastOwner" }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const id = z.string().parse(organizationId);
   const membership = await prisma.membership.findUniqueOrThrow({
     where: { userId_organizationId: { userId: user.id, organizationId: id } },
@@ -126,7 +126,7 @@ export async function leaveOrganization(organizationId: unknown): Promise<{ ok: 
 // Withdraws agreement to an organization's privacy notice. Nothing new can be taken there until
 // the person agrees again; to have their answers deleted as well, they leave the organization.
 export async function withdrawConsent(organizationId: unknown): Promise<{ ok: true }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const id = z.string().parse(organizationId);
 
   await prisma.membership.update({

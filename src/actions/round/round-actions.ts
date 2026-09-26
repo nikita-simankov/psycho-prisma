@@ -53,7 +53,7 @@ const roundSchema = z
 
 export type CreateRoundResult =
   | ({ ok: true; emailed: number; links: { name: string; link: string }[]; skippedNames: string[] } & Pick<OpenRoundResult, "roundId">)
-  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" };
+  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" | "emailUnverified" };
 
 // The day's end in the server's time zone, so "due 12 May" includes 12 May.
 function endOfDay(date: string) {
@@ -89,6 +89,10 @@ async function ensureCandidate(organizationId: string, candidate: z.infer<typeof
 
 export async function createRound(data: unknown): Promise<CreateRoundResult> {
   const { user, membership, organization } = await requireMember("manageRounds");
+  // Unconfirmed accounts can't email other people (see the confirmation banner).
+  if (!user.emailVerifiedAt) {
+    return { error: "emailUnverified" };
+  }
   const input = roundSchema.parse(data);
 
   const invalid = await validateItems(organization.id, membership.role, input.purpose, input.items);
@@ -218,6 +222,10 @@ async function findRound(roundId: unknown) {
 }
 
 export async function addPeopleToRound(roundId: unknown, userIds: unknown) {
+  const { user } = await requireMember("manageRounds");
+  if (!user.emailVerifiedAt) {
+    return { error: "emailUnverified" as const };
+  }
   const { organization, round } = await findRound(roundId);
   if (round.closedAt) {
     throw new Error("The round is closed");

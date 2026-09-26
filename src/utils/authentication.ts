@@ -22,7 +22,16 @@ export const lucia = new Lucia(adapter, {
     },
   },
   sessionExpiresIn: new TimeSpan(1, "d"),
+  getSessionAttributes: (attributes) => ({ scope: attributes.scope }),
 });
+
+// A session opened from a round link: it reaches the person's own assessments only.
+export const LINK_SCOPE = "link";
+
+// The role a link session acts with. Staff get a respondent's view until they sign in with a password.
+function linkRole(role: string) {
+  return role === "candidate" ? "candidate" : "member";
+}
 
 export class AuthorizationError extends Error {
   constructor(message = "Unauthorized") {
@@ -31,12 +40,11 @@ export class AuthorizationError extends Error {
   }
 }
 
-// Resolves the signed-in user once per request. Never returns the password hash.
-export const getCurrentUser = cache(async (): Promise<PublicUser | null> => {
+const validateSession = cache(async () => {
   const sessionId = (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
 
   if (!sessionId) {
-    return null;
+    return { session: null, user: null };
   }
 
   const { session, user } = await lucia.validateSession(sessionId);
@@ -53,6 +61,18 @@ export const getCurrentUser = cache(async (): Promise<PublicUser | null> => {
       (await cookies()).set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
     }
   } catch {}
+
+  return { session, user };
+});
+
+// Whether this request comes from a round link rather than a password sign-in.
+export async function isLinkSession() {
+  return (await validateSession()).session?.scope === LINK_SCOPE;
+}
+
+// Resolves the signed-in user once per request. Never returns the password hash.
+export const getCurrentUser = cache(async (): Promise<PublicUser | null> => {
+  const { user } = await validateSession();
 
   if (!user) {
     return null;
@@ -73,6 +93,9 @@ export type Context = {
   membership: Prisma.MembershipGetPayload<{ include: typeof membershipInclude }>;
   organization: Prisma.MembershipGetPayload<{ include: typeof membershipInclude }>["organization"];
   memberships: Context["membership"][];
+  // Set for a round-link session: the role the person really has, while `membership.role`
+  // is the respondent role they act with until they sign in with a password.
+  linkSessionRole?: string;
 };
 
 type NoOrganization = { user: PublicUser; membership: null; requestedSlug: string | null };
@@ -87,11 +110,13 @@ export const getContext = cache(async (): Promise<Context | NoOrganization | nul
     return null;
   }
 
-  const memberships = await prisma.membership.findMany({
+  const found = await prisma.membership.findMany({
     where: { userId: user.id },
     include: membershipInclude,
     orderBy: { createdAt: "asc" },
   });
+  const link = await isLinkSession();
+  const memberships = link ? found.map((m) => ({ ...m, role: linkRole(m.role) })) : found;
 
   const requestedSlug = (await headers()).get(ORGANIZATION_HEADER);
   const remembered = (await cookies()).get(ORGANIZATION_COOKIE)?.value;
@@ -103,7 +128,8 @@ export const getContext = cache(async (): Promise<Context | NoOrganization | nul
     return { user, membership: null, requestedSlug };
   }
 
-  return { user, membership, organization: membership.organization, memberships };
+  const linkSessionRole = link ? found.find((m) => m.id === membership.id)?.role : undefined;
+  return { user, membership, organization: membership.organization, memberships, linkSessionRole };
 });
 
 // Where a person lands after signing in.
@@ -139,6 +165,22 @@ export async function requireMember(permission?: Permission): Promise<Context> {
   return context as Context;
 }
 
+// For actions a round link must not reach: account changes, leaving or creating organizations.
+export async function requireFullSession(): Promise<PublicUser> {
+  const user = await requireUser();
+
+  if (await isLinkSession()) {
+    throw new AuthorizationError("Sign in with your password");
+  }
+
+  return user;
+}
+
+// Unverified accounts can use Calibre but can't email other people yet.
+export function isVerified(user: { emailVerifiedAt: Date | null }) {
+  return !!user.emailVerifiedAt;
+}
+
 // For pages and layouts: redirects instead of throwing.
 export async function ensureUser(): Promise<PublicUser> {
   const user = await getCurrentUser();
@@ -167,6 +209,11 @@ export async function ensureMember(permission?: Permission): Promise<Context> {
   }
 
   if (permission && !can(context.membership.role, permission)) {
+    // Staff who arrived from a round link sign in with their password to open the dashboard.
+    if (context.linkSessionRole && can(context.linkSessionRole, permission)) {
+      redirect("/auth/sign-in?reason=link");
+    }
+
     redirect(homePath(context.membership));
   }
 
@@ -176,5 +223,6 @@ export async function ensureMember(permission?: Permission): Promise<Context> {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
+    DatabaseSessionAttributes: { scope: string };
   }
 }

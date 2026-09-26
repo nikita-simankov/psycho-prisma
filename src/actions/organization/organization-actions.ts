@@ -1,6 +1,6 @@
 "use server";
 
-import { AuthorizationError, requireMember, requireUser } from "@/utils/authentication";
+import { AuthorizationError, requireFullSession, requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import {
   createOwnedOrganization,
@@ -18,7 +18,7 @@ const nameSchema = z.string().trim().min(2).max(100);
 
 // Creates an organization owned by the signed-in person; the caller then opens /[slug].
 export async function createOrganization(name: string): Promise<{ slug: string } | { error: "nameTaken" }> {
-  const user = await requireUser();
+  const user = await requireFullSession();
   const organizationName = nameSchema.parse(name);
 
   try {

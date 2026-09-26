@@ -24,11 +24,22 @@ export function trialData(now = new Date()) {
 
 // The organization's subscription. Organizations always have one (migration 1_billing and
 // createOwnedOrganization); one made any other way starts a trial the first time it is read.
+// The organization's subscription, starting a trial the first time one is needed. Several parts of
+// a page can ask at once, and two concurrent upserts can both try to insert, so a unique-key
+// clash means the other one won and its row is read instead.
 export async function getSubscription(organizationId: string) {
-  return (
-    (await prisma.subscription.findUnique({ where: { organizationId } })) ??
-    prisma.subscription.upsert({ where: { organizationId }, create: { organizationId, ...trialData() }, update: {} })
-  );
+  const existing = await prisma.subscription.findUnique({ where: { organizationId } });
+  if (existing) {
+    return existing;
+  }
+  try {
+    return await prisma.subscription.upsert({ where: { organizationId }, create: { organizationId, ...trialData() }, update: {} });
+  } catch (error) {
+    if ((error as { code?: string }).code === "P2002") {
+      return prisma.subscription.findUniqueOrThrow({ where: { organizationId } });
+    }
+    throw error;
+  }
 }
 
 export async function getPlan(organizationId: string) {
@@ -47,11 +58,19 @@ export async function respondentIds(organizationId: string, since: Date) {
 }
 
 // Staff seats in use: staff memberships plus open invitations to a staff role.
-export async function seatsUsed(organizationId: string) {
+// Staff members plus open staff invitations. `exceptEmail` leaves out an invitation that is about
+// to be replaced, so sending someone a new invitation doesn't count them twice.
+export async function seatsUsed(organizationId: string, exceptEmail?: string) {
   const [members, invitations] = await Promise.all([
     prisma.membership.count({ where: { organizationId, role: { in: [...STAFF_ROLES] } } }),
     prisma.invitation.count({
-      where: { organizationId, role: { in: [...STAFF_ROLES] }, acceptedAt: null, expiresAt: { gt: new Date() } },
+      where: {
+        organizationId,
+        role: { in: [...STAFF_ROLES] },
+        acceptedAt: null,
+        expiresAt: { gt: new Date() },
+        ...(exceptEmail ? { NOT: { email: exceptEmail } } : {}),
+      },
     }),
   ]);
   return members + invitations;
@@ -81,14 +100,15 @@ export async function checkRespondents(organizationId: string, userIds: string[]
   return counted.size + added <= allowance ? { ok: true as const } : { ok: false as const, used: counted.size, allowance };
 }
 
-// Whether one more staff seat fits the plan.
-export async function checkSeat(organizationId: string, role: string) {
+// Whether one more staff seat fits the plan. `replacingEmail` is the invitee whose open
+// invitation the new one replaces.
+export async function checkSeat(organizationId: string, role: string, replacingEmail?: string) {
   if (!(STAFF_ROLES as readonly string[]).includes(role)) {
     return true;
   }
   const { plan } = await getPlan(organizationId);
   const { staffSeats } = planById(plan);
-  return staffSeats === null || (await seatsUsed(organizationId)) < staffSeats;
+  return staffSeats === null || (await seatsUsed(organizationId, replacingEmail)) < staffSeats;
 }
 
 type PaddleEvent = { event_id: string; event_type: string; occurred_at?: string; data: unknown };

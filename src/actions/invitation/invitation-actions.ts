@@ -7,7 +7,9 @@ import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "@/utils/mail";
 import { assignableRoles } from "@/utils/roles";
 import { createToken } from "@/utils/tokens";
-import { getTranslations } from "next-intl/server";
+import { DEFAULT_LOCALE, isLocale, LOCALES, type Locale } from "@/i18n/config";
+import { createTranslator } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { z } from "zod";
 import enMessages from "../../../messages/en.json";
 import ruMessages from "../../../messages/ru.json";
@@ -21,29 +23,59 @@ const invitationSchema = z.object({
   role: z.string(),
   teamId: z.string().nullable().default(null),
   position: z.string().trim().max(200).default(""),
+  // Language of the invitation email; defaults to the inviter's.
+  locale: z.enum(LOCALES).optional(),
 });
 
-export type InvitationResult = { link: string; emailed: boolean } | { error: "alreadyMember" | "planSeats" };
+export type InvitationResult = { link: string; emailed: boolean } | { error: "alreadyMember" | "planSeats" | "emailUnverified" };
 
 type Inviter = Awaited<ReturnType<typeof requireMember>>;
 
-async function mailInvitation(organization: string, email: string, token: string) {
+type InvitationMail = {
+  organization: string;
+  email: string;
+  token: string;
+  role: string;
+  inviter: string;
+  locale: string;
+};
+
+// The invitation email, in the language the inviter chose. It says who invited the person, with
+// which role, and what that role can do, so a new psychologist isn't told they'll "take tests".
+async function mailInvitation({ organization, email, token, role, inviter, locale }: InvitationMail) {
+  const chosen: Locale = isLocale(locale) ? locale : DEFAULT_LOCALE;
+  const t = createTranslator({
+    locale: chosen,
+    messages: chosen === "ru" ? ruMessages : enMessages,
+    namespace: "mail.invitation",
+  });
+  const roleName = (chosen === "ru" ? ruMessages : enMessages).roles[role as keyof typeof enMessages.roles] ?? role;
+  const described = (["owner", "admin", "psychologist", "manager"] as const).find((r) => r === role) ?? "member";
+  const roleText = t(`roles.${described}`, { organization });
   const link = await absoluteUrl(`/invite/${token}`);
-  const t = await getTranslations("mail.invitation");
   const content = await renderEmail({
-    preview: t("preview", { organization }),
+    preview: t("preview", { organization, inviter }),
     sender: organization,
     heading: t("heading", { organization }),
-    paragraphs: [t("body", { organization })],
+    paragraphs: [t("body", { organization, inviter, role: roleName }), roleText],
     action: { label: t("action"), url: link },
     notes: [t("expires", { days: INVITATION_DAYS }), t("ignore")],
   });
-  const emailed = await sendMail({ to: email, subject: t("subject", { organization }), ...content });
+  const emailed = await sendMail({ to: email, subject: t("subject", { organization, inviter }), ...content });
   return { link, emailed };
+}
+
+function inviterName(user: { name: string; lastName: string; email: string | null }) {
+  return [user.name, user.lastName].filter(Boolean).join(" ") || user.email || "";
 }
 
 async function invite({ user, membership, organization }: Inviter, data: unknown): Promise<InvitationResult> {
   const invitation = invitationSchema.parse(data);
+
+  // Unconfirmed accounts can't email other people, so a made-up sign-up can't be used to send mail.
+  if (!user.emailVerifiedAt) {
+    return { error: "emailUnverified" };
+  }
 
   if (!assignableRoles(membership.role).includes(invitation.role as never)) {
     throw new Error("You cannot give this role");
@@ -61,7 +93,7 @@ async function invite({ user, membership, organization }: Inviter, data: unknown
     return { error: "alreadyMember" };
   }
 
-  if (!(await checkSeat(organization.id, invitation.role))) {
+  if (!(await checkSeat(organization.id, invitation.role, invitation.email))) {
     return { error: "planSeats" };
   }
 
@@ -71,10 +103,12 @@ async function invite({ user, membership, organization }: Inviter, data: unknown
   });
 
   const { token, tokenHash } = createToken();
+  const locale = invitation.locale ?? (await getLocale());
 
   await prisma.invitation.create({
     data: {
       ...invitation,
+      locale,
       tokenHash,
       organizationId: organization.id,
       invitedById: user.id,
@@ -82,7 +116,14 @@ async function invite({ user, membership, organization }: Inviter, data: unknown
     },
   });
 
-  return mailInvitation(organization.name, invitation.email, token);
+  return mailInvitation({
+    organization: organization.name,
+    email: invitation.email,
+    token,
+    role: invitation.role,
+    inviter: inviterName(user),
+    locale,
+  });
 }
 
 // Creates an invitation and emails its link. The link is also returned so the
@@ -102,7 +143,7 @@ const bulkRowSchema = z.object({
 
 export type BulkInvitationResult = {
   email: string;
-  outcome: "sent" | "notEmailed" | "alreadyMember" | "planSeats" | "invalidEmail" | "unknownRole" | "unknownTeam";
+  outcome: "sent" | "notEmailed" | "alreadyMember" | "planSeats" | "emailUnverified" | "invalidEmail" | "unknownRole" | "unknownTeam";
   link?: string;
 };
 
@@ -158,7 +199,7 @@ export async function createInvitations(rows: unknown): Promise<BulkInvitationRe
 
 // Sends the invitation again with a new link and a fresh expiry date.
 export async function resendInvitation(invitationId: unknown) {
-  const { organization } = await requireMember("manageMembers");
+  const { organization, user } = await requireMember("manageMembers");
   const invitation = await prisma.invitation.findFirstOrThrow({
     where: { id: z.string().parse(invitationId), organizationId: organization.id, acceptedAt: null },
   });
@@ -169,7 +210,14 @@ export async function resendInvitation(invitationId: unknown) {
     data: { tokenHash, expiresAt: new Date(Date.now() + INVITATION_DAYS * 24 * 60 * 60_000) },
   });
 
-  return mailInvitation(organization.name, invitation.email, token);
+  return mailInvitation({
+    organization: organization.name,
+    email: invitation.email,
+    token,
+    role: invitation.role,
+    inviter: inviterName(user),
+    locale: invitation.locale,
+  });
 }
 
 export async function findOpenInvitations() {

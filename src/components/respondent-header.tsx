@@ -30,7 +30,7 @@ export async function RespondentHeader() {
           </Link>
         )}
         <div className="ml-auto flex items-center gap-1">
-          {context?.membership && can(context.membership.role, "viewDashboard") && (
+          {context?.membership && can(context.linkSessionRole ?? context.membership.role, "viewDashboard") && (
             <Button variant="ghost" size="icon" asChild title={nav("home")}>
               <Link href={`/${context.organization.slug}`}>
                 <LayoutDashboard className="h-4 w-4" />

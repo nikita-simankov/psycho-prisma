@@ -8,11 +8,14 @@ export async function generateMetadata() {
   return { title: t("metaTitle") }
 }
 
-export default async function SignInPage() {
+export default async function SignInPage(props: { searchParams: Promise<{ reason?: string; verified?: string }> }) {
+  const { reason, verified } = await props.searchParams
   const t = await getTranslations("auth.signIn")
+  // A round link only opens assessments; the dashboard and account need the password.
+  const subtitle = reason === "link" ? t("linkSession") : verified ? t("verified") : t("subtitle")
 
   return (
-    <AuthShell title={t("title")} subtitle={t("subtitle")}>
+    <AuthShell title={t("title")} subtitle={subtitle}>
       <Suspense>
         <SignInForm />
       </Suspense>

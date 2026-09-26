@@ -177,7 +177,9 @@
         "rateLimited": "Too many attempts. Try again in 15 minutes"
       },
       "identifier": "Email",
-      "forgot": "Forgot password?"
+      "forgot": "Forgot password?",
+      "linkSession": "You opened a test link, which only shows your assessments. Sign in with your password to open the dashboard or your account.",
+      "verified": "Your email is confirmed. Sign in to continue."
     },
     "signUp": {
       "metaTitle": "Sign up",
@@ -508,7 +510,9 @@
       "copy": "Copy link",
       "linkHint": "Anyone with this link can join as the invited person, so send it only to them.",
       "alreadyMember": "This person is already in your organization.",
-      "planSeats": "Your plan has no staff seats left. Choose a bigger plan in Plan and billing."
+      "planSeats": "Your plan has no staff seats left. Choose a bigger plan in Plan and billing.",
+      "emailUnverified": "Confirm your email first. The link is in your inbox, or use “Send the link again” at the top of the page.",
+      "language": "Email language"
     },
     "invitations": {
       "title": "Invitations waiting",
@@ -555,7 +559,8 @@
         "invalidEmail": "Not a valid email",
         "unknownRole": "Unknown role, or one you can't give",
         "unknownTeam": "No team with this name",
-        "planSeats": "No staff seats left on your plan"
+        "planSeats": "No staff seats left on your plan",
+        "emailUnverified": "Confirm your email first"
       }
     }
   },
@@ -613,7 +618,7 @@
     "accept": "Join {organization}",
     "signedInAs": "You're signed in as {email}.",
     "existing": "You already have an account with {email}. Sign in to accept the invitation.",
-    "otherUser": "This invitation is for {email}, but you're signed in with another account. Sign out, then open the link again.",
+    "otherUser": "This invitation is for {email}, but you're signed in with another account. Sign out to continue with the invitation.",
     "invalidTitle": "This invitation link doesn't work",
     "invalidText": "It may have expired or already been used. Ask your HR team for a new one.",
     "errorTitle": "Could not accept the invitation",
@@ -622,7 +627,13 @@
       "invalidInput": "Check the fields and try again.",
       "signInFirst": "Sign in with the invited email first.",
       "rateLimited": "Too many attempts. Try again later."
-    }
+    },
+    "usedTitle": "This invitation was already accepted",
+    "usedText": "You're already part of {organization}. Sign in to continue.",
+    "expiredTitle": "This invitation has expired",
+    "expiredText": "Ask {inviter} at {organization} to send you a new one. It only takes them a click.",
+    "expiredTextNoInviter": "Ask the HR team at {organization} to send you a new one.",
+    "signOutAndContinue": "Sign out and continue"
   },
   "organizations": {
     "switch": "Switch organization",
@@ -642,13 +653,20 @@
   },
   "mail": {
     "invitation": {
-      "subject": "You're invited to join {organization} on Calibre",
-      "preview": "{organization} has invited you to Calibre.",
+      "subject": "{inviter} invited you to {organization} on Calibre",
+      "preview": "{inviter} invited you to join {organization}.",
       "heading": "Join {organization}",
-      "body": "{organization} has invited you to Calibre, where you'll complete psychological assessments for your workplace.",
+      "body": "{inviter} invited you to join {organization} on Calibre as {role}.",
       "action": "Accept the invitation",
       "expires": "The link works for {days} days.",
-      "ignore": "If you weren't expecting this, you can ignore this email."
+      "ignore": "If you weren't expecting this, you can ignore this email.",
+      "roles": {
+        "owner": "You'll have full access to {organization}'s workspace, including billing, clinical results and the audit log.",
+        "admin": "You'll manage people, invitations and settings, upload tests, send assessment rounds and read individual results. Clinical screens stay with the psychologists.",
+        "psychologist": "You'll send assessments, read individual results, including clinical screens, and write conclusions.",
+        "manager": "You'll send assessment rounds and see results for teams of five or more as averages. You won't see anyone's individual answers.",
+        "member": "You'll take assessments from {organization} here. Before you start, you'll see who can view your results and how long they're kept."
+      }
     },
     "passwordReset": {
       "subject": "Reset your Calibre password",
@@ -673,6 +691,15 @@
       "action": "Open it, no password needed",
       "personal": "The link is personal, so please don't forward it.",
       "ignore": "If you weren't expecting this, you can ignore this email."
+    },
+    "verify": {
+      "subject": "Confirm your email for Calibre",
+      "preview": "One click to confirm your email address.",
+      "heading": "Confirm your email",
+      "body": "Confirm this address so you can invite colleagues and send assessments from Calibre.",
+      "action": "Confirm my email",
+      "expires": "The link works for {hours} hours.",
+      "ignore": "If you didn't sign up for Calibre, you can ignore this email."
     }
   },
   "roleHints": {
@@ -1014,7 +1041,8 @@
         "candidateIsStaff": "One of the candidates already works in this organization as staff.",
         "planSchedules": "Recurring rounds are part of the Team plan and above.",
         "planClinical": "Clinical instruments are part of the Business plan.",
-        "planRespondents": "This round would take you over your plan's respondent limit. Choose a bigger plan in Plan and billing."
+        "planRespondents": "This round would take you over your plan's respondent limit. Choose a bigger plan in Plan and billing.",
+        "emailUnverified": "Confirm your email before sending rounds. Use “Send the link again” at the top of the page if you can't find it."
       }
     }
   },
@@ -1690,5 +1718,21 @@
       "pastDueEnded": "A payment failed and your organization has moved to Free.",
       "action": "Plan and billing"
     }
+  },
+  "roundLink": {
+    "metaTitle": "Open your assessments",
+    "switchTitle": "This link is for {name}",
+    "switchText": "You're signed in as {current} on this browser. Continuing signs you out and opens {name}'s assessments.",
+    "continueAs": "Continue as {name}",
+    "stay": "Stay signed in as {current}"
+  },
+  "verifyEmail": {
+    "expiredTitle": "This confirmation link has expired",
+    "expiredText": "Sign in and use “Send the link again” at the top of the page to get a new one.",
+    "banner": "Confirm your email to send invitations and rounds. We sent a link to {email}.",
+    "resend": "Send the link again",
+    "sent": "We sent a new link. Check your inbox.",
+    "notSent": "Email isn't set up on this server, so the link couldn't be sent. Ask your administrator.",
+    "rateLimited": "Too many requests. Try again in an hour."
   }
 }

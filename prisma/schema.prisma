@@ -10,26 +10,30 @@ datasource db {
 model User {
   id String @id
 
-  name        String
-  middleName  String    @default("")
-  lastName    String
-  password    String
+  name            String
+  middleName      String    @default("")
+  lastName        String
+  password        String
   // People sign in with email; phone is kept for accounts created before email sign-in.
-  email       String?   @unique
-  phoneNumber String?   @unique
-  sessions    Session[]
-  imageURL    String    @default("")
-  dateOfBirth String    @default("")
-  firstTimer  Boolean   @default(true)
+  email           String?   @unique
+  phoneNumber     String?   @unique
+  sessions        Session[]
+  imageURL        String    @default("")
+  dateOfBirth     String    @default("")
+  firstTimer      Boolean   @default(true)
   // Language for emails sent without a request (reminders, scheduled rounds); "" means the default.
-  locale      String    @default("")
+  locale          String    @default("")
+  // Set once the person has shown they read this inbox: a verification link, an invitation,
+  // a password reset or a round link. Unverified accounts can't send invitations or rounds.
+  emailVerifiedAt DateTime?
 
-  memberships    Membership[]
-  assignments    Assignment[]
-  passwordResets PasswordReset[]
-  summaries      UserSummary[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  memberships        Membership[]
+  emailVerifications EmailVerification[]
+  assignments        Assignment[]
+  passwordResets     PasswordReset[]
+  summaries          UserSummary[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 }
 
 // A company or team using Prisma. Everything people submit belongs to one.
@@ -112,6 +116,8 @@ model Invitation {
   lastName       String       @default("")
   role           String       @default("member")
   position       String       @default("")
+  // Language of the invitation email, chosen by the inviter; "" means the inviter's language.
+  locale         String       @default("")
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   team           Team?        @relation(fields: [teamId], references: [id], onDelete: SetNull)
@@ -135,9 +141,25 @@ model PasswordReset {
 model Session {
   id        String   @id
   expiresAt DateTime
+  // "full" after signing in with a password; "link" after opening a round link, which only
+  // reaches the person's own assessments, never the dashboard or account settings.
+  scope     String   @default("full")
 
   user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId String
+}
+
+// A link that confirms a person owns their email address.
+model EmailVerification {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId])
 }
 
 model Category {

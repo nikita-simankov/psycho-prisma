@@ -15,8 +15,9 @@ export async function rememberOrganization(slug: string) {
   });
 }
 
-export async function startSession(userId: string) {
-  const session = await lucia.createSession(userId, {});
+// Starts a session after a password sign-in ("full") or from a round link ("link").
+export async function startSession(userId: string, scope: "full" | "link" = "full") {
+  const session = await lucia.createSession(userId, { scope });
   const sessionCookie = lucia.createSessionCookie(session.id);
 
   (await cookies()).set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);

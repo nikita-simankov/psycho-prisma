@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/utils/authentication";
+import { getCurrentUser, isLinkSession } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { collectPersonalData, recordExport } from "@/utils/personal-data";
 import { getLocale } from "next-intl/server";
@@ -9,7 +9,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const user = await getCurrentUser();
 
-  if (!user) {
+  // A round link could have been forwarded, so a download needs a password sign-in.
+  if (!user || (await isLinkSession())) {
     return new Response("Unauthorized", { status: 401 });
   }
 
