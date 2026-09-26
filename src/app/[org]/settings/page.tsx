@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { prisma } from "@/utils/database";
+import { parseCustomFields } from "@/utils/profile-fields";
 import { formatFullName } from "@/utils/user";
 import { OwnerControls } from "./owner-controls";
 import { SettingsForm } from "./settings-form";
@@ -19,9 +20,9 @@ export default async function SettingsPage() {
   const owner = membership.role === "owner";
   const members = owner ? await findAllUsers() : [];
   const tests = (await findAllTests()).filter((test) => !test.sensitive).sort((a, b) => a.name.localeCompare(b.name));
-  const { feedbackTestIds } = await prisma.organization.findUniqueOrThrow({
+  const { feedbackTestIds, customFields } = await prisma.organization.findUniqueOrThrow({
     where: { id: organization.id },
-    select: { feedbackTestIds: true },
+    select: { feedbackTestIds: true, customFields: true },
   });
 
   return (
@@ -33,6 +34,7 @@ export default async function SettingsPage() {
           privacyContact: organization.privacyContact,
           respondentFeedback: organization.respondentFeedback,
           feedbackTestIds: JSON.parse(feedbackTestIds) as string[],
+          customFields: parseCustomFields(customFields),
         }}
         tests={tests.map((test) => ({ id: test.id, name: test.name }))}
       />

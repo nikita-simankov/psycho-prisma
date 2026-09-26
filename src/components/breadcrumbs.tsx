@@ -23,6 +23,7 @@ const SEGMENT_LABELS = {
   teams: "teams",
   "follow-up": "followUp",
   reports: "reports",
+  analytics: "analytics",
   settings: "settings",
   results: "results",
   run: "run",

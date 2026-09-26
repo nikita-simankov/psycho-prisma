@@ -34,11 +34,18 @@
     --sidebar-border: 222 18% 87%;
     --sidebar-ring: 229 56% 48%;
     --radius: 0.75rem;
-    --chart-1: 229 56% 48%;
-    --chart-2: 186 60% 40%;
-    --chart-3: 262 46% 58%;
-    --chart-4: 34 90% 56%;
-    --chart-5: 340 64% 58%;
+    /* Chart series in a fixed order, checked for colour-blind separation: person, team, organization. */
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    /* Sequential blue for magnitude (heatmaps), light to dark in both themes. */
+    --seq-100: #cde2fb;
+    --seq-200: #9ec5f4;
+    --seq-300: #6da7ec;
+    --seq-400: #3987e5;
+    --seq-500: #256abf;
+    --seq-600: #184f95;
+    --seq-700: #0d366b;
   }
 
   .dark {
@@ -71,11 +78,9 @@
     --border: 226 18% 18%;
     --input: 226 18% 22%;
     --ring: 229 84% 72%;
-    --chart-1: 229 84% 72%;
-    --chart-2: 186 60% 55%;
-    --chart-3: 262 60% 72%;
-    --chart-4: 34 90% 62%;
-    --chart-5: 340 70% 66%;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
   }
 }
 

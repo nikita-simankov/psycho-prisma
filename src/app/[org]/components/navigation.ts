@@ -1,6 +1,6 @@
 import type { Permission } from "@/utils/roles";
 import type { LucideIcon } from "lucide-react";
-import { FileText, FlaskConical, Flag, Home, Layers, NotepadText, Send, Settings, Users } from "lucide-react";
+import { ChartColumn, FileText, FlaskConical, Flag, Home, Layers, NotepadText, Send, Settings, Users } from "lucide-react";
 
 // Sidebar sections, grouped as they appear, shown when the person's role has the permission.
 // Paths are relative to the organization (/acme + path). Labels live under "dashboard.nav".
@@ -24,7 +24,10 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
   {
     key: "reports",
-    items: [{ key: "reports", path: "/reports", icon: FileText, permission: "viewIndividualResults" as const }],
+    items: [
+      { key: "analytics", path: "/analytics", icon: ChartColumn },
+      { key: "reports", path: "/reports", icon: FileText, permission: "viewIndividualResults" as const },
+    ],
   },
   {
     key: "organization",
@@ -32,7 +35,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
 ];
 
-export type NavigationKey = "home" | "rounds" | "forms" | "tests" | "people" | "teams" | "followUp" | "reports" | "settings";
+export type NavigationKey = "home" | "rounds" | "forms" | "tests" | "people" | "teams" | "followUp" | "analytics" | "reports" | "settings";
 
 export type NavigationItem = { key: NavigationKey; path: string; icon: LucideIcon; permission?: Permission };
 
