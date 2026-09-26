@@ -105,13 +105,7 @@ export function SettingsForm({
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const result = await updateOrganizationSettings(values);
-
-      if ("error" in result) {
-        throw new Error(t("nameTaken"));
-      }
-
-      return result.slug;
+      return (await updateOrganizationSettings(values)).slug;
     },
     onSuccess: (slug) => {
       toast({ title: t("saved") });

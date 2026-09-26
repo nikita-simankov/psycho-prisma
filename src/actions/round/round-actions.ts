@@ -42,6 +42,8 @@ const roundSchema = z
     userIds: z.array(z.string()).max(2000).default([]),
     teamIds: z.array(z.string()).max(200).default([]),
     candidates: z.array(candidateSchema).max(200).default([]),
+    // Open invitations: these people get the round when they join.
+    invitationIds: z.array(z.string()).max(500).default([]),
     // 0 for a one-off round.
     repeatMonths: z
       .number()
@@ -52,7 +54,7 @@ const roundSchema = z
   .strict();
 
 export type CreateRoundResult =
-  | ({ ok: true; emailed: number; links: { name: string; link: string }[]; skippedNames: string[] } & Pick<OpenRoundResult, "roundId">)
+  | ({ ok: true; emailed: number; links: { name: string; link: string }[]; skippedNames: string[]; waiting: number } & Pick<OpenRoundResult, "roundId">)
   | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" | "emailUnverified" };
 
 // The day's end in the server's time zone, so "due 12 May" includes 12 May.
@@ -173,7 +175,19 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
         ])
       );
 
-  if (!userIds.length) {
+  // Invited people who haven't joined yet, picked by hand or through their team.
+  const invitees = await prisma.invitation.findMany({
+    where: {
+      organizationId: organization.id,
+      acceptedAt: null,
+      role: "member",
+      expiresAt: { gt: new Date() },
+      OR: [{ id: { in: input.invitationIds } }, ...(teamIds.length ? [{ teamId: { in: teamIds } }] : [])],
+    },
+    select: { email: true },
+  });
+
+  if (!userIds.length && !invitees.length) {
     if (schedule) await prisma.roundSchedule.delete({ where: { id: schedule.id } });
     return { error: "nobody" };
   }
@@ -194,6 +208,13 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
     scheduleId: schedule?.id,
   });
 
+  if (invitees.length) {
+    await prisma.roundInvitee.createMany({
+      data: invitees.map((invitee) => ({ roundId: result.roundId, email: invitee.email })),
+      skipDuplicates: true,
+    });
+  }
+
   const people = await prisma.user.findMany({
     where: { id: { in: [...result.sent.map((s) => s.userId), ...result.skipped.map((s) => s.userId)] } },
     select: { id: true, name: true, lastName: true },
@@ -210,6 +231,7 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
     // Links for people who couldn't be emailed, so they can be passed on by hand.
     links: result.sent.filter((s) => !s.emailed).map((s) => ({ name: nameOf(s.userId), link: s.link })),
     skippedNames: result.skipped.map((s) => nameOf(s.userId)),
+    waiting: invitees.length,
   };
 }
 

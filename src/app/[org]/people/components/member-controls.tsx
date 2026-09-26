@@ -1,6 +1,6 @@
 "use client";
 
-import { createInvitation, revokeInvitation } from "@/actions/invitation/invitation-actions";
+import { revokeInvitation } from "@/actions/invitation/invitation-actions";
 import { removeMember } from "@/actions/user/remove-member-action";
 import { updateFlag } from "@/actions/user/update-flag-action";
 import { updateMembership } from "@/actions/user/update-membership-action";
@@ -31,9 +31,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { FLAGS } from "@/utils/flags";
 import { useMutation } from "@tanstack/react-query";
-import { Check, Copy, Mail, Trash2, UserPlus, UserRoundCog } from "lucide-react";
+import { Trash2, UserRoundCog } from "lucide-react";
 import { LOCALES } from "@/i18n/config";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useOrganizationBase } from "@/components/organization-provider";
@@ -57,7 +57,7 @@ function useRefreshingMutation<T, R>(action: (value: T) => Promise<R>, onSuccess
   });
 }
 
-function RoleField({ roles, value, onChange }: { roles: string[]; value: string; onChange: (role: string) => void }) {
+export function RoleField({ roles, value, onChange }: { roles: string[]; value: string; onChange: (role: string) => void }) {
   const t = useTranslations("roles");
   const hints = useTranslations("roleHints");
 
@@ -82,7 +82,7 @@ function RoleField({ roles, value, onChange }: { roles: string[]; value: string;
 }
 
 // The invitee may not read the inviter's language, so the email language is chosen per invitation.
-function LanguageField({ value, onChange }: { value: string; onChange: (locale: string) => void }) {
+export function LanguageField({ value, onChange }: { value: string; onChange: (locale: string) => void }) {
   const t = useTranslations("people.invite");
   const common = useTranslations("common");
 
@@ -105,7 +105,7 @@ function LanguageField({ value, onChange }: { value: string; onChange: (locale: 
   );
 }
 
-function TeamField({ teams, value, onChange }: { teams: Team[]; value: string | null; onChange: (id: string | null) => void }) {
+export function TeamField({ teams, value, onChange }: { teams: Team[]; value: string | null; onChange: (id: string | null) => void }) {
   const t = useTranslations("teams");
 
   return (
@@ -125,119 +125,6 @@ function TeamField({ teams, value, onChange }: { teams: Team[]; value: string | 
         </SelectContent>
       </Select>
     </div>
-  );
-}
-
-// Invite someone by email. Shows the link afterwards, so it can be sent by hand when email is not set up.
-export function InviteDialog({ roles, teams }: { roles: string[]; teams: Team[] }) {
-  const t = useTranslations("people.invite");
-  const fields = useTranslations("profile.fields");
-  const common = useTranslations("common");
-  const [open, setOpen] = useState(false);
-  const currentLocale = useLocale();
-  const empty = { email: "", name: "", lastName: "", position: "", role: "member", teamId: null as string | null, locale: currentLocale };
-  const [values, setValues] = useState(empty);
-  const [result, setResult] = useState<{ link: string; emailed: boolean } | null>(null);
-  const [copied, setCopied] = useState(false);
-
-  const mutation = useRefreshingMutation(
-    async () => {
-      const outcome = await createInvitation(values);
-      if ("error" in outcome) throw new Error(t(outcome.error));
-      return outcome;
-    },
-    setResult
-  );
-
-  const reset = (next: boolean) => {
-    setOpen(next);
-    if (!next) {
-      setResult(null);
-      setCopied(false);
-      setValues(empty);
-    }
-  };
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(result!.link);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-  };
-
-  const text = (key: "email" | "name" | "lastName" | "position", type = "text") => (
-    <div className="flex flex-col gap-2">
-      <Label htmlFor={`invite-${key}`}>{fields(key)}</Label>
-      <Input
-        id={`invite-${key}`}
-        type={type}
-        required={key === "email"}
-        value={values[key]}
-        onChange={(event) => setValues({ ...values, [key]: event.target.value })}
-      />
-    </div>
-  );
-
-  return (
-    <Dialog open={open} onOpenChange={reset}>
-      <DialogTrigger asChild>
-        <Button>
-          <UserPlus className="mr-2 h-4 w-4" />
-          {t("button")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-h-[90dvh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{result ? t("sentTitle") : t("title")}</DialogTitle>
-          <DialogDescription>
-            {result ? (result.emailed ? t("emailed", { email: values.email }) : t("notEmailed")) : t("description")}
-          </DialogDescription>
-        </DialogHeader>
-        {result ? (
-          <div className="flex flex-col gap-3">
-            <div className="flex gap-2">
-              <Input readOnly value={result.link} aria-label={t("link")} onFocus={(event) => event.target.select()} />
-              <Button type="button" variant="outline" onClick={copy}>
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                <span className="sr-only">{t("copy")}</span>
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">{t("linkHint")}</p>
-            <DialogFooter>
-              <Button onClick={() => reset(false)}>{common("done")}</Button>
-            </DialogFooter>
-          </div>
-        ) : (
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={(event) => {
-              event.preventDefault();
-              mutation.mutate(undefined);
-            }}
-          >
-            {text("email", "email")}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {text("name")}
-              {text("lastName")}
-            </div>
-            <RoleField roles={roles} value={values.role} onChange={(role) => setValues({ ...values, role })} />
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <TeamField teams={teams} value={values.teamId} onChange={(teamId) => setValues({ ...values, teamId })} />
-              {text("position")}
-            </div>
-            <LanguageField value={values.locale} onChange={(locale) => setValues({ ...values, locale })} />
-            <DialogFooter>
-              <Button type="submit" disabled={mutation.isPending}>
-                <Mail className="mr-2 h-4 w-4" />
-                {t("send")}
-              </Button>
-            </DialogFooter>
-          </form>
-        )}
-      </DialogContent>
-    </Dialog>
   );
 }
 

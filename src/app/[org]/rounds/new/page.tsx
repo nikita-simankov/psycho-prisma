@@ -1,4 +1,5 @@
 import { findAllForms } from "@/actions/form/find-all-forms-action";
+import { findOpenInvitations } from "@/actions/invitation/invitation-actions";
 import { findAllTeams } from "@/actions/team/team-actions";
 import { findAllTests } from "@/actions/test/find-all-tests-action";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
@@ -21,7 +22,15 @@ export default async function NewRoundPage() {
   const t = await getTranslations("rounds");
   const form = await getTranslations("rounds.form");
   const sensitive = can(membership.role, "viewSensitive");
-  const [tests, forms, users, teams] = await Promise.all([findAllTests(), findAllForms(), findAllUsers(), findAllTeams()]);
+  const [tests, forms, users, teams, invitations] = await Promise.all([
+    findAllTests(),
+    findAllForms(),
+    findAllUsers(),
+    findAllTeams(),
+    // Only people who can see invitations can pick invitees.
+    can(membership.role, "manageMembers") ? findOpenInvitations() : Promise.resolve([]),
+  ]);
+  const now = new Date();
 
   return (
     <>
@@ -47,6 +56,14 @@ export default async function NewRoundPage() {
           .filter((user) => user.role !== "candidate")
           .map((user) => ({ id: user.id, name: formatFullName(user), teamId: user.teamId, email: user.email ?? "" }))}
         teams={teams.map((team) => ({ id: team.id, name: team.name }))}
+        invitees={invitations
+          .filter((invitation) => invitation.role === "member" && invitation.expiresAt > now)
+          .map((invitation) => ({
+            id: invitation.id,
+            email: invitation.email,
+            name: [invitation.name, invitation.lastName].filter(Boolean).join(" "),
+            teamId: invitation.teamId,
+          }))}
       />
     </>
   );

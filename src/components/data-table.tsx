@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Search, SearchX } from "lucide-react";
@@ -34,6 +34,8 @@ interface DataTableProps<TData, TValue> {
 
   enableFiltering?: boolean;
   enablePagination?: boolean;
+  // Shown instead of the generic message when there is no data at all.
+  empty?: ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -41,6 +43,7 @@ export function DataTable<TData, TValue>({
   data,
   enableFiltering = false,
   enablePagination = false,
+  empty,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -126,7 +129,7 @@ export function DataTable<TData, TValue>({
                   {columnFilters.length > 0 ? (
                     <EmptyState icon={SearchX} title={t("noMatches")} />
                   ) : (
-                    <EmptyState title={t("empty")} />
+                    (empty ?? <EmptyState title={t("empty")} />)
                   )}
                 </TableCell>
               </TableRow>

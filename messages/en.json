@@ -179,7 +179,9 @@
       "identifier": "Email",
       "forgot": "Forgot password?",
       "linkSession": "You opened a test link, which only shows your assessments. Sign in with your password to open the dashboard or your account.",
-      "verified": "Your email is confirmed. Sign in to continue."
+      "verified": "Your email is confirmed. Sign in to continue.",
+      "oauthExisting": "There's already an account with this email. Sign in with your password once, then connect this sign-in on your account page.",
+      "oauthFailed": "Signing in with that account didn't work. Try again or use your email and password."
     },
     "signUp": {
       "metaTitle": "Sign up",
@@ -191,8 +193,7 @@
       "errors": {
         "rateLimited": "Too many attempts. Try again later",
         "invalidInput": "Check the fields and try again",
-        "emailTaken": "An account with this email already exists. Sign in instead.",
-        "organizationTaken": "An organization with this name already exists. Ask its owner for an invitation or choose another name."
+        "emailTaken": "An account with this email already exists. Sign in instead."
       },
       "consent": "I have read the <link>privacy notice</link> and agree to my answers being processed for workplace assessment.",
       "organization": "Organization name",
@@ -225,6 +226,14 @@
         "invalidLink": "The link has expired or was already used.",
         "invalidInput": "Password must be at least 8 characters"
       }
+    },
+    "oauth": {
+      "continue": {
+        "google": "Continue with Google",
+        "microsoft": "Continue with Microsoft"
+      },
+      "or": "or",
+      "signUpTerms": "By continuing with Google or Microsoft you agree to the Terms and the Privacy policy."
     }
   },
   "profile": {
@@ -500,10 +509,10 @@
     "back": "People",
     "invite": {
       "button": "Invite people",
-      "title": "Invite someone",
-      "description": "They'll get an email with a link to join. You can also copy the link and send it yourself.",
+      "title": "Invite people",
+      "description": "Paste one or more work emails. Everyone gets the same role and team, and their own invitation email.",
       "send": "Send invitation",
-      "sentTitle": "Invitation created",
+      "sentTitle": "Invitations sent",
       "emailed": "We emailed the link to {email}.",
       "notEmailed": "Email isn't set up yet, so send this link yourself. It works for 14 days.",
       "link": "Invitation link",
@@ -512,7 +521,17 @@
       "alreadyMember": "This person is already in your organization.",
       "planSeats": "Your plan has no staff seats left. Choose a bigger plan in Plan and billing.",
       "emailUnverified": "Confirm your email first. The link is in your inbox, or use “Send the link again” at the top of the page.",
-      "language": "Email language"
+      "language": "Email language",
+      "sendCount": "{count, plural, one {Send invitation} other {Send # invitations}}",
+      "sentText": "Here's what happened with each address.",
+      "seats": "Staff seats: {used} of {limit}",
+      "seatsAdding": "{count, plural, one {uses # more} other {use # more}}",
+      "seatsOver": "{count} over your plan's limit",
+      "copied": "Link copied",
+      "removeEmail": "Remove {email}",
+      "emailsPlaceholder": "name@company.com, another@company.com",
+      "emailsHint": "Separate addresses with commas, spaces or new lines, or paste a list.",
+      "invalidEmails": "{count, plural, one {# address doesn't look right. Fix or remove it.} other {# addresses don't look right. Fix or remove them.}}"
     },
     "invitations": {
       "title": "Invitations waiting",
@@ -526,7 +545,10 @@
       "resent": "Invitation sent again to {email}",
       "resentNotEmailed": "Email isn't set up, so nothing was sent. Pass on the new link instead.",
       "linkCopied": "New link copied",
-      "pending": "{count, plural, one {# invitation is waiting to be accepted} other {# invitations are waiting to be accepted}}"
+      "pending": "{count, plural, one {# invitation is waiting to be accepted} other {# invitations are waiting to be accepted}}",
+      "held": "Sends when you confirm your email",
+      "lastSent": "Sent {when}",
+      "reminders": "{count, plural, one {# reminder} other {# reminders}}"
     },
     "membership": {
       "button": "Role and team",
@@ -546,7 +568,7 @@
       "title": "Invite from a spreadsheet",
       "text": "Upload an .xlsx or .csv file with one person per row. Each person gets their own invitation email.",
       "file": "Spreadsheet file",
-      "columns": "Columns: Email (required), First name, Last name, Role, Team, Position. Headers can be in English or Russian. Role defaults to Member; teams must already exist.",
+      "columns": "Columns: Email (required), First name, Last name, Role, Team, Position. Headers can be in English or Russian. Role defaults to Employee.",
       "found": "{count, plural, one {# person found} other {# people found}}",
       "noneFound": "No rows with an email were found. Check the header row.",
       "send": "{count, plural, =0 {Send invitations} one {Invite # person} other {Invite # people}}",
@@ -560,8 +582,75 @@
         "unknownRole": "Unknown role, or one you can't give",
         "unknownTeam": "No team with this name",
         "planSeats": "No staff seats left on your plan",
-        "emailUnverified": "Confirm your email first"
+        "emailUnverified": "Confirm your email first",
+        "duplicate": "Appears twice"
+      },
+      "template": "Download a template",
+      "createTeams": "Create teams that don't exist yet",
+      "previewSummary": "{ready} ready to send, {problems} need attention",
+      "previewEmail": "Email",
+      "previewRole": "Role",
+      "previewTeam": "Team",
+      "previewCheck": "Check",
+      "preview": {
+        "ready": "Ready",
+        "newTeam": "Ready, team will be created",
+        "reinvite": "Ready, replaces the open invitation",
+        "alreadyMember": "Already a member",
+        "planSeats": "No staff seats left on your plan",
+        "invalidEmail": "Not a valid email",
+        "unknownRole": "Unknown role, or one you can't give",
+        "unknownTeam": "No team with this name",
+        "duplicate": "Appears twice in the file"
+      },
+      "sending": "Sending invitations",
+      "progress": "{done} of {total} sent"
+    },
+    "empty": {
+      "title": "No one here yet",
+      "manage": "Invite people one by one or import a spreadsheet with Invite people above.",
+      "view": "People appear here once an admin invites them."
+    },
+    "lens": {
+      "title": "With this role they",
+      "yes": "(yes)",
+      "no": "(no)",
+      "items": {
+        "dashboard": "See team averages (5+ people)",
+        "individual": "Read individual answers and scores",
+        "rounds": "Send assessment rounds",
+        "clinical": "See clinical screens",
+        "people": "Invite and manage people",
+        "audit": "Read the audit log"
       }
+    },
+    "tabs": {
+      "label": "People and invitations",
+      "people": "People",
+      "pending": "Pending ({count})"
+    },
+    "joinLinks": {
+      "created": "Join link created and copied",
+      "copied": "Link copied",
+      "none": "No join links",
+      "noneText": "Create one to post in your team chat instead of inviting people one by one.",
+      "anyTeam": "No team",
+      "usesUnlimited": "{uses, plural, one {# joined} other {# joined}}",
+      "uses": "{uses} of {max} joined",
+      "expires": "Works until {date}",
+      "status": {
+        "expired": "Expired",
+        "revoked": "Revoked",
+        "full": "Limit reached"
+      },
+      "copy": "Copy",
+      "revoke": "Revoke",
+      "validFor": "Works for",
+      "days": "{count, plural, one {# day} other {# days}}",
+      "limit": "People limit",
+      "noLimit": "No limit",
+      "create": "Create a join link",
+      "hint": "Anyone with the link joins as an employee: they take assessments and never see the dashboard. Staff roles always need a personal invitation."
     }
   },
   "reports": {
@@ -647,8 +736,7 @@
       "name": "Organization name",
       "namePlaceholder": "e.g. Acme Ltd",
       "submit": "Create organization",
-      "error": "The organization was not created.",
-      "nameTaken": "An organization with this name already exists. Choose another name."
+      "error": "The organization was not created."
     }
   },
   "mail": {
@@ -666,7 +754,9 @@
         "psychologist": "You'll send assessments, read individual results, including clinical screens, and write conclusions.",
         "manager": "You'll send assessment rounds and see results for teams of five or more as averages. You won't see anyone's individual answers.",
         "member": "You'll take assessments from {organization} here. Before you start, you'll see who can view your results and how long they're kept."
-      }
+      },
+      "reminderSubject": "Reminder: {inviter} invited you to {organization}",
+      "reminderHeading": "Your invitation to {organization} is waiting"
     },
     "passwordReset": {
       "subject": "Reset your Calibre password",
@@ -757,7 +847,6 @@
     "feedbackText": "When on, people will see a short summary of their workplace test results. Clinical screens always stay with the psychologist.",
     "saved": "Settings saved",
     "saveError": "Settings were not saved.",
-    "nameTaken": "Another organization already uses this name.",
     "owner": {
       "title": "Ownership",
       "description": "Only owners see this section.",
@@ -819,7 +908,9 @@
       "staff": "Staff",
       "staffText": "People who work in the dashboard. Open a person to change their role or team.",
       "noInvitations": "No open invitations",
-      "noInvitationsText": "Invite colleagues or respondents by email; their invitations wait here until accepted."
+      "noInvitationsText": "Invite colleagues or respondents by email; their invitations wait here until accepted.",
+      "joinLinks": "Join links",
+      "joinLinksText": "A link your employees can use to join on their own."
     },
     "billing": {
       "plan": "Your plan",
@@ -914,6 +1005,21 @@
       "title": "Your data",
       "text": "Download a copy of everything held about you: your account, your details in each organization, your answers with the questions, your scores and saved reports about you.",
       "download": "Download my data"
+    },
+    "connected": {
+      "title": "Sign-in with Google or Microsoft",
+      "text": "Use your work account instead of a password.",
+      "notice": {
+        "connected": "Connected. You can now sign in with it.",
+        "taken": "That account is already connected to another Calibre account."
+      },
+      "providers": {
+        "google": "Google",
+        "microsoft": "Microsoft"
+      },
+      "notConnected": "Not connected",
+      "disconnect": "Disconnect",
+      "connect": "Connect"
     }
   },
   "errors": {
@@ -1043,7 +1149,10 @@
         "planClinical": "Clinical instruments are part of the Business plan.",
         "planRespondents": "This round would take you over your plan's respondent limit. Choose a bigger plan in Plan and billing.",
         "emailUnverified": "Confirm your email before sending rounds. Use “Send the link again” at the top of the page if you can't find it."
-      }
+      },
+      "waiting": "{count, plural, one {# invited person gets this round when they join} other {# invited people get this round when they join}}",
+      "invited": "Invited",
+      "inviteesHint": "Invited people get the round as soon as they accept their invitation."
     }
   },
   "assessments": {
@@ -1260,7 +1369,9 @@
       "withdrawConsent": "Withdrew consent",
       "retentionCleanup": "Retention clean-up",
       "publishInstrument": "Published a test or questionnaire",
-      "changePlan": "Plan changed"
+      "changePlan": "Plan changed",
+      "createJoinLink": "Created a join link",
+      "revokeJoinLink": "Revoked a join link"
     }
   },
   "studio": {
@@ -1734,5 +1845,199 @@
     "sent": "We sent a new link. Check your inbox.",
     "notSent": "Email isn't set up on this server, so the link couldn't be sent. Ask your administrator.",
     "rateLimited": "Too many requests. Try again in an hour."
+  },
+  "start": {
+    "metaTitle": "Welcome",
+    "skip": "Skip to the workspace",
+    "continue": "Continue",
+    "minutes": "{count} min",
+    "steps": {
+      "label": "Setup steps",
+      "goal": "Your goal",
+      "invite": "Colleagues",
+      "try": "First look"
+    },
+    "goal": {
+      "title": "Welcome to Calibre",
+      "titleNamed": "Welcome, {name}",
+      "text": "Three quick steps to get {organization} ready. You can skip any of them.",
+      "question": "What will you use Calibre for first?",
+      "options": {
+        "development": {
+          "label": "Development",
+          "text": "Understand strengths and track growth over time."
+        },
+        "hiring": {
+          "label": "Hiring",
+          "text": "Assess candidates the same way, every time."
+        },
+        "wellbeing": {
+          "label": "Wellbeing",
+          "text": "Spot stress and strain early, team by team."
+        }
+      },
+      "teamSize": "How many people work at your organization?",
+      "people": "{size} people",
+      "suggested": "Suggested to start with",
+      "clinical": "Clinical: psychologists only"
+    },
+    "invite": {
+      "title": "Invite your colleagues",
+      "text": "Add the people who will send assessments and read results with you. Employees come later, from People.",
+      "email": "Work email",
+      "role": "Role",
+      "placeholder": "name@company.com",
+      "hint": "Each role sees only what it needs. Managers see team averages, never individual answers.",
+      "held": "Confirm your email to send invitations. Anything you add here is saved and goes out as soon as you confirm.",
+      "send": "Send invitations",
+      "later": "I'll do this later",
+      "nobody": "No one to invite. You can do it later in Settings.",
+      "outcomes": {
+        "sent": "Invitation sent",
+        "notEmailed": "Saved. Email isn't set up, so share the link from Settings",
+        "held": "Goes out when you confirm your email",
+        "alreadyMember": "Already a member",
+        "planSeats": "No staff seats left on your plan",
+        "invalidEmail": "Not a valid email"
+      }
+    },
+    "try": {
+      "title": "See Calibre in action",
+      "text": "The fastest way to understand Calibre is to see it from both sides.",
+      "yourself": "Take a test yourself",
+      "yourselfText": "Answer {test} as your employees would, then open your own report.",
+      "yourselfTextMinutes": "Answer {test} ({count} min) as your employees would, then open your own report.",
+      "sample": "Explore the sample workspace",
+      "sampleLoading": "Setting up the sample workspace…",
+      "sampleText": "40 fictional people with finished rounds, reports and analytics. It's separate from your real data, and you can delete it any time.",
+      "workspace": "Go to your workspace",
+      "workspaceText": "Start with {organization} and follow the checklist on the home page."
+    }
+  },
+  "sample": {
+    "name": "Northwind (sample)",
+    "privacyContact": "privacy@northwind.example",
+    "teams": {
+      "sales": "Sales",
+      "support": "Support",
+      "engineering": "Engineering",
+      "operations": "Operations"
+    },
+    "positions": {
+      "sales": "Account manager",
+      "support": "Support specialist",
+      "engineering": "Software engineer",
+      "operations": "Operations coordinator"
+    },
+    "rounds": {
+      "spring": "Spring development check",
+      "summer": "Summer development check",
+      "reasoning": "Reasoning check"
+    },
+    "banner": "This is a sample workspace with fictional people. Nothing here is real, and nobody is emailed.",
+    "delete": "Delete the sample",
+    "deleteConfirm": "Delete the sample workspace? You can create it again from the welcome page."
+  },
+  "setup": {
+    "eyebrow": "Setup · {done} of {total}",
+    "title": "Get Calibre ready",
+    "dismiss": "Hide the setup checklist",
+    "progress": "Setup progress",
+    "done": "(done)",
+    "todo": "(to do)",
+    "steps": {
+      "confirmEmail": {
+        "label": "Confirm your email",
+        "text": "Use the link we sent you. Invitations and rounds wait for it.",
+        "action": ""
+      },
+      "tryYourself": {
+        "label": "Take a test yourself",
+        "text": "See exactly what your employees will see.",
+        "action": "Try one"
+      },
+      "privacyContact": {
+        "label": "Add a privacy contact",
+        "text": "Employees see it before they agree to take part.",
+        "action": "Add"
+      },
+      "inviteColleague": {
+        "label": "Invite a colleague",
+        "text": "A psychologist or HR manager to work with.",
+        "action": "Invite"
+      },
+      "addPeople": {
+        "label": "Add the people you'll assess",
+        "text": "Invite them one by one or import a spreadsheet.",
+        "action": "Add people"
+      },
+      "sendRound": {
+        "label": "Send your first round",
+        "text": "Pick tests and people, and Calibre does the reminding.",
+        "action": "Start"
+      }
+    }
+  },
+  "welcome": {
+    "title": "You're a {role} at {organization}",
+    "dismiss": "Close",
+    "can": "What you can do",
+    "cannot": "What stays private",
+    "admin": {
+      "can": {
+        "one": "Invite people, set up teams and manage settings",
+        "two": "Send assessment rounds and set up schedules",
+        "three": "Read individual results and reports"
+      },
+      "cannot": {
+        "one": "Clinical screens stay with psychologists",
+        "two": "The audit log is for the owner"
+      }
+    },
+    "psychologist": {
+      "can": {
+        "one": "Send assessments, including clinical screens",
+        "two": "Read individual results and follow-up flags",
+        "three": "Write and archive conclusions"
+      },
+      "cannot": {
+        "one": "Billing and organization settings are for admins",
+        "two": "The audit log is for the owner"
+      }
+    },
+    "manager": {
+      "can": {
+        "one": "Send assessment rounds to your people",
+        "two": "See team averages and participation",
+        "three": "Follow analytics across teams"
+      },
+      "cannot": {
+        "one": "Individual answers and scores, to protect privacy",
+        "two": "Averages for groups smaller than five people"
+      }
+    }
+  },
+  "join": {
+    "metaTitle": "Join",
+    "closedTitle": "This join link doesn't work",
+    "closed": {
+      "invalid": "Check that you copied the whole link, or ask whoever shared it for a new one.",
+      "expired": "The link has expired. Ask whoever shared it for a new one.",
+      "revoked": "The link was turned off. Ask whoever shared it for a new one.",
+      "full": "Everyone this link was meant for has already joined. Ask whoever shared it for a new one."
+    },
+    "title": "Join {organization}",
+    "text": "{organization} uses Calibre for assessments. Create your account to join as an employee.",
+    "alreadyMember": "You're already part of {organization}.",
+    "signedInAs": "You're signed in as {email}.",
+    "haveAccount": "Already have an account?",
+    "join": "Join {organization}",
+    "errorTitle": "Couldn't join",
+    "errors": {
+      "invalidLink": "This link no longer works.",
+      "invalidInput": "Check the fields and try again.",
+      "signInFirst": "There's already an account with this email. Sign in first, then open the link again.",
+      "rateLimited": "Too many attempts. Try again in an hour."
+    }
   }
 }

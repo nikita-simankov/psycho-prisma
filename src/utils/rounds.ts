@@ -12,6 +12,7 @@ import { absoluteUrl, sendMail } from "./mail";
 import { can } from "./roles";
 import { createToken } from "./tokens";
 import { runRetention } from "./retention";
+import { sendInvitationReminders } from "./invitations";
 
 export const PURPOSES = ["development", "hiring", "wellbeing"] as const;
 export type Purpose = (typeof PURPOSES)[number];
@@ -235,6 +236,24 @@ export async function assignPeople(
   return result;
 }
 
+// Gives someone who just joined the assignments of open rounds they were added to while
+// their invitation was pending.
+export async function assignPendingRounds(organizationId: string, userId: string, email: string) {
+  const pending = await prisma.roundInvitee.findMany({
+    where: { email, round: { organizationId } },
+    include: { round: { include: { organization: { select: { id: true, name: true } } } } },
+  });
+
+  for (const { round } of pending) {
+    if (!round.closedAt) {
+      await assignPeople(round, round.organization, [userId]);
+    }
+  }
+
+  await prisma.roundInvitee.deleteMany({ where: { email, round: { organizationId } } });
+  return pending.length;
+}
+
 // Which of each assignment's items already have a submission.
 export async function submittedItems(assignmentIds: string[]) {
   const [tests, forms] = await Promise.all([
@@ -398,8 +417,9 @@ export async function runMaintenance(now = new Date()) {
   const schedules = await runSchedules(now);
   const reminders = await sendReminders(now);
   const invitations = await cleanupInvitations(now);
+  const invitationReminders = await sendInvitationReminders(now);
   const retention = await runRetention(now);
-  return { schedules, reminders, invitations, retention };
+  return { schedules, reminders, invitations, invitationReminders, retention };
 }
 
 export type ItemInfo = { name: string; minutes: number; questionCount: number; sensitive: boolean };

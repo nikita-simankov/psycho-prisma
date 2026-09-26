@@ -2,6 +2,7 @@ import "server-only";
 
 import { renderEmail } from "@/emails/render";
 import { prisma } from "./database";
+import { sendHeldInvitations } from "./invitations";
 import { absoluteUrl, sendMail } from "./mail";
 import { createToken, hashToken } from "./tokens";
 import { getTranslations } from "next-intl/server";
@@ -48,6 +49,8 @@ export async function confirmEmail(token: string) {
     prisma.user.update({ where: { id: verification.userId }, data: { emailVerifiedAt: new Date() } }),
     prisma.emailVerification.deleteMany({ where: { userId: verification.userId } }),
   ]);
+  // Invitations saved during /start go out now.
+  await sendHeldInvitations(verification.userId);
 
   return verification.userId;
 }

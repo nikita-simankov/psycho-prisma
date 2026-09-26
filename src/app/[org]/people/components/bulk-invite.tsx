@@ -1,6 +1,15 @@
 "use client";
 
-import { createInvitations, resendInvitation, type BulkInvitationResult } from "@/actions/invitation/invitation-actions";
+import {
+  createInvitations,
+  previewInvitations,
+  resendInvitation,
+  type BulkInvitationResult,
+  type PreviewOutcome,
+  type PreviewRow,
+} from "@/actions/invitation/invitation-actions";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { Copy, FileSpreadsheet } from "lucide-react";
+import { Copy, Download, FileSpreadsheet } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -84,32 +93,74 @@ async function readFile(file: File) {
   return toRows(getSheetRows(workbook, workbook.sheetNames[0]));
 }
 
+const TEMPLATE = "Email,First name,Last name,Role,Team,Position\nanna.k@example.com,Anna,Kim,Member,Sales,Account manager\n";
+const BATCH = 10;
+
+function downloadTemplate() {
+  const url = URL.createObjectURL(new Blob(["\uFEFF" + TEMPLATE], { type: "text/csv;charset=utf-8" }));
+  const anchor = Object.assign(document.createElement("a"), { href: url, download: "calibre-invitations.csv" });
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+const SENDABLE: PreviewOutcome[] = ["ready", "newTeam", "reinvite"];
+
+// Upload a spreadsheet, check every row in a preview, then send in small batches with progress.
 export function BulkInviteDialog() {
   const t = useTranslations("people.bulk");
+  const roles = useTranslations("roles");
   const common = useTranslations("common");
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState<Row[] | null>(null);
+  const [createTeams, setCreateTeams] = useState(true);
+  const [preview, setPreview] = useState<PreviewRow[] | null>(null);
   const [results, setResults] = useState<BulkInvitationResult[] | null>(null);
+  const [progress, setProgress] = useState<number | null>(null);
+
+  const check = useMutation({
+    mutationFn: ({ list, create }: { list: Row[]; create: boolean }) => previewInvitations(list, { createTeams: create }),
+    onSuccess: setPreview,
+    onError: () => toast({ title: common("error"), variant: "destructive" }),
+  });
+
+  const sendable = rows && preview ? rows.filter((_, index) => SENDABLE.includes(preview[index]?.outcome)) : [];
 
   const send = useMutation({
-    mutationFn: () => createInvitations(rows ?? []),
+    mutationFn: async () => {
+      const outcome: BulkInvitationResult[] = [];
+      setProgress(0);
+      for (let start = 0; start < sendable.length; start += BATCH) {
+        outcome.push(...(await createInvitations(sendable.slice(start, start + BATCH), { createTeams })));
+        setProgress(Math.min(sendable.length, start + BATCH));
+      }
+      return outcome;
+    },
     onSuccess: (outcome) => {
       setResults(outcome);
       router.refresh();
     },
     onError: () => toast({ title: common("error"), variant: "destructive" }),
+    onSettled: () => setProgress(null),
   });
 
   const reset = (next: boolean) => {
     setOpen(next);
     if (!next) {
       setRows(null);
+      setPreview(null);
       setResults(null);
     }
   };
 
-  const usable = rows?.filter((row) => row.email) ?? [];
+  const load = (list: Row[], create = createTeams) => {
+    const usable = list.filter((row) => row.email);
+    setRows(usable);
+    setPreview(null);
+    if (usable.length) check.mutate({ list: usable, create });
+  };
+
+  const problems = preview?.filter((row) => !SENDABLE.includes(row.outcome)).length ?? 0;
 
   return (
     <Dialog open={open} onOpenChange={reset}>
@@ -119,32 +170,87 @@ export function BulkInviteDialog() {
           {t("button")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("text")}</DialogDescription>
         </DialogHeader>
         {!results && (
           <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              accept=".xlsx,.csv"
-              aria-label={t("file")}
-              onChange={async (event) => {
-                const file = event.target.files?.[0];
-                if (!file) return;
-                try {
-                  setRows(await readFile(file));
-                } catch {
-                  toast({ title: common("fileErrorTitle"), variant: "destructive" });
-                }
-              }}
-            />
+            <div className="flex flex-wrap items-center gap-2">
+              <Input
+                type="file"
+                accept=".xlsx,.csv"
+                aria-label={t("file")}
+                className="min-w-0 flex-1"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  try {
+                    load(await readFile(file));
+                  } catch {
+                    toast({ title: common("fileErrorTitle"), variant: "destructive" });
+                  }
+                }}
+              />
+              <Button type="button" variant="ghost" size="sm" onClick={downloadTemplate}>
+                <Download className="h-4 w-4" />
+                {t("template")}
+              </Button>
+            </div>
             <p className="text-sm text-muted-foreground">{t("columns")}</p>
-            {rows && (
-              <p className="text-sm font-medium">
-                {usable.length ? t("found", { count: usable.length }) : t("noneFound")}
-              </p>
+            <label className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={createTeams}
+                onCheckedChange={(value) => {
+                  setCreateTeams(value === true);
+                  if (rows?.length) load(rows, value === true);
+                }}
+              />
+              {t("createTeams")}
+            </label>
+            {rows && !rows.length && <p className="text-sm font-medium">{t("noneFound")}</p>}
+            {preview && (
+              <>
+                <p className="text-sm font-medium">
+                  {t("previewSummary", { ready: sendable.length, problems })}
+                </p>
+                <div className="max-h-72 overflow-auto rounded-lg border">
+                  <table className="w-full text-sm">
+                    <thead className="sticky top-0 bg-card text-left text-xs text-muted-foreground">
+                      <tr>
+                        <th className="p-2 font-medium">{t("previewEmail")}</th>
+                        <th className="p-2 font-medium">{t("previewRole")}</th>
+                        <th className="p-2 font-medium">{t("previewTeam")}</th>
+                        <th className="p-2 font-medium">{t("previewCheck")}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                      {preview.map((row, index) => {
+                        const ok = SENDABLE.includes(row.outcome);
+                        return (
+                          <tr key={`${row.email}-${index}`}>
+                            <td className="max-w-[14rem] truncate p-2">{row.email}</td>
+                            <td className="p-2">{roles.has(row.role) ? roles(row.role as "member") : row.role}</td>
+                            <td className="p-2">{row.team}</td>
+                            <td className={ok ? "p-2 text-muted-foreground" : "p-2 text-destructive"}>
+                              {t(`preview.${row.outcome}`)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+            {progress !== null && (
+              <div className="flex flex-col gap-1">
+                <Progress value={progress} max={Math.max(1, sendable.length)} label={t("sending")} />
+                <p className="font-mono text-xs text-muted-foreground">
+                  {t("progress", { done: progress, total: sendable.length })}
+                </p>
+              </div>
             )}
           </div>
         )}
@@ -176,8 +282,8 @@ export function BulkInviteDialog() {
           {results ? (
             <Button onClick={() => reset(false)}>{common("done")}</Button>
           ) : (
-            <Button disabled={!usable.length || send.isPending} onClick={() => send.mutate()}>
-              {t("send", { count: usable.length })}
+            <Button disabled={!sendable.length || send.isPending || check.isPending} onClick={() => send.mutate()}>
+              {t("send", { count: sendable.length })}
             </Button>
           )}
         </DialogFooter>

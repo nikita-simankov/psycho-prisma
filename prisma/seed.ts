@@ -38,7 +38,7 @@ async function normalizeOrganizationNameKeys() {
   for (const organization of await prisma.organization.findMany({ select: { id: true, name: true, nameKey: true } })) {
     const key = nameKey(organization.name);
 
-    if (key !== organization.nameKey && !(await prisma.organization.findUnique({ where: { nameKey: key } }))) {
+    if (key !== organization.nameKey && !(await prisma.organization.findFirst({ where: { nameKey: key } }))) {
       await prisma.organization.update({ where: { id: organization.id }, data: { nameKey: key } });
     }
   }
@@ -121,7 +121,7 @@ async function main() {
   if (!(await prisma.membership.findFirst({ where: { userId: user.id } }))) {
     const requested = process.env.ORGANIZATION_NAME?.trim().replace(/\s+/g, " ") || "My organization";
     let name = requested;
-    for (let suffix = 2; await prisma.organization.findUnique({ where: { nameKey: nameKey(name) } }); suffix++) {
+    for (let suffix = 2; await prisma.organization.findFirst({ where: { nameKey: nameKey(name) } }); suffix++) {
       name = `${requested} (${suffix})`;
     }
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "organization";

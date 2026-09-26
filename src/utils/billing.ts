@@ -24,9 +24,8 @@ export function trialData(now = new Date()) {
 
 // The organization's subscription. Organizations always have one (migration 1_billing and
 // createOwnedOrganization); one made any other way starts a trial the first time it is read.
-// The organization's subscription, starting a trial the first time one is needed. Several parts of
-// a page can ask at once, and two concurrent upserts can both try to insert, so a unique-key
-// clash means the other one won and its row is read instead.
+// Several parts of a page can ask at once, and two concurrent upserts can both try to insert,
+// so a unique-key clash means the other one won and its row is read instead.
 export async function getSubscription(organizationId: string) {
   const existing = await prisma.subscription.findUnique({ where: { organizationId } });
   if (existing) {
@@ -74,6 +73,12 @@ export async function seatsUsed(organizationId: string, exceptEmail?: string) {
     }),
   ]);
   return members + invitations;
+}
+
+// Staff seats in use and the plan's limit (null for unlimited), for the invite panel's meter.
+export async function staffSeats(organizationId: string) {
+  const { plan } = await getPlan(organizationId);
+  return { used: await seatsUsed(organizationId), limit: planById(plan).staffSeats };
 }
 
 export async function getUsage(organizationId: string) {

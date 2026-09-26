@@ -4,17 +4,9 @@ import { RESERVED_SLUGS } from "./constants";
 import { trialData } from "./billing";
 import { prisma } from "./database";
 
-// Names are unique regardless of case and spacing: "Acme  Ltd" and "acme ltd" clash.
+// "Acme  Ltd" and "acme ltd" have the same key.
 export function organizationNameKey(name: string) {
   return name.trim().replace(/\s+/g, " ").toLocaleLowerCase();
-}
-
-export async function isOrganizationNameTaken(name: string, exceptId?: string) {
-  const existing = await prisma.organization.findUnique({
-    where: { nameKey: organizationNameKey(name) },
-    select: { id: true },
-  });
-  return !!existing && existing.id !== exceptId;
 }
 
 const CYRILLIC: Record<string, string> = {
@@ -43,19 +35,8 @@ export async function uniqueSlug(name: string) {
   }
 }
 
-export class OrganizationNameTakenError extends Error {
-  constructor() {
-    super("Organization name is taken");
-    this.name = "OrganizationNameTakenError";
-  }
-}
-
 export async function createOwnedOrganization(userId: string, name: string) {
   const cleanName = name.trim().replace(/\s+/g, " ");
-
-  if (await isOrganizationNameTaken(cleanName)) {
-    throw new OrganizationNameTakenError();
-  }
 
   return prisma.organization.create({
     data: {
@@ -67,4 +48,22 @@ export async function createOwnedOrganization(userId: string, name: string) {
       subscription: { create: trialData() },
     },
   });
+}
+
+// Everything that goes when an organization is deleted: people's memberships, results,
+// conclusions, teams, invitations and uploaded instruments. Accounts themselves are kept.
+export function organizationDeletion(organizationId: string) {
+  const scope = { organizationId };
+  return [
+    prisma.testSubmission.deleteMany({ where: scope }),
+    prisma.formSubmission.deleteMany({ where: scope }),
+    prisma.userSummary.deleteMany({ where: scope }),
+    prisma.reportVersion.deleteMany({ where: scope }),
+    prisma.draft.deleteMany({ where: scope }),
+    prisma.analyticsView.deleteMany({ where: scope }),
+    prisma.auditEvent.deleteMany({ where: scope }),
+    prisma.test.deleteMany({ where: scope }),
+    prisma.form.deleteMany({ where: scope }),
+    prisma.organization.delete({ where: { id: organizationId } }),
+  ];
 }

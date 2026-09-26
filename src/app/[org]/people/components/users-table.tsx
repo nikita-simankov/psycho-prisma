@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { DataTable } from "@/components/data-table";
 import { FlagBadge } from "@/components/flag-badge";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +18,7 @@ type Mode = "manage" | "reports";
 
 // People in the organization. "manage" shows roles; "reports" links to each person's report.
 // Changes happen on the person's page, never inline, so nothing changes by a stray click.
-export function UsersTable({ users, mode = "manage" }: { users: Member[]; mode?: Mode }) {
+export function UsersTable({ users, mode = "manage", empty }: { users: Member[]; mode?: Mode; empty?: ReactNode }) {
   const base = useOrganizationBase();
   const t = useTranslations("profile.fields");
   const people = useTranslations("people");
@@ -82,5 +83,5 @@ export function UsersTable({ users, mode = "manage" }: { users: Member[]; mode?:
     ];
   }, [base, mode, t, people, roles]);
 
-  return <DataTable columns={columns} data={users} enableFiltering enablePagination />;
+  return <DataTable columns={columns} data={users} enableFiltering enablePagination empty={empty} />;
 }

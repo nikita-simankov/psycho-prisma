@@ -17,6 +17,8 @@ export const AUDIT_ACTIONS = [
   "leaveOrganization",
   "transferOwnership",
   "changeSettings",
+  "createJoinLink",
+  "revokeJoinLink",
   // Personal data.
   "exportPersonalData",
   "withdrawConsent",

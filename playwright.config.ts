@@ -36,6 +36,10 @@ export default defineConfig({
       PADDLE_WEBHOOK_SECRET: "e2e-paddle-secret",
       PADDLE_PRICE_TEAM: "pri_e2e_team",
       PADDLE_PRICE_BUSINESS: "pri_e2e_business",
+      // Shows the Google button and lets e2e/onboarding.spec.ts check the redirect. Nothing
+      // follows it, so these never reach Google.
+      GOOGLE_CLIENT_ID: "e2e-google-client",
+      GOOGLE_CLIENT_SECRET: "e2e-google-secret",
     },
   },
 });

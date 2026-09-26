@@ -39,6 +39,7 @@ type Instrument = {
 };
 type Person = { id: string; name: string; teamId: string | null; email: string };
 type Team = { id: string; name: string };
+type Invitee = { id: string; email: string; name: string; teamId: string | null };
 type Candidate = { email: string; name: string; lastName: string };
 
 const key = (item: { kind: string; id: string }) => `${item.kind}:${item.id}`;
@@ -75,11 +76,13 @@ export function RoundForm({
   instruments,
   people,
   teams,
+  invitees = [],
   canSendSensitive,
 }: {
   instruments: Instrument[];
   people: Person[];
   teams: Team[];
+  invitees?: Invitee[];
   canSendSensitive: boolean;
 }) {
   const t = useTranslations("rounds.form");
@@ -94,6 +97,7 @@ export function RoundForm({
   const [itemQuery, setItemQuery] = useState("");
   const [teamIds, setTeamIds] = useState<string[]>([]);
   const [userIds, setUserIds] = useState<string[]>([]);
+  const [invitationIds, setInvitationIds] = useState<string[]>([]);
   const [peopleQuery, setPeopleQuery] = useState("");
   const [candidateText, setCandidateText] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -104,7 +108,11 @@ export function RoundForm({
   const hiring = purpose === "hiring";
   const { candidates, invalid } = parseCandidates(hiring ? candidateText : "");
   const teamMembers = people.filter((person) => person.teamId && teamIds.includes(person.teamId));
-  const recipients = new Set([...userIds, ...teamMembers.map((person) => person.id)]).size + candidates.length;
+  const waiting = new Set([
+    ...invitationIds,
+    ...invitees.filter((invitee) => invitee.teamId && teamIds.includes(invitee.teamId)).map((invitee) => invitee.id),
+  ]).size;
+  const recipients = new Set([...userIds, ...teamMembers.map((person) => person.id)]).size + candidates.length + waiting;
   const chosen = instruments.filter((item) => items.includes(key(item)));
   const minutes = chosen.reduce((sum, item) => sum + item.minutes, 0);
   const today = new Date().toISOString().slice(0, 10);
@@ -144,6 +152,7 @@ export function RoundForm({
         userIds,
         teamIds,
         candidates,
+        invitationIds,
         repeatMonths: repeat,
       });
       if ("error" in response) {
@@ -152,6 +161,9 @@ export function RoundForm({
       return response;
     },
     onSuccess: (response) => {
+      if (response.waiting) {
+        toast({ title: t("waiting", { count: response.waiting }) });
+      }
       if (response.links.length || response.skippedNames.length) {
         setResult(response);
       } else {
@@ -309,7 +321,33 @@ export function RoundForm({
                 </li>
               );
             })}
+            {!hiring &&
+              invitees
+                .filter((invitee) => {
+                  const query = peopleQuery.trim().toLowerCase();
+                  return !query || invitee.email.includes(query) || invitee.name.toLowerCase().includes(query);
+                })
+                .map((invitee) => {
+                  const viaTeam = invitee.teamId !== null && teamIds.includes(invitee.teamId);
+                  const id = `invitee-${invitee.id}`;
+                  return (
+                    <li key={invitee.id} className="flex items-center gap-3 p-3">
+                      <Checkbox
+                        id={id}
+                        checked={viaTeam || invitationIds.includes(invitee.id)}
+                        disabled={viaTeam}
+                        onCheckedChange={() => toggle(invitationIds, setInvitationIds, invitee.id)}
+                      />
+                      <label htmlFor={id} className="flex min-w-0 flex-1 cursor-pointer flex-col text-sm">
+                        <span className="font-medium">{invitee.name || invitee.email}</span>
+                        <span className="truncate text-muted-foreground">{invitee.email}</span>
+                      </label>
+                      <Badge variant="outline">{t("invited")}</Badge>
+                    </li>
+                  );
+                })}
           </ul>
+          {!hiring && waiting > 0 && <p className="text-sm text-muted-foreground">{t("inviteesHint")}</p>}
         </div>
         {hiring && (
           <div className="flex flex-col gap-2">
