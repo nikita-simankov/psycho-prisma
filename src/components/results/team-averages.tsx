@@ -14,12 +14,12 @@ export function TeamAverages({ groups }: { groups: GroupAverage[] }) {
         <Users className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
         {t("note", { min: MIN_GROUP })}
       </p>
-      {groups.length === 0 && <p className="rounded-xl border bg-card p-6 text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>}
+      {groups.length === 0 && <p className="border-t border-foreground/80 pt-4 text-muted-foreground">{t("tooFew", { min: MIN_GROUP })}</p>}
       {groups.map((group) => (
-        <section key={group.key} className="flex flex-col gap-3 rounded-xl border bg-card p-4 sm:p-6">
+        <section key={group.key} className="flex flex-col gap-3 border-t border-foreground/80 pt-4">
           <header>
-            <h2 className="text-lg font-semibold">{group.teamName ?? t("everyone")}</h2>
-            <p className="text-sm text-muted-foreground">{t("people", { count: group.people })}</p>
+            <h2 className="text-xl font-medium">{group.teamName ?? t("everyone")}</h2>
+            <p className="font-mono text-xs text-muted-foreground">{t("people", { count: group.people })}</p>
           </header>
           <ScaleProfile
             rows={group.scales.map((scale) => ({

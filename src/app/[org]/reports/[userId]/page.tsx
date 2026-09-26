@@ -44,7 +44,7 @@ export default async function ReportPage(props: PathParams) {
 
   const sections = (
     <>
-      {results.length === 0 && <p className="rounded-xl border bg-card p-6 text-muted-foreground">{reports("noResults")}</p>}
+      {results.length === 0 && <p className="border-t border-foreground/80 pt-5 text-muted-foreground">{reports("noResults")}</p>}
       {results.map((result) => (
         <TestResultSection key={result.id} result={result} subtitle={result.round?.name} />
       ))}
@@ -52,9 +52,9 @@ export default async function ReportPage(props: PathParams) {
   );
 
   const readOnly = (id: string, label: string, text: string) => (
-    <section id={id} className="flex scroll-mt-20 flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:border-0 print:p-0">
-      <h2 className="text-lg font-semibold">{label}</h2>
-      <p className="whitespace-pre-line leading-relaxed text-muted-foreground">{text || t("empty")}</p>
+    <section id={id} className="flex scroll-mt-20 flex-col gap-3 border-t border-foreground/80 pt-5 print:border-gray-800">
+      <h2 className="text-2xl font-medium">{label}</h2>
+      <p className="max-w-[68ch] whitespace-pre-line text-[1.0625rem] leading-relaxed">{text || <span className="text-muted-foreground">{t("empty")}</span>}</p>
     </section>
   );
 
@@ -74,10 +74,10 @@ export default async function ReportPage(props: PathParams) {
         }
       />
 
-      <div className="mb-6 flex flex-col gap-3 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:gap-4 print:border-0 print:p-0">
-        <UserAvatar user={user} className="h-14 w-14 print:hidden" />
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-          <p className="text-sm text-muted-foreground">
+      <div className="-mt-4 mb-10 flex flex-col gap-3 border-y py-3 sm:flex-row sm:items-center sm:gap-4">
+        <UserAvatar user={user} className="size-10 print:hidden" />
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-xs text-muted-foreground">
             {t("covers", { count: results.length })}
             {rounds.length > 0 && ` · ${t("rounds", { names: rounds.join(", ") })}`}
           </p>
@@ -96,7 +96,7 @@ export default async function ReportPage(props: PathParams) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <div className="grid gap-10 lg:grid-cols-[12rem_minmax(0,1fr)] print:block">
         <ReportOutline
           items={[
             { id: "background", label: t("background") },
@@ -105,7 +105,7 @@ export default async function ReportPage(props: PathParams) {
             ...(versions.length ? [{ id: "versions", label: t("versions") }] : []),
           ]}
         />
-        <div className="flex min-w-0 flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-12 print:gap-8">
           {write ? (
             <ReportEditor userId={user.id} initial={{ background, conclusion }}>
               {sections}
@@ -119,9 +119,9 @@ export default async function ReportPage(props: PathParams) {
           )}
 
           {versions.length > 0 && (
-            <section id="versions" className="flex scroll-mt-20 flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:hidden">
-              <h2 className="flex items-center gap-2 text-lg font-semibold">
-                <History className="h-4 w-4" aria-hidden />
+            <section id="versions" className="flex scroll-mt-20 flex-col gap-3 border-t border-foreground/80 pt-5 print:border-gray-800 print:hidden">
+              <h2 className="flex items-center gap-2 text-2xl font-medium">
+                <History className="size-4 text-muted-foreground" aria-hidden />
                 {t("versions")}
               </h2>
               <ul className="divide-y">
@@ -132,7 +132,7 @@ export default async function ReportPage(props: PathParams) {
                       className="flex items-center justify-between gap-3 py-2 text-sm hover:text-primary"
                     >
                       <span className="font-medium">{t("versionLabel", { version: version.version })}</span>
-                      <span className="text-muted-foreground">{date(version.createdAt)}</span>
+                      <span className="font-mono text-xs text-muted-foreground">{date(version.createdAt)}</span>
                     </Link>
                   </li>
                 ))}

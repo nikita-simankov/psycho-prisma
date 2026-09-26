@@ -110,9 +110,9 @@ export function ReportField({
   }, [value]);
 
   return (
-    <section id={id} aria-labelledby={`${id}-label`} className="flex scroll-mt-20 flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:border-0 print:p-0">
+    <section id={id} aria-labelledby={`${id}-label`} className="flex scroll-mt-20 flex-col gap-3 border-t border-foreground/80 pt-5 print:border-gray-800">
       <div className="flex items-center justify-between gap-2">
-        <label id={`${id}-label`} htmlFor={`${id}-input`} className="text-lg font-semibold">
+        <label id={`${id}-label`} htmlFor={`${id}-input`} className="font-heading text-2xl font-medium">
           {label}
         </label>
         <SaveStatus status={status} />

@@ -40,8 +40,8 @@ export default async function ReportVersionPage(props: PathParams) {
   const ids = JSON.parse(version.submissionIds) as string[];
   const { results } = ids.length ? await loadReport(params.userId, ids) : { results: [] };
   const text = (label: string, value: string) => (
-    <section className="flex flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 print:border-0 print:p-0">
-      <h2 className="text-lg font-semibold">{label}</h2>
+    <section className="flex scroll-mt-20 flex-col gap-3 border-t border-foreground/80 pt-5 print:border-gray-800">
+      <h2 className="text-2xl font-medium">{label}</h2>
       <p className="whitespace-pre-line leading-relaxed">{value || t("empty")}</p>
     </section>
   );

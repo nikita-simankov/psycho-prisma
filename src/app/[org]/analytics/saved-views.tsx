@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/utils/utils";
 import { deleteAnalyticsView, saveAnalyticsView } from "@/actions/analytics/analytics-view-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,17 +45,23 @@ export function SavedViews({ views, query }: { views: { id: string; name: string
       {views.map((view) => {
         const active = view.query === query;
         return (
-          <span key={view.id} className="flex items-center rounded-full border bg-card text-sm">
+          <span
+            key={view.id}
+            className={cn(
+              "flex h-8 items-center rounded-md border text-sm transition-colors",
+              active ? "border-foreground bg-foreground text-background" : "bg-card hover:border-foreground/40",
+            )}
+          >
             <Link
               href={view.query ? `${pathname}?${view.query}` : pathname}
-              className={active ? "px-3 py-1 font-medium text-primary" : "px-3 py-1"}
+              className={cn("px-3", active && "font-medium")}
               aria-current={active ? "page" : undefined}
             >
               {view.name}
             </Link>
             <button
               type="button"
-              className="mr-1 rounded-full p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className={cn("mr-1 rounded-sm p-1 opacity-60 hover:opacity-100", active ? "hover:bg-background/15" : "hover:bg-muted")}
               aria-label={t("delete", { name: view.name })}
               onClick={() => remove.mutate(view.id)}
             >
@@ -65,8 +72,8 @@ export function SavedViews({ views, query }: { views: { id: string; name: string
       })}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            <Bookmark className="mr-2 h-4 w-4" />
+          <Button variant="ghost" size="sm">
+            <Bookmark className="size-4" />
             {t("save")}
           </Button>
         </PopoverTrigger>
