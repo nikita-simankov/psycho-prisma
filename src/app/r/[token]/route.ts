@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/utils/authentication";
-import { findLinkAssignment, markLinkUserVerified } from "@/utils/round-links";
+import { findLinkAssignment, linkDestination, markLinkUserVerified } from "@/utils/round-links";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { NextResponse } from "next/server";
 
@@ -29,5 +29,5 @@ export async function GET(request: Request, props: { params: Promise<{ token: st
   await markLinkUserVerified(assignment.user);
   await rememberOrganization(assignment.round.organization.slug);
 
-  return NextResponse.redirect(new URL("/assessments", request.url));
+  return NextResponse.redirect(new URL(await linkDestination(assignment), request.url));
 }

@@ -18,7 +18,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-12">
-      <SettingsForm initial={initial} tests={tests} parts={["general"]} />
+      <SettingsForm initial={initial} tests={tests} parts={["general", "sending"]} />
       {owner && (
         <OwnerControls
           organizationName={context.organization.name}

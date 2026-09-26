@@ -9,13 +9,13 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-export function ConsentActions() {
+export function ConsentActions({ next = "/assessments" }: { next?: string }) {
   const t = useTranslations("consent");
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: () => acceptConsent(),
     onSuccess: () => {
-      router.replace("/assessments");
+      router.replace(next);
       router.refresh();
     },
     onError: () => toast({ title: t("error"), variant: "destructive" }),

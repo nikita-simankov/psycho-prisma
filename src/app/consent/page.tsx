@@ -1,4 +1,5 @@
 import { PrivacyNotice } from "@/components/privacy-notice";
+import { DataPromise } from "@/components/data-promise";
 import { Card } from "@/components/ui/card";
 import { OrganizationMark } from "@/components/organization-mark";
 import { ensureMember } from "@/utils/authentication";
@@ -12,12 +13,18 @@ export async function generateMetadata() {
   return { title: t("metaTitle") };
 }
 
-export default async function ConsentPage() {
+// Only the app's own respondent pages, never another site.
+function safeNext(value: string | undefined) {
+  return value && /^\/(tests|forms)\/[\w-]+\?assignment=[\w-]+$/.test(value) ? value : "/assessments";
+}
+
+export default async function ConsentPage(props: { searchParams: Promise<{ next?: string }> }) {
+  const next = safeNext((await props.searchParams).next);
   const { membership, organization } = await ensureMember();
   const staff = can(membership.role, "viewDashboard");
 
   if (membership.consentedAt || staff) {
-    redirect(staff ? `/${organization.slug}` : "/assessments");
+    redirect(staff ? `/${organization.slug}` : next);
   }
 
   const t = await getTranslations("consent");
@@ -35,7 +42,8 @@ export default async function ConsentPage() {
       <Card className="p-5 sm:p-8">
         <PrivacyNotice organization={organization.name} contact={organization.privacyContact} />
       </Card>
-      <ConsentActions />
+      <DataPromise organizationId={organization.id} />
+      <ConsentActions next={next} />
     </main>
   );
 }

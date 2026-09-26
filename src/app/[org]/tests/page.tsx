@@ -41,7 +41,7 @@ export default async function Page() {
       <DraftsList kind="test" drafts={drafts} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {tests.map((test) => (
-          <TestCard key={test.id} test={test} base={base} />
+          <TestCard key={test.id} test={test} base={base} rounds={can(context.membership.role, "manageRounds")} />
         ))}
       </div>
     </>

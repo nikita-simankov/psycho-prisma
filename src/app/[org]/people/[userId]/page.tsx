@@ -12,6 +12,7 @@ import { parseCustomFields } from "@/utils/profile-fields";
 import { FlagBadge } from "@/components/flag-badge";
 import { Badge } from "@/components/ui/badge";
 import { LinkList } from "@/components/link-list";
+import { SendInRound } from "@/components/rounds/send-in-round";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Stat } from "@/components/ui/stat";
@@ -171,6 +172,7 @@ export default async function UserProfilePage(props: PathParams) {
                 <Link href={`${base}/settings/audit?person=${user.id}`}>{t("accessHistory")}</Link>
               </Button>
             )}
+            {can(membership.role, "manageRounds") && <SendInRound href={`${base}/rounds/new?person=${user.id}`} />}
             {manage && <EditUserDialog user={user} />}
             {manage && (
               <ProfileDetailsDialog

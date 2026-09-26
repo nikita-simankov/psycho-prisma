@@ -8,9 +8,9 @@ export async function loadSettings() {
   const context = await ensureMember("manageSettings");
   const { organization } = context;
   const tests = (await findAllTests()).filter((test) => !test.sensitive).sort((a, b) => a.name.localeCompare(b.name));
-  const { feedbackTestIds, customFields, retentionMonths, candidateRetentionMonths } = await prisma.organization.findUniqueOrThrow({
+  const { feedbackTestIds, customFields, retentionMonths, candidateRetentionMonths, quietHours, timeZone } = await prisma.organization.findUniqueOrThrow({
     where: { id: organization.id },
-    select: { feedbackTestIds: true, customFields: true, retentionMonths: true, candidateRetentionMonths: true },
+    select: { feedbackTestIds: true, customFields: true, retentionMonths: true, candidateRetentionMonths: true, quietHours: true, timeZone: true },
   });
 
   return {
@@ -23,6 +23,8 @@ export async function loadSettings() {
       customFields: parseCustomFields(customFields),
       retentionMonths,
       candidateRetentionMonths,
+      quietHours,
+      timeZone,
     },
     tests: tests.map((test) => ({ id: test.id, name: test.name })),
   };

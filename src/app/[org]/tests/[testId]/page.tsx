@@ -1,4 +1,5 @@
 import { findTestById } from "@/actions/test/find-test-by-id-action";
+import { SendInRound } from "@/components/rounds/send-in-round";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,7 @@ export default async function TestPage(props: PathParams) {
               </>
             )}
             {copyable && <CopyInstrumentButton kind="test" id={test.id} />}
+            {can(context.membership.role, "manageRounds") && <SendInRound href={`${base}/rounds/new?test=${test.id}`} />}
             <Button variant="outline" asChild>
               <Link href={`/tests/${test.id}`}>{t("tryIt")}</Link>
             </Button>

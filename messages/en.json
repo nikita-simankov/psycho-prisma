@@ -483,7 +483,17 @@
     "about": "About",
     "home": "My assessments",
     "continue": "Continue",
-    "resumeNote": "You have answered {answered} of {total}. Your answers are saved, so you can pick up where you left off."
+    "resumeNote": "You have answered {answered} of {total}. Your answers are saved, so you can pick up where you left off.",
+    "promise": {
+      "title": "What happens with your answers",
+      "access": "Your individual results are seen only by people at {organization} who are allowed to view results, usually HR.",
+      "managers": "Managers see team averages, and only for groups of {count} or more people.",
+      "retention": "{count, plural, one {Your answers are deleted after # month.} other {Your answers are deleted after # months.}}",
+      "retentionKept": "Your answers are kept while you work with {organization}, and you can ask for them to be deleted.",
+      "ownResults": "You'll see your own results for some tests.",
+      "contact": "Questions about your data: {contact}"
+    },
+    "journey": "{round} · {position} of {total}"
   },
   "scores": {
     "raw": "Raw score",
@@ -937,6 +947,15 @@
       "invoicesText": "Invoices, payment details and cancelling are handled by Paddle, our reseller.",
       "invoicesEmpty": "Invoices appear here once you buy a plan.",
       "trialHint": "Free during the trial"
+    },
+    "sending": {
+      "title": "Sending",
+      "text": "When round emails and reminders go out.",
+      "quietHours": "Quiet hours",
+      "quietHoursText": "Send round emails only Monday to Friday, 9:00 to 18:00 in each person's time zone. Emails outside those hours wait.",
+      "timeZone": "Default time zone",
+      "serverTime": "The server's time zone",
+      "timeZoneHint": "Used for people whose browser hasn't told us their own time zone yet."
     }
   },
   "validity": {
@@ -1074,7 +1093,8 @@
       "finished": "Finished",
       "started": "In progress",
       "notStarted": "Not started",
-      "overdue": "Overdue"
+      "overdue": "Overdue",
+      "scheduled": "Scheduled"
     },
     "partDone": "{done} of {total} done",
     "linkCopied": "Link copied",
@@ -1152,8 +1172,130 @@
       },
       "waiting": "{count, plural, one {# invited person gets this round when they join} other {# invited people get this round when they join}}",
       "invited": "Invited",
-      "inviteesHint": "Invited people get the round as soon as they accept their invitation."
-    }
+      "inviteesHint": "Invited people get the round as soon as they accept their invitation.",
+      "steps": {
+        "what": "What",
+        "who": "Who",
+        "when": "When",
+        "review": "Review"
+      },
+      "stepsLabel": "Round steps",
+      "draftSaved": "Draft saved",
+      "draftOpen": "Editing a draft",
+      "templatesTitle": "Start from a template",
+      "templatesText": "A ready set of instruments, name and message. You can change everything.",
+      "templates": {
+        "newStarter": {
+          "name": "New starter check-in",
+          "text": "30 days after someone starts",
+          "message": "You've been with us for a month. A few short questions help us see how we can support you."
+        },
+        "leadership": {
+          "name": "Leadership review",
+          "text": "For managers and future leads",
+          "message": "This round looks at how you lead and make decisions. There are no right or wrong answers."
+        },
+        "annual": {
+          "name": "Annual development check",
+          "text": "On each work anniversary",
+          "message": "Another year together. Take a few minutes to see how you've grown."
+        },
+        "reasoning": {
+          "name": "Reasoning for candidates",
+          "text": "Hiring, sent to candidates by email",
+          "message": "Thank you for applying. These short tasks are the next step in our process."
+        },
+        "pulse": {
+          "name": "Quarterly pulse",
+          "text": "Wellbeing every 3 months",
+          "message": "How are things going? Your answers help us spot problems early."
+        }
+      },
+      "templateApplied": "Template applied",
+      "itemsCount": "{count, plural, one {# instrument} other {# instruments}}",
+      "budget": "About {minutes} min in total",
+      "budgetLimit": "Keep it under {minutes} min",
+      "budgetOver": "Over {minutes} minutes, fewer people finish. Consider splitting the round.",
+      "continue": "Continue",
+      "inDays": "{count, plural, one {In # day} other {In # days}}",
+      "lifecycle": {
+        "start30": "30 days after someone starts",
+        "start90": "90 days after someone starts",
+        "anniversary": "On each work anniversary"
+      },
+      "lifecycleHint": "Sent automatically to each person on their date, using the start date in their profile.",
+      "lifecycleEveryone": "Everyone with a start date",
+      "lifecycleSaved": "Automatic round saved. People get it on their date.",
+      "saveLifecycle": "Save automatic round",
+      "quietHint": "Emails go out in working hours, Monday to Friday 9:00 to 18:00 in each person's time zone.",
+      "reviewTitle": "Check before sending",
+      "noDue": "No due date",
+      "emailTitle": "The email people get",
+      "emailSubject": "Subject: {subject}",
+      "emailText": "A preview of the invitation email.",
+      "emailLoading": "Loading the preview",
+      "testSend": "Send a test to me",
+      "testSent": "Test email sent to you",
+      "testNotEmailed": "Email isn't set up, so nothing was sent",
+      "testErrors": {
+        "emailUnverified": "Confirm your email first",
+        "rateLimited": "Too many test emails. Try again later."
+      },
+      "queued": "{count, plural, one {# email waits for working hours} other {# emails wait for working hours}}",
+      "incompleteSteps": {
+        "what": "Name the round and choose at least one instrument.",
+        "who": "Choose who gets the round.",
+        "when": "Check the due date.",
+        "review": "Something above needs attention."
+      }
+    },
+    "health": {
+      "done": "Closed",
+      "onTrack": "On track",
+      "atRisk": "At risk",
+      "overdue": "Overdue"
+    },
+    "automatic": "Automatic",
+    "tracker": {
+      "finished": "{done} of {total} done",
+      "label": "{percent}% finished",
+      "segments": {
+        "finished": "Finished",
+        "started": "Started",
+        "notStarted": "Not started",
+        "scheduled": "Email scheduled"
+      },
+      "waiting": "{count, plural, one {# invitee gets it after joining} other {# invitees get it after joining}}",
+      "remind": "{count, plural, one {Remind the # who hasn't started} other {Remind the # who haven't started}}",
+      "reminded": "{count, plural, =0 {Everyone has started} one {Reminded # person} other {Reminded # people}}",
+      "notEmailed": "Some people have no email or email isn't set up; copy their links instead."
+    },
+    "calendar": {
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "Today",
+      "past": "A due date can't be in the past",
+      "moved": "{name} is now due {date}",
+      "dragHint": "Drag to another day to change the due date",
+      "hint": "Drag an open round to another day to move its due date. Dashed entries are the next run of a repeating round."
+    },
+    "views": {
+      "label": "View",
+      "list": "List",
+      "calendar": "Calendar"
+    },
+    "drafts": "Drafts",
+    "draftsText": "Rounds you started but haven't sent.",
+    "untitled": "Untitled round",
+    "draftEdited": "Edited {date}",
+    "deleteDraft": "Delete the draft {name}",
+    "lifecycle": {
+      "anniversary": "On each work anniversary",
+      "startDate": "{days} days after the start date"
+    },
+    "sendInRound": "Send in a round",
+    "sendInRoundShort": "Send",
+    "sendNamedInRound": "Send {name} in a round"
   },
   "assessments": {
     "title": "My assessments",
@@ -1176,7 +1318,15 @@
       "title": "This link no longer works",
       "text": "It has expired, the round was closed, or you've already finished. Sign in to see what's left.",
       "signIn": "Sign in",
-      "forgot": "Set a password"
+      "forgot": "Set a password",
+      "emailLabel": "Your email",
+      "send": "Email me a new link",
+      "sent": "If that address has anything open, a new link is on its way. Check your inbox.",
+      "or": "or",
+      "errors": {
+        "invalidEmail": "Enter a valid email",
+        "rateLimited": "Too many requests. Try again in an hour."
+      }
     },
     "yourResults": "Your results"
   },

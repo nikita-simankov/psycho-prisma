@@ -26,6 +26,8 @@ model User {
   // Set once the person has shown they read this inbox: a verification link, an invitation,
   // a password reset or a round link. Unverified accounts can't send invitations or rounds.
   emailVerifiedAt DateTime?
+  // IANA time zone from the person's browser, for sending emails in working hours.
+  timeZone        String    @default("")
 
   memberships        Membership[]
   emailVerifications EmailVerification[]
@@ -70,6 +72,11 @@ model Organization {
   updatedAt        DateTime        @updatedAt
   // Answers from the /start welcome: what the organization uses Calibre for and how big it is.
   goal             String          @default("")
+  // Round emails wait for working hours (Mon-Fri, 9:00-18:00) in each person's time zone, or in
+  // this one when the person's is unknown. "" means the server's.
+  quietHours       Boolean         @default(false)
+  timeZone         String          @default("")
+  roundDrafts      RoundDraft[]
   teamSize         String          @default("")
   // A demo organization with fictional people, created from /start. Its people are never emailed.
   isSample         Boolean         @default(false)
@@ -376,6 +383,8 @@ model Assignment {
   tokenHash      String?   @unique
   tokenExpiresAt DateTime?
   invitedAt      DateTime?
+  // Set while the invitation email waits for working hours; the hourly job sends it.
+  sendAt         DateTime?
   remindedAt     DateTime?
   completedAt    DateTime?
   createdAt      DateTime  @default(now())
@@ -385,24 +394,55 @@ model Assignment {
 
 // Opens a new round every few months for fixed people or for a team as it changes.
 model RoundSchedule {
-  id             String       @id @default(uuid())
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  id             String          @id @default(uuid())
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
   name           String
   purpose        String
-  message        String       @default("")
+  message        String          @default("")
   items          String
   intervalMonths Int
+  // "interval": every intervalMonths. "startDate": each person offsetDays after their start
+  // date. "anniversary": each person every year on their start date.
+  trigger        String          @default("interval")
+  offsetDays     Int             @default(0)
   // Days each cycle stays open before it is due.
-  dueDays        Int          @default(14)
+  dueDays        Int             @default(14)
   // JSON: team ids whose members at each cycle are included, plus user ids picked by hand.
-  teamIds        String       @default("[]")
-  userIds        String       @default("[]")
+  teamIds        String          @default("[]")
+  userIds        String          @default("[]")
   nextRunAt      DateTime
-  active         Boolean      @default(true)
+  active         Boolean         @default(true)
   createdById    String
   rounds         Round[]
+  lifecycleSent  LifecycleSent[]
+  createdAt      DateTime        @default(now())
+}
+
+// Who a start-date schedule has already sent to, per cycle (0 for once, the year for anniversaries).
+model LifecycleSent {
+  schedule   RoundSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  scheduleId String
+  userId     String
+  cycle      Int
+  createdAt  DateTime      @default(now())
+
+  @@id([scheduleId, userId, cycle])
+}
+
+// A round being composed, saved as it's edited so it can be finished later.
+model RoundDraft {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  createdById    String
+  name           String       @default("")
+  // JSON: the composer's state.
+  data           String
   createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId])
 }
 
 // Answers in progress, saved as people go so they can resume on any device.

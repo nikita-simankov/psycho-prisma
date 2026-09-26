@@ -5,6 +5,7 @@ import {
   closeRound,
   copyAssignmentLink,
   remindAssignment,
+  remindNotStarted,
   removeAssignment,
   reopenRound,
 } from "@/actions/round/round-actions";
@@ -33,6 +34,7 @@ import { Bell, Copy, MoreHorizontal, Search, Trash2, UserPlus } from "lucide-rea
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { cn } from "@/utils/utils";
 
 function useErrorToast() {
   const common = useTranslations("common");
@@ -206,5 +208,71 @@ export function AddPeopleDialog({ roundId, people }: { roundId: string; people: 
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+const SEGMENTS = [
+  { key: "finished", className: "bg-success" },
+  { key: "started", className: "bg-primary" },
+  { key: "notStarted", className: "bg-muted-foreground/30" },
+  { key: "scheduled", className: "bg-primary/20" },
+] as const;
+
+// Live participation: who finished, started, hasn't begun or is waiting for working hours,
+// with one button to nudge everyone who hasn't started.
+export function RoundTracker({
+  roundId,
+  counts,
+  total,
+  waiting,
+  open,
+}: {
+  roundId: string;
+  counts: Record<(typeof SEGMENTS)[number]["key"], number>;
+  total: number;
+  waiting: number;
+  open: boolean;
+}) {
+  const t = useTranslations("rounds.tracker");
+  const router = useRouter();
+  const onError = useErrorToast();
+  const remind = useMutation({
+    mutationFn: () => remindNotStarted(roundId),
+    onSuccess: ({ reminded, emailed }) => {
+      router.refresh();
+      toast({ title: t("reminded", { count: reminded }), description: emailed < reminded ? t("notEmailed") : undefined });
+    },
+    onError,
+  });
+  const percent = total ? Math.round((counts.finished / total) * 100) : 0;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="font-heading text-4xl">{percent}%</span>
+        <span className="text-sm text-muted-foreground">{t("finished", { done: counts.finished, total })}</span>
+      </div>
+      <div className="flex h-2.5 gap-px overflow-hidden rounded-full bg-muted" role="img" aria-label={t("label", { percent })}>
+        {SEGMENTS.map(({ key, className }) =>
+          counts[key] ? <div key={key} className={className} style={{ width: `${(counts[key] / Math.max(total, 1)) * 100}%` }} /> : null
+        )}
+      </div>
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+        {SEGMENTS.filter(({ key }) => key !== "scheduled" || counts.scheduled > 0).map(({ key, className }) => (
+          <li key={key} className="flex items-center gap-2">
+            <span className={cn("size-2 rounded-full", className)} aria-hidden />
+            <span className="flex-1 text-muted-foreground">{t(`segments.${key}`)}</span>
+            <span className="font-mono">{counts[key]}</span>
+          </li>
+        ))}
+      </ul>
+      {waiting > 0 && <p className="text-sm text-muted-foreground">{t("waiting", { count: waiting })}</p>}
+      {open && counts.notStarted > 0 && (
+        <Button variant="outline" className="w-fit" disabled={remind.isPending} onClick={() => remind.mutate()}>
+          <Bell className="h-4 w-4" />
+          {t("remind", { count: counts.notStarted })}
+        </Button>
+      )}
+    </div>
   );
 }

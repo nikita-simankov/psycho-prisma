@@ -2,7 +2,6 @@ import { Section } from "@/components/page-templates";
 import { findAllUsers } from "@/actions/user/find-all-users-action";
 import { PageHeader } from "@/components/page-header";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import UserAvatar from "@/components/ui/user-avatar";
 import { ensureMember } from "@/utils/authentication";
@@ -14,10 +13,12 @@ import { Repeat } from "lucide-react";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AddPeopleDialog, AssignmentMenu, RoundStateButton } from "./round-controls";
+import { AddPeopleDialog, AssignmentMenu, RoundStateButton, RoundTracker } from "./round-controls";
+import { HealthChip } from "@/components/rounds/health-chip";
+import { roundHealth } from "@/utils/round-health";
 
-type Status = "finished" | "started" | "notStarted" | "overdue";
-const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: "outline", overdue: "destructive" } as const;
+type Status = "finished" | "started" | "notStarted" | "overdue" | "scheduled";
+const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: "outline", overdue: "destructive", scheduled: "outline" } as const;
 
 export default async function RoundPage(props: { params: Promise<{ roundId: string }> }) {
   const params = await props.params;
@@ -31,7 +32,8 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
     where: { id: params.roundId, organizationId: organization.id },
     include: {
       assignments: { include: { user: { select: publicUserSelect } }, orderBy: { createdAt: "asc" } },
-      schedule: { select: { intervalMonths: true } },
+      schedule: { select: { intervalMonths: true, trigger: true } },
+      _count: { select: { invitees: true } },
     },
   });
 
@@ -53,6 +55,8 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
     const count = done.get(assignment.id)?.size ?? 0;
     const status: Status = assignment.completedAt
       ? "finished"
+      : !assignment.invitedAt && assignment.sendAt
+        ? "scheduled"
       : round.dueAt && round.dueAt < now && !round.closedAt
         ? "overdue"
         : count
@@ -60,6 +64,14 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
           : "notStarted";
     return { assignment, total: own.length, count, status };
   });
+
+  const counts = {
+    finished,
+    started: rows.filter((row) => row.status === "started" || (row.status === "overdue" && row.count > 0)).length,
+    notStarted: rows.filter((row) => row.count === 0 && (row.status === "notStarted" || row.status === "overdue")).length,
+    scheduled: rows.filter((row) => row.status === "scheduled").length,
+  };
+  const health = roundHealth(round, { people: round.assignments.length, completed: finished }, now);
 
   const assigned = new Set(round.assignments.map((assignment) => assignment.userId));
   const addable = members
@@ -75,10 +87,13 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
         description={
           <span className="flex flex-wrap items-center gap-2">
             <Badge variant="secondary">{t(`purposes.${round.purpose}` as "purposes.development")}</Badge>
+            <HealthChip health={health} />
             {round.schedule && (
               <Badge variant="outline" className="gap-1">
                 <Repeat className="h-3 w-3" />
-                {t("cycleOf", { cycle: round.cycle, count: round.schedule.intervalMonths })}
+                {round.schedule.trigger === "interval"
+                  ? t("cycleOf", { cycle: round.cycle, count: round.schedule.intervalMonths })
+                  : t("automatic")}
               </Badge>
             )}
             {round.closedAt && <Badge variant="outline">{t("closedBadge")}</Badge>}
@@ -98,7 +113,13 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
       <div className="grid gap-10 lg:grid-cols-3">
         <Section title={t("progressLabel")} description={t("completedOf", { done: finished, total: round.assignments.length })} className="lg:col-span-1">
           <div className="flex flex-col gap-4">
-            <Progress value={finished} max={round.assignments.length} label={t("progressLabel")} />
+            <RoundTracker
+              roundId={round.id}
+              counts={counts}
+              total={round.assignments.length}
+              waiting={round._count.invitees}
+              open={!round.closedAt}
+            />
             <ul className="flex flex-col gap-2 text-sm">
               {items.map((item) => (
                 <li key={itemKey(item)} className="flex justify-between gap-2">

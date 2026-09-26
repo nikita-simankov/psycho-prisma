@@ -44,6 +44,8 @@ export async function createOwnedOrganization(userId: string, name: string) {
       nameKey: organizationNameKey(cleanName),
       slug: await uniqueSlug(cleanName),
       memberships: { create: { userId, role: "owner", consentedAt: new Date() } },
+      // New organizations send round emails in working hours; see src/utils/quiet-hours.ts.
+      quietHours: true,
       // Every new organization starts with a Business trial (src/utils/billing-rules.ts).
       subscription: { create: trialData() },
     },
