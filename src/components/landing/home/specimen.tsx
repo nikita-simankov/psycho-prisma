@@ -1,6 +1,7 @@
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/utils/utils";
 import { getTranslations } from "next-intl/server";
+import { ScrambleLabel } from "./kinetic";
 import { SplitHeading } from "./split-heading";
 
 const SCALES = [
@@ -21,8 +22,8 @@ export async function Specimen() {
     <section data-specimen className="mx-auto grid w-full max-w-[88rem] gap-12 px-4 py-20 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:py-16">
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-5">
-          <Eyebrow>{t("specimen.label")}</Eyebrow>
-          <SplitHeading text={t("specimen.title")} className="text-[clamp(2rem,4vw,3.75rem)] font-normal leading-[1.02]" />
+          <ScrambleLabel>{t("specimen.label")}</ScrambleLabel>
+          <SplitHeading text={t("specimen.title")} className="text-[clamp(2.25rem,4.4vw,4.25rem)] font-normal leading-[0.98] tracking-[-0.03em]" />
         </div>
         <ol className="flex flex-col border-t border-foreground/80">
           {NOTES.map((note, index) => (
@@ -37,7 +38,7 @@ export async function Specimen() {
         </ol>
       </div>
 
-      <figure data-reveal className="flex flex-col gap-4 self-center">
+      <figure data-reveal data-specimen-figure className="flex flex-col gap-4 self-center">
         <div className="flex flex-col gap-8 rounded-lg border bg-card p-6 sm:p-10">
           <div className="flex flex-wrap items-end justify-between gap-3 border-b pb-6">
             <div className="flex flex-col gap-2">

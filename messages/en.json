@@ -68,7 +68,13 @@
       "secondary": "See pricing",
       "note": "No card needed. You move to the Free plan when the trial ends, and keep your data.",
       "figure": "Fig. 1. Each line is one team's spread of scores. The blue line is a single person, read against everyone else.",
-      "scroll": "Scroll to read on"
+      "scroll": "Scroll to read on",
+      "rotate": [
+        "care",
+        "clarity",
+        "context"
+      ],
+      "hint": "Move across the lines, or tap them"
     },
     "manifesto": {
       "label": "Why it matters",
@@ -129,7 +135,8 @@
         "title": "Team analytics",
         "text": "Compare a person with their team and the organization, follow change between rounds, and save the views you use."
       },
-      "link": "Tour the product"
+      "link": "Tour the product",
+      "label": "The product"
     },
     "trust": {
       "title": "Built for sensitive data",
@@ -154,7 +161,8 @@
         "title": "Kept only as long as needed",
         "text": "Set how long results are kept. Every view and change is written to an audit log."
       },
-      "link": "How we protect your data"
+      "link": "How we protect your data",
+      "label": "Privacy"
     },
     "steps": {
       "title": "How a round works",
@@ -169,17 +177,20 @@
       "read": {
         "title": "Read the results",
         "text": "Reports are ready the moment someone finishes, and the round shows who is still to go."
-      }
+      },
+      "label": "The round"
     },
     "library": {
       "title": "From the library",
       "lead": "A few of the instruments you can send on day one. Each page explains what it measures and when to use it.",
-      "all": "All instruments"
+      "all": "All instruments",
+      "label": "Instruments"
     },
     "plans": {
       "title": "Priced by the people you assess",
       "lead": "Every plan includes staff seats. You pay for the number of people who take an assessment in a year.",
-      "link": "Compare plans"
+      "link": "Compare plans",
+      "label": "Pricing"
     },
     "cta": {
       "title": "Run your first round this week",
@@ -194,7 +205,9 @@
       "trial": "days of the Business plan to try, with no card"
     },
     "closing": {
-      "title": "Run your first round <em>this week</em>"
+      "title": "Run your first round <em>this week</em>",
+      "figure": "Fig. 3. A team's spread of scores, and one person read against it.",
+      "kicker": "Start today"
     }
   },
   "auth": {
