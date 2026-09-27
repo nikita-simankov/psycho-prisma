@@ -1,0 +1,14 @@
+import { getTranslations } from "next-intl/server";
+import { loadSettings } from "../load-settings";
+import { SettingsForm } from "../settings-form";
+
+export async function generateMetadata() {
+  const t = await getTranslations("settings.sections");
+  return { title: t("support") };
+}
+
+// What people see straight after a screening result that suggests they may need support.
+export default async function Page() {
+  const { initial, tests } = await loadSettings();
+  return <SettingsForm initial={initial} tests={tests} parts={["support"]} />;
+}

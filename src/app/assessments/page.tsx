@@ -12,6 +12,7 @@ import { cn } from "@/utils/utils";
 import { BarChart3, CheckCircle2, ChevronRight, CircleCheck, Circle, Clock, ListChecks } from "lucide-react";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { YouSaidWeDid } from "@/components/wellbeing/you-said-we-did";
 
 export async function generateMetadata() {
   const t = await getTranslations("assessments");
@@ -21,7 +22,7 @@ export async function generateMetadata() {
 // The respondent's home: what was sent to them and what they have finished.
 export default async function AssessmentsPage(props: { searchParams: Promise<{ done?: string }> }) {
   const searchParams = await props.searchParams;
-  const { user, organization } = await ensureMember();
+  const { user, organization, membership } = await ensureMember();
   const t = await getTranslations("assessments");
   const respondent = await getTranslations("respondent");
   const common = await getTranslations("common");
@@ -104,6 +105,7 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
               <CardHeader className="gap-1 pb-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <CardTitle className="text-xl">{assignment.round.name}</CardTitle>
+                  {assignment.round.anonymous && <Badge variant="outline">{respondent("anonymous")}</Badge>}
                   {assignment.round.dueAt && (
                     <Badge variant={overdue ? "destructive" : "secondary"} className="gap-1">
                       <Clock className="size-3" aria-hidden />
@@ -171,6 +173,8 @@ export default async function AssessmentsPage(props: { searchParams: Promise<{ d
           );
         })}
       </section>
+
+      <YouSaidWeDid organizationId={organization.id} teamId={membership.teamId} />
 
       {finished.length > 0 && (
         <section className="flex flex-col gap-4 border-t border-foreground/80 pt-4" aria-labelledby="done-heading">

@@ -14,6 +14,8 @@ export default async function SettingsLayout({ children }: { children: React.Rea
     { href: base, label: t("sections.general") },
     { href: `${base}/members`, label: t("sections.members") },
     { href: `${base}/privacy`, label: t("sections.privacy") },
+    { href: `${base}/wellbeing`, label: t("sections.wellbeing") },
+    { href: `${base}/support`, label: t("sections.support") },
     { href: `${base}/fields`, label: t("sections.fields") },
     ...(can(membership.role, "viewAudit") ? [{ href: `${base}/audit`, label: t("sections.audit") }] : []),
     { href: `${base}/billing`, label: t("sections.billing") },

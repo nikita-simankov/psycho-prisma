@@ -14,6 +14,8 @@ export type RoundDraftData = {
   dueDate: string;
   message: string;
   repeat: (typeof REPEATS)[number];
+  // Wellbeing rounds only.
+  anonymous: boolean;
 };
 
 export const EMPTY_ROUND: RoundDraftData = {
@@ -27,5 +29,6 @@ export const EMPTY_ROUND: RoundDraftData = {
   dueDate: "",
   message: "",
   repeat: "0",
+  anonymous: false,
 };
 
