@@ -2,6 +2,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ValidityPanel } from "@/components/validity-panel";
 import type { TestResult } from "@/utils/results";
 import type { ScaleRow } from "@/utils/scoring";
+import type { TargetBand } from "@/utils/target-profiles";
 import { cn } from "@/utils/utils";
 import { ChevronRight } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -22,10 +23,16 @@ export function TestResultSection({
   result,
   subtitle,
   showAnswers = true,
+  targets,
+  children,
 }: {
   result: TestResult;
   subtitle?: string;
   showAnswers?: boolean;
+  // A target profile's ranges, drawn on the profile.
+  targets?: TargetBand[];
+  // Shown after the header, such as how the result fits a target profile.
+  children?: React.ReactNode;
 }) {
   const t = useTranslations("report");
   const table = useTranslations("results.table");
@@ -45,6 +52,7 @@ export function TestResultSection({
         </h2>
       </header>
 
+      {children}
       {result.validity && <ValidityPanel validity={result.validity} />}
       <QualityWarnings warnings={result.warnings} quality={result.quality} />
 
@@ -80,7 +88,7 @@ export function TestResultSection({
       {result.rows.length > 0 ? (
         <div className="flex flex-col gap-2">
           <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-muted-foreground">{t("profile")}</h3>
-          <ScaleProfile rows={result.rows} info={result.info} />
+          <ScaleProfile rows={result.rows} info={result.info} targets={targets} />
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">{t("notScored")}</p>

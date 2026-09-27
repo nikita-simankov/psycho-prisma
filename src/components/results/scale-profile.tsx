@@ -2,7 +2,8 @@ import { normPosition } from "@/utils/norms";
 import { DEFAULT_RELIABILITY, NORM_SD, standardError } from "@/utils/psychometrics";
 import type { ScaleInfo } from "@/utils/results";
 import type { ScaleRow } from "@/utils/scoring";
-import { StenScale } from "@/components/ui/sten-scale";
+import { StenScale, TargetBracket } from "@/components/ui/sten-scale";
+import { bandsByScale, type TargetBand } from "@/utils/target-profiles";
 import { cn } from "@/utils/utils";
 import { useTranslations } from "next-intl";
 import { ScaleInfoButton } from "./scale-info";
@@ -10,17 +11,21 @@ import { ScaleInfoButton } from "./scale-info";
 // Each scale's score on its norm scale, with the average band shaded: stens as ten cells, T-scores
 // on a continuous track, each with its error band. Scales without norms show their raw score only.
 // Group averages pass errorBand={false}: the standard error describes one person's score.
+// A target profile's ranges, when given, show as a bracket above each targeted scale.
 export function ScaleProfile({
   rows,
   info,
   errorBand = true,
+  targets,
 }: {
   rows: ScaleRow[];
   info?: Record<number, ScaleInfo>;
   errorBand?: boolean;
+  targets?: TargetBand[];
 }) {
   const t = useTranslations("profileChart");
   const positioned = rows.map((row) => ({ row, position: normPosition(row) }));
+  const bands = bandsByScale(targets);
   const kinds = Array.from(new Set(positioned.flatMap((entry) => (entry.position ? [entry.position.kind] : []))));
 
   return (
@@ -31,6 +36,7 @@ export function ScaleProfile({
             position ? ((Math.min(position.max, Math.max(position.min, value)) - position.min) / (position.max - position.min)) * 100 : 0;
           const sem = position && errorBand ? standardError(NORM_SD[position.kind], info?.[row.scaleId]?.reliability ?? DEFAULT_RELIABILITY) : null;
           const round = (value: number) => Math.round(value * 10) / 10;
+          const target = position ? bands.get(row.scaleId) ?? null : null;
           const label = position
             ? [
                 t("aria", {
@@ -40,6 +46,7 @@ export function ScaleProfile({
                   band: t(`band.${position.band}`),
                 }),
                 sem ? t("errorRange", { from: round(Math.max(position.min, position.value - sem)), to: round(Math.min(position.max, position.value + sem)) }) : "",
+                target ? t("targetRange", { from: target.min, to: target.max }) : "",
               ]
                 .filter(Boolean)
                 .join(", ")
@@ -54,25 +61,28 @@ export function ScaleProfile({
               {position ? (
                 <>
                   {position.kind === "sten" ? (
-                    <StenScale value={position.value} sem={sem} label={label} />
+                    <StenScale value={position.value} sem={sem} target={target} label={label} />
                   ) : (
-                    <div className="relative h-6" role="img" aria-label={label}>
-                      <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-muted" />
-                      <div
-                        className="absolute top-1/2 h-4 -translate-y-1/2 border border-primary/15 bg-accent print:bg-gray-200"
-                        style={{ left: `${percent(position.averageFrom)}%`, width: `${percent(position.averageTo) - percent(position.averageFrom)}%` }}
-                      />
-                      {sem && (
+                    <div className="flex flex-col">
+                      {target && <TargetBracket from={percent(target.min)} to={percent(target.max)} />}
+                      <div className="relative h-6" role="img" aria-label={label}>
+                        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-muted" />
                         <div
-                          data-sem-band
-                          className="absolute bottom-0 h-1 rounded-full bg-primary/35 print:bg-gray-500"
-                          style={{ left: `${percent(position.value - sem)}%`, width: `${percent(position.value + sem) - percent(position.value - sem)}%` }}
+                          className="absolute top-1/2 h-4 -translate-y-1/2 border border-primary/15 bg-accent print:bg-gray-200"
+                          style={{ left: `${percent(position.averageFrom)}%`, width: `${percent(position.averageTo) - percent(position.averageFrom)}%` }}
                         />
-                      )}
-                      <div
-                        className="absolute top-1/2 h-5 w-2 -translate-x-1/2 -translate-y-1/2 bg-primary print:bg-gray-800"
-                        style={{ left: `${percent(position.value)}%` }}
-                      />
+                        {sem && (
+                          <div
+                            data-sem-band
+                            className="absolute bottom-0 h-1 rounded-full bg-primary/35 print:bg-gray-500"
+                            style={{ left: `${percent(position.value - sem)}%`, width: `${percent(position.value + sem) - percent(position.value - sem)}%` }}
+                          />
+                        )}
+                        <div
+                          className="absolute top-1/2 h-5 w-2 -translate-x-1/2 -translate-y-1/2 bg-primary print:bg-gray-800"
+                          style={{ left: `${percent(position.value)}%` }}
+                        />
+                      </div>
                     </div>
                   )}
                   <span className="flex items-baseline gap-1.5 text-sm sm:justify-end">
@@ -96,7 +106,7 @@ export function ScaleProfile({
       </div>
       {kinds.length > 0 && (
         <figcaption className="text-xs text-muted-foreground">
-          {[...kinds.map((kind) => t(`legend.${kind}`)), errorBand ? t("legend.errorBand") : ""].filter(Boolean).join(" ")}
+          {[...kinds.map((kind) => t(`legend.${kind}`)), errorBand ? t("legend.errorBand") : "", bands.size ? t("legend.target") : ""].filter(Boolean).join(" ")}
         </figcaption>
       )}
     </figure>

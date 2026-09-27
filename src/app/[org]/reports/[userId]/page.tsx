@@ -17,6 +17,10 @@ import { loadReport } from "./load-report";
 import { auditAs } from "@/utils/audit";
 import { ReportEditor, SaveVersionButton } from "./report-editor";
 import { ReportOutline } from "./report-outline";
+import { FeedbackDialog, ShareDialog, ShareList } from "./candidate-tools";
+import { prisma } from "@/utils/database";
+import { isHiringCandidate } from "@/utils/hiring";
+import { shareState } from "@/utils/share-links";
 
 type PathParams = { params: Promise<{ userId: string }> };
 
@@ -33,6 +37,15 @@ export default async function ReportPage(props: PathParams) {
   }
 
   await auditAs(context, "viewReport", { subjectId: user.id });
+  const hiring = await getTranslations("hiring");
+  // Candidates' reports can be shared by link, and candidates can be sent strengths feedback.
+  const candidate = await isHiringCandidate(context.organization.id, user.id);
+  const [shares, feedback] = candidate
+    ? await Promise.all([
+        prisma.reportShare.findMany({ where: { organizationId: context.organization.id, userId: user.id }, orderBy: { createdAt: "desc" } }),
+        prisma.sentFeedback.findMany({ where: { organizationId: context.organization.id, userId: user.id }, orderBy: { createdAt: "desc" } }),
+      ])
+    : [[], []];
 
   const write = can(context.membership.role, "writeConclusions");
   const latest = versions[0];
@@ -117,6 +130,7 @@ export default async function ReportPage(props: PathParams) {
             ...results.map((result) => ({ id: `result-${result.id}`, label: result.testName, hint: date(result.createdAt) })),
             { id: "conclusion", label: t("conclusion") },
             ...(versions.length ? [{ id: "versions", label: t("versions") }] : []),
+            ...(candidate ? [{ id: "hiring", label: hiring("candidate.title") }] : []),
           ]}
         />
         <div className="flex min-w-0 flex-col gap-12 print:gap-8">
@@ -151,6 +165,50 @@ export default async function ReportPage(props: PathParams) {
                   </li>
                 ))}
               </ul>
+            </section>
+          )}
+
+          {candidate && (
+            <section id="hiring" className="flex scroll-mt-20 flex-col gap-8 border-t border-foreground/80 pt-5 print:hidden">
+              <h2 className="text-2xl font-medium">{hiring("candidate.title")}</h2>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex max-w-[60ch] flex-col gap-1">
+                    <h3 className="font-medium">{hiring("share.title")}</h3>
+                    <p className="text-sm text-muted-foreground">{hiring("share.description")}</p>
+                  </div>
+                  <ShareDialog userId={user.id} />
+                </div>
+                <ShareList
+                  shares={shares.map((share) => ({
+                    id: share.id,
+                    recipient: share.recipient,
+                    state: shareState(share),
+                    expiresAt: share.expiresAt,
+                    views: share.views,
+                    lastViewedAt: share.lastViewedAt,
+                  }))}
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex max-w-[60ch] flex-col gap-1">
+                    <h3 className="font-medium">{hiring("feedback.title")}</h3>
+                    <p className="text-sm text-muted-foreground">{hiring("feedback.description")}</p>
+                  </div>
+                  <FeedbackDialog userId={user.id} name={formatFullName(user)} />
+                </div>
+                {feedback.length > 0 && (
+                  <ul className="divide-y border-y text-sm">
+                    {feedback.map((sent) => (
+                      <li key={sent.id} data-feedback-sent className="flex flex-wrap justify-between gap-2 py-2">
+                        <span>{hiring(sent.emailed ? "feedback.sentOn" : "feedback.recordedOn", { date: date(sent.createdAt) })}</span>
+                        <span className="text-muted-foreground">{(JSON.parse(sent.strengths) as string[]).join(", ") || hiring("feedback.noStrengths")}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </section>
           )}
         </div>

@@ -40,4 +40,12 @@ describe("renderEmail", () => {
     const { text } = await renderEmail({ ...content, quote: undefined });
     expect(text).not.toContain("Friday");
   });
+
+  it("renders an email with nothing to act on without a button or link", async () => {
+    const { html, text } = await renderEmail({ ...content, action: undefined });
+    expect(html).not.toContain("https://calibre.example/invite/abc");
+    expect(text).toBe(
+      ["Join Acme Ltd", "Acme Ltd has invited you to Calibre.", "Please finish before Friday's review.", "The link works for 7 days."].join("\n\n"),
+    );
+  });
 });

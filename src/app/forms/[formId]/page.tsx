@@ -4,6 +4,7 @@ import { ensureMember } from "@/utils/authentication";
 import { DataPromise } from "@/components/data-promise";
 import { findDraft } from "@/utils/drafts";
 import { roundJourney } from "@/utils/round-journey";
+import { YouSaidWeDid } from "@/components/wellbeing/you-said-we-did";
 import { notFound } from "next/navigation";
 
 type PathParams = {
@@ -20,7 +21,7 @@ export default async function Page(props: PathParams) {
     notFound();
   }
 
-  const { user, organization } = await ensureMember();
+  const { user, organization, membership } = await ensureMember();
   const [draft, journey] = await Promise.all([
     findDraft(user.id, organization.id, "form", form.id),
     roundJourney(searchParams.assignment, user.id, { kind: "form", id: form.id }),
@@ -35,7 +36,14 @@ export default async function Page(props: PathParams) {
       minutes={form.ttc}
       backHref="/assessments"
       journey={journey}
-      promise={journey ? <DataPromise organizationId={organization.id} /> : undefined}
+      promise={journey ? <DataPromise organizationId={organization.id} anonymous={journey.anonymous} /> : undefined}
+      anonymous={journey?.anonymous}
+      before={
+        // Before a pulse starts: what was done about the earlier ones.
+        journey?.purpose === "wellbeing" && journey.position === 1 ? (
+          <YouSaidWeDid organizationId={organization.id} teamId={membership.teamId} exceptRoundId={journey.roundId} compact />
+        ) : undefined
+      }
       answered={draft ? Object.keys(draft.answers).length : 0}
       startHref={`/forms/${form.id}/run${query}`}
     />

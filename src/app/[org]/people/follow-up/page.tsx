@@ -10,6 +10,7 @@ import { formatFullName, formatWorkInfo } from "@/utils/user";
 import { Lock } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { organizationBase } from "@/utils/organization-path";
+import { CareFlagList } from "@/components/wellbeing/care-flags";
 
 export async function generateMetadata() {
   const t = await getTranslations("dashboard.nav");
@@ -20,7 +21,7 @@ export async function generateMetadata() {
 export default async function FollowUpPage() {
   const base = await organizationBase();
   const t = await getTranslations("followUp");
-  await ensureMember("viewSensitive");
+  const context = await ensureMember("viewSensitive");
   const users = (await findAllUsers())
     .filter((user) => user.flag)
     .sort((a, b) => FLAGS.indexOf(b.flag as never) - FLAGS.indexOf(a.flag as never));
@@ -50,6 +51,9 @@ export default async function FollowUpPage() {
           }))}
         />
       </Card>
+      <div className="mt-10">
+        <CareFlagList context={context} />
+      </div>
     </>
   );
 }

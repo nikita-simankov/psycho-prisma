@@ -20,13 +20,17 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { organizationBase } from "@/utils/organization-path";
+import { FitSummary } from "@/components/hiring/fit";
+import { TargetPicker } from "@/components/hiring/target-picker";
+import { chooseTarget, loadTargetProfiles } from "@/utils/hiring";
+import { profileFit, targetKind } from "@/utils/target-profiles";
 
 type PathParams = {
   params: Promise<{
     testId: string;
     submissionId: string;
   }>;
-  searchParams: Promise<{ norms?: string }>;
+  searchParams: Promise<{ norms?: string; target?: string }>;
 };
 
 export default async function SubmissionPage(props: PathParams) {
@@ -35,6 +39,7 @@ export default async function SubmissionPage(props: PathParams) {
   const base = await organizationBase();
   const results = await getTranslations("results");
   const profile = await getTranslations("profile");
+  const hiring = await getTranslations("hiring");
   const [test, submission] = await Promise.all([
     findTestById(params.testId),
     findTestSubmissionById(params.submissionId),
@@ -47,9 +52,15 @@ export default async function SubmissionPage(props: PathParams) {
   const user = await findUserById(submission.userId);
   const rawTest = await prisma.test.findUniqueOrThrow({ where: { id: test.id } });
   const norms = await loadOrgNorms(context.organization.id, rawTest);
-  const source = (await props.searchParams).norms === "org" && hasOrgNorms(norms) ? "org" : "published";
+  const searchParams = await props.searchParams;
+  const source = searchParams.norms === "org" && hasOrgNorms(norms) ? "org" : "published";
+  // Target profiles only apply to tests with a norm scale that can go to hiring.
+  const targetable = targetKind(rawTest.strategy) !== null && !rawTest.sensitive;
+  const profiles = targetable ? await loadTargetProfiles(context.organization.id, test.id) : [];
+  const target = chooseTarget(profiles, searchParams.target);
   const result = buildTestResult(localizeTest(await testAsAnswered(rawTest, submission), await getLocale()), submission);
   const path = `${base}/tests/${test.id}/results/${submission.id}`;
+  const shown = source === "org" ? withOrgNorms(result, norms) : result;
   await auditAs(context, "viewTestResult", { subjectId: submission.userId, detail: { testId: test.id, submissionId: submission.id } });
 
   return (
@@ -68,12 +79,22 @@ export default async function SubmissionPage(props: PathParams) {
                 <Link href={`${base}/reports/${user.id}`}>{profile("openReport")}</Link>
               </Button>
             )}
+            {targetable && (
+              <Button variant="outline" asChild>
+                <Link href={`${path}/interview${target ? `?target=${target.id}` : ""}`}>{hiring("interview.open")}</Link>
+              </Button>
+            )}
             <PrintButton />
           </>
         }
       />
-      <NormsToggle current={source} norms={norms} hrefs={{ published: path, org: `${path}?norms=org` }} />
-      <TestResultSection result={source === "org" ? withOrgNorms(result, norms) : result} />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <NormsToggle current={source} norms={norms} hrefs={{ published: path, org: `${path}?norms=org` }} />
+        <TargetPicker profiles={profiles} current={target?.id ?? null} />
+      </div>
+      <TestResultSection result={shown} targets={target?.bands}>
+        {target && <FitSummary fit={profileFit(shown.rows, target.bands)} profileName={target.name} />}
+      </TestResultSection>
     </div>
   );
 }

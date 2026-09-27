@@ -23,6 +23,8 @@ import { AnalyticsFilters } from "./analytics-filters";
 import { ExportButton } from "./export-button";
 import { loadAnalytics } from "./load-analytics";
 import { SavedViews } from "./saved-views";
+import { WellbeingAlerts } from "@/components/wellbeing/wellbeing-alerts";
+import { can } from "@/utils/roles";
 
 export async function generateMetadata() {
   const t = await getTranslations("dashboard.nav");
@@ -101,6 +103,11 @@ export default async function AnalyticsPage(
           {t("privacy", { min: MIN_GROUP })}
         </p>
       </div>
+      {can(context.membership.role, "viewWellbeing") && (
+        <Section title={t("warnings.title")} description={t("warnings.text")}>
+          <WellbeingAlerts context={context} />
+        </Section>
+      )}
       <div className="grid gap-10 lg:grid-cols-2">
         <Section title={t("byRound")} description={t("byRoundText")}>
             <ParticipationBars bars={data.participation.byRound} />

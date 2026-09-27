@@ -13,6 +13,7 @@ import { ensureMember } from "@/utils/authentication";
 import { planHasFeature } from "@/utils/billing";
 import { can } from "@/utils/roles";
 import { canEdit } from "@/utils/studio-access";
+import { targetKind } from "@/utils/target-profiles";
 
 type PathParams = {
   params: Promise<{
@@ -27,6 +28,7 @@ export default async function TestPage(props: PathParams) {
   const respondent = await getTranslations("respondent");
   const common = await getTranslations("common");
   const studio = await getTranslations("studio");
+  const hiring = await getTranslations("hiring.targets");
   const context = await ensureMember();
   const test = await findTestById(params.testId);
 
@@ -56,6 +58,11 @@ export default async function TestPage(props: PathParams) {
               </>
             )}
             {copyable && <CopyInstrumentButton kind="test" id={test.id} />}
+            {can(context.membership.role, "manageRounds") && targetKind(test.strategy) && !test.sensitive && (
+              <Button variant="outline" asChild>
+                <Link href={`${base}/tests/${test.id}/targets`}>{hiring("title")}</Link>
+              </Button>
+            )}
             {can(context.membership.role, "manageRounds") && <SendInRound href={`${base}/rounds/new?test=${test.id}`} />}
             <Button variant="outline" asChild>
               <Link href={`/tests/${test.id}`}>{t("tryIt")}</Link>

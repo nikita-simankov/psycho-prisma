@@ -15,6 +15,8 @@ import { runRetention } from "./retention";
 import { sendInvitationReminders } from "./invitations";
 import { lifecycleDue, type LifecycleTrigger } from "./lifecycle";
 import { sendTime } from "./quiet-hours";
+import { runEarlyWarning } from "./early-warning";
+import { runDigests } from "./digest";
 
 export const PURPOSES = ["development", "hiring", "wellbeing"] as const;
 export type Purpose = (typeof PURPOSES)[number];
@@ -164,6 +166,8 @@ export type OpenRoundInput = {
   createdById: string;
   scheduleId?: string;
   cycle?: number;
+  // An anonymous wellbeing pulse (src/utils/pulse.ts).
+  anonymous?: boolean;
 };
 
 export type OpenRoundResult = {
@@ -188,6 +192,7 @@ export async function openRound(input: OpenRoundInput): Promise<OpenRoundResult>
       scheduleId: input.scheduleId,
       cycle: input.cycle ?? 1,
       createdById: input.createdById,
+      anonymous: input.anonymous ?? false,
     },
   });
 
@@ -280,9 +285,10 @@ export async function assignPendingRounds(organizationId: string, userId: string
   return pending.length;
 }
 
-// Which of each assignment's items already have a submission.
+// Which of each assignment's items already have a submission. Anonymous rounds keep only a
+// receipt that the item was answered.
 export async function submittedItems(assignmentIds: string[]) {
-  const [tests, forms] = await Promise.all([
+  const [tests, forms, receipts] = await Promise.all([
     prisma.testSubmission.findMany({
       where: { assignmentId: { in: assignmentIds } },
       select: { assignmentId: true, testId: true, createdAt: true },
@@ -291,6 +297,7 @@ export async function submittedItems(assignmentIds: string[]) {
       where: { assignmentId: { in: assignmentIds } },
       select: { assignmentId: true, formId: true, createdAt: true },
     }),
+    prisma.pulseReceipt.findMany({ where: { assignmentId: { in: assignmentIds } } }),
   ]);
 
   const done = new Map<string, Set<string>>();
@@ -301,6 +308,7 @@ export async function submittedItems(assignmentIds: string[]) {
   };
   tests.forEach((submission) => add(submission.assignmentId, `test:${submission.testId}`));
   forms.forEach((submission) => add(submission.assignmentId, `form:${submission.formId}`));
+  receipts.forEach((receipt) => add(receipt.assignmentId, receipt.item));
 
   return done;
 }
@@ -389,6 +397,7 @@ export async function runSchedules(now = new Date()) {
       createdById: schedule.createdById,
       scheduleId: schedule.id,
       cycle: schedule._count.rounds + 1,
+      anonymous: schedule.anonymous,
     });
   }
 
@@ -530,6 +539,7 @@ export async function runLifecycle(now = new Date()) {
       userIds: fresh.map((entry) => entry.userId),
       createdById: rule.createdById,
       scheduleId: rule.id,
+      anonymous: rule.anonymous,
     });
     opened += 1;
   }
@@ -555,7 +565,9 @@ export async function runMaintenance(now = new Date()) {
   const invitations = await cleanupInvitations(now);
   const invitationReminders = await sendInvitationReminders(now);
   const retention = await runRetention(now);
-  return { schedules, lifecycle, queued, reminders, invitations, invitationReminders, retention };
+  const earlyWarnings = await runEarlyWarning(now);
+  const digests = await runDigests(now);
+  return { schedules, lifecycle, queued, reminders, invitations, invitationReminders, retention, earlyWarnings, digests };
 }
 
 export type ItemInfo = { name: string; minutes: number; questionCount: number; sensitive: boolean };

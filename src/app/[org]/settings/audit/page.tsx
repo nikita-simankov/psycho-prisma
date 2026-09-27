@@ -124,7 +124,8 @@ export default async function AuditPage(
         dateStyle: "medium",
         timeStyle: "short",
       }),
-      actor: personCell(event.actorId, t("system")),
+      // Share-link views come from someone without an account.
+      actor: personCell(event.actorId, event.action === "viewSharedReport" ? t("shareVisitor") : t("system")),
       subject: personCell(event.subjectId, "—"),
       action: t(`actions.${event.action as AuditAction}`),
       about: [
@@ -137,6 +138,7 @@ export default async function AuditPage(
           }),
         detail.deleted && t("deleted", { count: Number(detail.deleted) }),
         detail.kind === "candidate" && t("candidateErased"),
+        detail.recipient && t("shareRecipient", { recipient: detail.recipient }),
       ]
         .filter(Boolean)
         .join(" · "),

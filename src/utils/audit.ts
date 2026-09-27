@@ -13,6 +13,8 @@ export const AUDIT_ACTIONS = [
   // People and roles.
   "changeMembership",
   "changeFlag",
+  "raiseCareFlag",
+  "resolveCareFlag",
   "removeMember",
   "leaveOrganization",
   "transferOwnership",
@@ -27,6 +29,11 @@ export const AUDIT_ACTIONS = [
   "publishInstrument",
   // Plan and billing.
   "changePlan",
+  // Hiring: report share links (each view by the recipient too) and feedback to candidates.
+  "createReportShare",
+  "revokeReportShare",
+  "viewSharedReport",
+  "sendCandidateFeedback",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];

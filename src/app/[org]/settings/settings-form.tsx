@@ -7,7 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CUSTOM_FIELD_TYPES, fieldKey, type CustomField } from "@/utils/profile-fields";
 import { CANDIDATE_RETENTION_OPTIONS, RETENTION_OPTIONS } from "@/utils/retention-rules";
-import { Plus, Trash2 } from "lucide-react";
+import { DEFAULT_RULES, DIRECTIONS, WEEKDAYS, type SupportLink, type WellbeingRule } from "@/utils/wellbeing";
+import { Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { Section } from "@/components/page-templates";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MIN_GROUP } from "@/utils/results";
 
 type Settings = {
   name: string;
@@ -28,7 +31,15 @@ type Settings = {
   candidateRetentionMonths: number;
   quietHours: boolean;
   timeZone: string;
+  wellbeingRules: WellbeingRule[];
+  digestEnabled: boolean;
+  digestWeekday: number;
+  supportText: string;
+  supportContacts: string;
+  supportLinks: SupportLink[];
 };
+
+export type RuleTest = { id: string; name: string; scales: { id: number; name: string }[] };
 
 // Every time zone the browser knows, for the organization's default.
 function timeZones() {
@@ -94,17 +105,121 @@ function CustomFieldRow({
   );
 }
 
-export type SettingsPart = "general" | "sending" | "privacy" | "retention" | "fields";
+// One wellbeing rule: the scale it reads, which way is worse, and the three levels.
+function RuleRow({
+  rule,
+  tests,
+  onChange,
+  onRemove,
+}: {
+  rule: WellbeingRule;
+  tests: RuleTest[];
+  onChange: (rule: WellbeingRule) => void;
+  onRemove: () => void;
+}) {
+  const t = useTranslations("settings.warnings");
+  const test = tests.find((entry) => entry.id === rule.testId);
+  const scale = test?.scales.find((entry) => entry.id === rule.scaleId);
+  const name = rule.label || scale?.name || t("rule");
+  const level = (key: "team" | "drop" | "person") => (
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor={`${key}-${rule.id}`}>{t(key)}</Label>
+      <Input
+        id={`${key}-${rule.id}`}
+        type="number"
+        step="any"
+        min={key === "drop" ? 0 : undefined}
+        placeholder={t("off")}
+        value={rule[key] ?? ""}
+        onChange={(event) => onChange({ ...rule, [key]: event.target.value === "" ? null : Number(event.target.value) })}
+      />
+    </div>
+  );
+
+  return (
+    <fieldset className="grid gap-3 rounded-lg border p-3 sm:grid-cols-2" data-rule={rule.id}>
+      <legend className="sr-only">{name}</legend>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor={`test-${rule.id}`}>{t("test")}</Label>
+        <Select
+          value={rule.testId}
+          onValueChange={(testId) => onChange({ ...rule, testId, scaleId: tests.find((entry) => entry.id === testId)?.scales[0]?.id ?? 1 })}
+        >
+          <SelectTrigger id={`test-${rule.id}`}>
+            <SelectValue placeholder={t("chooseTest")} />
+          </SelectTrigger>
+          <SelectContent>
+            {tests.map((entry) => (
+              <SelectItem key={entry.id} value={entry.id}>
+                {entry.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor={`scale-${rule.id}`}>{t("scale")}</Label>
+        <Select value={String(rule.scaleId)} onValueChange={(value) => onChange({ ...rule, scaleId: Number(value) })}>
+          <SelectTrigger id={`scale-${rule.id}`}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {(test?.scales ?? []).map((entry) => (
+              <SelectItem key={entry.id} value={String(entry.id)}>
+                {entry.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor={`label-${rule.id}`}>{t("label")}</Label>
+        <Input id={`label-${rule.id}`} maxLength={60} placeholder={scale?.name ?? t("labelHint")} value={rule.label} onChange={(event) => onChange({ ...rule, label: event.target.value })} />
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor={`direction-${rule.id}`}>{t("direction")}</Label>
+        <Select value={rule.direction} onValueChange={(direction) => onChange({ ...rule, direction: direction as WellbeingRule["direction"] })}>
+          <SelectTrigger id={`direction-${rule.id}`}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {DIRECTIONS.map((direction) => (
+              <SelectItem key={direction} value={direction}>
+                {t(`directions.${direction}`)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="grid gap-3 sm:col-span-2 sm:grid-cols-3">
+        {level("team")}
+        {level("drop")}
+        {level("person")}
+      </div>
+      <div className="flex items-center justify-between gap-3 sm:col-span-2">
+        <p className="text-xs text-muted-foreground">{t("levelsHint")}</p>
+        <Button type="button" variant="ghost" size="sm" onClick={onRemove} aria-label={t("remove", { name })}>
+          <Trash2 className="size-4" />
+        </Button>
+      </div>
+    </fieldset>
+  );
+}
+
+export type SettingsPart = "general" | "sending" | "privacy" | "retention" | "fields" | "warnings" | "digest" | "support";
 
 // The organization's settings, one settings section at a time. Every part saves the whole set, so
 // the parts not shown keep their values.
 export function SettingsForm({
   initial,
   tests,
+  ruleTests = [],
   parts,
 }: {
   initial: Settings;
   tests: { id: string; name: string }[];
+  // Tests wellbeing rules can read, with their scales.
+  ruleTests?: RuleTest[];
   parts: SettingsPart[];
 }) {
   const t = useTranslations("settings");
@@ -116,7 +231,8 @@ export function SettingsForm({
 
   const mutation = useMutation({
     mutationFn: async () => {
-      return (await updateOrganizationSettings(values)).slug;
+      // Rules are sent only from their own section, so saving elsewhere never rewrites them.
+      return (await updateOrganizationSettings(parts.includes("warnings") ? values : { ...values, wellbeingRules: undefined })).slug;
     },
     onSuccess: (slug) => {
       toast({ title: t("saved") });
@@ -308,6 +424,167 @@ export function SettingsForm({
                 {t("fields.add")}
               </Button>
             )}
+          </div>
+        </Section>
+      )}
+      {parts.includes("warnings") && (
+        <Section title={t("warnings.title")} description={t("warnings.text", { min: MIN_GROUP })}>
+          <div className="flex flex-col gap-3">
+            {values.wellbeingRules.map((rule, index) => (
+              <RuleRow
+                key={rule.id}
+                rule={rule}
+                tests={ruleTests}
+                onChange={(next) => setValues({ ...values, wellbeingRules: values.wellbeingRules.map((entry, i) => (i === index ? next : entry)) })}
+                onRemove={() => setValues({ ...values, wellbeingRules: values.wellbeingRules.filter((_, i) => i !== index) })}
+              />
+            ))}
+            <div className="flex flex-wrap gap-2">
+              {values.wellbeingRules.length < 50 && ruleTests.length > 0 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() =>
+                    setValues({
+                      ...values,
+                      wellbeingRules: [
+                        ...values.wellbeingRules,
+                        {
+                          id: `rule-${Date.now().toString(36)}`,
+                          label: "",
+                          testId: ruleTests[0].id,
+                          scaleId: ruleTests[0].scales[0]?.id ?? 1,
+                          direction: "high",
+                          team: null,
+                          drop: null,
+                          person: null,
+                        },
+                      ],
+                    })
+                  }
+                >
+                  <Plus className="size-4" />
+                  {t("warnings.add")}
+                </Button>
+              )}
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() =>
+                  setValues({ ...values, wellbeingRules: DEFAULT_RULES.filter((rule) => ruleTests.some((test) => test.id === rule.testId)) })
+                }
+              >
+                <RotateCcw className="size-4" />
+                {t("warnings.defaults")}
+              </Button>
+            </div>
+          </div>
+        </Section>
+      )}
+      {parts.includes("digest") && (
+        <Section title={t("digest.title")} description={t("digest.text", { min: MIN_GROUP })}>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-start justify-between gap-4 rounded-lg border bg-card p-4">
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="digest-enabled">{t("digest.enabled")}</Label>
+                <p className="text-sm text-muted-foreground">{t("digest.enabledText")}</p>
+              </div>
+              <Switch id="digest-enabled" checked={values.digestEnabled} onCheckedChange={(checked) => setValues({ ...values, digestEnabled: checked })} />
+            </div>
+            <div className="flex flex-col gap-1.5 sm:max-w-xs">
+              <Label htmlFor="digest-weekday">{t("digest.weekday")}</Label>
+              <Select
+                value={String(values.digestWeekday)}
+                disabled={!values.digestEnabled}
+                onValueChange={(value) => setValues({ ...values, digestWeekday: Number(value) })}
+              >
+                <SelectTrigger id="digest-weekday">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {WEEKDAYS.map((day) => (
+                    <SelectItem key={day} value={String(day)}>
+                      {t(`digest.days.${day}` as "digest.days.1")}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </Section>
+      )}
+      {parts.includes("support") && (
+        <Section title={t("support.title")} description={t("support.text")}>
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="support-text">{t("support.message")}</Label>
+              <Textarea
+                id="support-text"
+                rows={4}
+                maxLength={2000}
+                placeholder={t("support.messagePlaceholder")}
+                value={values.supportText}
+                onChange={(event) => setValues({ ...values, supportText: event.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="support-contacts">{t("support.contacts")}</Label>
+              <Textarea
+                id="support-contacts"
+                rows={3}
+                maxLength={1000}
+                placeholder={t("support.contactsPlaceholder")}
+                value={values.supportContacts}
+                onChange={(event) => setValues({ ...values, supportContacts: event.target.value })}
+              />
+            </div>
+            <fieldset className="flex flex-col gap-3">
+              <legend className="mb-1 text-sm font-medium">{t("support.links")}</legend>
+              {values.supportLinks.map((link, index) => {
+                const change = (next: Partial<SupportLink>) =>
+                  setValues({ ...values, supportLinks: values.supportLinks.map((entry, i) => (i === index ? { ...entry, ...next } : entry)) });
+                return (
+                  <div key={index} className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_auto] sm:items-end">
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={`link-label-${index}`}>{t("support.linkLabel")}</Label>
+                      <Input id={`link-label-${index}`} required maxLength={80} value={link.label} onChange={(event) => change({ label: event.target.value })} />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={`link-url-${index}`}>{t("support.linkUrl")}</Label>
+                      <Input
+                        id={`link-url-${index}`}
+                        required
+                        maxLength={500}
+                        pattern="(https?://|mailto:|tel:).+"
+                        placeholder="https://"
+                        value={link.url}
+                        onChange={(event) => change({ url: event.target.value })}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label={t("support.removeLink", { label: link.label || t("support.linkLabel") })}
+                      onClick={() => setValues({ ...values, supportLinks: values.supportLinks.filter((_, i) => i !== index) })}
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </div>
+                );
+              })}
+              {values.supportLinks.length < 10 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-fit"
+                  onClick={() => setValues({ ...values, supportLinks: [...values.supportLinks, { label: "", url: "" }] })}
+                >
+                  <Plus className="size-4" />
+                  {t("support.addLink")}
+                </Button>
+              )}
+            </fieldset>
           </div>
         </Section>
       )}

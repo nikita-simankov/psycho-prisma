@@ -13,7 +13,7 @@ export async function roundJourney(assignmentId: string | undefined, userId: str
   if (!assignmentId) return null;
   const assignment = await prisma.assignment.findFirst({
     where: { id: assignmentId, userId },
-    include: { round: { select: { name: true } } },
+    include: { round: { select: { id: true, name: true, purpose: true, anonymous: true } } },
   });
   if (!assignment) return null;
 
@@ -24,6 +24,9 @@ export async function roundJourney(assignmentId: string | undefined, userId: str
 
   return {
     round: assignment.round.name,
+    roundId: assignment.round.id,
+    purpose: assignment.round.purpose,
+    anonymous: assignment.round.anonymous,
     position: index + 1,
     total: items.length,
     // The first unfinished item, or null when everything is done.

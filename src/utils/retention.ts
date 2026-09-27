@@ -23,6 +23,8 @@ export async function runRetention(now = new Date()) {
         prisma.testSubmission.deleteMany({ where: before }),
         prisma.formSubmission.deleteMany({ where: before }),
         prisma.reportVersion.deleteMany({ where: before }),
+        // Anonymous answers keep no date of their own, so their round's date counts.
+        prisma.pulseResponse.deleteMany({ where: { organizationId: organization.id, round: { createdAt: { lt: resultsCutoff } } } }),
         prisma.draft.deleteMany({ where: { organizationId: organization.id, updatedAt: { lt: resultsCutoff } } }),
       ]);
       const deleted = counts.reduce((sum, count) => sum + count.count, 0);

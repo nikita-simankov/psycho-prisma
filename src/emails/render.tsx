@@ -10,7 +10,7 @@ export async function renderEmail(content: EmailContent) {
     content.heading,
     ...content.paragraphs,
     content.quote ?? "",
-    `${content.action.label}: ${content.action.url}`,
+    content.action ? `${content.action.label}: ${content.action.url}` : "",
     ...content.notes,
   ]
     .filter(Boolean)
