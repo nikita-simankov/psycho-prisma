@@ -20,7 +20,8 @@ export type EmailContent = {
   paragraphs: string[];
   // A quoted note from the sender, such as a round's message.
   quote?: string;
-  action: { label: string; url: string };
+  // Left out for emails that only inform, such as feedback to a candidate.
+  action?: { label: string; url: string };
   // Small print under the button: how long the link works, what to do if unexpected.
   notes: string[];
 };
@@ -47,19 +48,21 @@ export function CalibreEmail({ preview, sender, heading, paragraphs, quote, acti
                 {quote}
               </Text>
             )}
-            <Button
-              href={action.url}
-              style={{ backgroundColor: COBALT, color: "#ffffff", fontSize: 15, fontWeight: 500, borderRadius: 4, padding: "12px 20px", marginTop: 8, display: "inline-block" }}
-            >
-              {action.label}
-            </Button>
+            {action && (
+              <Button
+                href={action.url}
+                style={{ backgroundColor: COBALT, color: "#ffffff", fontSize: 15, fontWeight: 500, borderRadius: 4, padding: "12px 20px", marginTop: 8, display: "inline-block" }}
+              >
+                {action.label}
+              </Button>
+            )}
             <Hr style={{ borderColor: RULE, margin: "28px 0 16px" }} />
             {notes.map((note, index) => (
               <Text key={index} style={{ fontSize: 13, lineHeight: "20px", color: MUTED, margin: "0 0 6px" }}>
                 {note}
               </Text>
             ))}
-            <Text style={{ fontSize: 12, lineHeight: "18px", color: MUTED, margin: "12px 0 0", wordBreak: "break-all" }}>{action.url}</Text>
+            {action && <Text style={{ fontSize: 12, lineHeight: "18px", color: MUTED, margin: "12px 0 0", wordBreak: "break-all" }}>{action.url}</Text>}
           </Section>
           <Text style={{ fontFamily: SERIF, fontSize: 13, color: MUTED, margin: "16px 0 0", textAlign: "center" }}>Calibre</Text>
         </Container>

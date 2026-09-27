@@ -14,6 +14,9 @@ export function eraseInOrganization(userId: string, organizationId: string) {
     prisma.userSummary.deleteMany({ where: scope }),
     prisma.reportVersion.deleteMany({ where: scope }),
     prisma.analyticsView.deleteMany({ where: scope }),
+    // Share links to their report stop working with it; the feedback they were sent is forgotten.
+    prisma.reportShare.deleteMany({ where: scope }),
+    prisma.sentFeedback.deleteMany({ where: scope }),
     prisma.assignment.deleteMany({ where: { userId, round: { organizationId } } }),
     // Nobody keeps pointing at them as their manager.
     prisma.membership.updateMany({ where: { organizationId, managerId: userId }, data: { managerId: null } }),

@@ -16,13 +16,16 @@ import { notFound } from "next/navigation";
 import { AddPeopleDialog, AssignmentMenu, RoundStateButton, RoundTracker } from "./round-controls";
 import { HealthChip } from "@/components/rounds/health-chip";
 import { roundHealth } from "@/utils/round-health";
+import { can } from "@/utils/roles";
+import { CandidateResults } from "./candidate-results";
 
 type Status = "finished" | "started" | "notStarted" | "overdue" | "scheduled";
 const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: "outline", overdue: "destructive", scheduled: "outline" } as const;
 
 export default async function RoundPage(props: { params: Promise<{ roundId: string }> }) {
   const params = await props.params;
-  const { organization } = await ensureMember("manageRounds");
+  const context = await ensureMember("manageRounds");
+  const { organization } = context;
   const base = await organizationBase();
   const t = await getTranslations("rounds");
   const format = await getFormatter();
@@ -191,6 +194,16 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
           </div>
         </Section>
       </div>
+
+      {round.purpose === "hiring" && can(context.membership.role, "viewIndividualResults") && (
+        <CandidateResults
+          context={context}
+          base={base}
+          items={items}
+          assignmentIds={round.assignments.map((assignment) => assignment.id)}
+          members={members}
+        />
+      )}
     </div>
   );
 }

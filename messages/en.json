@@ -835,6 +835,18 @@
       "action": "Confirm my email",
       "expires": "The link works for {hours} hours.",
       "ignore": "If you didn't sign up for Calibre, you can ignore this email."
+    },
+    "feedback": {
+      "subject": "Thank you from {organization}",
+      "preview": "A short note from {organization} on your strengths.",
+      "heading": "Thank you, {name}",
+      "thanks": "Thank you for the time and care you gave to the assessments for {organization}.",
+      "intro": "Here are some areas that came through as your strengths:",
+      "marked": "{scale}: this stood out as a particular strength.",
+      "clear": "{scale}: this came through as a strength.",
+      "noStrengths": "We appreciated how carefully you answered.",
+      "closing": "We wish you every success in your next steps.",
+      "aboutSummary": "This summary comes from a questionnaire and describes tendencies, not a verdict. It contains no scores."
     }
   },
   "roleHints": {
@@ -1380,10 +1392,12 @@
     "legend": {
       "sten": "Stens run from 1 to 10; the shaded band (4–7) is the average range.",
       "t": "T-scores run from 20 to 80; the shaded band (40–60) is the average range.",
-      "errorBand": "The thin bar under each score spans ± one standard error of measurement, where the true score most likely lies."
+      "errorBand": "The thin bar under each score spans ± one standard error of measurement, where the true score most likely lies.",
+      "target": "The green bracket above a scale marks the target profile's range."
     },
     "errorRange": "likely range {from}–{to}",
-    "strip": "Profile: {scales}"
+    "strip": "Profile: {scales}",
+    "targetRange": "target range {from}–{to}"
   },
   "quality": {
     "title": "Check how these answers were given",
@@ -1586,8 +1600,14 @@
       "publishInstrument": "Published a test or questionnaire",
       "changePlan": "Plan changed",
       "createJoinLink": "Created a join link",
-      "revokeJoinLink": "Revoked a join link"
-    }
+      "revokeJoinLink": "Revoked a join link",
+      "createReportShare": "Shared a report by link",
+      "revokeReportShare": "Revoked a report link",
+      "viewSharedReport": "Report opened by link",
+      "sendCandidateFeedback": "Sent feedback to a candidate"
+    },
+    "shareVisitor": "Link recipient",
+    "shareRecipient": "For: {recipient}"
   },
   "studio": {
     "import": "Import from Excel",
@@ -2297,5 +2317,187 @@
     "orgNote": "Scores are compared with the latest results of {count, plural, one {# person} other {# people}} in your organization. Interpretation texts still follow the published norms.",
     "publishedNote": "Scores are compared with the test's published norm group.",
     "noSpread": "Scores here barely vary yet, so your organization's own norms can't be built."
+  },
+  "hiring": {
+    "candidate": {
+      "title": "Hiring"
+    },
+    "targets": {
+      "title": "Target profiles",
+      "description": "The range a role calls for on each scale, such as “Sales role”. Candidates' results show how many of their scales fall inside it.",
+      "pickerLabel": "Target profile",
+      "noTarget": "No target profile",
+      "empty": "No target profiles yet",
+      "emptyText": "Create one to see how each candidate's result fits a role.",
+      "noNormsTitle": "No norm scale",
+      "noNorms": "This test is scored in raw points only, so it can't have target ranges.",
+      "new": "New profile",
+      "createTitle": "New target profile",
+      "editTitle": "Edit {name}",
+      "editLabel": "Edit the profile {name}",
+      "delete": "Delete",
+      "deleteLabel": "Delete the profile {name}",
+      "name": "Name",
+      "namePlaceholder": "Sales role",
+      "scales": "Scales and their target ranges",
+      "targetScale": "Set a target for {scale}",
+      "from": "From, {scale}",
+      "to": "To, {scale}",
+      "questions": "Interview questions",
+      "lowQuestions": "When the score is below the range",
+      "highQuestions": "When the score is above the range",
+      "questionsHint": "One question per line, for the interview guide. Leave empty to use the general questions.",
+      "pickOne": "Set a target for at least one scale.",
+      "save": "Save profile",
+      "saved": "Target profile saved",
+      "band": "{scale} {from}–{to}",
+      "changed": "Changed {date}",
+      "kind": {
+        "sten": "Ranges are in stens, from 1 to 10.",
+        "t": "Ranges are in T-scores, from 20 to 80."
+      },
+      "errors": {
+        "unknownTest": "This test can't have target profiles.",
+        "noNorms": "This test is scored in raw points only, so it can't have target ranges.",
+        "invalidBand": "Check the ranges: each must stay within the scale and start no higher than it ends.",
+        "notFound": "This profile no longer exists."
+      }
+    },
+    "fit": {
+      "short": "{inside} of {total} in range",
+      "title": "Fit with {profile}",
+      "nothing": "None of this profile's scales has a norm score in this result.",
+      "level": {
+        "strong": "In range on {inside} of {total, plural, one {# targeted scale} other {# targeted scales}}: a close fit.",
+        "partial": "In range on {inside} of {total, plural, one {# targeted scale} other {# targeted scales}}: a partial fit.",
+        "weak": "In range on {inside} of {total, plural, one {# targeted scale} other {# targeted scales}}: a loose fit."
+      },
+      "status": {
+        "inside": "In range",
+        "below": "Below {from}–{to}",
+        "above": "Above {from}–{to}",
+        "missing": "No norm score"
+      }
+    },
+    "compare": {
+      "select": "Compare {name}",
+      "hint": "{count, plural, =0 {Tick 2 to 4 people to compare them side by side.} one {# ticked. Tick at least one more.} other {# ticked.}}",
+      "tooMany": "Up to {max} people can be compared at once.",
+      "button": "Compare",
+      "title": "Side by side",
+      "description": "{count, plural, one {# person} other {# people}} on the same scales",
+      "tooFew": "Pick {min} to {max} results to compare",
+      "tooFewText": "Tick people in the results of this test or in a hiring round, then press Compare.",
+      "scale": "Scale",
+      "target": "Target {from}–{to}"
+    },
+    "interview": {
+      "open": "Interview guide",
+      "title": "Interview guide",
+      "intro": "Follow-up questions for scales outside the target range or at either end of the scale. Scores describe tendencies, so ask for examples rather than confirmation.",
+      "withProfile": "Read against the profile {profile}.",
+      "withoutProfile": "No target profile is chosen, so only very low and very high scores are listed.",
+      "none": "Nothing stands out: every scale is inside its target range and away from the ends of the scale. Use your usual structured questions.",
+      "reason": {
+        "belowTarget": "Below the target {from}–{to}",
+        "aboveTarget": "Above the target {from}–{to}",
+        "extremeLow": "Very low",
+        "extremeHigh": "Very high"
+      },
+      "generic": {
+        "low1": "Tell me about a recent situation at work that called for what “{scale}” describes. What did you do, and how did it turn out?",
+        "low2": "When this doesn't come easily to you, what do you do to make up for it? Give an example.",
+        "high1": "Tell me about a time when your strength in “{scale}” helped you, and a time when it got in the way.",
+        "high2": "How do you notice that you are leaning on it too much, and what do you do then?"
+      },
+      "caution": "A questionnaire result is one source among several. Decide on the whole picture, never on a single score."
+    },
+    "round": {
+      "title": "Candidates' results",
+      "description": "Tick 2 to 4 candidates who took the same test to compare them side by side.",
+      "fitWith": "Fit with {profile}",
+      "noProfile": "Add a target profile to see how each candidate fits the role."
+    },
+    "share": {
+      "title": "Share with a hiring manager",
+      "description": "A read-only link to this report that also needs a 6-digit code. The recipient needs no account, and every view is recorded in the audit log.",
+      "button": "Share report",
+      "recipient": "Who it's for",
+      "recipientPlaceholder": "Dana, sales lead",
+      "days": "Link works for",
+      "daysOption": "{count, plural, one {# day} other {# days}}",
+      "includeConclusion": "Include the conclusion",
+      "create": "Create link",
+      "createdTitle": "Link ready",
+      "createdText": "Send the link and the code separately, for example the link by email and the code by phone. They are shown only now.",
+      "link": "Link",
+      "code": "Access code",
+      "copy": "Copy",
+      "copyLabel": "Copy: {what}",
+      "copied": "Copied",
+      "done": "Done",
+      "expires": "Works until {date}",
+      "views": "{count, plural, =0 {Not opened yet} one {Opened # time} other {Opened # times}}",
+      "lastViewed": "last {date}",
+      "state": {
+        "active": "Active",
+        "expired": "Expired",
+        "revoked": "Revoked",
+        "locked": "Locked"
+      },
+      "revoke": "Revoke",
+      "revokeLabel": "Revoke the link for {recipient}",
+      "revoked": "Link revoked",
+      "noRecipient": "Unnamed recipient",
+      "errors": {
+        "notCandidate": "Only reports of people from hiring rounds can be shared.",
+        "noResults": "There are no results to share yet."
+      }
+    },
+    "feedback": {
+      "title": "Feedback for the candidate",
+      "description": "A short, kind summary of their stronger areas in plain words, emailed to them. It never includes scores or weaknesses.",
+      "button": "Prepare feedback",
+      "previewTitle": "Feedback for {name}",
+      "previewLabel": "Email preview",
+      "loading": "Preparing the preview…",
+      "to": "To: {email}",
+      "subject": "Subject: {subject}",
+      "note": "A few words of your own (optional)",
+      "notePlaceholder": "It was a pleasure to meet you.",
+      "refresh": "Update preview",
+      "send": "Send feedback",
+      "sent": "Feedback sent to {name}",
+      "notEmailed": "Feedback recorded, but the email couldn't be sent. Check that email is set up.",
+      "sentOn": "Sent {date}",
+      "recordedOn": "Recorded {date}, not emailed",
+      "noStrengths": "General thanks",
+      "errors": {
+        "notCandidate": "Feedback can only go to people from hiring rounds who have an email address.",
+        "emailUnverified": "Confirm your email address before sending emails to other people."
+      }
+    },
+    "shared": {
+      "metaTitle": "Shared report",
+      "eyebrow": "Shared report",
+      "codeTitle": "Enter the access code",
+      "codeText": "{organization} shared a candidate's report with you. Enter the 6-digit code you were given separately from the link.",
+      "codeLabel": "Access code",
+      "open": "Open report",
+      "from": "Shared by {organization}",
+      "expires": "This link works until {date}.",
+      "confidential": "Confidential. This report is about a real person: use it only for this hiring decision and don't pass the link on.",
+      "formerCandidate": "Candidate",
+      "unavailableTitle": "This link no longer works",
+      "unavailableText": "It may have expired or been revoked. Ask the person who shared it for a new one.",
+      "errors": {
+        "wrong": "That code isn't right. Check it and try again.",
+        "locked": "Too many wrong codes, so the link is locked for now. Try again later or ask for a new link.",
+        "expired": "This link has expired.",
+        "revoked": "This link was revoked.",
+        "notFound": "This link doesn't work. Ask the person who shared it for a new one.",
+        "tooMany": "Too many attempts. Wait a few minutes and try again."
+      }
+    }
   }
 }

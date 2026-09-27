@@ -15,10 +15,12 @@ const along = (sten: number) => ((Math.min(10.5, Math.max(0.5, sten)) - 0.5) / 1
 // filled, and an optional comparison (a team's mean) underlined in the team series colour.
 // A thin bar beneath spans ± one standard error of measurement, the range the true score most
 // likely falls in; pass sem={null} where the value isn't one person's score (a group mean).
+// A target profile's range (src/utils/target-profiles.ts) shows as a bracket above the cells.
 export function StenScale({
   value,
   comparison,
   sem = DEFAULT_SEM,
+  target,
   label,
   className,
 }: {
@@ -26,6 +28,7 @@ export function StenScale({
   comparison?: number | null;
   // Standard error of measurement in stens.
   sem?: number | null;
+  target?: { min: number; max: number } | null;
   label: string;
   className?: string;
 }) {
@@ -34,6 +37,7 @@ export function StenScale({
 
   return (
     <div className={cn("flex flex-col gap-0.5", className)}>
+      {target && <TargetBracket from={(target.min - 1) * 10} to={target.max * 10} />}
       <div role="img" aria-label={label} className="grid grid-cols-10 gap-0.5">
         {STENS.map((step) => (
           <span
@@ -59,6 +63,20 @@ export function StenScale({
           />
         </div>
       )}
+    </div>
+  );
+}
+
+// A target range as a bracket over a track; from and to are in percent of its width.
+export function TargetBracket({ from, to, className }: { from: number; to: number; className?: string }) {
+  const left = Math.max(0, from);
+  return (
+    <div aria-hidden className={cn("relative h-1.5", className)}>
+      <span
+        data-target-band
+        className="absolute inset-y-0 border-x-2 border-t-2 border-success print:border-gray-700"
+        style={{ left: `${left}%`, width: `${Math.max(0, Math.min(100, to) - left)}%` }}
+      />
     </div>
   );
 }
