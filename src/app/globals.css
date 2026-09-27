@@ -269,22 +269,62 @@
 /* The landing page's motion (components/landing/home). html[data-lp-motion] is "pending" from an
    inline script until the motion component takes over and sets "ready"; without JavaScript or under
    reduced motion it is absent and everything below shows in its final state. */
-html[data-lp-motion="pending"] [data-hero-word] > [data-word] {
-  transform: translateY(115%);
+html[data-lp-motion="pending"] [data-hero-title] [data-char] {
+  transform: translateY(120%);
   animation: lp-failsafe 0s linear 2.5s forwards;
 }
 html[data-lp-motion="pending"] [data-hero-fade] {
   clip-path: inset(0% 0% 100% 0%);
   animation: lp-failsafe 0s linear 2.5s forwards;
 }
-html[data-lp-motion] [data-hero-poster]:not([data-fallback]) {
-  opacity: 0;
-}
 @keyframes lp-failsafe {
   to {
     transform: none;
     clip-path: none;
   }
+}
+/* The site header steps aside while reading down the landing, unless it holds focus or an open menu. */
+html[data-lp-motion] header.sticky {
+  transition: transform 0.5s var(--ease-calm);
+}
+html[data-lp-header="hidden"] header.sticky:not(:focus-within):not(:has(details[open])) {
+  transform: translateY(-100%);
+}
+/* The hero's scroll cue: a short dash travelling down a hairline. */
+.lp-scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background: var(--foreground);
+  animation: lp-cue 2.2s var(--ease-calm) infinite;
+}
+@keyframes lp-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(260%);
+  }
+}
+/* Index rows: a wash rises behind the row on hover and focus. */
+.lp-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--card);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s var(--ease-calm);
+}
+.lp-row {
+  isolation: isolate;
+}
+.lp-row:hover::before,
+.lp-row:focus-visible::before {
+  transform: scaleY(1);
 }
 [data-manifesto] > span {
   transition: color 0.35s var(--ease-calm);
