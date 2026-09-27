@@ -6,8 +6,11 @@ import { prisma } from "@/utils/database";
 import { libraryWhere } from "@/utils/library";
 import { can } from "@/utils/roles";
 import { completeIfDone, openAssignmentFor } from "@/utils/rounds";
-import { scoreSubmission } from "@/utils/scoring";
+import { scoreSubmission, toScaleRows } from "@/utils/scoring";
 import { cleanTimings, deleteDraft } from "@/utils/drafts";
+import { careCheck } from "@/utils/care";
+import { recordPulseAnswer } from "@/utils/pulse";
+import type { Support } from "@/utils/wellbeing";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
@@ -15,7 +18,15 @@ const responsesSchema = z
   .array(z.object({ questionId: z.number(), choiceId: z.number() }))
   .max(2000);
 
-export async function uploadTestSubmission(testId: string, submission: unknown, assignmentId?: string, timings?: unknown) {
+// Saves the answers and returns the support to show straight away when the result crosses one
+// of the organization's wellbeing rules (src/utils/care.ts). Answers to an anonymous round are kept
+// without the person, so they return no id.
+export async function uploadTestSubmission(
+  testId: string,
+  submission: unknown,
+  assignmentId?: string,
+  timings?: unknown
+): Promise<{ id: string | null; testId: string; support: Support | null }> {
   const { user, membership, organization } = await requireMember();
   assertConsented(membership);
   const responses = responsesSchema.parse(submission);
@@ -34,6 +45,25 @@ export async function uploadTestSubmission(testId: string, submission: unknown, 
 
   const test = await prisma.test.findFirstOrThrow({ where: { id, AND: [libraryWhere(organization.id)] } });
   const score = scoreSubmission(test, responses);
+  const summary = score ? JSON.stringify(score.result) : "";
+  const rows = toScaleRows(score?.result ?? []);
+  const round = assignment ? await prisma.round.findUniqueOrThrow({ where: { id: assignment.roundId }, select: { anonymous: true } }) : null;
+
+  if (assignment && round?.anonymous) {
+    await recordPulseAnswer({
+      organizationId: organization.id,
+      roundId: assignment.roundId,
+      assignmentId: assignment.id,
+      teamId: membership.teamId,
+      test,
+      summary,
+      submission: JSON.stringify(responses),
+    });
+    await deleteDraft(user.id, organization.id, "test", id);
+    await completeIfDone(assignment.id);
+    const support = await careCheck({ organization, userId: null, testId: test.id, submissionId: null, rows });
+    return { id: null, testId: test.id, support };
+  }
 
   const created = await prisma.testSubmission.create({
     data: {
@@ -44,7 +74,7 @@ export async function uploadTestSubmission(testId: string, submission: unknown, 
       assignmentId: assignment?.id,
       timings: cleanTimings(timings),
       locale: await getLocale(),
-      summary: score ? JSON.stringify(score.result) : "",
+      summary,
       submission: JSON.stringify(responses),
     },
   });
@@ -55,5 +85,8 @@ export async function uploadTestSubmission(testId: string, submission: unknown, 
     await completeIfDone(assignment.id);
   }
 
-  return { id: created.id, testId: created.testId };
+  // Only answers sent in a round are checked; staff trying a test raise nothing.
+  const support = assignment ? await careCheck({ organization, userId: user.id, testId: test.id, submissionId: created.id, rows }) : null;
+
+  return { id: created.id, testId: created.testId, support };
 }

@@ -22,6 +22,7 @@ import { randomBytes, randomUUID } from "crypto";
 import { hash } from "bcryptjs";
 import { absoluteUrl, sendMail } from "@/utils/mail";
 import { consumeRateLimit } from "@/utils/rate-limit";
+import { anonymityProblem } from "@/utils/wellbeing";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
@@ -60,13 +61,15 @@ const roundSchema = z
     lifecycle: z.enum(["", "start30", "start90", "anniversary"]).default(""),
     // The composer's saved draft, removed once the round is sent.
     draftId: z.string().nullable().default(null),
+    // An anonymous wellbeing pulse: answers are kept without the person (src/utils/pulse.ts).
+    anonymous: z.boolean().default(false),
   })
   .strict();
 
 export type CreateRoundResult =
   | ({ ok: true; emailed: number; queued: number; links: { name: string; link: string }[]; skippedNames: string[]; waiting: number } & Pick<OpenRoundResult, "roundId">)
   | { ok: true; scheduled: true }
-  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" | "emailUnverified" };
+  | { error: "unknownItem" | "sensitiveItem" | "nobody" | "pastDue" | "candidatesNeedHiring" | "hiringRepeats" | "candidateIsStaff" | "planSchedules" | "planClinical" | "planRespondents" | "emailUnverified" | "anonymousNeedsWellbeing" | "anonymousForms" };
 
 // The day's end in the server's time zone, so "due 12 May" includes 12 May.
 function endOfDay(date: string) {
@@ -111,6 +114,10 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
   const invalid = await validateItems(organization.id, membership.role, input.purpose, input.items);
   if (invalid) {
     return { error: invalid };
+  }
+  const anonymity = input.anonymous ? anonymityProblem(input.purpose, input.items) : null;
+  if (anonymity) {
+    return { error: anonymity };
   }
   if (input.candidates.length && input.purpose !== "hiring") {
     return { error: "candidatesNeedHiring" };
@@ -170,6 +177,7 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
         userIds: JSON.stringify(input.userIds),
         nextRunAt: new Date(),
         createdById: user.id,
+        anonymous: input.anonymous,
       },
     });
     await discardDraft(organization.id, input.draftId);
@@ -190,6 +198,7 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
           userIds: JSON.stringify(input.userIds),
           nextRunAt: addMonths(new Date(), input.repeatMonths),
           createdById: user.id,
+          anonymous: input.anonymous,
         },
       })
     : null;
@@ -240,6 +249,7 @@ export async function createRound(data: unknown): Promise<CreateRoundResult> {
     userIds,
     createdById: user.id,
     scheduleId: schedule?.id,
+    anonymous: input.anonymous,
   });
 
   if (invitees.length) {

@@ -526,9 +526,15 @@
       "retention": "{count, plural, one {Your answers are deleted after # month.} other {Your answers are deleted after # months.}}",
       "retentionKept": "Your answers are kept while you work with {organization}, and you can ask for them to be deleted.",
       "ownResults": "You'll see your own results for some tests.",
-      "contact": "Questions about your data: {contact}"
+      "contact": "Questions about your data: {contact}",
+      "anonymousTitle": "This round is anonymous",
+      "anonymous": "Your answers are saved without your name. Nobody at {organization} can see what you answered.",
+      "anonymousGroups": "Only averages for groups of {count} or more people are shown.",
+      "anonymousProgress": "Calibre notes only that you finished, so you don't get reminders."
     },
-    "journey": "{round} · {position} of {total}"
+    "journey": "{round} · {position} of {total}",
+    "anonymous": "Anonymous",
+    "anonymousNote": "This round is anonymous: your answers are saved without your name."
   },
   "scores": {
     "raw": "Raw score",
@@ -847,6 +853,50 @@
       "noStrengths": "We appreciated how carefully you answered.",
       "closing": "We wish you every success in your next steps.",
       "aboutSummary": "This summary comes from a questionnaire and describes tendencies, not a verdict. It contains no scores."
+    },
+    "alert": {
+      "subject": "{count, plural, one {Early warning} other {# early warnings}} in {organization}",
+      "preview": "Team wellbeing in {organization} needs attention",
+      "heading": "{count, plural, one {A team needs attention} other {Teams need attention}}",
+      "greeting": "Hello, {name}.",
+      "threshold": "{team}: {label} is past the level you set.",
+      "drop": "{team}: {label} is sharply worse than in the last round.",
+      "steps": "Suggested next steps are in Calibre: talk with the team lead, agree on actions and record them in \"You said, we did\".",
+      "action": "Open analytics",
+      "privacy": "Alerts come from team averages of 5 or more people. Nobody's own answers are shown."
+    },
+    "digest": {
+      "subject": "Weekly wellbeing digest for {organization}",
+      "preview": "Participation, trends, alerts and actions at {organization} this week",
+      "heading": "This week at {organization}",
+      "greeting": "Hello, {name}.",
+      "participation": "{completed} of {assigned} people ({percent}%) have finished their open rounds, {week} of them this week.",
+      "noRounds": "No rounds were open this week.",
+      "trendsTitle": "Wellbeing trends, organization-wide:",
+      "noTrends": "No wellbeing trends yet: they need rounds with {min} or more answers.",
+      "trend": "{label}: {value}, was {previous} ({trend, select, better {better} worse {worse} other {steady}}).",
+      "trendNew": "{label}: {value}, the first reading.",
+      "alertsTitle": "{count, plural, one {# open early warning:} other {# open early warnings:}}",
+      "noAlerts": "No open early warnings.",
+      "alertThreshold": "{team}: {label} is past the level you set.",
+      "alertDrop": "{team}: {label} is sharply worse than in the last round.",
+      "actionsTitle": "You said, we did this week: {done} done, {inProgress} in progress, {planned} planned.",
+      "noActions": "No actions were recorded or updated this week.",
+      "action": "{team}: {text} ({status, select, done {done} inProgress {in progress} other {planned}}).",
+      "everyone": "Everyone",
+      "open": "Open Calibre",
+      "privacy": "Only group figures for {min} or more people are included; nobody's own answers are.",
+      "settings": "Owners and admins get this email. Turn it off or change the day in Settings, Wellbeing."
+    },
+    "care": {
+      "subject": "A care check-in is waiting in {organization}",
+      "preview": "Someone in {organization} may need support",
+      "heading": "Someone may need support",
+      "greeting": "Hello, {name}.",
+      "text": "A recent screening result in {organization} crossed the level set for a check-in. Calibre showed the person your support resources straight away.",
+      "next": "Open the follow-up page to see who it is and reach out.",
+      "action": "Open follow-up",
+      "privacy": "This email holds no names or scores on purpose."
     }
   },
   "roleHints": {
@@ -959,7 +1009,9 @@
       "privacy": "Privacy",
       "fields": "Profile fields",
       "audit": "Audit log",
-      "billing": "Plan and billing"
+      "billing": "Plan and billing",
+      "wellbeing": "Wellbeing",
+      "support": "Support"
     },
     "members": {
       "staff": "Staff",
@@ -1003,6 +1055,62 @@
       "timeZone": "Default time zone",
       "serverTime": "The server's time zone",
       "timeZoneHint": "Used for people whose browser hasn't told us their own time zone yet."
+    },
+    "warnings": {
+      "title": "Early warning",
+      "text": "Each rule reads one scale: the team average that raises an alert, the change for the worse since the previous round that raises one, and one person's score that shows them support and asks a psychologist to check in. Teams are read only with {min} or more answers. Leave a level empty to turn it off.",
+      "rule": "Rule",
+      "test": "Test",
+      "chooseTest": "Choose a test",
+      "scale": "Scale",
+      "label": "Name in alerts",
+      "labelHint": "e.g. Burnout",
+      "direction": "Worse when",
+      "directions": {
+        "high": "Higher",
+        "low": "Lower"
+      },
+      "team": "Team average",
+      "drop": "Sharp change",
+      "person": "One person",
+      "off": "Off",
+      "levelsHint": "Scores as shown in results: stens or T-scores where the test has norms, raw scores otherwise.",
+      "remove": "Remove {name}",
+      "add": "Add rule",
+      "defaults": "Restore defaults"
+    },
+    "digest": {
+      "title": "Leadership digest",
+      "text": "A weekly email to owners and admins: participation, wellbeing trends, open early warnings and the actions taken. It holds group figures for {min} or more people only.",
+      "enabled": "Send the weekly digest",
+      "enabledText": "Weeks with nothing to report send nothing.",
+      "weekday": "Day",
+      "days": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
+      },
+      "previewTitle": "Preview",
+      "previewText": "This week's digest as you would receive it.",
+      "previewSubject": "Subject: {subject}",
+      "preview": "Preview this week"
+    },
+    "support": {
+      "title": "Support resources",
+      "text": "Shown straight after a test when someone's result crosses a rule's personal level. Scores are never shown.",
+      "message": "Message",
+      "messagePlaceholder": "e.g. Our employee assistance programme is free and confidential, around the clock.",
+      "contacts": "Contacts",
+      "contactsPlaceholder": "e.g. EAP helpline: 0800 123 456",
+      "links": "Links",
+      "linkLabel": "Label",
+      "linkUrl": "Address",
+      "removeLink": "Remove {label}",
+      "addLink": "Add link"
     }
   },
   "validity": {
@@ -1215,7 +1323,9 @@
         "planSchedules": "Recurring rounds are part of the Team plan and above.",
         "planClinical": "Clinical instruments are part of the Business plan.",
         "planRespondents": "This round would take you over your plan's respondent limit. Choose a bigger plan in Plan and billing.",
-        "emailUnverified": "Confirm your email before sending rounds. Use “Send the link again” at the top of the page if you can't find it."
+        "emailUnverified": "Confirm your email before sending rounds. Use “Send the link again” at the top of the page if you can't find it.",
+        "anonymousNeedsWellbeing": "Only wellbeing rounds can be anonymous.",
+        "anonymousForms": "Anonymous rounds can include tests only."
       },
       "waiting": "{count, plural, one {# invited person gets this round when they join} other {# invited people get this round when they join}}",
       "invited": "Invited",
@@ -1294,7 +1404,10 @@
         "who": "Choose who gets the round.",
         "when": "Check the due date.",
         "review": "Something above needs attention."
-      }
+      },
+      "anonymous": "Anonymous pulse",
+      "anonymousText": "Answers are kept without names. Calibre records only who has finished, so reminders still work, and shows averages only for groups of {min} or more. Questionnaires can't be included.",
+      "notAnonymous": "Questionnaires can't be part of an anonymous round"
     },
     "health": {
       "done": "Closed",
@@ -1342,7 +1455,8 @@
     },
     "sendInRound": "Send in a round",
     "sendInRoundShort": "Send",
-    "sendNamedInRound": "Send {name} in a round"
+    "sendNamedInRound": "Send {name} in a round",
+    "anonymousBadge": "Anonymous"
   },
   "assessments": {
     "title": "My assessments",
@@ -1557,6 +1671,10 @@
       "caption": "Figures beside each bar: low · average · high.",
       "empty": "No group is large enough to show yet.",
       "noScales": "No scale has enough scores in this group yet."
+    },
+    "warnings": {
+      "title": "Early warnings",
+      "text": "Teams whose wellbeing average crossed a level you set or worsened sharply since the last round."
     }
   },
   "audit": {
@@ -1604,7 +1722,9 @@
       "createReportShare": "Shared a report by link",
       "revokeReportShare": "Revoked a report link",
       "viewSharedReport": "Report opened by link",
-      "sendCandidateFeedback": "Sent feedback to a candidate"
+      "sendCandidateFeedback": "Sent feedback to a candidate",
+      "raiseCareFlag": "Care check-in requested",
+      "resolveCareFlag": "Care check-in done"
     },
     "shareVisitor": "Link recipient",
     "shareRecipient": "For: {recipient}"
@@ -2498,6 +2618,76 @@
         "notFound": "This link doesn't work. Ask the person who shared it for a new one.",
         "tooMany": "Too many attempts. Wait a few minutes and try again."
       }
+    }
+  },
+  "wellbeing": {
+    "alerts": {
+      "title": "Early warnings",
+      "text": "Team wellbeing averages past the levels you set, or sharply worse than in the last round.",
+      "none": "No early warnings. Teams are checked every hour, once {min} or more people have answered.",
+      "threshold": "{team}: {label} is past the level you set",
+      "drop": "{team}: {label} is sharply worse than in the last round",
+      "thresholdDetail": "Team average {value}, level {limit}, {people, plural, one {# person} other {# people}}",
+      "dropDetail": "Team average {value}, was {previous}, {people, plural, one {# person} other {# people}}",
+      "restricted": "Clinical screen",
+      "resolve": "Mark as handled",
+      "resolved": "Marked as handled",
+      "stepsTitle": "Suggested next steps",
+      "steps": {
+        "talk": "Talk with the lead of {team} about workload and what has changed.",
+        "lookBack": "Find out with the lead of {team} what changed since the last round.",
+        "actions": "Agree on one or two actions and record them in the round's \"You said, we did\".",
+        "support": "Remind the team where to find support, such as the employee assistance programme.",
+        "pulse": "Run a short pulse in four to six weeks to see whether it helped."
+      }
+    },
+    "care": {
+      "title": "Care check-ins",
+      "text": "People whose screening result crossed the level set for a check-in. They were shown your support resources straight away.",
+      "empty": "Nobody is waiting for a check-in.",
+      "resolve": "Mark as followed up",
+      "resolved": "Check-in marked as done",
+      "panelTitle": "Care check-in requested",
+      "summary": "{count, plural, one {# person may need support} other {# people may need support}}",
+      "open": "Open follow-up"
+    },
+    "pulse": {
+      "title": "Anonymous results",
+      "text": "Averages per team and for everyone. Groups with fewer than {min} answers are hidden, and no answer can be traced to a person.",
+      "waiting": "Results appear once the round is closed or past its due date, so no single answer can be singled out while people are still answering.",
+      "responses": "{count, plural, one {# answer} other {# answers}}",
+      "group": "Group",
+      "everyone": "Everyone"
+    },
+    "actions": {
+      "title": "You said, we did",
+      "staffText": "What you'll do about this round's results, per team. People see their team's actions on their assessments page and before the next pulse.",
+      "respondentText": "What was done after earlier pulse rounds, for your team and for everyone.",
+      "beforeText": "Before you start: what was done after the last pulse.",
+      "empty": "No actions recorded yet.",
+      "team": "Team",
+      "everyone": "Everyone",
+      "text": "Action",
+      "placeholder": "e.g. No meetings on Friday afternoons",
+      "status": "Status",
+      "statusOf": "Status of {text}",
+      "statuses": {
+        "planned": "Planned",
+        "inProgress": "In progress",
+        "done": "Done"
+      },
+      "add": "Add",
+      "added": "Action added",
+      "delete": "Delete {text}"
+    },
+    "support": {
+      "eyebrow": "Your answers are saved",
+      "title": "Support is here if you need it",
+      "intro": "Some of your answers suggest things may be hard at the moment. You don't have to handle it alone.",
+      "contacts": "Who you can contact",
+      "fallback": "Talk to someone you trust, your doctor or your organization's psychologist.",
+      "urgent": "If you are in danger or thinking of harming yourself, call your local emergency number now.",
+      "continue": "Continue"
     }
   }
 }

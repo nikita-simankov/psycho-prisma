@@ -23,10 +23,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { EMPTY_ROUND, PURPOSES, REPEATS, type RoundDraftData } from "@/utils/round-draft";
 import { TIME_BUDGET_WARNING } from "@/utils/round-health";
+import { MIN_GROUP } from "@/utils/results";
 import { cn } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -166,7 +168,7 @@ export function RoundForm({
   const set = <K extends keyof RoundDraftData>(field: K, value: RoundDraftData[K]) =>
     setValues((current) => ({ ...current, [field]: value }));
 
-  const { name, purpose, items, teamIds, userIds, invitationIds, candidateText, dueDate, message, repeat } = values;
+  const { name, purpose, items, teamIds, userIds, invitationIds, candidateText, dueDate, message, repeat, anonymous } = values;
   const hiring = purpose === "hiring";
   const lifecycle = LIFECYCLE.includes(repeat);
   const { candidates, invalid } = parseCandidates(hiring ? candidateText : "");
@@ -204,6 +206,8 @@ export function RoundForm({
     setValues((current) => ({
       ...current,
       purpose: value,
+      // Only wellbeing rounds can be anonymous.
+      ...(value !== "wellbeing" && { anonymous: false }),
       // Clinical screens never go to candidates, and hiring rounds don't repeat.
       ...(value === "hiring" && {
         items: current.items.filter((entry) => !instruments.find((item) => key(item) === entry)?.sensitive),
@@ -264,6 +268,7 @@ export function RoundForm({
         repeatMonths: lifecycle ? 0 : Number(repeat),
         lifecycle: lifecycle ? repeat : "",
         draftId,
+        anonymous: purpose === "wellbeing" && anonymous,
       });
       if ("error" in response) {
         throw new Error(t(`errors.${response.error}`));
@@ -430,6 +435,26 @@ export function RoundForm({
                 ))}
               </div>
             </fieldset>
+            {purpose === "wellbeing" && (
+              <div className="flex items-start justify-between gap-4 rounded-lg border bg-card p-4">
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="anonymous">{t("anonymous")}</Label>
+                  <p className="text-sm text-muted-foreground">{t("anonymousText", { min: MIN_GROUP })}</p>
+                </div>
+                <Switch
+                  id="anonymous"
+                  checked={anonymous}
+                  onCheckedChange={(checked) =>
+                    setValues((current) => ({
+                      ...current,
+                      anonymous: checked,
+                      // Questionnaires can't be anonymous: free-text answers can name the writer.
+                      ...(checked && { items: current.items.filter((entry) => !entry.startsWith("form:")) }),
+                    }))
+                  }
+                />
+              </div>
+            )}
           </Section>
 
           <Section
@@ -448,7 +473,7 @@ export function RoundForm({
             </div>
             <ul className="max-h-80 divide-y overflow-y-auto rounded-lg border">
               {visibleInstruments.map((item) => {
-                const blocked = item.sensitive && (hiring || !canSendSensitive);
+                const blocked = (item.sensitive && (hiring || !canSendSensitive)) || (anonymous && item.kind === "form");
                 const id = `item-${item.kind}-${item.id}`;
                 const Icon = item.kind === "test" ? FlaskConical : NotepadText;
                 return (
@@ -471,6 +496,7 @@ export function RoundForm({
                         {item.retestDays > 0 && <Badge variant="outline">{t("retest", { days: item.retestDays })}</Badge>}
                       </span>
                       {blocked && hiring && <span className="text-xs text-muted-foreground">{t("notForHiring")}</span>}
+                      {anonymous && item.kind === "form" && <span className="text-xs text-muted-foreground">{t("notAnonymous")}</span>}
                     </label>
                   </li>
                 );
@@ -640,7 +666,14 @@ export function RoundForm({
               <dt className="text-muted-foreground">{t("name")}</dt>
               <dd className="font-medium">{name}</dd>
               <dt className="text-muted-foreground">{t("purpose")}</dt>
-              <dd>{rounds(`purposes.${purpose}`)}</dd>
+              <dd>
+                {rounds(`purposes.${purpose}`)}
+                {purpose === "wellbeing" && anonymous && (
+                  <Badge variant="secondary" className="ml-2">
+                    {rounds("anonymousBadge")}
+                  </Badge>
+                )}
+              </dd>
               <dt className="text-muted-foreground">{t("instruments")}</dt>
               <dd>
                 <ul className="flex flex-col gap-0.5">

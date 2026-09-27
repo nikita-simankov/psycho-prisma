@@ -3,7 +3,7 @@ import "server-only";
 import { prisma } from "./database";
 
 // Everything a person left in one organization: answers, drafts, reports, round assignments,
-// saved views and work details. Their account and other organizations are untouched.
+// saved views, care follow-ups and work details. Anonymous pulse answers hold no person, so they stay. Their account and other organizations are untouched.
 // Returned so callers can add the membership removal to the same transaction.
 export function eraseInOrganization(userId: string, organizationId: string) {
   const scope = { userId, organizationId };
@@ -17,6 +17,7 @@ export function eraseInOrganization(userId: string, organizationId: string) {
     // Share links to their report stop working with it; the feedback they were sent is forgotten.
     prisma.reportShare.deleteMany({ where: scope }),
     prisma.sentFeedback.deleteMany({ where: scope }),
+    prisma.careFlag.deleteMany({ where: scope }),
     prisma.assignment.deleteMany({ where: { userId, round: { organizationId } } }),
     // Nobody keeps pointing at them as their manager.
     prisma.membership.updateMany({ where: { organizationId, managerId: userId }, data: { managerId: null } }),

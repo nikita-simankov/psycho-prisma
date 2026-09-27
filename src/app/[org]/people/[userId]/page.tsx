@@ -33,6 +33,7 @@ import { organizationBase } from "@/utils/organization-path";
 import { personSchedule } from "@/utils/rounds";
 import { loadPersonMetrics } from "./load-metrics";
 import { ProfileDetailsDialog } from "./components/profile-details-dialog";
+import { CarePanel } from "@/components/wellbeing/care-flags";
 
 type PathParams = {
   params: Promise<{
@@ -339,8 +340,11 @@ export default async function UserProfilePage(props: PathParams) {
               </div>
             )}
             {can(membership.role, "viewSensitive") && (
-              <div className="mt-4 rounded-lg border bg-card p-3">
-                <FlagSelect userId={user.id} flag={user.flag} />
+              <div className="mt-4 flex flex-col gap-3">
+                <div className="rounded-lg border bg-card p-3">
+                  <FlagSelect userId={user.id} flag={user.flag} />
+                </div>
+                <CarePanel context={context} userId={user.id} />
               </div>
             )}
             {manage && user.id !== viewer.id && (user.role !== "owner" || membership.role === "owner") && (

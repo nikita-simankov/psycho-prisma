@@ -35,6 +35,7 @@ model User {
   passwordResets     PasswordReset[]
   summaries          UserSummary[]
   oauthAccounts      OAuthAccount[]
+  careFlags          CareFlag[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 }
@@ -71,6 +72,10 @@ model Organization {
   targetProfiles   TargetProfile[]
   reportShares     ReportShare[]
   feedback         SentFeedback[]
+  pulseResponses   PulseResponse[]
+  wellbeingAlerts  WellbeingAlert[]
+  teamActions      TeamAction[]
+  careFlags        CareFlag[]
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   // Answers from the /start welcome: what the organization uses Calibre for and how big it is.
@@ -85,6 +90,17 @@ model Organization {
   isSample         Boolean         @default(false)
   // When an admin hid the setup checklist on Today.
   setupDismissedAt DateTime?
+  // JSON array of wellbeing rules (src/utils/wellbeing.ts); "" means the defaults.
+  wellbeingRules   String          @default("")
+  // The weekly leadership email: whether it goes out, on which weekday (0 = Sunday), and when it last did.
+  digestEnabled    Boolean         @default(true)
+  digestWeekday    Int             @default(1)
+  digestSentAt     DateTime?
+  // Shown to people whose screening result suggests they may need support.
+  supportText      String          @default("")
+  supportContacts  String          @default("")
+  // JSON: [{ "label": "...", "url": "https://..." }]
+  supportLinks     String          @default("[]")
 
   @@index([nameKey])
 }
@@ -127,6 +143,8 @@ model Team {
   memberships    Membership[]
   invitations    Invitation[]
   joinLinks      JoinLink[]
+  alerts         WellbeingAlert[]
+  actions        TeamAction[]
   createdAt      DateTime     @default(now())
 
   @@unique([organizationId, name])
@@ -358,7 +376,12 @@ model Round {
   createdById    String
   assignments    Assignment[]
   invitees       RoundInvitee[]
+  pulseResponses PulseResponse[]
+  alerts         WellbeingAlert[]
+  actions        TeamAction[]
   createdAt      DateTime       @default(now())
+  // A wellbeing pulse whose answers are kept without the person (src/utils/pulse.ts).
+  anonymous      Boolean        @default(false)
 }
 
 // Someone invited to the organization but not yet joined, added to a round. They get their
@@ -380,6 +403,7 @@ model Assignment {
   roundId        String
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
+  pulseReceipts  PulseReceipt[]
   // JSON: the round's items this person takes (some can be skipped for retest intervals).
   items          String
   // SHA-256 of the sign-in link's token; the link signs the person in and opens the round.
@@ -420,6 +444,8 @@ model RoundSchedule {
   rounds         Round[]
   lifecycleSent  LifecycleSent[]
   createdAt      DateTime        @default(now())
+  // The rounds it opens are anonymous pulses.
+  anonymous      Boolean         @default(false)
 }
 
 // Who a start-date schedule has already sent to, per cycle (0 for once, the year for anniversaries).
@@ -651,5 +677,107 @@ model SentFeedback {
   sentById       String
   createdAt      DateTime     @default(now())
 
+  @@index([organizationId, userId])
+}
+
+// An answer to an anonymous pulse round. It holds no person, no assignment and no time, so it
+// can't be traced back to whoever gave it; only the team they were in when answering.
+model PulseResponse {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  round          Round        @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  roundId        String
+  teamId         String?
+  testId         String
+  testVersion    Int          @default(1)
+  // Scores at submit time, as in TestSubmission.summary.
+  summary        String
+  submission     String
+
+  @@index([roundId])
+}
+
+// That a person in an anonymous round finished one of its items, so progress and reminders work.
+model PulseReceipt {
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  assignmentId String
+  // "test:<id>", as itemKey() in src/utils/rounds.ts.
+  item         String
+
+  @@id([assignmentId, item])
+}
+
+// A team's wellbeing average past a rule's level, or sharply worse than in the previous round.
+// The hourly job finds them; each is recorded and emailed once.
+model WellbeingAlert {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  round          Round        @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  roundId        String
+  team           Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId         String
+  // The rule, and what it read when the alert was raised.
+  ruleId         String
+  label          String
+  testId         String
+  scaleId        Int
+  direction      String
+  // Alerts on clinical screens are shown only to roles with viewSensitive.
+  sensitive      Boolean      @default(false)
+  // "threshold" or "drop"
+  kind           String
+  value          Float
+  previous       Float?
+  limit          Float
+  people         Int
+  emailedAt      DateTime?
+  resolvedAt     DateTime?
+  resolvedById   String?
+  createdAt      DateTime     @default(now())
+
+  @@unique([roundId, teamId, ruleId, kind])
+  @@index([organizationId, resolvedAt])
+}
+
+// "You said, we did": something staff do about a pulse round's results, for a team or everyone.
+model TeamAction {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  round          Round?       @relation(fields: [roundId], references: [id], onDelete: SetNull)
+  roundId        String?
+  // Null for the whole organization.
+  team           Team?        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId         String?
+  text           String
+  // planned, inProgress or done
+  status         String       @default("planned")
+  createdById    String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId, teamId])
+}
+
+// A request for a psychologist to check in with someone whose screening result crossed a rule's
+// personal level. Kept apart from Membership.flag so it never overwrites a psychologist's own
+// flag. Only roles with viewSensitive see it.
+model CareFlag {
+  id             String       @id @default(uuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  testId         String
+  submissionId   String
+  // JSON: [{ "ruleId": "...", "label": "...", "scaleId": 1 }], the rules crossed. Never scores.
+  reason         String
+  resolvedAt     DateTime?
+  resolvedById   String?
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId, resolvedAt])
   @@index([organizationId, userId])
 }

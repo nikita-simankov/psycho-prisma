@@ -3,6 +3,7 @@
 import { uploadTestSubmission } from "@/actions/test-submission/upload-test-submission-action";
 import { ChoiceList } from "@/components/runner/choice-list";
 import { DoneStep } from "@/components/runner/done-step";
+import { SupportStep } from "@/components/runner/support-step";
 import { QuestionStep } from "@/components/runner/question-step";
 import { estimateMinutesLeft, RunnerHeader } from "@/components/runner/runner-header";
 import { StatementGrid } from "@/components/runner/statement-grid";
@@ -11,6 +12,7 @@ import { useRunnerKeys } from "@/components/runner/use-runner-keys";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { TestQuestion } from "@/utils/constants";
+import type { Support } from "@/utils/wellbeing";
 import { Test } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -32,6 +34,8 @@ type Properties = {
   // Where to go after submitting: the round's next item, or back home.
   doneHref?: string;
   initialDraft?: { answers: Record<string, Answer>; timings: Record<string, number> } | null;
+  // Part of an anonymous pulse round.
+  anonymous?: boolean;
 };
 
 // Long questionnaires where every statement has the same answers are shown a page at a time.
@@ -44,7 +48,7 @@ function sharedChoices(questions: TestQuestion[]) {
     : null;
 }
 
-export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref, initialDraft }: Properties) {
+export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref, initialDraft, anonymous = false }: Properties) {
   const t = useTranslations("runner");
   const common = useTranslations("common");
   const router = useRouter();
@@ -69,6 +73,10 @@ export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref,
     return index === -1 ? steps : Math.floor(index / stepSize);
   });
 
+  // Support resources to show before moving on, when the result called for them.
+  const [support, setSupport] = useState<Support | null>(null);
+  const finishHref = doneHref ?? (pauseHref === "/assessments" ? "/assessments?done=1" : pauseHref);
+
   const answeredCount = questions.filter((question) => answers[question.id] !== undefined).length;
   const shown = questions.slice(step * stepSize, (step + 1) * stepSize);
   const complete = shown.every((question) => answers[question.id] !== undefined);
@@ -83,7 +91,7 @@ export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref,
         draft.timings.current
       );
     },
-    onSuccess: () => router.push(doneHref ?? (pauseHref === "/assessments" ? "/assessments?done=1" : pauseHref)),
+    onSuccess: (result) => (result.support ? setSupport(result.support) : router.push(finishHref)),
     onError: () => toast({ title: common("error"), description: t("saveError"), variant: "destructive" }),
   });
 
@@ -118,10 +126,15 @@ export function TestRunner({ test, questions, assignmentId, pauseHref, doneHref,
     onBack: step >= steps ? () => go(step - 1) : back,
   });
 
+  if (support) {
+    return <SupportStep support={support} onContinue={() => router.push(finishHref)} />;
+  }
+
   if (step >= steps) {
     return (
       <DoneStep
         text={t("testDoneText", { name: test.name })}
+        anonymous={anonymous}
         pending={submission.isPending}
         onFinish={() => submission.mutate()}
         onBack={() => go(steps - 1)}

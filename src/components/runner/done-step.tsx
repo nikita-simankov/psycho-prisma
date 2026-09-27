@@ -7,12 +7,14 @@ import { useTranslations } from "next-intl";
 
 type Properties = {
   text: string;
+  // Answers go to an anonymous pulse round.
+  anonymous?: boolean;
   pending: boolean;
   onFinish: () => void;
   onBack: () => void;
 };
 
-export function DoneStep({ text, pending, onFinish, onBack }: Properties) {
+export function DoneStep({ text, anonymous = false, pending, onFinish, onBack }: Properties) {
   const t = useTranslations("runner");
   const common = useTranslations("common");
   const respondent = useTranslations("respondent");
@@ -27,7 +29,7 @@ export function DoneStep({ text, pending, onFinish, onBack }: Properties) {
       <p className="max-w-md text-muted-foreground">{text}</p>
       <p className="flex max-w-md items-start gap-2 text-sm text-muted-foreground">
         <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-        {respondent("privacyNote")}
+        {anonymous ? respondent("anonymousNote") : respondent("privacyNote")}
       </p>
       <div className="mt-3 flex w-full max-w-sm gap-2">
         <Button variant="outline" size="lg" onClick={onBack} disabled={pending}>

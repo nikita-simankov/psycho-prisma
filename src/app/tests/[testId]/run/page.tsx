@@ -32,6 +32,7 @@ export default async function Page(props: PathParams) {
         assignmentId={searchParams.assignment}
         pauseHref="/assessments"
         doneHref={journey?.nextHref ?? "/assessments?done=1"}
+        anonymous={journey?.anonymous ?? false}
         initialDraft={await findDraft(user.id, organization.id, "test", test.id)}
       />
     </div>

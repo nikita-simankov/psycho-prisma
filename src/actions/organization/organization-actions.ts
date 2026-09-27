@@ -7,6 +7,8 @@ import { rememberOrganization } from "@/utils/session";
 import { customFieldsSchema } from "@/utils/profile-fields";
 import { audit } from "@/utils/audit";
 import { isTimeZone } from "@/utils/quiet-hours";
+import { can } from "@/utils/roles";
+import { parseRules, rulesSchema, supportLinkSchema } from "@/utils/wellbeing";
 import { z } from "zod";
 
 const nameSchema = z.string().trim().min(2).max(100);
@@ -30,6 +32,12 @@ const settingsSchema = z
     candidateRetentionMonths: z.number().int().min(0).max(120),
     quietHours: z.boolean(),
     timeZone: z.string().max(64).refine((value) => value === "" || isTimeZone(value)),
+    wellbeingRules: rulesSchema,
+    digestEnabled: z.boolean(),
+    digestWeekday: z.number().int().min(0).max(6),
+    supportText: z.string().trim().max(2000),
+    supportContacts: z.string().trim().max(1000),
+    supportLinks: z.array(supportLinkSchema).max(10),
   })
   .partial()
   .strict();
@@ -41,9 +49,9 @@ const PLACEHOLDER_SLUG = "default";
 export async function updateOrganizationSettings(
   data: unknown
 ): Promise<{ ok: true; slug: string }> {
-  const { organization, user } = await requireMember("manageSettings");
+  const { organization, user, membership } = await requireMember("manageSettings");
   const parsed = settingsSchema.parse(data);
-  const { name, feedbackTestIds, customFields, ...rest } = parsed;
+  const { name, feedbackTestIds, customFields, wellbeingRules, supportLinks, ...rest } = parsed;
 
   const cleanName = name?.replace(/\s+/g, " ");
   const slug =
@@ -65,6 +73,8 @@ export async function updateOrganizationSettings(
         ),
       }),
       ...(customFields && { customFields: JSON.stringify(customFields) }),
+      ...(wellbeingRules && { wellbeingRules: JSON.stringify(await mergeRules(organization.id, membership.role, wellbeingRules)) }),
+      ...(supportLinks && { supportLinks: JSON.stringify(supportLinks) }),
       slug,
       ...(cleanName && { name: cleanName, nameKey: organizationNameKey(cleanName) }),
     },
@@ -79,6 +89,21 @@ export async function updateOrganizationSettings(
   });
 
   return { ok: true, slug };
+}
+
+// The rules as saved: those on tests this organization can use, plus the rules on clinical screens
+// kept as they were when the person saving may not see those screens.
+async function mergeRules(organizationId: string, role: string, rules: z.infer<typeof rulesSchema>) {
+  const sensitive = can(role, "viewSensitive");
+  const current = parseRules(
+    (await prisma.organization.findUniqueOrThrow({ where: { id: organizationId }, select: { wellbeingRules: true } })).wellbeingRules
+  );
+  const tests = await prisma.test.findMany({
+    where: { id: { in: [...rules, ...current].map((rule) => rule.testId) }, OR: [{ organizationId: null }, { organizationId }] },
+    select: { id: true, sensitive: true },
+  });
+  const editable = (testId: string) => tests.some((test) => test.id === testId && (sensitive || !test.sensitive));
+  return [...current.filter((rule) => !editable(rule.testId)), ...rules.filter((rule) => editable(rule.testId))];
 }
 
 async function requireOwner() {

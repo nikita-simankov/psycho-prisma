@@ -13,6 +13,8 @@ export const AUDIT_ACTIONS = [
   // People and roles.
   "changeMembership",
   "changeFlag",
+  "raiseCareFlag",
+  "resolveCareFlag",
   "removeMember",
   "leaveOrganization",
   "transferOwnership",

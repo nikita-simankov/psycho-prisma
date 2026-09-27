@@ -16,6 +16,8 @@ export function IntroCard({
   answered = 0,
   journey,
   promise,
+  anonymous = false,
+  before,
 }: {
   name: string;
   description: string;
@@ -30,6 +32,10 @@ export function IntroCard({
   journey?: { round: string; position: number; total: number } | null;
   // What happens to the answers; replaces the short privacy note.
   promise?: React.ReactNode;
+  // Part of an anonymous pulse round.
+  anonymous?: boolean;
+  // Shown before the description, such as what was done after the last pulse.
+  before?: React.ReactNode;
 }) {
   const t = useTranslations("respondent");
   const common = useTranslations("common");
@@ -46,9 +52,11 @@ export function IntroCard({
         )}
         <Eyebrow>
           {t("questionCount", { count: questionCount })} · {common("minutes", { count: minutes })}
+          {anonymous && ` · ${t("anonymous")}`}
         </Eyebrow>
         <h1 className="text-4xl font-medium leading-[1.1] sm:text-5xl">{name}</h1>
       </header>
+      {before}
       {description && (
         <section className="flex flex-col gap-2 border-t border-foreground/80 pt-4">
           <h2 className="font-sans">

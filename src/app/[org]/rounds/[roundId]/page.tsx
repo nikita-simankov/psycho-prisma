@@ -18,6 +18,11 @@ import { HealthChip } from "@/components/rounds/health-chip";
 import { roundHealth } from "@/utils/round-health";
 import { can } from "@/utils/roles";
 import { CandidateResults } from "./candidate-results";
+import { PulseResults } from "@/components/wellbeing/pulse-results";
+import { TeamActionsEditor } from "@/components/wellbeing/team-actions-editor";
+import { pulseResults } from "@/utils/pulse";
+import { MIN_GROUP } from "@/utils/results";
+import { pulseResultsReady, type ActionStatus } from "@/utils/wellbeing";
 
 type Status = "finished" | "started" | "notStarted" | "overdue" | "scheduled";
 const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: "outline", overdue: "destructive", scheduled: "outline" } as const;
@@ -25,7 +30,7 @@ const STATUS_VARIANT = { finished: "secondary", started: "outline", notStarted: 
 export default async function RoundPage(props: { params: Promise<{ roundId: string }> }) {
   const params = await props.params;
   const context = await ensureMember("manageRounds");
-  const { organization } = context;
+  const { organization, membership } = context;
   const base = await organizationBase();
   const t = await getTranslations("rounds");
   const format = await getFormatter();
@@ -77,6 +82,32 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
   const health = roundHealth(round, { people: round.assignments.length, completed: finished }, now);
 
   const assigned = new Set(round.assignments.map((assignment) => assignment.userId));
+  // Anonymous rounds show group averages only, and only once answers stop arriving.
+  const wellbeing = round.purpose === "wellbeing";
+  const ready = pulseResultsReady(round, now);
+  const [pulse, teams, actions] = wellbeing
+    ? await Promise.all([
+        round.anonymous && ready
+          ? prisma.test
+              .findMany({
+                where: {
+                  id: { in: items.filter((item) => item.kind === "test").map((item) => item.id) },
+                  ...(!can(membership.role, "viewSensitive") && { sensitive: false }),
+                },
+              })
+              .then((tests) => pulseResults(round, tests, locale))
+          : Promise.resolve([]),
+        prisma.team.findMany({ where: { organizationId: organization.id }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
+        prisma.teamAction.findMany({
+          where: { organizationId: organization.id, roundId: round.id },
+          include: { team: { select: { name: true } } },
+          orderBy: { createdAt: "asc" },
+        }),
+      ])
+    : [[], [], []];
+  const pulseT = await getTranslations("wellbeing.pulse");
+  const actionsT = await getTranslations("wellbeing.actions");
+
   const addable = members
     .filter((member) => member.role !== "candidate" && !assigned.has(member.id))
     .map((member) => ({ id: member.id, name: formatFullName(member) }));
@@ -100,6 +131,7 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
               </Badge>
             )}
             {round.closedAt && <Badge variant="outline">{t("closedBadge")}</Badge>}
+            {round.anonymous && <Badge variant="outline">{t("anonymousBadge")}</Badge>}
             <span className="text-sm">
               {round.dueAt ? t("dueOn", { date: format.dateTime(round.dueAt, { dateStyle: "medium" }) }) : t("noDue")}
             </span>
@@ -203,6 +235,28 @@ export default async function RoundPage(props: { params: Promise<{ roundId: stri
           assignmentIds={round.assignments.map((assignment) => assignment.id)}
           members={members}
         />
+      )}
+
+      {round.anonymous && (
+        <Section title={pulseT("title")} description={pulseT("text", { min: MIN_GROUP })}>
+          {ready ? <PulseResults results={pulse} everyoneLabel={pulseT("everyone")} /> : <p className="text-sm text-muted-foreground">{pulseT("waiting")}</p>}
+        </Section>
+      )}
+
+      {wellbeing && (
+        <Section title={actionsT("title")} description={actionsT("staffText")}>
+          <TeamActionsEditor
+            roundId={round.id}
+            teams={teams}
+            actions={actions.map((action) => ({
+              id: action.id,
+              teamId: action.teamId,
+              teamName: action.team?.name ?? null,
+              text: action.text,
+              status: action.status as ActionStatus,
+            }))}
+          />
+        </Section>
       )}
     </div>
   );

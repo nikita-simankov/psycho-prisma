@@ -28,6 +28,8 @@ const PERMISSIONS = {
   viewSensitive: ["owner", "psychologist"],
   // Read the audit log of who opened or changed personal data.
   viewAudit: ["owner"],
+  // Early warnings on team wellbeing: see them on Today and in analytics, and mark them handled.
+  viewWellbeing: ["owner", "admin", "psychologist"],
   // Write and archive a person's conclusion.
   writeConclusions: ["owner", "psychologist"],
 } satisfies Record<string, readonly Role[]>;
