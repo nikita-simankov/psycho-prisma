@@ -54,13 +54,15 @@ If your output contradicts an existing ADR, surface it explicitly rather than si
 
 Several `CONTEXT.md` terms keep older names in the schema and code. Use the glossary term in UI copy, issues and prose; use the code name only when naming the code itself.
 
-| Glossary term  | In code                                   |
-| -------------- | ----------------------------------------- |
-| Workspace      | `Organization`, `organizationId`, `[org]` |
-| Questionnaire  | `Form`, `FormSubmission`                  |
-| Instrument     | `kind: "test" \| "form"` + `instrumentId` |
-| Follow-up flag | `Membership.flag`                         |
-| Conclusion     | `ReportVersion.conclusion`, `UserSummary` |
-| Norms          | `stanTable`, `tGradeTable`                |
-| Schedule       | `RoundSchedule`                           |
-| Sensitive      | `Test.sensitive`                          |
+| Glossary term         | In code                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
+| Questionnaire         | `Form`, `FormSubmission`                                                     |
+| Instrument            | `kind: "test" \| "form"` + `instrumentId`                                    |
+| Result                | `TestSubmission.summary`                                                     |
+| Report (working copy) | `UserSummary`: `additionalNotes` is the background, `verdict` the conclusion |
+| Report version        | `ReportVersion` (`background`, `conclusion`)                                 |
+| Follow-up flag        | `Membership.flag`                                                            |
+| Norms                 | `stanTable`, `tGradeTable`                                                   |
+| Schedule              | `RoundSchedule`                                                              |
+| Sensitive instrument  | `Test.sensitive`                                                             |
+| HR manager            | role `manager`                                                               |

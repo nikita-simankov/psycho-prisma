@@ -1,23 +1,25 @@
 # Calibre
 
-Calibre is a hosted psychological assessment platform for HR teams: a workspace sends validated tests and questionnaires to its people, scores the answers, and gives psychologists the results to interpret before anyone acts on them.
+Calibre is a hosted psychological assessment platform for HR teams: an organization sends validated tests and questionnaires to its people, scores the answers, and gives psychologists the results to interpret before anyone acts on them.
 
-## Tenancy and people
+## Language
 
-**Workspace**:
+### Tenancy and people
+
+**Organization**:
 One customer's isolated space: its people, teams, instruments, results and billing. A user can belong to several.
-_Avoid_: Tenant, company, account
+_Avoid_: Workspace, tenant, company, account
 
 **Membership**:
-A user's place in one workspace, carrying their role, team, position and follow-up flag.
+A user's place in one organization.
 _Avoid_: Employee record, seat
 
 **Role**:
-What a member may see and do in a workspace: owner, admin, psychologist, manager, member or candidate.
+What a member may see and do in an organization: owner, admin, psychologist, HR manager, member or candidate.
 _Avoid_: Permission level, access level
 
 **Person**:
-Anyone a workspace assesses, seen from the staff side. Staff talk about people; the person themselves is a respondent while answering.
+Anyone an organization assesses, seen from the staff side. Staff talk about people; the person themselves is a respondent while answering.
 _Avoid_: Employee, subject, patient, client
 
 **Respondent**:
@@ -25,26 +27,26 @@ A person in the act of answering an assessment.
 _Avoid_: Test taker, participant, user
 
 **Candidate**:
-A person being assessed for hiring who is not on staff; their results fall under separate retention.
+A person being assessed for hiring who is not on staff.
 _Avoid_: Applicant
 
 **Staff**:
-Members who run assessments or read results (owner, admin, psychologist, manager). Staff seats are what a plan limits.
+Members whose role lets them run assessments or read results, as opposed to people who only answer.
 _Avoid_: Admins (as a group), operators
 
 **Team**:
-A named group of people inside a workspace, used for targeting rounds and for group results.
+A named group of people inside an organization.
 _Avoid_: Department, unit, squad
 
 **Invitation**:
-A pending offer, sent by email, to join a workspace with a given role.
+A pending offer, sent by email, to join an organization with a given role.
 _Avoid_: Invite code
 
 **Join link**:
-A shareable link that lets anyone holding it join a workspace, optionally into a team, until it expires or runs out of uses.
+A shareable link that lets anyone holding it join an organization as a member, optionally into a team, until it expires, runs out of uses or is revoked.
 _Avoid_: Invite link
 
-## Instruments
+### Instruments
 
 **Instrument**:
 Anything a respondent fills in: a test or a questionnaire.
@@ -71,7 +73,7 @@ A clinical screen (for example depression or anxiety) whose items and results on
 _Avoid_: Clinical test, restricted test
 
 **Library**:
-The set of instruments a workspace can send: shared ones plus its own.
+The set of instruments an organization can send: shared ones plus its own.
 _Avoid_: Catalogue, bank
 
 **Studio**:
@@ -79,14 +81,14 @@ Where staff create, copy and edit their own instruments.
 _Avoid_: Builder, editor
 
 **Instrument version**:
-A published, numbered snapshot of an instrument. Every submission is scored with the version it was answered on.
+A published, numbered snapshot of an instrument.
 _Avoid_: Revision, release
 
 **Retest interval**:
-The minimum time before the same person should take a test again.
+The minimum time before a person can be sent the same test again.
 _Avoid_: Cooldown
 
-## Assessing
+### Assessing
 
 **Assessment**:
 One instrument a respondent has been asked to complete, as it appears on their to-do list.
@@ -112,14 +114,14 @@ _Avoid_: Autosave, partial submission
 A finished set of answers to one instrument version, scored at the moment it is submitted.
 _Avoid_: Attempt, response, result
 
-## Results
+### Results
 
 **Result**:
 The scores and interpretation that come from one submission.
 _Avoid_: Outcome, score sheet
 
 **Report**:
-A person's results brought together, with the psychologist's background and conclusion, saved as numbered report versions.
+A person's results brought together with the psychologist's background and conclusion.
 _Avoid_: Profile, dossier
 
 **Conclusion**:
@@ -130,24 +132,24 @@ _Avoid_: Verdict, diagnosis
 A marker a psychologist or owner puts on a person who needs attention.
 _Avoid_: Risk flag, alert, at-risk
 
-**Group result**:
-An average over a team or filter, shown only when the group has at least five people.
-_Avoid_: Aggregate, team score
+**Team average**:
+A result averaged over a team or a filtered group of people, the only kind of result a manager sees.
+_Avoid_: Group result, aggregate, team score
 
 **Privacy mask**:
-What stands in for a group result held back because the group is too small.
+What stands in for a team average held back because the group is too small.
 _Avoid_: Redaction
 
 **Consent**:
-A person's recorded agreement to the privacy notice, required before their first assessment; withdrawing it stops new answers.
+A person's recorded agreement, per organization, to have their answers processed under the privacy notice.
 _Avoid_: Opt-in
 
-## Billing
+### Billing
 
 **Plan**:
-The tier a workspace pays for (Free, Team, Business, Enterprise), priced by respondents assessed per year, with staff seats included.
+The tier an organization pays for: Free, Team, Business or Enterprise.
 _Avoid_: Package, subscription tier
 
 **Trial**:
-Fourteen days of Business for a new workspace, with no card, after which it drops to Free.
+A new organization's free period on the Business plan before it drops to Free.
 _Avoid_: Free period

@@ -46,4 +46,4 @@ Used by `/wayfinder`. The **map** is a single issue with **child** issues as tic
 
 ## Without the `gh` CLI
 
-Cloud sessions have no `gh`; use the GitHub MCP tools (`issue_write`, `issue_read`, `list_issues`, `add_issue_comment`, `sub_issue_write`) for the same operations on `nikita-simankov/psycho-prisma`.
+Cloud sessions have no `gh`; use the GitHub MCP tools (`issue_write`, `issue_read`, `list_issues`, `add_issue_comment`, `sub_issue_write`) for the same operations, with owner and repo taken from `git remote -v`.
