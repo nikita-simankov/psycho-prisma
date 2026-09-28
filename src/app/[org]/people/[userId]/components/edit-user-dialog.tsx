@@ -20,7 +20,20 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const MAX_PHOTO_BYTES = 1.8 * 1024 * 1024;
+// Photos are shrunk before upload: they are stored inline and sent with every page that shows them.
+const MAX_PHOTO_BYTES = 20 * 1024 * 1024;
+const PHOTO_SIZE = 256;
+
+// A square JPEG of the photo's centre, as base64 without the data: prefix.
+async function squarePhoto(file: File) {
+  const bitmap = await createImageBitmap(file);
+  const side = Math.min(bitmap.width, bitmap.height);
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = Math.min(PHOTO_SIZE, side);
+  canvas.getContext("2d")!.drawImage(bitmap, (bitmap.width - side) / 2, (bitmap.height - side) / 2, side, side, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  return canvas.toDataURL("image/jpeg", 0.85).replace(/^data:image\/jpeg;base64,/, "");
+}
 const TEXT_FIELDS = ["lastName", "name", "middleName", "dateOfBirth"] as const;
 
 type EditableFields = Record<(typeof TEXT_FIELDS)[number], string> & { imageURL?: string };
@@ -52,15 +65,12 @@ export default function EditUserDialog({ user }: { user: PublicUser }) {
       return;
     }
 
-    if (file.type !== "image/jpeg" || file.size > MAX_PHOTO_BYTES) {
+    const photo = file.type.startsWith("image/") && file.size <= MAX_PHOTO_BYTES ? await squarePhoto(file).catch(() => null) : null;
+    if (!photo) {
       toast({ title: common("error"), description: t("photoHint"), variant: "destructive" });
       return;
     }
-
-    const buffer = await file.arrayBuffer();
-    let binary = "";
-    new Uint8Array(buffer).forEach((byte) => (binary += String.fromCharCode(byte)));
-    setValues({ ...values, imageURL: btoa(binary) });
+    setValues({ ...values, imageURL: photo });
   };
 
   return (
@@ -81,7 +91,7 @@ export default function EditUserDialog({ user }: { user: PublicUser }) {
             <Input
               id="photo"
               type="file"
-              accept="image/jpeg"
+              accept="image/jpeg,image/png,image/webp"
               onChange={(event) => onPhotoChange(event.target.files?.[0])}
             />
             <p className="text-xs text-muted-foreground">{t("photoHint")}</p>

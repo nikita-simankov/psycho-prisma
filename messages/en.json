@@ -297,7 +297,7 @@
     "title": "Profile",
     "editTitle": "Edit profile",
     "updateError": "The profile was not saved.",
-    "photoHint": "JPEG up to 1.8 MB",
+    "photoHint": "JPEG, PNG or WebP up to 20 MB, cropped to a square",
     "openReport": "Open report",
     "nothingYet": "Nothing yet.",
     "viewResult": "View result",

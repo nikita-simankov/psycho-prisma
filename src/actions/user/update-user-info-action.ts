@@ -5,7 +5,8 @@ import { prisma } from "@/utils/database";
 import { publicUserSelect } from "@/utils/user";
 import { z } from "zod";
 
-// Photos are stored inline as base64 JPEG; 2.5M characters is roughly a 1.9 MB image.
+// Photos are stored inline as base64 JPEG. The profile dialog sends a 256px square (well under
+// 100k characters); 2.5M characters, roughly a 1.9 MB image, stays the hard limit.
 const MAX_IMAGE_LENGTH = 2_500_000;
 
 // Only profile fields an admin may edit; email, password and phone are excluded.

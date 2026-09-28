@@ -297,7 +297,7 @@
     "title": "Профиль",
     "editTitle": "Редактировать профиль",
     "updateError": "Не удалось сохранить профиль.",
-    "photoHint": "JPEG до 1,8 МБ",
+    "photoHint": "JPEG, PNG или WebP до 20 МБ, обрезается до квадрата",
     "openReport": "Характеристика",
     "nothingYet": "Пока ничего.",
     "viewResult": "Смотреть результат",
