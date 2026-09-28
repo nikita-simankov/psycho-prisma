@@ -71,3 +71,13 @@ async function expiredCandidates(organizationId: string, cutoff: Date) {
       .every((assignment) => assignment.round.closedAt !== null && assignment.round.closedAt < cutoff)
   );
 }
+
+// Sign-in sessions, password reset links and email confirmations that can no longer be used.
+export async function removeExpiredTokens(now = new Date()) {
+  const counts = await prisma.$transaction([
+    prisma.session.deleteMany({ where: { expiresAt: { lt: now } } }),
+    prisma.passwordReset.deleteMany({ where: { OR: [{ expiresAt: { lt: now } }, { usedAt: { not: null } }] } }),
+    prisma.emailVerification.deleteMany({ where: { expiresAt: { lt: now } } }),
+  ]);
+  return counts.reduce((sum, count) => sum + count.count, 0);
+}

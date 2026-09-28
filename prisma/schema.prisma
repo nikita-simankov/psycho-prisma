@@ -133,6 +133,7 @@ model Membership {
   updatedAt      DateTime     @updatedAt
 
   @@unique([userId, organizationId])
+  @@index([organizationId])
 }
 
 model Team {
@@ -176,6 +177,8 @@ model Invitation {
   expiresAt         DateTime
   acceptedAt        DateTime?
   createdAt         DateTime     @default(now())
+
+  @@index([organizationId])
 }
 
 model PasswordReset {
@@ -186,6 +189,8 @@ model PasswordReset {
   expiresAt DateTime
   usedAt    DateTime?
   createdAt DateTime  @default(now())
+
+  @@index([userId])
 }
 
 model Session {
@@ -197,6 +202,8 @@ model Session {
 
   user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId String
+
+  @@index([userId])
 }
 
 // A link that confirms a person owns their email address.
@@ -246,6 +253,8 @@ model Form {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([organizationId])
 }
 
 model FormSubmission {
@@ -264,6 +273,10 @@ model FormSubmission {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([organizationId, userId])
+  @@index([organizationId, formId])
+  @@index([assignmentId])
 }
 
 model Test {
@@ -302,6 +315,8 @@ model Test {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([organizationId])
 }
 
 model TestSubmission {
@@ -323,6 +338,10 @@ model TestSubmission {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([organizationId, userId])
+  @@index([organizationId, testId])
+  @@index([assignmentId])
 }
 
 // The working draft of a person's report: background and conclusion, saved as they are typed.
@@ -382,6 +401,8 @@ model Round {
   createdAt      DateTime       @default(now())
   // A wellbeing pulse whose answers are kept without the person (src/utils/pulse.ts).
   anonymous      Boolean        @default(false)
+
+  @@index([organizationId])
 }
 
 // Someone invited to the organization but not yet joined, added to a round. They get their
@@ -417,6 +438,7 @@ model Assignment {
   createdAt      DateTime  @default(now())
 
   @@unique([roundId, userId])
+  @@index([userId])
 }
 
 // Opens a new round every few months for fixed people or for a team as it changes.
@@ -446,6 +468,8 @@ model RoundSchedule {
   createdAt      DateTime        @default(now())
   // The rounds it opens are anonymous pulses.
   anonymous      Boolean         @default(false)
+
+  @@index([organizationId])
 }
 
 // Who a start-date schedule has already sent to, per cycle (0 for once, the year for anniversaries).

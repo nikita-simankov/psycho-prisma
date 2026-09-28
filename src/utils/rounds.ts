@@ -11,7 +11,7 @@ import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "./mail";
 import { can } from "./roles";
 import { createToken } from "./tokens";
-import { runRetention } from "./retention";
+import { removeExpiredTokens, runRetention } from "./retention";
 import { sendInvitationReminders } from "./invitations";
 import { lifecycleDue, type LifecycleTrigger } from "./lifecycle";
 import { sendTime } from "./quiet-hours";
@@ -565,6 +565,7 @@ const MAINTENANCE_STEPS = {
   invitations: cleanupInvitations,
   invitationReminders: sendInvitationReminders,
   retention: runRetention,
+  expiredTokens: removeExpiredTokens,
   earlyWarnings: runEarlyWarning,
   digests: runDigests,
 };
@@ -572,30 +573,28 @@ const MAINTENANCE_STEPS = {
 type MaintenanceStep = keyof typeof MAINTENANCE_STEPS;
 export type MaintenanceResult = {
   [K in MaintenanceStep]?: Awaited<ReturnType<(typeof MAINTENANCE_STEPS)[K]>>;
-} & { failed: MaintenanceStep[]; skipped?: true };
+} & { failed: MaintenanceStep[] };
 
-let maintenanceRunning = false;
+let maintenanceQueue: Promise<unknown> = Promise.resolve();
 
 // The hourly job. Each step runs on its own, so a failing mail provider doesn't stop
-// retention from removing expired data; a run that starts while another is going
-// (the in-process scheduler and /api/cron) is skipped.
-export async function runMaintenance(now = new Date()): Promise<MaintenanceResult> {
-  if (maintenanceRunning) {
-    return { failed: [], skipped: true };
-  }
-  maintenanceRunning = true;
+// retention from removing expired data. Runs never overlap: one requested while another
+// is going (the in-process scheduler and /api/cron) starts when it ends.
+export function runMaintenance(now?: Date): Promise<MaintenanceResult> {
+  const run = maintenanceQueue.then(() => maintenanceSteps(now ?? new Date()));
+  maintenanceQueue = run.catch(() => {});
+  return run;
+}
+
+async function maintenanceSteps(now: Date) {
   const result: MaintenanceResult = { failed: [] };
-  try {
-    for (const [name, step] of Object.entries(MAINTENANCE_STEPS) as [MaintenanceStep, (now: Date) => Promise<never>][]) {
-      try {
-        result[name] = await step(now);
-      } catch (error) {
-        console.error(`[maintenance] ${name} failed`, error);
-        result.failed.push(name);
-      }
+  for (const [name, step] of Object.entries(MAINTENANCE_STEPS) as [MaintenanceStep, (now: Date) => Promise<never>][]) {
+    try {
+      result[name] = await step(now);
+    } catch (error) {
+      console.error(`[maintenance] ${name} failed`, error);
+      result.failed.push(name);
     }
-  } finally {
-    maintenanceRunning = false;
   }
   return result;
 }
