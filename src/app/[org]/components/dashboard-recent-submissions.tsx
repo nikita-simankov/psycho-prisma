@@ -1,6 +1,4 @@
-import { findAllTestSubmissions } from "@/actions/test-submission/find-all-test-submissions-action";
-import { findAllTests } from "@/actions/test/find-all-tests-action";
-import { findAllUsers } from "@/actions/user/find-all-users-action";
+import { findRecentTestSubmissions } from "@/actions/test-submission/find-recent-test-submissions-action";
 import { Section } from "@/components/page-templates";
 import UserAvatar from "@/components/ui/user-avatar";
 import { formatFullName } from "@/utils/user";
@@ -13,18 +11,7 @@ export async function DashboardRecentSubmissions() {
   const base = await organizationBase();
   const t = await getTranslations("dashboard.recent");
   const format = await getFormatter();
-  const [submissions, users, tests] = await Promise.all([
-    findAllTestSubmissions(),
-    findAllUsers(),
-    findAllTests(),
-  ]);
-  const usersById = new Map(users.map((user) => [user.id, user]));
-  const testsById = new Map(tests.map((test) => [test.id, test]));
-  const rows = submissions.slice(0, 10).flatMap((submission) => {
-    const user = usersById.get(submission.userId);
-    const test = testsById.get(submission.testId);
-    return user && test ? [{ submission, user, test }] : [];
-  });
+  const rows = await findRecentTestSubmissions(10);
 
   return (
     <Section title={t("title")} description={t("description")}>
@@ -36,16 +23,16 @@ export async function DashboardRecentSubmissions() {
           </div>
         )}
         <ul className="divide-y">
-          {rows.map(({ submission, user, test }) => (
+          {rows.map(({ submission, user, testName }) => (
             <li key={submission.id}>
               <Link
-                href={`${base}/tests/${test.id}/results/${submission.id}`}
+                href={`${base}/tests/${submission.testId}/results/${submission.id}`}
                 className="-mx-2 flex items-center gap-3 rounded-md px-2 py-3 transition-colors hover:bg-card"
               >
                 <UserAvatar user={user} className="h-9 w-9" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{formatFullName(user)}</p>
-                  <p className="truncate text-sm text-muted-foreground">{test.name}</p>
+                  <p className="truncate text-sm text-muted-foreground">{testName}</p>
                 </div>
                 <time className="hidden shrink-0 font-mono text-xs text-muted-foreground sm:block">
                   {format.relativeTime(submission.createdAt, new Date())}

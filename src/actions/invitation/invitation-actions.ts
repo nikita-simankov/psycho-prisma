@@ -23,10 +23,6 @@ async function sendNow(context: Awaited<ReturnType<typeof requireMember>>, data:
   return result;
 }
 
-export async function createInvitation(data: unknown): Promise<InvitationResult> {
-  return sendNow(await requireMember("manageMembers"), data);
-}
-
 const bulkRowSchema = z.object({
   email: z.string(),
   name: z.string().default(""),
