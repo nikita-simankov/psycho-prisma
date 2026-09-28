@@ -58,11 +58,13 @@ The repository deploys to [Railway](https://railway.com) as is: `railway.json` b
 | Variable | Value |
 | --- | --- |
 | `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` (a reference to the database service) |
-| `APP_URL` | The public address, e.g. `https://prisma.up.railway.app` |
+| `APP_URL` | The public address, e.g. `https://prisma.up.railway.app`. Required: a production server won't start without it, since links in emails must not come from the request's `Host` header |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first owner, created on the first start |
 | `ORGANIZATION_NAME` | That owner's organization |
 | `RESEND_API_KEY`, `MAIL_FROM` | Email for invitations and password resets (optional) |
 | `TRUSTED_PROXY_COUNT` | Proxies in front of the app whose `X-Forwarded-For` entries rate limits trust (default `1`, right for Railway; `0` when nothing sits in front) |
+
+The server checks these when it starts and logs `[config]` lines for anything missing or half set (for example a Paddle key without its webhook secret).
 
 4. Generate a domain under Settings > Networking. Railway serves it over HTTPS, which the session cookie needs in production.
 

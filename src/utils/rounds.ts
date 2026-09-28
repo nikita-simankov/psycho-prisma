@@ -557,17 +557,47 @@ export async function cleanupInvitations(now = new Date()) {
 }
 
 // Everything that happens on a timer. Runs hourly in the server process and from /api/cron.
-export async function runMaintenance(now = new Date()) {
-  const schedules = await runSchedules(now);
-  const lifecycle = await runLifecycle(now);
-  const queued = await sendQueuedAssignments(now);
-  const reminders = await sendReminders(now);
-  const invitations = await cleanupInvitations(now);
-  const invitationReminders = await sendInvitationReminders(now);
-  const retention = await runRetention(now);
-  const earlyWarnings = await runEarlyWarning(now);
-  const digests = await runDigests(now);
-  return { schedules, lifecycle, queued, reminders, invitations, invitationReminders, retention, earlyWarnings, digests };
+const MAINTENANCE_STEPS = {
+  schedules: runSchedules,
+  lifecycle: runLifecycle,
+  queued: sendQueuedAssignments,
+  reminders: sendReminders,
+  invitations: cleanupInvitations,
+  invitationReminders: sendInvitationReminders,
+  retention: runRetention,
+  earlyWarnings: runEarlyWarning,
+  digests: runDigests,
+};
+
+type MaintenanceStep = keyof typeof MAINTENANCE_STEPS;
+export type MaintenanceResult = {
+  [K in MaintenanceStep]?: Awaited<ReturnType<(typeof MAINTENANCE_STEPS)[K]>>;
+} & { failed: MaintenanceStep[]; skipped?: true };
+
+let maintenanceRunning = false;
+
+// The hourly job. Each step runs on its own, so a failing mail provider doesn't stop
+// retention from removing expired data; a run that starts while another is going
+// (the in-process scheduler and /api/cron) is skipped.
+export async function runMaintenance(now = new Date()): Promise<MaintenanceResult> {
+  if (maintenanceRunning) {
+    return { failed: [], skipped: true };
+  }
+  maintenanceRunning = true;
+  const result: MaintenanceResult = { failed: [] };
+  try {
+    for (const [name, step] of Object.entries(MAINTENANCE_STEPS) as [MaintenanceStep, (now: Date) => Promise<never>][]) {
+      try {
+        result[name] = await step(now);
+      } catch (error) {
+        console.error(`[maintenance] ${name} failed`, error);
+        result.failed.push(name);
+      }
+    }
+  } finally {
+    maintenanceRunning = false;
+  }
+  return result;
 }
 
 export type ItemInfo = { name: string; minutes: number; questionCount: number; sensitive: boolean };

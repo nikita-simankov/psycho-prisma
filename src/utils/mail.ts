@@ -18,7 +18,9 @@ export async function sendMail({ to, subject, text, html }: Mail): Promise<boole
   }
 
   if (!apiKey) {
-    console.info(`[mail] RESEND_API_KEY not set; not sending "${subject}" to ${to}:\n${text}`);
+    // The text can hold one-time links, so it is only printed during development.
+    const body = process.env.NODE_ENV === "production" ? "" : `:\n${text}`;
+    console.info(`[mail] RESEND_API_KEY not set; not sending "${subject}" to ${to}${body}`);
     return false;
   }
 
@@ -27,6 +29,7 @@ export async function sendMail({ to, subject, text, html }: Mail): Promise<boole
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({ from: process.env.MAIL_FROM ?? "Calibre <no-reply@example.com>", to, subject, text, html }),
+      signal: AbortSignal.timeout(15_000),
     });
 
     if (!response.ok) {
@@ -40,11 +43,16 @@ export async function sendMail({ to, subject, text, html }: Mail): Promise<boole
   }
 }
 
-// Absolute URL for links in emails. APP_URL wins; otherwise the request's own host.
-// Scheduled jobs run outside a request, so they need APP_URL to produce working links.
+// Absolute URL for links in emails. APP_URL wins; otherwise, during development only, the
+// request's own host. Production requires APP_URL (src/utils/environment.ts): the Host header
+// is whatever the sender wrote, and a reset link built from it would hand the token to them.
 export async function absoluteUrl(path: string) {
   if (process.env.APP_URL) {
     return new URL(path, process.env.APP_URL).toString();
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("APP_URL must be set in production");
   }
 
   let requestHeaders: Awaited<ReturnType<typeof headers>> | null = null;

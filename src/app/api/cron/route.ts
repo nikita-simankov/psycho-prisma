@@ -12,5 +12,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  return Response.json(await runMaintenance());
+  const result = await runMaintenance();
+  // A failed step answers 500 so the external scheduler shows the run as failed.
+  return Response.json(result, { status: result.failed.length ? 500 : 200 });
 }

@@ -32,6 +32,7 @@ export default defineConfig({
     // Paddle webhooks are signed with this secret in e2e/billing.spec.ts. There is no client token,
     // so checkout stays switched off and nothing ever calls Paddle.
     env: {
+      APP_URL: `http://localhost:${PORT}`,
       CRON_SECRET: "e2e-secret",
       PADDLE_WEBHOOK_SECRET: "e2e-paddle-secret",
       PADDLE_PRICE_TEAM: "pri_e2e_team",
