@@ -62,6 +62,10 @@ The repository deploys to [Railway](https://railway.com) as is: `railway.json` b
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first owner, created on the first start |
 | `ORGANIZATION_NAME` | That owner's organization |
 | `RESEND_API_KEY`, `MAIL_FROM` | Email for invitations and password resets (optional) |
+| `PADDLE_ENV`, `PADDLE_API_KEY`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_CLIENT_TOKEN`, `PADDLE_PRICE_TEAM`, `PADDLE_PRICE_BUSINESS` | Paddle billing (optional). `PADDLE_ENV` is `sandbox` (default) or `production`; point the notification destination at `/api/paddle/webhook`; the prices are the yearly Team and Business prices. Without them organizations stay on trials and Free |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Sign in with Google (optional). Redirect URI: `$APP_URL/auth/oauth/google/callback` |
+| `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT` | Sign in with Microsoft (optional). Redirect URI: `$APP_URL/auth/oauth/microsoft/callback`; the tenant defaults to `common` (any account) |
+| `ERROR_WEBHOOK_URL` | Receives a JSON report of each server error, with a `text` field Slack and similar incoming webhooks show (optional) |
 | `TRUSTED_PROXY_COUNT` | Proxies in front of the app whose `X-Forwarded-For` entries rate limits trust (default `1`, right for Railway; `0` when nothing sits in front) |
 
 The server checks these when it starts and logs `[config]` lines for anything missing or half set (for example a Paddle key without its webhook secret).

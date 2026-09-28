@@ -17,3 +17,30 @@ export async function register() {
     }
   }
 }
+
+type RequestErrorContext = { routePath: string; routeType: string };
+
+// Every server error, as one JSON line with the reference shown on the error page, so a
+// reported reference can be found in the logs. The route's pattern is logged instead of the
+// path, which can hold a sign-in or share token. ERROR_WEBHOOK_URL also receives each report.
+export async function onRequestError(error: unknown, request: { method: string }, context: RequestErrorContext) {
+  const report = {
+    level: "error",
+    message: error instanceof Error ? error.message : String(error),
+    digest: typeof error === "object" && error !== null && "digest" in error ? String(error.digest) : undefined,
+    route: context.routePath,
+    routeType: context.routeType,
+    method: request.method,
+    at: new Date().toISOString(),
+  };
+  console.error(JSON.stringify(report));
+
+  if (process.env.ERROR_WEBHOOK_URL) {
+    await fetch(process.env.ERROR_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...report, text: `Calibre ${report.routeType} error on ${report.route}: ${report.message}` }),
+      signal: AbortSignal.timeout(5_000),
+    }).catch(() => {});
+  }
+}

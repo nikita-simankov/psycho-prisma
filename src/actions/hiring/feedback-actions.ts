@@ -4,7 +4,8 @@ import { auditAs } from "@/utils/audit";
 import { requireMember, type Context } from "@/utils/authentication";
 import { selectStrengths } from "@/utils/candidate-feedback";
 import { prisma } from "@/utils/database";
-import { feedbackEmail, isHiringCandidate, mailLocale, shareableResults } from "@/utils/hiring";
+import { mailLocale } from "@/i18n/config";
+import { feedbackEmail, isHiringCandidate, shareableResults } from "@/utils/hiring";
 import { sendMail } from "@/utils/mail";
 import { z } from "zod";
 

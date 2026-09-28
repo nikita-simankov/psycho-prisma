@@ -3,7 +3,7 @@ import "server-only";
 import en from "../../messages/en.json";
 import ru from "../../messages/ru.json";
 import { renderEmail } from "@/emails/render";
-import { DEFAULT_LOCALE, isLocale, type Locale } from "@/i18n/config";
+import { mailLocale } from "@/i18n/config";
 import { createTranslator } from "next-intl";
 import type { Strength } from "./candidate-feedback";
 import { localizeTest } from "./content-translation";
@@ -73,11 +73,6 @@ export async function shareableResults(organizationId: string, userId: string, l
       return answered ? [buildTestResult(localizeTest(answered, locale), submission)] : [];
     })
     .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-}
-
-// The language an email to this person is written in: theirs, else the server's mail language.
-export function mailLocale(locale: string): Locale {
-  return isLocale(locale) ? locale : isLocale(process.env.MAIL_LOCALE) ? process.env.MAIL_LOCALE : DEFAULT_LOCALE;
 }
 
 function translatorFor(locale: string) {

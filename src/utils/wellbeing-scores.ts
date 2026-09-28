@@ -2,7 +2,7 @@ import "server-only";
 
 import en from "../../messages/en.json";
 import ru from "../../messages/ru.json";
-import { DEFAULT_LOCALE, isLocale, type Locale } from "@/i18n/config";
+import { type Locale, mailLocale } from "@/i18n/config";
 import type { Test } from "@prisma/client";
 import { localizeTest } from "./content-translation";
 import { prisma } from "./database";
@@ -118,7 +118,7 @@ export function ruleLabel(
 
 // The language an email goes out in: the person's own, the server's mail default, or English.
 export function mailMessages(locale: string): { locale: Locale; messages: typeof en } {
-  const chosen: Locale = isLocale(locale) ? locale : isLocale(process.env.MAIL_LOCALE) ? process.env.MAIL_LOCALE : DEFAULT_LOCALE;
+  const chosen = mailLocale(locale);
   return { locale: chosen, messages: chosen === "ru" ? ru : en };
 }
 

@@ -2,7 +2,7 @@ import "server-only";
 
 import en from "../../messages/en.json";
 import ru from "../../messages/ru.json";
-import { DEFAULT_LOCALE, isLocale, type Locale } from "@/i18n/config";
+import { mailLocale } from "@/i18n/config";
 import { createTranslator } from "next-intl";
 import { localizeForm, localizeTest } from "./content-translation";
 import { prisma } from "./database";
@@ -87,7 +87,7 @@ export async function validateItems(organizationId: string, role: string, purpos
 type Recipient = { id: string; email: string | null; name: string; locale: string };
 
 function translatorFor(locale: string) {
-  const chosen: Locale = isLocale(locale) ? locale : isLocale(process.env.MAIL_LOCALE) ? process.env.MAIL_LOCALE : DEFAULT_LOCALE;
+  const chosen = mailLocale(locale);
   return { locale: chosen, t: createTranslator({ locale: chosen, messages: chosen === "ru" ? ru : en, namespace: "mail.round" }) };
 }
 
