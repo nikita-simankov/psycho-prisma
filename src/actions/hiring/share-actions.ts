@@ -5,7 +5,7 @@ import { requireMember } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { isHiringCandidate, shareableResults } from "@/utils/hiring";
 import { absoluteUrl } from "@/utils/mail";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import {
   ACCESS_HOURS,
   checkShareCode,
@@ -19,7 +19,7 @@ import {
 } from "@/utils/share-links";
 import { createToken, hashToken } from "@/utils/tokens";
 import { getLocale } from "next-intl/server";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { z } from "zod";
 
 const shareSchema = z
@@ -86,7 +86,7 @@ export type OpenShareResult = { ok: true } | { error: "wrong" | "locked" | "expi
 // For the recipient, who has no account: checks the access code and, when it is right, keeps the
 // link open in this browser for a while. Wrong codes count against the link and the address.
 export async function openSharedReport(token: string, code: string): Promise<OpenShareResult> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
   if (!consumeRateLimit(`share-code:ip:${ip}`, 30, 15 * 60_000)) {
     return { error: "tooMany" };
   }

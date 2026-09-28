@@ -7,12 +7,11 @@ import { prisma } from "@/utils/database";
 import { sendVerificationEmail } from "@/utils/email-verification";
 import { findJoinLink, JOIN_LINK_DAYS, joinLinkStatus, joinWithLink, newJoinToken } from "@/utils/join-links";
 import { absoluteUrl } from "@/utils/mail";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { getLocale } from "next-intl/server";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 const DAY = 24 * 60 * 60_000;
@@ -81,7 +80,7 @@ type JoinError = "invalidLink" | "invalidInput" | "signInFirst" | "rateLimited";
 // Joins through a link, creating the account first when the person isn't signed in. Accounts
 // made here still confirm their email, since anyone can type any address.
 export async function joinOrganization(token: string, data?: unknown): Promise<{ redirectTo: string } | { error: JoinError }> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
   if (!consumeRateLimit(`join:ip:${ip}`, 20, 60 * 60_000)) {
     return { error: "rateLimited" };
   }
@@ -112,6 +111,8 @@ export async function joinOrganization(token: string, data?: unknown): Promise<{
   }
 
   if (!(await joinWithLink(link.id, userId))) {
+    // The link filled up or closed meanwhile: don't keep an account nobody can reach yet.
+    if (created) await prisma.user.delete({ where: { id: created.id } });
     return { error: "invalidLink" };
   }
 

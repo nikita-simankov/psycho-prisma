@@ -3,7 +3,7 @@
 import { accountSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { getCurrentUser, homePath } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hashToken } from "@/utils/tokens";
 import { invitationByToken } from "@/utils/invitations";
@@ -11,7 +11,6 @@ import { assignPendingRounds } from "@/utils/rounds";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { getLocale } from "next-intl/server";
-import { headers } from "next/headers";
 
 async function openInvitation(token: string) {
   const invitation = await invitationByToken(hashToken(token));
@@ -72,7 +71,7 @@ export async function acceptInvitation(
   token: string,
   data?: unknown
 ): Promise<{ redirectTo: string } | { error: AcceptError }> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
 
   if (!consumeRateLimit(`invite:ip:${ip}`, 20, 60 * 60_000)) {
     return { error: "rateLimited" };

@@ -2,20 +2,19 @@
 
 import { signUpSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { prisma } from "@/utils/database";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { sendVerificationEmail } from "@/utils/email-verification";
 import { createOwnedOrganization } from "@/utils/organizations";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import { getLocale } from "next-intl/server";
-import { headers } from "next/headers";
 
 type SignUpError = "rateLimited" | "invalidInput" | "emailTaken";
 
 // Creates an account and the organization it owns, then signs the person in.
 export async function signUp(data: unknown): Promise<{ redirectTo: string } | { error: SignUpError }> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
 
   if (!consumeRateLimit(`sign-up:ip:${ip}`, 10, 60 * 60_000)) {
     return { error: "rateLimited" };

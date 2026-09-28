@@ -5,18 +5,17 @@ import { homePath, lucia } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
 import { renderEmail } from "@/emails/render";
 import { absoluteUrl, sendMail } from "@/utils/mail";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { rememberOrganization, startSession } from "@/utils/session";
 import { createToken, hashToken } from "@/utils/tokens";
 import { hash } from "bcryptjs";
 import { getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
 
 const RESET_MINUTES = 60;
 
 // Always reports success so the form does not reveal which emails have accounts.
 export async function requestPasswordReset(email: unknown): Promise<{ ok: true } | { error: "rateLimited" }> {
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
   const parsed = emailSchema.safeParse(email);
 
   if (!consumeRateLimit(`reset:ip:${ip}`, 10, 60 * 60_000)) {
@@ -54,6 +53,7 @@ export async function requestPasswordReset(email: unknown): Promise<{ ok: true }
 }
 
 export async function findPasswordReset(token: string) {
+  if (typeof token !== "string") return false;
   const reset = await prisma.passwordReset.findUnique({ where: { tokenHash: hashToken(token) } });
   return Boolean(reset && !reset.usedAt && reset.expiresAt > new Date());
 }
@@ -69,20 +69,32 @@ export async function resetPassword(
     return { error: "invalidInput" };
   }
 
+  if (typeof token !== "string") {
+    return { error: "invalidLink" };
+  }
+
   const reset = await prisma.passwordReset.findUnique({ where: { tokenHash: hashToken(token) } });
 
   if (!reset || reset.usedAt || reset.expiresAt <= new Date()) {
     return { error: "invalidLink" };
   }
 
-  await prisma.$transaction([
+  const passwordHash = await hash(parsedPassword.data, 10);
+  const claimed = await prisma.$transaction(async (tx) => {
+    // Claimed and used in one step, so two requests with the same link can't both set a password.
+    const { count } = await tx.passwordReset.updateMany({
+      where: { id: reset.id, usedAt: null, expiresAt: { gt: new Date() } },
+      data: { usedAt: new Date() },
+    });
+    if (count === 0) return false;
     // The reset link reached this inbox, which confirms the address.
-    prisma.user.update({
-      where: { id: reset.userId },
-      data: { password: await hash(parsedPassword.data, 10), emailVerifiedAt: new Date() },
-    }),
-    prisma.passwordReset.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
-  ]);
+    await tx.user.update({ where: { id: reset.userId }, data: { password: passwordHash, emailVerifiedAt: new Date() } });
+    return true;
+  });
+
+  if (!claimed) {
+    return { error: "invalidLink" };
+  }
 
   await lucia.invalidateUserSessions(reset.userId);
   await startSession(reset.userId);

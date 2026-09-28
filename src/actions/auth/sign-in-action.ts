@@ -3,10 +3,9 @@
 import { signInSchema } from "@/app/auth/sign-in/schema/sign-in.schema";
 import { homePath } from "@/utils/authentication";
 import { prisma } from "@/utils/database";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { normalizePhone, rememberOrganization, startSession } from "@/utils/session";
 import { compare } from "bcryptjs";
-import { headers } from "next/headers";
 
 // Compared against when the account is unknown, so both paths take the same time.
 const DUMMY_HASH = "$2a$10$tpMTjOqMdk5cAjXejhc8qOlegoxIr8QhGT/VE5n22td9Vv3ZYolbC";
@@ -24,7 +23,7 @@ export async function signIn(
   const where = identifier.includes("@")
     ? { email: identifier.toLowerCase() }
     : { phoneNumber: normalizePhone(identifier) };
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
 
   if (
     !consumeRateLimit(`sign-in:account:${Object.values(where)[0]}`, 5, 15 * 60_000) ||

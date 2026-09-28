@@ -62,6 +62,7 @@ The repository deploys to [Railway](https://railway.com) as is: `railway.json` b
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first owner, created on the first start |
 | `ORGANIZATION_NAME` | That owner's organization |
 | `RESEND_API_KEY`, `MAIL_FROM` | Email for invitations and password resets (optional) |
+| `TRUSTED_PROXY_COUNT` | Proxies in front of the app whose `X-Forwarded-For` entries rate limits trust (default `1`, right for Railway; `0` when nothing sits in front) |
 
 4. Generate a domain under Settings > Networking. Railway serves it over HTTPS, which the session cookie needs in production.
 

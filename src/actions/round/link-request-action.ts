@@ -2,9 +2,8 @@
 
 import { emailSchema } from "@/app/auth/sign-up/schema/sign-up.schema";
 import { prisma } from "@/utils/database";
-import { consumeRateLimit } from "@/utils/rate-limit";
+import { consumeRateLimit, requestIp } from "@/utils/rate-limit";
 import { resendOpenLinks } from "@/utils/rounds";
-import { headers } from "next/headers";
 import { after } from "next/server";
 
 // From the expired-link page: emails fresh links for the person's open rounds. The answer is the
@@ -15,7 +14,7 @@ export async function requestNewRoundLink(email: unknown): Promise<{ ok: true } 
     return { error: "invalidEmail" };
   }
   const address = parsed.data.toLowerCase();
-  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const ip = await requestIp();
   if (!consumeRateLimit(`round-link:ip:${ip}`, 10, 60 * 60_000) || !consumeRateLimit(`round-link:email:${address}`, 3, 60 * 60_000)) {
     return { error: "rateLimited" };
   }
